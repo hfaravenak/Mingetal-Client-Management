@@ -1,0 +1,22 @@
+spring:
+  devtools:
+    restart:
+      aditional-paths: src/main/java
+  application:
+    name: cliente
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  datasource:
+    plataform: postgres
+    driver-class-name: org.postgresql.Driver
+    dbname: cliente
+    url: jdbc:postgresql://localhost:5432/cliente
+    username: postgres
+    password: Simon_789
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8081
