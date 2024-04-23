@@ -26,10 +26,10 @@ spring:
             allowed-headers: "*"
             allow-credentials: true
       routes:
-        - id: producto
-          uri: lb://producto
+        - id: productos
+          uri: lb://productos
           predicates:
-            - Path=/producto/**
+            - Path=/productos/**
         - id: proveedor
           uri: lb://proveedor
           predicates:
