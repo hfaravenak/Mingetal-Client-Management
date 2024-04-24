@@ -24,7 +24,12 @@ public class ProductosController {
 
     @GetMapping("/")
     public ResponseEntity<List<ProductosEntity>> getAll(){
-        return ResponseEntity.ok(productosService.findAll());
+        List<ProductosEntity> productosEntities=productosService.findAll();
+        System.out.println(productosEntities);
+        if(productosEntities != null){
+            return ResponseEntity.ok(productosEntities);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{id}")

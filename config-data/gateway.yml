@@ -38,7 +38,7 @@ spring:
           uri: lb://cliente
           predicates:
             - Path=/cliente/**
-        - id: ordenes_de_compra
-          uri: lb://ordenes_de_compra
+        - id: ordenes-de-compra
+          uri: lb://ordenes-de-compra
           predicates:
             - Path=/ordenes_de_compra/**

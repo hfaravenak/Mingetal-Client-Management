@@ -2,14 +2,13 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cliente" />
+        <module name="ordenes-de-compra" />
         <module name="eureka" />
-        <module name="ordenes_de_compra" />
         <module name="proveedor" />
         <module name="config" />
         <module name="productos" />
@@ -23,7 +22,7 @@
       <module name="config" options="-parameters" />
       <module name="eureka" options="-parameters" />
       <module name="gateway" options="-parameters" />
-      <module name="ordenes_de_compra" options="-parameters" />
+      <module name="ordenes-de-compra" options="-parameters" />
       <module name="productos" options="-parameters" />
       <module name="proveedor" options="-parameters" />
     </option>
