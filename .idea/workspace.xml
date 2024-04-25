@@ -4,30 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7366452-0f48-47e6-9d0a-5307081cde93" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Mingetal-Client-Management.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+    <list default="true" id="5d0f47c5-b9bc-496e-84dc-f5413f314538" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config-data/gateway.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config-data/gateway.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config-data/ordenes_de_compra.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config-data/ordenes-de-compra.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordenes_de_compra/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordenes_de_compra/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordenes_de_compra/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordenes_de_compra/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordenes_de_compra/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordenes_de_compra/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordenes_de_compra/src/main/java/mingetal/MCM/ordenes_de_compra/OrdenesDeCompraApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordenes_de_compra/src/main/resources/bootstrap.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordenes_de_compra/src/test/java/mingetal/MCM/ordenes_de_compra/OrdenesDeCompraApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/cliente.-oVLMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/cliente.-oVLMw/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/cliente.-oVLMw/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/information_schema.FNRwLQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/pg_catalog.0S1ZNQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/information_schema.FNRwLQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/pg_catalog.0S1ZNQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/information_schema.FNRwLQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/pg_catalog.0S1ZNQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/controller/OrdenesDeCompraController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/controller/OrdenesDeCompraProveedorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/ListaProductosService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/ListaProductosService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraClienteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraClienteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraProveedorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraProveedorService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/controller/ProductosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/controller/ProductosController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/service/ProductosService.java" beforeDir="false" afterPath="$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/service/ProductosService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,45 +58,43 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectId" id="2fWngHeUD8Fiw4dH6aquWRpjKfZ" />
+  <component name="ProjectId" id="2fZP9k9tHiZlb8AEvYSKQx4iBiL" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/Simon/progra/Pingeso/Mingetal-Client-Management",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
+    "last_opened_file_path": "D:/Simon/progra/Pingeso/Mingetal-Client-Management/config",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
-    ]
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.GatewayApplication">
-    <configuration name="All in ordenes-de-compra" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ordenes-de-compra" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="mingetal.MCM.ordenesdecompra.controller" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.EurekaApplication">
     <configuration name="ClienteApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="cliente" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="mingetal.MCM.cliente.ClienteApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ConfigApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="config" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="mingetal.MCM.config.ConfigApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -125,22 +134,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.All in ordenes-de-compra" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a7366452-0f48-47e6-9d0a-5307081cde93" name="Changes" comment="" />
-      <created>1713925816482</created>
+      <changelist id="5d0f47c5-b9bc-496e-84dc-f5413f314538" name="Changes" comment="" />
+      <created>1714005477571</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1713925816482</updated>
-      <workItem from="1713925817005" duration="91000" />
+      <updated>1714005477571</updated>
+      <workItem from="1714005484845" duration="1429000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>

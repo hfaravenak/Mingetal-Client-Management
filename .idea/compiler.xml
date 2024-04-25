@@ -2,16 +2,16 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cliente" />
         <module name="ordenes-de-compra" />
-        <module name="eureka" />
         <module name="proveedor" />
-        <module name="config" />
         <module name="productos" />
+        <module name="eureka" />
         <module name="gateway" />
       </profile>
     </annotationProcessing>
@@ -19,7 +19,6 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cliente" options="-parameters" />
-      <module name="config" options="-parameters" />
       <module name="eureka" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="ordenes-de-compra" options="-parameters" />

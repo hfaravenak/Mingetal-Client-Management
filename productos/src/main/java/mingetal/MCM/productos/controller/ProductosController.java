@@ -61,4 +61,14 @@ public class ProductosController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<ProductosEntity> deleteProductoById(@PathVariable("id") int id){
+        ProductosEntity productosEntity = productosService.delete(id);
+        System.out.println(productosEntity);
+        if(productosEntity != null){
+            return ResponseEntity.ok(productosEntity);
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

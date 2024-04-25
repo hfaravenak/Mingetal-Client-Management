@@ -28,4 +28,10 @@ public class OrdenesDeCompraClienteService {
     public  List<OrdenesDeCompraClienteEntity> findByIdCliente(int id_cliente){
         return ordenesDeCompraClienteRepository.findByIdCliente(id_cliente);
     }
+
+    public OrdenesDeCompraClienteEntity deleteOCCliente(int id){
+        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = findById(id);
+        ordenesDeCompraClienteRepository.delete(ordenesDeCompraClienteEntity);
+        return ordenesDeCompraClienteEntity;
+    }
 }

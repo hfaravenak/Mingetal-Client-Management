@@ -31,4 +31,10 @@ public class ProductosService {
     public ProductosEntity findByNombre(String nombre){
         return productosRepository.findByNombre(nombre);
     }
+
+    public ProductosEntity delete(int id){
+        ProductosEntity productosEntity = findById(id);
+        productosRepository.delete(productosEntity);
+        return productosEntity;
+    }
 }

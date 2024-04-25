@@ -23,4 +23,10 @@ public class ListaProductosService {
     public ListaProductosEntity findById(int id){
         return listaProductosRepository.findById(id);
     }
+
+    public ListaProductosEntity delete(int id){
+        ListaProductosEntity listaProductosEntity = findById(id);
+        listaProductosRepository.delete(listaProductosEntity);
+        return listaProductosEntity;
+    }
 }

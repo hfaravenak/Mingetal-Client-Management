@@ -28,4 +28,10 @@ public class OrdenesDeCompraProveedorService {
     public  List<OrdenesDeCompraProveedorEntity> findByIdProveedor(int id_proveedor){
         return ordenesDeCompraProveedorRepository.findByIdProveedor(id_proveedor);
     }
+
+    public OrdenesDeCompraProveedorEntity deleteOCProveedor(int id){
+        OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = findById(id);
+        ordenesDeCompraProveedorRepository.delete(ordenesDeCompraProveedorEntity);
+        return ordenesDeCompraProveedorEntity;
+    }
 }
