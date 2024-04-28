@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ListaProductosEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     private int id;
     private int id_OC_cliente;

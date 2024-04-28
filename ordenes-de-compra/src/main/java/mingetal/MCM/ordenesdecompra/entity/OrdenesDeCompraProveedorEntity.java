@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Data
 public class OrdenesDeCompraProveedorEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     private int id;
     private int id_proveedor;
