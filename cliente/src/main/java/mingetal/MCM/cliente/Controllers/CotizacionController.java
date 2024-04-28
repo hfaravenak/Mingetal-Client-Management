@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cotizacion")
+@RequestMapping("/cliente/cotizacion")
 public class CotizacionController {
     @Autowired
     CotizacionService cotizacionService;
