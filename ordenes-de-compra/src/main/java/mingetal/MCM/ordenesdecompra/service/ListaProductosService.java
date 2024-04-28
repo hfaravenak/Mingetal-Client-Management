@@ -12,8 +12,13 @@ public class ListaProductosService {
     @Autowired
     ListaProductosRepository listaProductosRepository;
 
-    public void save(ListaProductosEntity listaProductosEntity){
-        listaProductosRepository.save(listaProductosEntity);
+    public boolean save(ListaProductosEntity listaProductosEntity){
+        if(findById(listaProductosEntity.getId())==null){
+            listaProductosRepository.save(listaProductosEntity);
+            return true;
+        }
+        return false;
+
     }
 
     public List<ListaProductosEntity> findAll(){
@@ -26,7 +31,20 @@ public class ListaProductosService {
 
     public ListaProductosEntity delete(int id){
         ListaProductosEntity listaProductosEntity = findById(id);
+        if(listaProductosEntity==null){
+            return null;
+        }
         listaProductosRepository.delete(listaProductosEntity);
         return listaProductosEntity;
+    }
+
+    public ListaProductosEntity updateCantidad(int id, int cantidad){
+        ListaProductosEntity listaProductosEntity = listaProductosRepository.findById(id);
+        if(listaProductosEntity==null){
+            //throw new IllegalArgumentException("El producto con ID "+ id + "no existe");
+            return null;
+        }
+        listaProductosEntity.setCantidad(cantidad);
+        return listaProductosRepository.save(listaProductosEntity);
     }
 }

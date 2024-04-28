@@ -12,10 +12,12 @@ public class ProductosService {
     @Autowired
     ProductosRepository productosRepository;
 
-    public void save(ProductosEntity productosEntity){
+    public boolean save(ProductosEntity productosEntity){
         if(findById(productosEntity.getId())==null){
             productosRepository.save(productosEntity);
+            return true;
         }
+        return false;
 
     }
 
@@ -25,10 +27,6 @@ public class ProductosService {
 
     public ProductosEntity findById(int id){
         ProductosEntity productosEntity = productosRepository.findById(id);
-        if(productosEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
         return productosEntity;
     }
 
@@ -38,14 +36,10 @@ public class ProductosService {
 
     public ProductosEntity findByNombre(String nombre){
         ProductosEntity productosEntity = productosRepository.findByNombre(nombre);
-        if(productosEntity==null){
-            //throw new IllegalArgumentException("El producto con nombre " + nombre + " no existe.");
-            return null;
-        }
         return productosEntity;
     }
 
-    public ProductosEntity delete(int id){
+    public ProductosEntity deleteProductos(int id){
         ProductosEntity productosEntity = findById(id);
         if(productosEntity==null){
             //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");

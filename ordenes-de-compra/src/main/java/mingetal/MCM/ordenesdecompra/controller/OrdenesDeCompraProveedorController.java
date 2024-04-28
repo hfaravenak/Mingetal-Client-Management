@@ -1,12 +1,15 @@
 package mingetal.MCM.ordenesdecompra.controller;
 
 
+import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraClienteEntity;
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.ordenesdecompra.service.OrdenesDeCompraProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,8 +21,11 @@ public class OrdenesDeCompraProveedorController {
 
     @PostMapping()
     public ResponseEntity<OrdenesDeCompraProveedorEntity> saveProveedor(@RequestBody OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity) {
-        ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
-        return ResponseEntity.ok(ordenesDeCompraProveedorEntity);
+        boolean bool = ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
+        if(bool){
+            return ResponseEntity.ok(ordenesDeCompraProveedorEntity);
+        }
+        return null;
     }
 
     @GetMapping("/")
@@ -51,7 +57,7 @@ public class OrdenesDeCompraProveedorController {
         }
         return ResponseEntity.notFound().build();
     }
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<OrdenesDeCompraProveedorEntity> deleteOCProveedorById(@PathVariable("id") int id){
         OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = ordenesDeCompraProveedorService.deleteOCProveedor(id);
         System.out.println(ordenesDeCompraProveedorEntity);
@@ -59,5 +65,10 @@ public class OrdenesDeCompraProveedorController {
             return ResponseEntity.ok(ordenesDeCompraProveedorEntity);
         }
         return ResponseEntity.notFound().build();
+    }
+    @PutMapping("/update/estado_pago/{id}")
+    public ResponseEntity<OrdenesDeCompraProveedorEntity> updateOCProveedorByEstadoPago(@PathVariable("id") int id){
+        OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = ordenesDeCompraProveedorService.updateOCProveedorByEstadoPago(id);
+        return ResponseEntity.ok(ordenesDeCompraProveedorEntity);
     }
 }

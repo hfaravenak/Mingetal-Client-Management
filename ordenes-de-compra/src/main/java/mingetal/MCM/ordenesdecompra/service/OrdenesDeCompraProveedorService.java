@@ -13,8 +13,12 @@ public class OrdenesDeCompraProveedorService {
     @Autowired
     OrdenesDeCompraProveedorRepository ordenesDeCompraProveedorRepository;
 
-    public void save(OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity){
-        ordenesDeCompraProveedorRepository.save(ordenesDeCompraProveedorEntity);
+    public boolean save(OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity){
+        if(findById(ordenesDeCompraProveedorEntity.getId())==null){
+            ordenesDeCompraProveedorRepository.save(ordenesDeCompraProveedorEntity);
+            return true;
+        }
+        return false;
     }
 
     public List<OrdenesDeCompraProveedorEntity> findAll(){
@@ -31,7 +35,23 @@ public class OrdenesDeCompraProveedorService {
 
     public OrdenesDeCompraProveedorEntity deleteOCProveedor(int id){
         OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = findById(id);
+        if(ordenesDeCompraProveedorEntity==null){
+            return null;
+        }
         ordenesDeCompraProveedorRepository.delete(ordenesDeCompraProveedorEntity);
         return ordenesDeCompraProveedorEntity;
+    }
+
+    public OrdenesDeCompraProveedorEntity updateOCProveedorByEstadoPago(int id){
+        OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = findById(id);
+        if(ordenesDeCompraProveedorEntity==null){
+            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
+            return null;
+        }
+        if(ordenesDeCompraProveedorEntity.getEstado_pago().equals("Pagado")){
+            return null;
+        }
+        ordenesDeCompraProveedorEntity.setEstado_pago("Pagado");
+        return ordenesDeCompraProveedorRepository.save(ordenesDeCompraProveedorEntity);
     }
 }
