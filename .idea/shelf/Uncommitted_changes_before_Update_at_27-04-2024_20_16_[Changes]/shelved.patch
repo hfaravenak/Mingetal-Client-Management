@@ -1,0 +1,426 @@
+Index: .idea/uiDesigner.xml
+===================================================================
+diff --git a/.idea/uiDesigner.xml b/.idea/uiDesigner.xml
+deleted file mode 100644
+--- a/.idea/uiDesigner.xml	(revision 1a20d758ae7bdea09bd333d3e724fc306cbf2e33)
++++ /dev/null	(revision 1a20d758ae7bdea09bd333d3e724fc306cbf2e33)
+@@ -1,124 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="Palette2">
+-    <group name="Swing">
+-      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
+-      </item>
+-      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
+-      </item>
+-      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.svg" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
+-      </item>
+-      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.svg" removable="false" auto-create-binding="false" can-attach-label="true">
+-        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
+-      </item>
+-      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
+-        <initial-values>
+-          <property name="text" value="Button" />
+-        </initial-values>
+-      </item>
+-      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
+-        <initial-values>
+-          <property name="text" value="RadioButton" />
+-        </initial-values>
+-      </item>
+-      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
+-        <initial-values>
+-          <property name="text" value="CheckBox" />
+-        </initial-values>
+-      </item>
+-      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.svg" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
+-        <initial-values>
+-          <property name="text" value="Label" />
+-        </initial-values>
+-      </item>
+-      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-          <preferred-size width="150" height="-1" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-          <preferred-size width="150" height="-1" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-          <preferred-size width="150" height="-1" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.svg" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.svg" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
+-      </item>
+-      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
+-          <preferred-size width="200" height="200" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.svg" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
+-          <preferred-size width="200" height="200" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.svg" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
+-      </item>
+-      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
+-      </item>
+-      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
+-      </item>
+-      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
+-      </item>
+-      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.svg" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
+-          <preferred-size width="-1" height="20" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
+-      </item>
+-      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
+-      </item>
+-    </group>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: cliente/src/main/resources/bootstrap.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring:\r\n  devtools:\r\n    restart:\r\n      aditional-paths: src/main/java\r\n  application:\r\n    name: cliente\r\n  jpa:\r\n    database: POSTGRESQL\r\n    show-sql: true\r\n    hibernate:\r\n      ddl-auto: create\r\n  datasource:\r\n    plataform: postgres\r\n    driver-class-name: org.postgresql.Driver\r\n    dbname: cliente\r\n    url: jdbc:postgresql://localhost:5432/cliente\r\n    username: postgres\r\n    password: Simon_789\r\n  cloud:\r\n    config:\r\n      enabled: true\r\n      uri: http://localhost:8081
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/cliente/src/main/resources/bootstrap.yml b/cliente/src/main/resources/bootstrap.yml
+--- a/cliente/src/main/resources/bootstrap.yml	(revision 1a20d758ae7bdea09bd333d3e724fc306cbf2e33)
++++ b/cliente/src/main/resources/bootstrap.yml	(date 1714259435591)
+@@ -8,14 +8,14 @@
+     database: POSTGRESQL
+     show-sql: true
+     hibernate:
+-      ddl-auto: create
++      ddl-auto: update
+   datasource:
+     plataform: postgres
+     driver-class-name: org.postgresql.Driver
+     dbname: cliente
+     url: jdbc:postgresql://localhost:5432/cliente
+     username: postgres
+-    password: Simon_789
++    password: postgres
+   cloud:
+     config:
+       enabled: true
+Index: .idea/jpa-buddy.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jpa-buddy.xml b/.idea/jpa-buddy.xml
+new file mode 100644
+--- /dev/null	(date 1714263372623)
++++ b/.idea/jpa-buddy.xml	(date 1714263372623)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="JpaBuddyIdeaProjectConfig">
++    <option name="defaultUnitInitialized" value="true" />
++    <option name="renamerInitialized" value="true" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/encodings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Encoding\">\r\n    <file url=\"file://$PROJECT_DIR$/cliente/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/cliente/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/eureka/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/eureka/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/gateway/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/gateway/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/ordenes-de-compra/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/ordenes-de-compra/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/productos/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/productos/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/proveedor/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/proveedor/src/main/resources\" charset=\"UTF-8\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/encodings.xml b/.idea/encodings.xml
+--- a/.idea/encodings.xml	(revision 1a20d758ae7bdea09bd333d3e724fc306cbf2e33)
++++ b/.idea/encodings.xml	(date 1714263094108)
+@@ -3,6 +3,8 @@
+   <component name="Encoding">
+     <file url="file://$PROJECT_DIR$/cliente/src/main/java" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/cliente/src/main/resources" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/config/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/config/src/main/resources" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/eureka/src/main/java" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/eureka/src/main/resources" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/gateway/src/main/java" charset="UTF-8" />
+Index: config/src/main/java/mingetal/MCM/config/ConfigApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package mingetal.MCM.config;\r\n\r\nimport org.springframework.boot.SpringApplication;\r\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\r\nimport org.springframework.cloud.config.server.EnableConfigServer;\r\n\r\n@SpringBootApplication\r\n@EnableConfigServer\r\npublic class ConfigApplication {\r\n\r\n\tpublic static void main(String[] args) {\r\n\t\tSpringApplication.run(ConfigApplication.class, args);\r\n\t}\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/config/src/main/java/mingetal/MCM/config/ConfigApplication.java b/config/src/main/java/mingetal/MCM/config/ConfigApplication.java
+--- a/config/src/main/java/mingetal/MCM/config/ConfigApplication.java	(revision 1a20d758ae7bdea09bd333d3e724fc306cbf2e33)
++++ b/config/src/main/java/mingetal/MCM/config/ConfigApplication.java	(date 1714258476927)
+@@ -7,7 +7,6 @@
+ @SpringBootApplication
+ @EnableConfigServer
+ public class ConfigApplication {
+-
+ 	public static void main(String[] args) {
+ 		SpringApplication.run(ConfigApplication.class, args);
+ 	}
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/eureka/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/cliente/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/gateway/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/productos/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/proveedor/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/ordenes-de-compra/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_17\" default=\"true\" project-jdk-name=\"17\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 1a20d758ae7bdea09bd333d3e724fc306cbf2e33)
++++ b/.idea/misc.xml	(date 1714263094089)
+@@ -4,6 +4,7 @@
+   <component name="MavenProjectsManager">
+     <option name="originalFiles">
+       <list>
++        <option value="$PROJECT_DIR$/config/pom.xml" />
+         <option value="$PROJECT_DIR$/eureka/pom.xml" />
+         <option value="$PROJECT_DIR$/cliente/pom.xml" />
+         <option value="$PROJECT_DIR$/gateway/pom.xml" />
+@@ -13,7 +14,10 @@
+       </list>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="openjdk-18" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
++  <component name="ProjectType">
++    <option name="id" value="jpab" />
++  </component>
+ </project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"5d0f47c5-b9bc-496e-84dc-f5413f314538\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/compiler.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/compiler.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources.local.xml\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources.xml\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6.xml\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/cliente.-oVLMw.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/cliente.-oVLMw/schema/information_schema.FNRwLQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/cliente.-oVLMw/schema/pg_catalog.0S1ZNQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/information_schema.FNRwLQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/information_schema.FNRwLQ.zip\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/pg_catalog.0S1ZNQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/pg_catalog.0S1ZNQ.zip\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/public.abK9xQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/information_schema.FNRwLQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/information_schema.FNRwLQ.zip\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/pg_catalog.0S1ZNQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/pg_catalog.0S1ZNQ.zip\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/public.abK9xQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/information_schema.FNRwLQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/information_schema.FNRwLQ.zip\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/pg_catalog.0S1ZNQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/pg_catalog.0S1ZNQ.zip\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/public.abK9xQ.meta\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/encodings.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/encodings.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/controller/OrdenesDeCompraController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/controller/OrdenesDeCompraProveedorController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/ListaProductosService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/ListaProductosService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraClienteService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraClienteService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraProveedorService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraProveedorService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/controller/ProductosController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/controller/ProductosController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/service/ProductosService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/service/ProductosService.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"generalSettings\">\r\n      <MavenGeneralSettings>\r\n        <option name=\"useMavenConfig\" value=\"true\" />\r\n      </MavenGeneralSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2fZP9k9tHiZlb8AEvYSKQx4iBiL\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RequestMappingsPanelOrder0\": \"0\",\r\n    \"RequestMappingsPanelOrder1\": \"1\",\r\n    \"RequestMappingsPanelWidth0\": \"75\",\r\n    \"RequestMappingsPanelWidth1\": \"75\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"last_opened_file_path\": \"D:/Simon/progra/Pingeso/Mingetal-Client-Management/config\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyClassDialog.RECENTS_KEY\">\r\n      <recent name=\"mingetal.MCM.ordenesdecompra.controller\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunDashboard\">\r\n    <option name=\"configurationTypes\">\r\n      <set>\r\n        <option value=\"SpringBootApplicationConfigurationType\" />\r\n      </set>\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Spring Boot.EurekaApplication\">\r\n    <configuration name=\"ClienteApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"cliente\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"mingetal.MCM.cliente.ClienteApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"EurekaApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"eureka\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"mingetal.MCM.eureka.EurekaApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GatewayApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"gateway\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"mingetal.MCM.gateway.GatewayApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"OrdenesDeCompraApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"ordenes-de-compra\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"mingetal.MCM.ordenesdecompra.OrdenesDeCompraApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ProductosApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"productos\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"mingetal.MCM.productos.ProductosApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ProveedorApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"proveedor\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"mingetal.MCM.proveedor.ProveedorApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"5d0f47c5-b9bc-496e-84dc-f5413f314538\" name=\"Changes\" comment=\"\" />\r\n      <created>1714005477571</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1714005477571</updated>\r\n      <workItem from=\"1714005484845\" duration=\"1429000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 1a20d758ae7bdea09bd333d3e724fc306cbf2e33)
++++ b/.idea/workspace.xml	(date 1714263372616)
+@@ -1,100 +1,29 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="AutoImportSettings">
+-    <option name="autoReloadType" value="SELECTIVE" />
+-  </component>
+-  <component name="ChangeListManager">
+-    <list default="true" id="5d0f47c5-b9bc-496e-84dc-f5413f314538" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/cliente.-oVLMw.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/cliente.-oVLMw/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/cliente.-oVLMw/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/information_schema.FNRwLQ.zip" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/pg_catalog.0S1ZNQ.zip" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/ordenesDeCompra.915xpA/schema/public.abK9xQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/information_schema.FNRwLQ.zip" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/pg_catalog.0S1ZNQ.zip" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/productos.E1tOwQ/schema/public.abK9xQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/information_schema.FNRwLQ.zip" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/pg_catalog.0S1ZNQ.zip" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a96bc0fc-88a3-49f6-86c5-585e969466c6/storage_v2/_src_/database/proveedor.3sok3w/schema/public.abK9xQ.meta" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/controller/OrdenesDeCompraController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/controller/OrdenesDeCompraProveedorController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/ListaProductosService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/ListaProductosService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraClienteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraClienteService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraProveedorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ordenes-de-compra/src/main/java/mingetal/MCM/ordenesdecompra/service/OrdenesDeCompraProveedorService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/controller/ProductosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/controller/ProductosController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/service/ProductosService.java" beforeDir="false" afterPath="$PROJECT_DIR$/productos/src/main/java/mingetal/MCM/productos/service/ProductosService.java" afterDir="false" />
+-    </list>
+-    <option name="SHOW_DIALOG" value="false" />
+-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+-    <option name="LAST_RESOLUTION" value="IGNORE" />
+-  </component>
+-  <component name="Git.Settings">
+-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+-  </component>
+-  <component name="MarkdownSettingsMigration">
+-    <option name="stateVersion" value="1" />
+-  </component>
+-  <component name="MavenImportPreferences">
+-    <option name="generalSettings">
+-      <MavenGeneralSettings>
+-        <option name="useMavenConfig" value="true" />
+-      </MavenGeneralSettings>
+-    </option>
+-  </component>
+-  <component name="ProjectId" id="2fZP9k9tHiZlb8AEvYSKQx4iBiL" />
+-  <component name="ProjectViewState">
+-    <option name="hideEmptyMiddlePackages" value="true" />
+-    <option name="showLibraryContents" value="true" />
+-  </component>
++  <component name="ProjectId" id="2fhpGncjUCAS0UnwykoPvAk6zMY" />
+   <component name="PropertiesComponent"><![CDATA[{
+   "keyToString": {
+-    "RequestMappingsPanelOrder0": "0",
+-    "RequestMappingsPanelOrder1": "1",
+-    "RequestMappingsPanelWidth0": "75",
+-    "RequestMappingsPanelWidth1": "75",
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "WebServerToolWindowFactoryState": "false",
+-    "last_opened_file_path": "D:/Simon/progra/Pingeso/Mingetal-Client-Management/config",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
++    "ignore.virus.scanning.warn.message": "true",
++    "project.structure.last.edited": "Libraries",
++    "project.structure.proportion": "0.0",
++    "project.structure.side.proportion": "0.0",
++    "spring.configuration.checksum": "299e584b3e26fd4bf3e6ea4a47272aa4",
+     "vue.rearranger.settings.migration": "true"
+   }
+ }]]></component>
+-  <component name="RecentsManager">
+-    <key name="CopyClassDialog.RECENTS_KEY">
+-      <recent name="mingetal.MCM.ordenesdecompra.controller" />
+-    </key>
+-  </component>
+-  <component name="RunDashboard">
+-    <option name="configurationTypes">
+-      <set>
+-        <option value="SpringBootApplicationConfigurationType" />
+-      </set>
+-    </option>
+-  </component>
+-  <component name="RunManager" selected="Spring Boot.EurekaApplication">
++  <component name="RunManager" selected="Spring Boot.ConfigApplication">
+     <configuration name="ClienteApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+       <module name="cliente" />
+       <option name="SPRING_BOOT_MAIN_CLASS" value="mingetal.MCM.cliente.ClienteApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="ConfigApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
++      <module name="config" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="mingetal.MCM.config.ConfigApplication" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+@@ -134,18 +63,6 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-  </component>
+-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+-  <component name="TaskManager">
+-    <task active="true" id="Default" summary="Default task">
+-      <changelist id="5d0f47c5-b9bc-496e-84dc-f5413f314538" name="Changes" comment="" />
+-      <created>1714005477571</created>
+-      <option name="number" value="Default" />
+-      <option name="presentableId" value="Default" />
+-      <updated>1714005477571</updated>
+-      <workItem from="1714005484845" duration="1429000" />
+-    </task>
+-    <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+     <option name="version" value="3" />
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile default=\"true\" name=\"Default\" enabled=\"true\" />\r\n      <profile name=\"Maven default annotation processors profile\" enabled=\"true\">\r\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\r\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <module name=\"cliente\" />\r\n        <module name=\"ordenes-de-compra\" />\r\n        <module name=\"proveedor\" />\r\n        <module name=\"productos\" />\r\n        <module name=\"eureka\" />\r\n        <module name=\"gateway\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n  </component>\r\n  <component name=\"JavacSettings\">\r\n    <option name=\"ADDITIONAL_OPTIONS_OVERRIDE\">\r\n      <module name=\"cliente\" options=\"-parameters\" />\r\n      <module name=\"eureka\" options=\"-parameters\" />\r\n      <module name=\"gateway\" options=\"-parameters\" />\r\n      <module name=\"ordenes-de-compra\" options=\"-parameters\" />\r\n      <module name=\"productos\" options=\"-parameters\" />\r\n      <module name=\"proveedor\" options=\"-parameters\" />\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision 1a20d758ae7bdea09bd333d3e724fc306cbf2e33)
++++ b/.idea/compiler.xml	(date 1714263094079)
+@@ -2,16 +2,16 @@
+ <project version="4">
+   <component name="CompilerConfiguration">
+     <annotationProcessing>
+-      <profile default="true" name="Default" enabled="true" />
+       <profile name="Maven default annotation processors profile" enabled="true">
+         <sourceOutputDir name="target/generated-sources/annotations" />
+         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+         <outputRelativeToContentRoot value="true" />
+         <module name="cliente" />
+         <module name="ordenes-de-compra" />
++        <module name="eureka" />
+         <module name="proveedor" />
++        <module name="config" />
+         <module name="productos" />
+-        <module name="eureka" />
+         <module name="gateway" />
+       </profile>
+     </annotationProcessing>
+@@ -19,6 +19,7 @@
+   <component name="JavacSettings">
+     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+       <module name="cliente" options="-parameters" />
++      <module name="config" options="-parameters" />
+       <module name="eureka" options="-parameters" />
+       <module name="gateway" options="-parameters" />
+       <module name="ordenes-de-compra" options="-parameters" />
