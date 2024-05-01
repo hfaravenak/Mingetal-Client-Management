@@ -10,7 +10,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "cliente")
+@Data
 public class ClienteEntity {
     @Id
     @NotNull
@@ -19,44 +22,4 @@ public class ClienteEntity {
     private String email;
     private int telefono;
     private String empresa;
-
-    public String getRut() {
-        return rut;
-    }
-
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(int telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmpresa() {
-        return empresa;
-    }
-
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
-    }
 }

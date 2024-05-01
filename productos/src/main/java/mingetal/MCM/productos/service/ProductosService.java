@@ -26,8 +26,7 @@ public class ProductosService {
     }
 
     public ProductosEntity findById(int id){
-        ProductosEntity productosEntity = productosRepository.findById(id);
-        return productosEntity;
+        return productosRepository.findById(id);
     }
 
     public List<ProductosEntity> findByTipo(String tipo){
@@ -35,8 +34,7 @@ public class ProductosService {
     }
 
     public ProductosEntity findByNombre(String nombre){
-        ProductosEntity productosEntity = productosRepository.findByNombre(nombre);
-        return productosEntity;
+        return productosRepository.findByNombre(nombre);
     }
 
     public ProductosEntity deleteProductos(int id){

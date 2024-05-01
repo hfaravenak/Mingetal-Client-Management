@@ -1,10 +1,17 @@
 package mingetal.MCM.cliente.Entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "cotizacion")
+@Data
 public class CotizacionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,44 +21,4 @@ public class CotizacionEntity {
     private LocalDate fecha;
     private String estado;
     private String rutCliente;
-
-    public Long getIdCotizacion() {
-        return idCotizacion;
-    }
-
-    public void setIdCotizacion(Long idCotizacion) {
-        this.idCotizacion = idCotizacion;
-    }
-
-    public String getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(String pedido) {
-        this.pedido = pedido;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getRutCliente() {
-        return rutCliente;
-    }
-
-    public void setRutCliente(String rutCliente) {
-        this.rutCliente = rutCliente;
-    }
 }
