@@ -1,6 +1,7 @@
 package mingetal.MCM.productos.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class ProductosEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +25,11 @@ public class ProductosEntity {
     private int valor_final;
     private int cantidad;
 
+    public ProductosEntity(String tipo, String nombre, int valor, int valor_final, int cantidad) {
+        this.tipo = tipo;
+        this.nombre = nombre;
+        this.valor = valor;
+        this.valor_final = valor_final;
+        this.cantidad = cantidad;
+    }
 }
