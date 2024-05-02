@@ -22,4 +22,10 @@ public class ListaProductosEntity {
     private int id_OC_proveedor;
     private int cantidad;
 
+    public ListaProductosEntity(int id_OC_cliente, int id_producto, int id_OC_proveedor, int cantidad) {
+        this.id_OC_cliente = id_OC_cliente;
+        this.id_producto = id_producto;
+        this.id_OC_proveedor = id_OC_proveedor;
+        this.cantidad = cantidad;
+    }
 }
