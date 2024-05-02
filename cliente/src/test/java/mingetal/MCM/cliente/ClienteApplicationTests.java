@@ -21,7 +21,7 @@ public class ClienteApplicationTests {
         cliente.setNombre("Juan Perez");
         cliente.setRut("12345678-9");
         cliente.setEmail("juan@example.com");
-        cliente.setTelefono(123456789);
+        cliente.setTelefono("123456789");
         cliente.setEmpresa("EmpresaX");
 
         clienteService.save(cliente);
