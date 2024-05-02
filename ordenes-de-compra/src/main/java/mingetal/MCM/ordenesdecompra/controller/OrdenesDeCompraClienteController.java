@@ -73,7 +73,7 @@ public class OrdenesDeCompraClienteController {
     }
     @PutMapping("/update/modo_pago/{id}")
     public ResponseEntity<OrdenesDeCompraClienteEntity> updateOCClienteByModoPago(@PathVariable("id") int id,
-                                                                                  @RequestParam String modo_pago){
+                                                                                  @RequestParam int modo_pago){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = ordenesDeCompraClienteService.updateOCClienteByModoPago(id, modo_pago);
         return ResponseEntity.ok(ordenesDeCompraClienteEntity);
     }

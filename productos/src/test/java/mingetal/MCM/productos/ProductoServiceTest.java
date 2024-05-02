@@ -53,8 +53,7 @@ public class ProductoServiceTest {
     }
     @Test
     void findByIdTestFalse(){
-        ProductosEntity productosEntity = productosService.findById(102);
-        assertNull(productosEntity);
+        assertNull(productosService.findById(101));
     }
 
     @Test

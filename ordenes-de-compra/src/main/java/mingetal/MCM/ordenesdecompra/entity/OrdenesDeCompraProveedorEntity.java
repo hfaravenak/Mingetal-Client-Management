@@ -19,8 +19,8 @@ public class OrdenesDeCompraProveedorEntity {
     @NotNull
     private int id;
     private int id_proveedor;
-    private String estado_pago;
-    private LocalDate fecha_pago;
-    private LocalDate fecha_entrega;
+    private String estado_pago; //Pagado | No Pagado
+    private LocalDate fecha_pago; // yyyy-mm-dd
+    private LocalDate fecha_entrega; //yyyy-mm-dd
     private String factura;
 }

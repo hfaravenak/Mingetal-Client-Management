@@ -82,14 +82,30 @@ public class OrdenesDeCompraClienteService {
         return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
     }
 
-    public OrdenesDeCompraClienteEntity updateOCClienteByModoPago(int id, String modo_pago){
+    public OrdenesDeCompraClienteEntity updateOCClienteByModoPago(int id, int modo_pago){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = ordenesDeCompraClienteRepository.findById(id);
         if(ordenesDeCompraClienteEntity==null){
             //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
             return null;
         }
-        ordenesDeCompraClienteEntity.setModo_pago(modo_pago);
-        return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
+        switch (modo_pago) {
+            case 1 -> {
+                ordenesDeCompraClienteEntity.setModo_pago("Transferencia");
+                return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
+            }
+            case 2 -> {
+                ordenesDeCompraClienteEntity.setModo_pago("Cheque");
+                return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
+            }
+            case 3 -> {
+                ordenesDeCompraClienteEntity.setModo_pago("Efectivo");
+                return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
+            }
+            default -> {
+                return null;
+            }
+        }
+
     }
 
     public OrdenesDeCompraClienteEntity updateOCClienteByFechaPago(int id, LocalDate fecha_pago){
