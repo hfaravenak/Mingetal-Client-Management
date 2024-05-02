@@ -85,7 +85,7 @@ public class OrdenesDeCompraClienteServiceTest {
     }
     @Test
     void deleteOCClienteTestFalse(){
-        assertNull(ordenesDeCompraClienteService.findById(101));
+        assertNull(ordenesDeCompraClienteService.deleteOCCliente(101));
     }
 
     @Test
