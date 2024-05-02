@@ -51,11 +51,11 @@ public class ClienteController {
     }
 
     @GetMapping("/empresa/{empresa}")
-    public ResponseEntity<ClienteEntity> getClienteByEmpresa(@PathVariable("empresa") String empresa){
-        ClienteEntity clienteEntity = clienteService.findByEmpresa(empresa);
-        System.out.println(clienteEntity);
-        if(clienteEntity != null){
-            return ResponseEntity.ok(clienteEntity);
+    public ResponseEntity<List<ClienteEntity>> getClienteByEmpresa(@PathVariable("empresa") String empresa){
+        List<ClienteEntity> clienteEntities = clienteService.findByEmpresa(empresa);
+        System.out.println(clienteEntities);
+        if(clienteEntities != null){
+            return ResponseEntity.ok(clienteEntities);
         }
         return ResponseEntity.notFound().build();
     }

@@ -20,7 +20,7 @@ public class ClienteService {
 
     public ClienteEntity findByNombre(String nombre) { return clienteRepository.findByNombre(nombre); }
 
-    public ClienteEntity findByEmpresa(String empresa) { return clienteRepository.findByEmpresa(empresa); }
+    public List<ClienteEntity> findByEmpresa(String empresa) { return clienteRepository.findByEmpresa(empresa); }
 
     public ClienteEntity delete(String rut) {
         ClienteEntity clienteEntity = findByRut(rut);

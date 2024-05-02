@@ -4,6 +4,8 @@ import mingetal.MCM.cliente.Entities.ClienteEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ClienteRepository extends JpaRepository<ClienteEntity, String> {
 
@@ -11,5 +13,5 @@ public interface ClienteRepository extends JpaRepository<ClienteEntity, String> 
 
     ClienteEntity findByNombre(String nombre);
 
-    ClienteEntity findByEmpresa(String empresa);
+    List<ClienteEntity> findByEmpresa(String empresa);
 }
