@@ -20,6 +20,6 @@ public class ClienteEntity {
     private String rut;
     private String nombre;
     private String email;
-    private String telefono;
+    private int telefono;
     private String empresa;
 }
