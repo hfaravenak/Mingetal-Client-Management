@@ -14,6 +14,9 @@ public class ContactoService {
 
     // Create
     public ContactoEntity createContacto(ContactoEntity contacto) {
+        if(findContactoById(contacto.getId_contacto()) != null){
+            return null;
+        }
         return contactoRepository.save(contacto);
     }
 
@@ -23,17 +26,25 @@ public class ContactoService {
     }
 
     public ContactoEntity findContactoById(int id) {
-        return contactoRepository.findById(id).orElse(null);
+        return contactoRepository.findById(id);
     }
 
     // Update
     public ContactoEntity updateContacto(ContactoEntity updatedContacto) {
+        if(findContactoById(updatedContacto.getId_contacto())==null){
+            return null;
+        }
         return contactoRepository.save(updatedContacto);
     }
 
     // Delete
-    public void deleteContacto(int id) {
+    public ContactoEntity deleteContacto(int id) {
+        if(findContactoById(id)==null){
+            return null;
+        }
+        ContactoEntity contacto= findContactoById(id);
         contactoRepository.deleteById(id);
+        return contacto;
     }
 
 }
