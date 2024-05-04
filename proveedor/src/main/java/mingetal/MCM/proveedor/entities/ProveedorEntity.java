@@ -17,10 +17,15 @@ public class ProveedorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_proveedor;
     private String empresa;
-    private String rut;
     private String rubro;
     private int id_contacto;
     private int id_contacto2;
     private int id_contacto3;
     private String comentario;
+
+    public ProveedorEntity(String empresa, String rubro, String comentario) {
+        this.empresa = empresa;
+        this.rubro = rubro;
+        this.comentario = comentario;
+    }
 }

@@ -19,10 +19,9 @@ public class ProveedorController {
     // Endpoint para crear un nuevo proveedor
     @PostMapping("/crear")
     public ResponseEntity<ProveedorEntity> createSupplier(@RequestParam String empresa,
-                                                          @RequestParam String rut,
                                                           @RequestParam String rubro,
                                                           @RequestParam String comentario) {
-        ProveedorEntity proveedor = proveedorService.createSupplier(empresa, rut, rubro, comentario);
+        ProveedorEntity proveedor = proveedorService.createSupplier(new ProveedorEntity(empresa, rubro, comentario));
         return new ResponseEntity<>(proveedor, HttpStatus.CREATED);
     }
 
@@ -31,14 +30,6 @@ public class ProveedorController {
     public ResponseEntity<ProveedorEntity> updateSupplierEmpresa(@PathVariable int id,
                                                                  @RequestParam String nuevaEmpresa) {
         ProveedorEntity proveedor = proveedorService.updateEmpresa(id, nuevaEmpresa);
-        return new ResponseEntity<>(proveedor, HttpStatus.OK);
-    }
-
-    // Endpoint para actualizar el rut de un proveedor
-    @PutMapping("/{id}/rut")
-    public ResponseEntity<ProveedorEntity> updateSupplierRut(@PathVariable int id,
-                                                             @RequestParam String nuevoRut) {
-        ProveedorEntity proveedor = proveedorService.updateRut(id, nuevoRut);
         return new ResponseEntity<>(proveedor, HttpStatus.OK);
     }
 
@@ -83,13 +74,6 @@ public class ProveedorController {
     @GetMapping("/buscar/empresa")
     public ResponseEntity<ProveedorEntity> getSupplierByEmpresa(@RequestParam String empresa) {
         ProveedorEntity proveedor = proveedorService.findByEmpresa(empresa);
-        return new ResponseEntity<>(proveedor, HttpStatus.OK);
-    }
-
-    // Endpoint para buscar proveedores por rut
-    @GetMapping("/buscar/rut")
-    public ResponseEntity<ProveedorEntity> getSupplierByRut(@RequestParam String rut) {
-        ProveedorEntity proveedor = proveedorService.findByRut(rut);
         return new ResponseEntity<>(proveedor, HttpStatus.OK);
     }
 
