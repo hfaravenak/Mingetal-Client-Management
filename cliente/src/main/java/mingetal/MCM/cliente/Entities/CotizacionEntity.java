@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -15,10 +16,10 @@ import java.time.LocalDate;
 public class CotizacionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long idCotizacion;
+    @NotNull
+    private int idCotizacion;
     private String pedido;
-    private LocalDate fecha;
+    private LocalDate fecha; // Formato yyyy-MM-dd
     private String estado;
     private String rutCliente;
 }

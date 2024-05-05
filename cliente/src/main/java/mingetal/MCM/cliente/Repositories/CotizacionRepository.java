@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface CotizacionRepository extends JpaRepository<CotizacionEntity, Long> {
+public interface CotizacionRepository extends JpaRepository<CotizacionEntity, Integer> {
     List<CotizacionEntity> findByPedido(String pedido);
     List<CotizacionEntity> findByFecha(LocalDate fecha);
     List<CotizacionEntity> findByEstado(String estado);
