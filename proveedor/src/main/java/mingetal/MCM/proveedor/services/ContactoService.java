@@ -29,6 +29,11 @@ public class ContactoService {
         return contactoRepository.findById(id);
     }
 
+    // find by nombre del contacto
+    public List<ContactoEntity> findContactoByNombre(String nombre) {
+        return contactoRepository.findByNombreContacto(nombre);
+    }      
+
     // Update
     public ContactoEntity updateContacto(ContactoEntity updatedContacto) {
         if(findContactoById(updatedContacto.getId_contacto())==null){

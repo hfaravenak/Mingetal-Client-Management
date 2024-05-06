@@ -40,6 +40,12 @@ public class ContactoController {
         }
     }
 
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<List<ContactoEntity>> getContactoByNombre(@PathVariable String nombre) {
+        List<ContactoEntity> contactos = contactoService.findContactoByNombre(nombre);
+        return new ResponseEntity<>(contactos, HttpStatus.OK);
+    }
+
     // Update
     @PutMapping("/{id}")
     public ResponseEntity<ContactoEntity> updateContacto(@PathVariable int id, @RequestBody ContactoEntity updatedContacto) {

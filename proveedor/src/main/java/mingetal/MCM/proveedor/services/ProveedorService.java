@@ -44,12 +44,20 @@ public class ProveedorService {
         return proveedorRepository.findByRubro(rubro);
     }
 
+    public ProveedorEntity findByRut(String rut) {
+        return proveedorRepository.findByRut(rut);
+    }
+
+    // find by contacto
+    public ProveedorEntity findByContacto1(String contacto) {
+        return proveedorRepository.findByContacto1(contacto);
+    }
+
     // Update
     // Update empresa
     public ProveedorEntity updateEmpresa(int id_proveedor, String nuevaEmpresa) {
         ProveedorEntity proveedor = proveedorRepository.findById(id_proveedor);
         if (proveedor == null) {
-            //throw new IllegalArgumentException("El proveedor con ID " + id_proveedor + " no existe.");
             return null;
         }
         proveedor.setEmpresa(nuevaEmpresa);
@@ -60,7 +68,6 @@ public class ProveedorService {
     public ProveedorEntity updateRubro(int id_proveedor, String nuevoRubro) {
         ProveedorEntity proveedor = proveedorRepository.findById(id_proveedor);
         if (proveedor == null) {
-            //throw new IllegalArgumentException("El proveedor con ID " + id_proveedor + " no existe.");
             return null;
         }
         proveedor.setRubro(nuevoRubro);
@@ -71,7 +78,6 @@ public class ProveedorService {
     public ProveedorEntity updateComentario(int id_proveedor, String nuevoComentario) {
         ProveedorEntity proveedor = proveedorRepository.findById(id_proveedor);
         if (proveedor == null) {
-            //throw new IllegalArgumentException("El proveedor con ID " + id_proveedor + " no existe.");
             return null;
         }
         proveedor.setComentario(nuevoComentario);
@@ -92,5 +98,6 @@ public class ProveedorService {
         System.out.println("Proveedor " + name + " ha sido eliminado correctamente.");
         return proveedor;
     }
+
 
 }

@@ -77,6 +77,13 @@ public class ProveedorController {
         return new ResponseEntity<>(proveedor, HttpStatus.OK);
     }
 
+    // Endpoint para buscar proveedores por rut
+    @GetMapping("/buscar/rut")
+    public ResponseEntity<ProveedorEntity> getSupplierByRut(@RequestParam String rut) {
+        ProveedorEntity proveedor = proveedorService.findByRut(rut);
+        return new ResponseEntity<>(proveedor, HttpStatus.OK);
+    }
+
     // Endpoint para buscar proveedores por rubro
     @GetMapping("/buscar/rubro")
     public ResponseEntity<List<ProveedorEntity>> getSupplierByRubro(@RequestParam String rubro) {
