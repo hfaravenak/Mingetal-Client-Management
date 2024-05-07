@@ -43,8 +43,20 @@ public class OrdenesDeCompraClienteController {
     }
 
     @GetMapping("/id/{id_cliente}")
-    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOrdenProveedorByIdCliente(@PathVariable("id_cliente") int id_cliente){
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOrdenProveedorByIdCliente(@PathVariable("id_cliente") String id_cliente){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByIdCliente(id_cliente);
+        System.out.println(ordenesDeCompraClienteEntities);
+        return ResponseEntity.ok(ordenesDeCompraClienteEntities);
+    }
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOrdenProveedorByNombreCliente(@PathVariable("nombre") String nombre){
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByNameCliente(nombre);
+        System.out.println(ordenesDeCompraClienteEntities);
+        return ResponseEntity.ok(ordenesDeCompraClienteEntities);
+    }
+    @GetMapping("/empresa/{empresa}")
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOrdenProveedorByEmpresaCliente(@PathVariable("empresa") String empresa){
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByEmpresaCliente(empresa);
         System.out.println(ordenesDeCompraClienteEntities);
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);
     }

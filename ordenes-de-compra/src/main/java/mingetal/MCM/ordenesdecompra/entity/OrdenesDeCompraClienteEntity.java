@@ -18,7 +18,7 @@ public class OrdenesDeCompraClienteEntity {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @NotNull
         private int id;
-        private int id_cliente;
+        private String id_cliente;
         private String estado_factura; //Emitida | No Emitida
         private String estado_pago; //Pagado | No Pagado
         private int valor_pago;
@@ -32,7 +32,7 @@ public class OrdenesDeCompraClienteEntity {
         private int numero_factura;
         private String empresa_despacho;
 
-        public OrdenesDeCompraClienteEntity(int id_cliente, String estado_factura, String estado_pago, int valor_pago, LocalDate fecha_pago, LocalDate fecha_solicitud, String estado_entrega, String modo_pago, LocalDate fecha_inicio_pago, int tiempo_de_pago, int numero_cheque, int numero_factura, String empresa_despacho) {
+        public OrdenesDeCompraClienteEntity(String id_cliente, String estado_factura, String estado_pago, int valor_pago, LocalDate fecha_pago, LocalDate fecha_solicitud, String estado_entrega, String modo_pago, LocalDate fecha_inicio_pago, int tiempo_de_pago, int numero_cheque, int numero_factura, String empresa_despacho) {
                 this.id_cliente = id_cliente;
                 this.estado_factura = estado_factura;
                 this.estado_pago = estado_pago;

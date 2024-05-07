@@ -16,5 +16,5 @@ public interface OrdenesDeCompraClienteRepository extends JpaRepository<OrdenesD
     OrdenesDeCompraClienteEntity findById(@Param("id") int id);
 
     @Query("select e from OrdenesDeCompraClienteEntity e where e.id_cliente = :id_cliente")
-    List<OrdenesDeCompraClienteEntity> findByIdCliente(@Param("id_cliente") int id_cliente);
+    List<OrdenesDeCompraClienteEntity> findByIdCliente(@Param("id_cliente") String id_cliente);
 }
