@@ -34,20 +34,27 @@ public class ClienteController {
     public ResponseEntity<ClienteEntity> getClienteByRut(@PathVariable("rut") String rut){
         ClienteEntity clienteEntity = clienteService.findByRut(rut);
         System.out.println(clienteEntity);
+        /*
         if(clienteEntity != null){
             return ResponseEntity.ok(clienteEntity);
         }
         return ResponseEntity.notFound().build();
+        */
+        return ResponseEntity.ok(clienteEntity);
     }
 
     @GetMapping("/nombre/{nombre}")
     public ResponseEntity<ClienteEntity> getClienteByNombre(@PathVariable("nombre") String nombre){
         ClienteEntity clienteEntity = clienteService.findByNombre(nombre);
         System.out.println(clienteEntity);
+        /*
         if(clienteEntity != null){
             return ResponseEntity.ok(clienteEntity);
         }
         return ResponseEntity.notFound().build();
+        */
+        return ResponseEntity.ok(clienteEntity);
+
     }
 
     @GetMapping("/empresa/{empresa}")

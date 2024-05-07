@@ -58,7 +58,7 @@ insert into cliente (rut, nombre, email, telefono, empresa) values ('35.367.320-
 insert into cliente (rut, nombre, email, telefono, empresa) values ('96.415.869-1', 'Reina Herion', 'rherion1h@woothemes.com', '+569 66891319', 'Babbleset');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('50.831.656-9', 'Udall Guillond', 'uguillond1i@eepurl.com', '+569 48190808', 'Wikizz');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('49.967.932-9', 'Agata Corbie', 'acorbie1j@php.net', '+569 83713097', 'JumpXS');
-insert into cliente (rut, nombre, email, telefono, empresa) values ('00.951.515-5', 'Webster De Micoli', 'wde1k@unesco.org', '+569 98745136', 'Oozz');
+insert into cliente (rut, nombre, email, telefono, empresa) values ('20.951.515-5', 'Webster De Micoli', 'wde1k@unesco.org', '+569 98745136', 'Oozz');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('37.057.250-8', 'Sherline Rowlson', 'srowlson1l@yale.edu', '+569 60042870', 'Fliptune');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('51.306.059-3', 'Nancey Scarsbrick', 'nscarsbrick1m@w3.org', '+569 91441307', 'Blognation');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('98.177.176-0', 'Johnathon Bidwell', 'jbidwell1n@wisc.edu', '+569 14423752', 'Topicstorm');
@@ -83,7 +83,7 @@ insert into cliente (rut, nombre, email, telefono, empresa) values ('69.226.074-
 insert into cliente (rut, nombre, email, telefono, empresa) values ('49.179.287-3', 'Maddie Snellman', 'msnellman26@salon.com', '+569 66254820', 'Tagfeed');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('41.634.178-9', 'Lida Kendred', 'lkendred27@ucoz.com', '+569 60670221', 'Katz');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('02.858.176-7', 'Layton Dunsleve', 'ldunsleve28@dyndns.org', '+569 69604036', 'Quatz');
-insert into cliente (rut, nombre, email, telefono, empresa) values ('78.164.409-7', 'Maggee Farge', 'mfarge29@flavors.me', '+569 80441138', 'Trudoo');
+insert into cliente (rut, nombre, email, telefono, empresa) values ('78.164.409-7', 'Maggee Farge', 'mfarge29@flavors.me', '+569 80441138', 'Skyba');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('58.800.908-4', 'Lionel Teodorski', 'lteodorski2a@amazon.co.jp', '+569 18333886', 'Linkbridge');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('88.856.552-3', 'Tristam Master', 'tmaster2b@csmonitor.com', '+569 25121171', 'Realfire');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('45.154.749-8', 'Clayborn Godson', 'cgodson2c@sciencedaily.com', '+569 80095114', 'BlogXS');
