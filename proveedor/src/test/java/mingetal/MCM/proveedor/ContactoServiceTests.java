@@ -15,79 +15,77 @@ public class ContactoServiceTests {
     @Test
     void creatContactoTestTrue(){
         ContactoEntity contactoEntity = new ContactoEntity(
+                "20.158.268-k",
                 "Soy Yo",
                 "correo_prueba@gmail.com",
                 "+56912345684",
-                "221548544",
-                "20.158.268-k"
+                "221548544"
         );
         assertEquals(contactoService.createContacto(contactoEntity),  contactoEntity);
-        assertNotNull(contactoService.findContactoById(contactoEntity.getId_contacto()));
-        contactoService.deleteContacto(contactoEntity.getId_contacto());
+        assertNotNull(contactoService.findContactoById(contactoEntity.getRut()));
+        contactoService.deleteContacto(contactoEntity.getRut());
     }
     @Test
     void creatContactoTestFalse(){
         ContactoEntity contactoEntity = new ContactoEntity(
+                "20.158.268-k",
                 "Soy Yo",
                 "correo_prueba@gmail.com",
                 "+56912345684",
-                "221548544",
-                "20.158.268-k"
+                "221548544"
         );
         contactoService.createContacto(contactoEntity);
         assertNull(contactoService.createContacto(contactoEntity));
-        contactoService.deleteContacto(contactoEntity.getId_contacto());
+        contactoService.deleteContacto(contactoEntity.getRut());
     }
 
     @Test
     void findContactByIdTestTrue(){
         ContactoEntity contactoEntity = new ContactoEntity(
+                "20.158.268-k",
                 "Soy Yo",
                 "correo_prueba@gmail.com",
                 "+56912345684",
-                "221548544",
-                "20.158.268-k"
+                "221548544"
         );
         contactoService.createContacto(contactoEntity);
 
-        assertEquals(contactoEntity, contactoService.findContactoById(contactoEntity.getId_contacto()));
-        contactoService.deleteContacto(contactoEntity.getId_contacto());
+        assertEquals(contactoEntity, contactoService.findContactoById(contactoEntity.getRut()));
+        contactoService.deleteContacto(contactoEntity.getRut());
     }
     @Test
     void findContactByIdTestFalse(){
-        assertNull(contactoService.findContactoById(-1));
+        assertNull(contactoService.findContactoById("-1"));
     }
 
     @Test
     void updateContactoTestTrue(){
         ContactoEntity contactoEntity = new ContactoEntity(
+                "20.158.268-k",
                 "Soy Yo",
                 "correo_prueba@gmail.com",
                 "+56912345684",
-                "221548544",
-                "20.158.268-k"
+                "221548544"
         );
         contactoService.createContacto(contactoEntity);
 
-        ContactoEntity contactoEntityUpdate = contactoService.findContactoById(contactoEntity.getId_contacto());
+        ContactoEntity contactoEntityUpdate = contactoService.findContactoById(contactoEntity.getRut());
         contactoEntityUpdate.setNombre("Cambiado");
         contactoEntityUpdate.setCorreo("Cambiado@gmail.com");
-        contactoEntityUpdate.setForo_cel("+569123456789");
+        contactoEntityUpdate.setFono_cel("+569123456789");
         contactoEntityUpdate.setFono_fijo("22123456789");
-        contactoEntityUpdate.setRut("12.345.678-9");
 
         contactoService.updateContacto(contactoEntityUpdate);
 
-        ContactoEntity newContact = contactoService.findContactoById(contactoEntity.getId_contacto());
+        ContactoEntity newContact = contactoService.findContactoById(contactoEntity.getRut());
 
         assertEquals("Cambiado", newContact.getNombre());
         assertEquals("Cambiado@gmail.com", newContact.getCorreo());
-        assertEquals("+569123456789", newContact.getForo_cel());
+        assertEquals("+569123456789", newContact.getFono_cel());
         assertEquals("22123456789", newContact.getFono_fijo());
-        assertEquals("12.345.678-9", newContact.getRut());
-        assertEquals(contactoEntityUpdate.getId_contacto(), newContact.getId_contacto());
+        assertEquals(contactoEntityUpdate.getRut(), newContact.getRut());
 
-        contactoService.deleteContacto(contactoEntity.getId_contacto());
+        contactoService.deleteContacto(contactoEntity.getRut());
     }
     @Test
     void updateContactoTestFalse(){
@@ -104,19 +102,19 @@ public class ContactoServiceTests {
     @Test
     void deleteContactoTestTrue(){
         ContactoEntity contactoEntity = new ContactoEntity(
+                "20.158.268-k",
                 "Soy Yo",
                 "correo_prueba@gmail.com",
                 "+56912345684",
-                "221548544",
-                "20.158.268-k"
+                "221548544"
         );
         contactoService.createContacto(contactoEntity);
-        ContactoEntity contactoDelete = contactoService.deleteContacto(contactoEntity.getId_contacto());
+        ContactoEntity contactoDelete = contactoService.deleteContacto(contactoEntity.getRut());
         assertEquals(contactoEntity, contactoDelete);
-        assertNull(contactoService.findContactoById(contactoEntity.getId_contacto()));
+        assertNull(contactoService.findContactoById(contactoEntity.getRut()));
     }
     @Test
     void deleteContactoTestFalse(){
-        assertNull(contactoService.deleteContacto(-1));
+        assertNull(contactoService.deleteContacto("-1"));
     }
 }

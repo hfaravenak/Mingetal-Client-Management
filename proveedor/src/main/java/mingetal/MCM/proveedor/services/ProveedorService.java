@@ -1,5 +1,6 @@
 package mingetal.MCM.proveedor.services;
 
+import mingetal.MCM.proveedor.entities.ContactoEntity;
 import mingetal.MCM.proveedor.entities.ProveedorEntity;
 import mingetal.MCM.proveedor.repositories.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import java.util.List;
 public class ProveedorService {
     @Autowired
     ProveedorRepository proveedorRepository;
+
+    @Autowired
+    ContactoService contactoService;
 
     // Verificar si existe un proveedor con la misma empresa, rut o rubro
     public boolean existSupplier(ProveedorEntity proveedor) {
@@ -45,13 +49,34 @@ public class ProveedorService {
     }
 
     public ProveedorEntity findByRut(String rut) {
-        return proveedorRepository.findByRut(rut);
+        ProveedorEntity proveedor;
+        proveedor = proveedorRepository.findByRut1(rut);
+        if(proveedor==null){
+            proveedor = proveedorRepository.findByRut2(rut);
+            if(proveedor ==null){
+                proveedor = proveedorRepository.findByRut3(rut);
+            }
+        }
+        return proveedor;
     }
 
     // find by contacto
-    public ProveedorEntity findByContacto1(String contacto) {
-        return proveedorRepository.findByContacto1(contacto);
+    public ProveedorEntity findByContacto(String contacto) {
+        System.out.println(contacto);
+        ContactoEntity contactoEntity = contactoService.findContactoByNombre(contacto);
+        System.out.println(contactoEntity);
+        ProveedorEntity proveedor;
+        proveedor = proveedorRepository.findByRut1(contactoEntity.getRut());
+        if(proveedor==null){
+            proveedor = proveedorRepository.findByRut2(contactoEntity.getRut());
+            if(proveedor ==null){
+                proveedor = proveedorRepository.findByRut3(contactoEntity.getRut());
+            }
+        }
+        System.out.println(proveedor);
+        return proveedor;
     }
+
 
     // Update
     // Update empresa
