@@ -2,16 +2,25 @@ package mingetal.MCM.ordenesdecompra.service;
 
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraClienteEntity;
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
+import mingetal.MCM.ordenesdecompra.model.ProveedorEntity;
 import mingetal.MCM.ordenesdecompra.repository.OrdenesDeCompraProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OrdenesDeCompraProveedorService {
     @Autowired
     OrdenesDeCompraProveedorRepository ordenesDeCompraProveedorRepository;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     public boolean save(OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity){
         if(findById(ordenesDeCompraProveedorEntity.getId())==null){
@@ -27,6 +36,57 @@ public class OrdenesDeCompraProveedorService {
 
     public OrdenesDeCompraProveedorEntity findById(int id){
         return ordenesDeCompraProveedorRepository.findById(id);
+    }
+
+    public List<OrdenesDeCompraProveedorEntity> findByNameProveedor(String nombre){
+
+        ProveedorEntity response = restTemplate.exchange(
+                "http://localhost:8080/proveedor/nombre/"+nombre,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ProveedorEntity>() {}
+        ).getBody();
+
+        if(response==null){
+            return null;
+        }
+
+        return findByIdProveedor(response.getId_proveedor());
+    }
+
+    public List<OrdenesDeCompraProveedorEntity> findByRubro(String rubro){
+
+        List<ProveedorEntity> response = restTemplate.exchange(
+                "http://localhost:8080/proveedor/rubro/"+rubro,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ProveedorEntity>>() {}
+        ).getBody();
+
+        List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = new ArrayList<>();
+
+        for(ProveedorEntity proveedor:response){
+            ordenesDeCompraProveedorEntities.addAll(findByIdProveedor(proveedor.getId_proveedor()));
+        }
+
+        return ordenesDeCompraProveedorEntities;
+    }
+    public List<OrdenesDeCompraProveedorEntity> findByEmpresa(String empresa){
+
+        ProveedorEntity response = restTemplate.exchange(
+                "http://localhost:8080/proveedor/empresa/"+empresa,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ProveedorEntity>() {}
+        ).getBody();
+
+        List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = new ArrayList<>();
+
+        if(response==null){
+            return null;
+        }
+
+        return findByIdProveedor(response.getId_proveedor());
     }
 
     public  List<OrdenesDeCompraProveedorEntity> findByIdProveedor(int id_proveedor){
