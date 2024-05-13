@@ -1,116 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import HeaderComponents from "./Headers/HeaderComponents";
-import ClienteService from '../services/ClienteService'
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import styled from "styled-components";
 
 
+import clientes from "../images/cliente.png"
+import editar from "../images/editar.png"
+import OrdenesDeCompraService from '../services/OrdenesDeCompraService'
+
 function ClienteComponents() {
-    const initialState = {
-        rut: "",
-        nombre: "",
-        empresa: "",
+
+    const { cliente } = useParams();
+    const datos = JSON.parse(decodeURIComponent(cliente));
+
+    console.log(datos);
+    const navigate = useNavigate();
+    const [OC_ClienteEntity, setOC_ClienteEntity] = useState([]);
+
+
+    const nathing = () => {
+        navigate("");
     };
-    const [ClienteEntity, setClienteEntity] = useState([]);
-    const [input, setInput] = useState(initialState);
 
     useEffect(() => {
-        ClienteService.getClientes().then((res) => {
+        OrdenesDeCompraService.getOCByCliente(datos.rut).then((res) => {
             console.log("Response data Cliente:", res.data);
-            setClienteEntity(res.data);
+            setOC_ClienteEntity(res.data);
         });
     }, []);
 
-        
-    const changeRutHandler = event => {
-        setInput({ ...input, rut: event.target.value });
-    };
-    const changeNombreHandler = event => {
-        setInput({ ...input, nombre: event.target.value });
-    };
-    const changeEmpresaHandler = event => {
-        setInput({ ...input, empresa: event.target.value });
-    };
-
-    const buscarRut = (event) => {
-        ClienteService.getClienteByRut(input.rut).then((res) => {
-            console.log("Response data Cliente:", res.data);
-            if (Array.isArray(res.data)) {
-                setClienteEntity(res.data);
-            } else if(res.data==""){
-                setClienteEntity([]);
-            }else{
-                setClienteEntity([res.data]);
-            }
-        });
-    }
-    const buscarNombre = (event) => {
-        ClienteService.getClienteByNombre(input.nombre).then((res) => {
-            console.log("Response data Cliente:", res.data);
-            setClienteEntity(res.data);
-        });
-    }
-    const buscarEmpresa = (event) => {
-        ClienteService.getClienteByEmpresa(input.empresa).then((res) => {
-            console.log("Response data Cliente:", res.data);
-            setClienteEntity(res.data);
-        });
-    }
-
-    return(
-        <div style={{background: '#F0F0F0'}}>
+    return (
+        <div>
             <NavStyle>
-                <HeaderComponents/>
+                <HeaderComponents></HeaderComponents>
                 <div className="container">
                     <div className="container-1">
-                        <div className="inline-forms-container">
-                                <Form className="inline-form">
-                                    <Form.Group className="mb-3" controlId="rut" value = {input.rut} onChange={changeRutHandler}>
-                                        <Form.Label className="agregar">Rut:</Form.Label>
-                                        <Form.Control className="agregar" type="text" name="rut"/>
-                                    </Form.Group>
-                                    <Button className="boton" onClick={buscarRut}>Buscar</Button>
-                                </Form>
-                                <Form className="inline-form">
-                                    <Form.Group className="mb-3" controlId="nombre" value = {input.nombre} onChange={changeNombreHandler}>
-                                        <Form.Label className="agregar">Nombre:</Form.Label>
-                                        <Form.Control className="agregar" type="text" name="Nombre"/>
-                                    </Form.Group>
-                                    <Button className="boton" onClick={buscarNombre}>Buscar</Button>
-                                </Form>
-                                <Form className="inline-form">
-                                    <Form.Group className="mb-3" controlId="empresa" value = {input.empresa} onChange={changeEmpresaHandler}>
-                                        <Form.Label className="agregar">Empresa:</Form.Label>
-                                        <Form.Control className="agregar" type="text" name="empresa"/>
-                                    </Form.Group>
-                                    <Button className="boton" onClick={buscarEmpresa}>Buscar</Button>
-                                </Form>
+                        <div className="card" onClick={nathing}>
+                            <div className="contenedor-img">
+                                <img id="clientes" src={clientes} alt="clientes" />
                             </div>
+                            <div className="contenedor-informacion">
+                                <h2>{datos.nombre}</h2>
+                                <h3>rut: {datos.rut}</h3>
+                                <h3>correo: {datos.email}</h3>
+                                <h3>telefono: {datos.telefono}</h3>
+                            </div>
+                        </div>
                     </div>
-                    <div align="center" className="container-2">
-                        <h1><b> Listado de Cliente</b></h1>
+                    <div className="container-2">
+                    <h1><b> Ordenes de Compra</b></h1>
                         <table border="1" className="content-table">
                             <thead>
                                 <tr>
-                                    <th>RUT</th>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                    <th>Telefono</th>
-                                    <th>Empresa</th>
+                                    <th>Ref #</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Monto</th>
+                                    <th>Modo Pago</th>
                                     <th>Más información</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    ClienteEntity.map((estudiante) => (
-                                        <tr key= {estudiante.rut}>
-                                            <td> {estudiante.rut} </td>
-                                            <td> {estudiante.nombre} </td>
-                                            <td> {estudiante.email} </td>
-                                            <td> {estudiante.telefono} </td>
-                                            <td> {estudiante.empresa} </td>
-                                            <td style={{textAlign: 'center', verticalAlign: 'middle'}}>v</td>
+                                    OC_ClienteEntity.map((OC_Cliente) => (
+                                        <tr key= {OC_Cliente.id}>
+                                            <td> {OC_Cliente.id} </td>
+                                            <td> {OC_Cliente.fecha_solicitud} </td>
+                                            <td> {OC_Cliente.estado_pago} </td>
+                                            <td> {OC_Cliente.valor_pago} </td>
+                                            <td> {OC_Cliente.modo_pago} </td>
+                                            <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
+                                            <img id="editar" src={editar} alt="editar" onClick={() => nathing}/>
+                                            </td>
                                         </tr>
                                     ))
                                 }
@@ -122,7 +83,6 @@ function ClienteComponents() {
         </div>
     );
 }
-
 export default ClienteComponents;
 
 const NavStyle = styled.nav`
@@ -130,22 +90,28 @@ const NavStyle = styled.nav`
 /* Separacion de las partes */
 
 .container{
+    margin: 2%;
+    border: 1px solid gray;
+    background-color: #F0F0F0;
     display: flex;
     flex-direction: row;
     gap: 20px;
     height: 100%;
 }
 .container-1{
-    width: 10%;
+    height: 80%;
+    background-color: #F0F0F0;
+    width: 20%;
     flex-shrink: 0; /* Hace que el contenedor no se encoja */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
 }
 .container-2{
+    background-color: #F0F0F0;
     flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
-    max-height: calc(82.7vh - 0px); /* Asegura que el contenedor no exceda la altura de la ventana */
+    max-height: calc(0px + 74.5vh); /* Asegura que el contenedor no exceda la altura de la ventana */
 }
 
 /* Todo la parte de la tabla */
@@ -170,7 +136,7 @@ const NavStyle = styled.nav`
 }
 
 .content-table td{
-    font-size: 13px;
+    font-size: 18px;
 }
 
 .content-table tbody tr{
@@ -187,51 +153,47 @@ const NavStyle = styled.nav`
     color: #009879;
 }
 
-/* Todo lo relacionado al form del filtro */
-
-.inline-forms-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+td img {
+    width: 50%;
+    object-fit: cover;
 }
 
-.inline-form {
-    display: inline-block;
-}
-
-form {
-    max-width: 500px;
-    margin: 0 auto;
-}
-label {
-    display: block;
-    margin-bottom: 10px;
-    margin-left: 15px;
-    margin-top: 10px;
-}
-input[type="text"]{
-    background-color: rgb(201, 201, 201);
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 30px;
-    border: 1px solid #ccc;
-}
-button{
-    color: #fff;
-    margin-left: 5px;
-    margin-top: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 30px;
-    border: none;
+td img:hover{
     cursor: pointer;
 }
-.boton{
-    background-color: #D2712B;
+
+th:hover, td:hover{
+    cursor: default;
 }
-button:hover{
-    border: 2px solid #1b3039;
-    transform: scale(1.1);
+
+/* Por el lado de la información del cliente*/
+
+.card{
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.card .contenedor-img{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card .contenedor-informacion{
+    background-color: white;
+}
+
+.card .contenedor-informacion h3,
+.card .contenedor-informacion h2{
+    margin-left: 4%;
+}
+
+.card .contenedor-informacion h3{
+    font-size: 20px;
+    font-weight: normal;
+}
+
+/* Fuente de la letra*/
+
+td, th, h1, h2, h3{
+    font-family: 'Pacifico',serif;
 }
 `

@@ -26,6 +26,8 @@ class ClienteService {
         }
         return axios.get(CLIENTE_API_URL + "empresa/" + empresa);
     }
+
+    
 }
 
 export default new ClienteService()

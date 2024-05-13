@@ -1,8 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import "../styles/subir_excel.css";
-import "../styles/agregar.css";
 import HeaderComponents from "./Headers/HeaderComponents";
 import clientes from "../images/cliente.png"
 import proveedores from "../images/proveedores.png"

@@ -60,4 +60,8 @@ const NavStyle = styled.nav`
 .header .btn:hover{
     color: #00375E;
 }
+
+.logo:hover{
+    cursor: pointer;
+}
 `
