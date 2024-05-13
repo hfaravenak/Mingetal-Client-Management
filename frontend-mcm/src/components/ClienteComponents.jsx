@@ -48,13 +48,7 @@ function ClienteComponents() {
     const buscarNombre = (event) => {
         ClienteService.getClienteByNombre(input.nombre).then((res) => {
             console.log("Response data Cliente:", res.data);
-            if (Array.isArray(res.data)) {
-                setClienteEntity(res.data);
-            } else if(res.data==""){
-                setClienteEntity([]);
-            }else{
-                setClienteEntity([res.data]);
-            }
+            setClienteEntity(res.data);
         });
     }
     const buscarEmpresa = (event) => {
