@@ -34,10 +34,34 @@ function ClienteComponents() {
     };
 
     const buscarRut = (event) => {
+        ClienteService.getClienteByRut(input.rut).then((res) => {
+            console.log("Response data Cliente:", res.data);
+            if (Array.isArray(res.data)) {
+                setClienteEntity(res.data);
+            } else if(res.data==""){
+                setClienteEntity([]);
+            }else{
+                setClienteEntity([res.data]);
+            }
+        });
     }
     const buscarNombre = (event) => {
+        ClienteService.getClienteByNombre(input.nombre).then((res) => {
+            console.log("Response data Cliente:", res.data);
+            if (Array.isArray(res.data)) {
+                setClienteEntity(res.data);
+            } else if(res.data==""){
+                setClienteEntity([]);
+            }else{
+                setClienteEntity([res.data]);
+            }
+        });
     }
     const buscarEmpresa = (event) => {
+        ClienteService.getClienteByEmpresa(input.empresa).then((res) => {
+            console.log("Response data Cliente:", res.data);
+            setClienteEntity(res.data);
+        });
     }
 
     return(
