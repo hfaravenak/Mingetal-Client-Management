@@ -24,22 +24,13 @@ public class ClienteController {
     public ResponseEntity<List<ClienteEntity>> getAll(){
         List<ClienteEntity> clienteEntities=clienteService.findAll();
         System.out.println(clienteEntities);
-        if(clienteEntities != null){
-            return ResponseEntity.ok(clienteEntities);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(clienteEntities);
     }
 
     @GetMapping("/rut/{rut}")
     public ResponseEntity<ClienteEntity> getClienteByRut(@PathVariable("rut") String rut){
         ClienteEntity clienteEntity = clienteService.findByRut(rut);
         System.out.println(clienteEntity);
-        /*
-        if(clienteEntity != null){
-            return ResponseEntity.ok(clienteEntity);
-        }
-        return ResponseEntity.notFound().build();
-        */
         return ResponseEntity.ok(clienteEntity);
     }
 
@@ -47,12 +38,6 @@ public class ClienteController {
     public ResponseEntity<ClienteEntity> getClienteByNombre(@PathVariable("nombre") String nombre){
         ClienteEntity clienteEntity = clienteService.findByNombre(nombre);
         System.out.println(clienteEntity);
-        /*
-        if(clienteEntity != null){
-            return ResponseEntity.ok(clienteEntity);
-        }
-        return ResponseEntity.notFound().build();
-        */
         return ResponseEntity.ok(clienteEntity);
 
     }
@@ -61,40 +46,28 @@ public class ClienteController {
     public ResponseEntity<List<ClienteEntity>> getClienteByEmpresa(@PathVariable("empresa") String empresa){
         List<ClienteEntity> clienteEntities = clienteService.findByEmpresa(empresa);
         System.out.println(clienteEntities);
-        if(clienteEntities != null){
-            return ResponseEntity.ok(clienteEntities);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(clienteEntities);
     }
 
     @DeleteMapping("/delete-rut/{rut}")
     public ResponseEntity<ClienteEntity> deleteCliente(@PathVariable("rut") String rut){
         ClienteEntity clienteEntity = clienteService.delete(rut);
         System.out.println(clienteEntity);
-        if(clienteEntity != null){
-            return ResponseEntity.ok(clienteEntity);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(clienteEntity);
     }
 
     @DeleteMapping("/delete-nombre/{nombre}")
     public ResponseEntity<ClienteEntity> deleteClienteByNombre(@PathVariable("nombre") String nombre){
         ClienteEntity clienteEntity = clienteService.deleteByNombre(nombre);
         System.out.println(clienteEntity);
-        if(clienteEntity != null){
-            return ResponseEntity.ok(clienteEntity);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(clienteEntity);
     }
 
     @PutMapping("/update")
     public ResponseEntity<ClienteEntity> updateCliente(@RequestBody ClienteEntity clienteEntity){
         ClienteEntity clienteEntity1 = clienteService.update(clienteEntity);
         System.out.println(clienteEntity1);
-        if(clienteEntity1 != null){
-            return ResponseEntity.ok(clienteEntity1);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(clienteEntity1);
     }
 
 }
