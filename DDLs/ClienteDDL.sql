@@ -1,17 +1,11 @@
-CREATE DATABASE cliente
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    CONNECTION LIMIT = -1;
-
 create table public.cliente
 (
-    rut      varchar(255) not null
+    rut      varchar(14) not null
         primary key,
-    email    varchar(255),
-    empresa  varchar(255),
-    nombre   varchar(255),
-    telefono varchar(255)
+    email    varchar(100),
+    empresa  varchar(30),
+    nombre   varchar(100),
+    telefono varchar(13)
 );
 
 alter table public.cliente
@@ -21,12 +15,11 @@ create table public.cotizacion
 (
     id_cotizacion serial
         primary key,
-    estado        varchar(255),
+    estado        varchar(10),
     fecha         date,
-    pedido        varchar(255),
-    rut_cliente   varchar(255)
+    pedido        varchar(100),
+    rut_cliente   varchar(13)
 );
 
 alter table public.cotizacion
     owner to postgres;
-
