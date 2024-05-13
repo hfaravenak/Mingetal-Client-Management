@@ -21,11 +21,13 @@ public class ListaProductosEntity {
     private int id_producto;
     private int id_OC_proveedor;
     private int cantidad;
+    private int valor_pago;
 
-    public ListaProductosEntity(int id_OC_cliente, int id_producto, int id_OC_proveedor, int cantidad) {
+    public ListaProductosEntity(int id_OC_cliente, int id_producto, int id_OC_proveedor, int cantidad, int valor_pago) {
         this.id_OC_cliente = id_OC_cliente;
         this.id_producto = id_producto;
         this.id_OC_proveedor = id_OC_proveedor;
         this.cantidad = cantidad;
+        this.valor_pago = valor_pago;
     }
 }

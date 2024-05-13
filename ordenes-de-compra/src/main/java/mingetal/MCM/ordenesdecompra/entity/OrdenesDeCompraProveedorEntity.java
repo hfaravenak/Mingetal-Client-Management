@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -19,6 +20,7 @@ public class OrdenesDeCompraProveedorEntity {
     @NotNull
     private int id;
     private int id_proveedor;
+    @Size(max=10, message = "El tamaño máximo del campo estado_pago es 10")
     private String estado_pago; //Pagado | No Pagado
     private LocalDate fecha_pago; // yyyy-mm-dd
     private LocalDate fecha_entrega; //yyyy-mm-dd

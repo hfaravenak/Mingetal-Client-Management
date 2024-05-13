@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "proveedor")
@@ -16,10 +17,15 @@ public class ProveedorEntity {
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_proveedor;
+    @Size(max=30, message = "El tamaño máximo del campo empresa es 30")
     private String empresa;
+    @Size(max=30, message = "El tamaño máximo del campo rubro es 30")
     private String rubro;
+    @Size(max=13, message = "El tamaño máximo del campo id_contacto es 13")
     private String id_contacto;
+    @Size(max=13, message = "El tamaño máximo del campo id_contacto2 es 13")
     private String id_contacto2;
+    @Size(max=13, message = "El tamaño máximo del campo id_contacto3 es 13")
     private String id_contacto3;
     private String comentario;
 

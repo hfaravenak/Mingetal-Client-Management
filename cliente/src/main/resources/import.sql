@@ -1,5 +1,5 @@
 -- TABLA CLIENTE --
-insert into cliente (rut, nombre, email, telefono, empresa) values ('20.432.875-3', 'Zahira Rodriguez', 'zahira@gmail.com', '+569 976235786', 'Watts');
+insert into cliente (rut, nombre, email, telefono, empresa) values ('20.432.875-3', 'Zahira Rodriguez', 'zahira@gmail.com', '+569 97623578', 'Watts');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('19.356.625-4', 'Francisco Delgado', 'francisco@gmail.com', '+569 99383899', 'Mingetal');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('21.422.534-2', 'Hernan Fetuccini', 'hernan@gmail.com', '+569 74504042', 'Mingetal');
 insert into cliente (rut, nombre, email, telefono, empresa) values ('12.130.349-1', 'Aimee Kowalski', 'akowalski0@bizjournals.com', '+569 24315825', 'Yacero');
