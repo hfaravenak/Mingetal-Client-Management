@@ -90,11 +90,11 @@ public class ClienteApplicationTests {
 
         clienteService.save(cliente);
 
-        ClienteEntity clienteEncontrado = clienteService.findByNombre("Juan Perez");
-        assertNotNull(clienteEncontrado);
-        assertEquals("Juan Perez", clienteEncontrado.getNombre());
+        List<ClienteEntity> clienteEncontrado = clienteService.findByNombre("Juan Perez");
+        assertFalse(clienteEncontrado.isEmpty());
+        assertEquals("Juan Perez", clienteEncontrado.get(0).getNombre());
 
-        clienteService.deleteByNombre(clienteEncontrado.getNombre());
+        clienteService.deleteByNombre(clienteEncontrado.get(0).getNombre());
 
     }
 

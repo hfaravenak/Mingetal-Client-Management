@@ -5,6 +5,7 @@ import mingetal.MCM.cliente.Repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,7 +19,16 @@ public class ClienteService {
 
     public ClienteEntity findByRut(String rut) { return clienteRepository.findByRut(rut); }
 
-    public ClienteEntity findByNombre(String nombre) { return clienteRepository.findByNombre(nombre); }
+    public List<ClienteEntity> findByNombre(String nombre) {
+        List<ClienteEntity> clienteEntities = findAll();
+        List<ClienteEntity> resultados = new ArrayList<>();
+        for (ClienteEntity nombreDeLista : clienteEntities) {
+            if (nombreDeLista.getNombre().contains(nombre)) {
+                resultados.add(nombreDeLista);
+            }
+        }
+        return resultados;
+    }
 
     public List<ClienteEntity> findByEmpresa(String empresa) { return clienteRepository.findByEmpresa(empresa); }
 
@@ -29,7 +39,7 @@ public class ClienteService {
     }
 
     public ClienteEntity deleteByNombre(String nombre) {
-        ClienteEntity clienteEntity = findByNombre(nombre);
+        ClienteEntity clienteEntity = findByNombre(nombre).get(0);
         clienteRepository.delete(clienteEntity);
         return clienteEntity;
     }
