@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import "../styles/listas.css";
 import "../styles/subir_excel.css";
 import "../styles/agregar.css";
 import HeaderComponents from "./Headers/HeaderComponents";

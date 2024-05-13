@@ -38,7 +38,7 @@ const NavStyle = styled.nav`
     display: flex;
     justify-content: space-between; /* Para separar los elementos a los extremos */
     padding: 10px;
-    background-color: #F0F0F0;
+    background-color: #61c9f9;
     color: white;
 }
 .header_izq, .header_der{
@@ -49,14 +49,15 @@ const NavStyle = styled.nav`
 .header .btn{
     display: inline-block;
     padding: 10px 20px;
-    color: gray;
+    color: #EBFCFF;
     text-decoration: none; /* Elimina la subrayado del enlace */
     margin-right: 10px;
     font-family: 'Pacifico',serif;
+    font-weight: bold;
     font-size: 20px;
 }
 
 .header .btn:hover{
-    color: #474554;
+    color: #00375E;
 }
 `
