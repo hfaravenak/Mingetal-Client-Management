@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
@@ -7,7 +7,6 @@ import styled from "styled-components";
 import editar from "../images/editar.png"
 import HeaderComponents from "./Headers/HeaderComponents";
 import ClienteService from '../services/ClienteService'
-import ClienteComponents from "./ClienteComponents"
 
 function ListClienteComponents() {
     const initialState = {
@@ -36,8 +35,7 @@ function ListClienteComponents() {
     const changeEmpresaHandler = event => {
         setInput({ ...input, empresa: event.target.value });
     };
-
-    const buscarRut = (event) => {
+    const buscarRut = () => {
         ClienteService.getClienteByRut(input.rut).then((res) => {
             console.log("Response data Cliente:", res.data);
             if (Array.isArray(res.data)) {
@@ -49,18 +47,41 @@ function ListClienteComponents() {
             }
         });
     }
-    const buscarNombre = (event) => {
+    const buscarNombre = () => {
         ClienteService.getClienteByNombre(input.nombre).then((res) => {
             console.log("Response data Cliente:", res.data);
             setClienteEntity(res.data);
         });
     }
-    const buscarEmpresa = (event) => {
+    const buscarEmpresa = () => {
         ClienteService.getClienteByEmpresa(input.empresa).then((res) => {
             console.log("Response data Cliente:", res.data);
             setClienteEntity(res.data);
         });
     }
+
+    const crearCliente = () => {
+        navigate("crear");
+    }
+
+    const handleKeyPressRut = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Evita que el formulario se envíe si está dentro de un <form>
+            buscarRut(); // Llama a la función que deseas ejecutar
+        }
+    };
+    const handleKeyPressNombre = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Evita que el formulario se envíe si está dentro de un <form>
+            buscarNombre(); // Llama a la función que deseas ejecutar
+        }
+    };
+    const handleKeyPressEmpresa = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Evita que el formulario se envíe si está dentro de un <form>
+            buscarEmpresa(); // Llama a la función que deseas ejecutar
+        }
+    };
 
     const ChangeViendoCliente = (rut, nombre, email, empresa, telefono) => {
         console.log(rut, nombre, email, telefono, empresa);
@@ -83,28 +104,31 @@ function ListClienteComponents() {
                 <div className="container">
                     <div className="container-1">
                         <div className="inline-forms-container">
-                                <Form className="inline-form">
-                                    <Form.Group className="mb-3" controlId="rut" value = {input.rut} onChange={changeRutHandler}>
-                                        <Form.Label className="agregar">Rut:</Form.Label>
-                                        <Form.Control className="agregar" type="text" name="rut" placeholder="12.345.678-9"/>
-                                    </Form.Group>
-                                    <Button className="boton" onClick={buscarRut}>Buscar</Button>
-                                </Form>
-                                <Form className="inline-form">
-                                    <Form.Group className="mb-3" controlId="nombre" value = {input.nombre} onChange={changeNombreHandler}>
-                                        <Form.Label className="agregar">Nombre:</Form.Label>
-                                        <Form.Control className="agregar" type="text" name="Nombre" placeholder="Juan Perez"/>
-                                    </Form.Group>
-                                    <Button className="boton" onClick={buscarNombre}>Buscar</Button>
-                                </Form>
-                                <Form className="inline-form">
-                                    <Form.Group className="mb-3" controlId="empresa" value = {input.empresa} onChange={changeEmpresaHandler}>
-                                        <Form.Label className="agregar">Empresa:</Form.Label>
-                                        <Form.Control className="agregar" type="text" name="empresa" placeholder="Nombre Generico"/>
-                                    </Form.Group>
-                                    <Button className="boton" onClick={buscarEmpresa}>Buscar</Button>
-                                </Form>
-                            </div>
+                            <Form className="inline-form">
+                                <Form.Group className="mb-3" controlId="rut" value = {input.rut} onChange={changeRutHandler}>
+                                    <Form.Label className="agregar">Rut del Cliente:</Form.Label>
+                                    <Form.Control className="agregar" type="text" name="rut" placeholder="12.345.678-9" onKeyPress={handleKeyPressRut}/>
+                                </Form.Group>
+                                <Button className="boton" onClick={buscarRut}>Buscar</Button>
+                            </Form>
+                            <Form className="inline-form">
+                                <Form.Group className="mb-3" controlId="nombre" value = {input.nombre} onChange={changeNombreHandler}>
+                                    <Form.Label className="agregar">Nombre Cliente:</Form.Label>
+                                    <Form.Control className="agregar" type="text" name="Nombre" placeholder="Juan Perez" onKeyPress={handleKeyPressNombre}/>
+                                </Form.Group>
+                                <Button className="boton" onClick={buscarNombre}>Buscar</Button>
+                            </Form>
+                            <Form className="inline-form">
+                                <Form.Group className="mb-3" controlId="empresa" value = {input.empresa} onChange={changeEmpresaHandler} >
+                                    <Form.Label className="agregar">Empresa del Cliente:</Form.Label>
+                                    <Form.Control className="agregar" type="text" name="empresa" placeholder="Nombre Generico" onKeyPress={handleKeyPressEmpresa}/>
+                                </Form.Group>
+                                <Button className="boton" onClick={buscarEmpresa}>Buscar</Button>
+                            </Form>
+                        </div>
+                        <div className="btn-inf">
+                            <Button className="boton" onClick={crearCliente}>Ingresar Cliente</Button>
+                        </div>
                     </div>
                     <div align="center" className="container-2">
                         <h1><b> Listado de Cliente</b></h1>
@@ -164,6 +188,9 @@ const NavStyle = styled.nav`
     flex-shrink: 0; /* Hace que el contenedor no se encoja */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+    display: flex;
+    flex-direction: column;
+    height: 59vh;
 }
 .container-2{
     background-color: #F0F0F0;
@@ -228,6 +255,7 @@ th:hover, td:hover{
 /* Todo lo relacionado al form del filtro */
 
 .inline-forms-container {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -267,6 +295,16 @@ button{
 }
 .boton{
     background-color: #D2712B;
+}
+
+/* Apartado del boton de crear */
+
+.btn-inf .boton{
+    font-size: 20px;
+}
+
+.boton:hover{
+    border: 1px solid black;
 }
 
 /* Fuente de la letra*/
