@@ -238,10 +238,11 @@ function ClienteComponents() {
                                 <thead>
                                     <tr>
                                         <th>Ref #</th>
-                                        <th>Fecha</th>
-                                        <th>Estado</th>
-                                        <th>Monto</th>
-                                        <th>Modo Pago</th>
+                                        <th>Estado del Pago</th>
+                                        <th>Fecha del Pago</th>
+                                        <th>Fecha de la Solicitud</th>
+                                        <th>Valor del Pago</th>
+                                        <th>Estado de la Entrega</th>
                                         <th>Más información</th>
                                     </tr>
                                 </thead>
@@ -249,11 +250,12 @@ function ClienteComponents() {
                                     {
                                         OC_ClienteEntity.map((OC_Cliente) => (
                                             <tr key= {OC_Cliente.id}>
-                                                <td> {OC_Cliente.id} </td>
-                                                <td> {OC_Cliente.fecha_solicitud} </td>
+                                                <td> #{OC_Cliente.id} </td>
                                                 <td> {OC_Cliente.estado_pago} </td>
+                                                <td> {OC_Cliente.fecha_pago} </td>
+                                                <td> {OC_Cliente.fecha_solicitud} </td>
                                                 <td> {OC_Cliente.valor_pago} </td>
-                                                <td> {OC_Cliente.modo_pago} </td>
+                                                <td> {OC_Cliente.estado_entrega} </td>
                                                 <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
                                                 <img id="editar" src={editar} alt="editar" onClick={() => nathing}/>
                                                 </td>

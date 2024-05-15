@@ -4,13 +4,13 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 import styled from "styled-components";
-import editar from "../../images/editar.png"
-import HeaderComponents from "../Headers/HeaderComponents";
-import OrdenesDeCompraService from "../../services/OrdenesDeCompraClienteService";
-import OrdenesDeCompraClienteService from "../../services/OrdenesDeCompraClienteService";
-import ClienteService from "../../services/ClienteService";
+import editar from "../../../images/editar.png"
+import HeaderComponents from "../../Headers/HeaderComponents";
+import OrdenesDeCompraService from "../../../services/OrdenesDeCompraClienteService";
+import OrdenesDeCompraClienteService from "../../../services/OrdenesDeCompraClienteService";
+import ClienteService from "../../../services/ClienteService";
 
-function ListOCComponents() {
+function ListOCClienteComponents() {
     const initialState = {
         id: "",
         nombre: "",
@@ -41,11 +41,11 @@ function ListOCComponents() {
         setInput({ ...input, empresa: event.target.value });
     };
 
-    const busquedaNombre = (rut) => {
+    const busquedaCliente = (rut) => {
         let variable = "";
         ClienteEntity.forEach(cliente => {
             if(cliente.rut===rut){
-                variable=cliente.nombre;
+                variable=cliente;
             }
         });
         return variable;
@@ -97,19 +97,29 @@ function ListOCComponents() {
         }
     };
 
-    const ChangeViendoCliente = (rut, nombre, email, empresa, telefono) => {
-        console.log(rut, nombre, email, telefono, empresa);
+    const ChangeViendoCliente = (todoElDato) => {
         const datos = {
-            rut: rut,
-            nombre: nombre,
-            email: email,
-            empresa: empresa,
-            telefono: telefono
+            id: todoElDato.id,
+            id_cliente: todoElDato.id_cliente,
+            estado_factura: todoElDato.estado_factura,
+            estado_pago: todoElDato.estado_pago,
+            valor_pago: todoElDato.valor_pago,
+            fecha_pago: todoElDato.fecha_pago,
+            fecha_solicitud: todoElDato.fecha_solicitud,
+            estado_entrega: todoElDato.estado_entrega,
+            modo_pago: todoElDato.modo_pago,
+            fecha_inicio_pago: todoElDato.fecha_inicio_pago,
+            tiempo_de_pago: todoElDato.tiempo_de_pago,
+            numero_cheque: todoElDato.numero_cheque,
+            numero_factura: todoElDato.numero_factura,
+            empresa_despacho: todoElDato.empresa_despacho,
+            nombre: busquedaCliente(todoElDato.id_cliente),
+
         };
         const datosComoTexto = JSON.stringify(datos);
         console.log(datosComoTexto)
         console.log(datos)
-        navigate(`/clientes/mas info/${encodeURIComponent(datosComoTexto)}`);
+        navigate(`/oc/cliente/mas info/${encodeURIComponent(datosComoTexto)}`);
     };
 
     return(
@@ -150,11 +160,13 @@ function ListOCComponents() {
                         <table border="1" className="content-table">
                             <thead>
                                 <tr>
-                                    <th>id</th>
+                                    <th>Ref #</th>
                                     <th>Nombre</th>
-                                    <th>Estado Pago</th>
-                                    <th>Fecha Solicitud</th>
+                                    <th>Estado del Pago</th>
+                                    <th>Fecha del Pago</th>
+                                    <th>Fecha de la Solicitud</th>
                                     <th>Valor del Pago</th>
+                                    <th>Estado de la Entrega</th>
                                     <th>Más información</th>
                                 </tr>
                             </thead>
@@ -162,11 +174,13 @@ function ListOCComponents() {
                                 {
                                     OCClienteEntity.map((OCCliente) => (
                                         <tr key= {OCCliente.id}>
-                                            <td> {OCCliente.id} </td>
-                                            <td>{busquedaNombre(OCCliente.id_cliente)}</td>
+                                            <td> #{OCCliente.id} </td>
+                                            <td>{busquedaCliente(OCCliente.id_cliente).nombre}</td>
                                             <td> {OCCliente.estado_pago} </td>
+                                            <td> {OCCliente.fecha_pago} </td>
                                             <td> {OCCliente.fecha_solicitud} </td>
                                             <td> {OCCliente.valor_pago} </td>
+                                            <td> {OCCliente.estado_entrega} </td>
                                             <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
                                             <img id="editar" src={editar} alt="editar" onClick={() => ChangeViendoCliente(OCCliente)}/>
                                             </td>
@@ -182,7 +196,7 @@ function ListOCComponents() {
     );   
 }
 
-export default ListOCComponents;
+export default ListOCClienteComponents;
 
 const NavStyle = styled.nav`
 

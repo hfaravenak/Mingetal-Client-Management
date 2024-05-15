@@ -17,7 +17,7 @@ function MainComponents() {
     };
 
     const handleClickOC = () => {
-        navigate("/oc");
+        navigate("/oc/cliente");
     };
     const nathing = () => {
         navigate("/");
