@@ -29,8 +29,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         boolean bool = ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -51,8 +51,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -74,8 +74,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -100,8 +100,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -128,8 +128,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -156,8 +156,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -185,8 +185,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -210,8 +210,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -238,8 +238,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -262,8 +262,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -290,8 +290,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -316,8 +316,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -344,8 +344,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -370,8 +370,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -396,8 +396,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -422,8 +422,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
@@ -451,8 +451,8 @@ public class OrdenesDeCompraClienteServiceTest {
                 "Efectivo",
                 LocalDate.parse("2024-05-02"),
                 30,
-                15888226,
-                12255,
+                "15888226",
+                "12255",
                 "SoyYoUnaPrueba"
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);

@@ -34,12 +34,26 @@ public class OrdenesDeCompraClienteEntity {
         private String modo_pago; //Transferencia, Efectivo, Cheque
         private LocalDate fecha_inicio_pago; // yyyy-mm-dd
         private int tiempo_de_pago;
-        private int numero_cheque;
-        private int numero_factura;
+        @Size(max=30, message = "El tamaño máximo del campo empresa_despacho es 30")
+        private String numero_cheque;
+        @Size(max=30, message = "El tamaño máximo del campo empresa_despacho es 30")
+        private String numero_factura;
         @Size(max=30, message = "El tamaño máximo del campo empresa_despacho es 30")
         private String empresa_despacho;
 
-        public OrdenesDeCompraClienteEntity(String id_cliente, String estado_factura, String estado_pago, int valor_pago, LocalDate fecha_pago, LocalDate fecha_solicitud, String estado_entrega, String modo_pago, LocalDate fecha_inicio_pago, int tiempo_de_pago, int numero_cheque, int numero_factura, String empresa_despacho) {
+        public OrdenesDeCompraClienteEntity(String id_cliente,
+                                            String estado_factura,
+                                            String estado_pago,
+                                            int valor_pago,
+                                            LocalDate fecha_pago,
+                                            LocalDate fecha_solicitud,
+                                            String estado_entrega,
+                                            String modo_pago,
+                                            LocalDate fecha_inicio_pago,
+                                            int tiempo_de_pago,
+                                            String numero_cheque,
+                                            String numero_factura,
+                                            String empresa_despacho) {
                 this.id_cliente = id_cliente;
                 this.estado_factura = estado_factura;
                 this.estado_pago = estado_pago;

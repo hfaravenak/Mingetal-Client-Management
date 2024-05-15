@@ -192,4 +192,11 @@ public class OrdenesDeCompraClienteService {
         ordenesDeCompraClienteEntity.setFecha_pago(fecha_pago);
         return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
     }
+
+    public OrdenesDeCompraClienteEntity updateOCCliente(OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity){
+        if(ordenesDeCompraClienteEntity!=null){
+            return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
+        }
+        return null;
+    }
 }

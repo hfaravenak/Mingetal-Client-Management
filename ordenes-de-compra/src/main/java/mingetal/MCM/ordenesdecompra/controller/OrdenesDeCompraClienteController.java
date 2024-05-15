@@ -95,4 +95,9 @@ public class OrdenesDeCompraClienteController {
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = ordenesDeCompraClienteService.updateOCClienteByFechaPago(id, fecha_pago);
         return ResponseEntity.ok(ordenesDeCompraClienteEntity);
     }
+    @PutMapping("/update")
+    public ResponseEntity<OrdenesDeCompraClienteEntity> updateOCCliente(@RequestBody OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity){
+        OrdenesDeCompraClienteEntity newOrdenesDeCompraClienteEntity = ordenesDeCompraClienteService.updateOCCliente(ordenesDeCompraClienteEntity);
+        return ResponseEntity.ok(newOrdenesDeCompraClienteEntity);
+    }
 }
