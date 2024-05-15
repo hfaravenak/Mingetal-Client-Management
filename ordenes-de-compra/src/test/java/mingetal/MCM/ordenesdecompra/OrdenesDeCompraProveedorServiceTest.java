@@ -23,6 +23,7 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
                 "b55c2214",
                 500
         );
@@ -38,6 +39,7 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
                 "b55c2214",
                 500
         );
@@ -54,6 +56,7 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
                 "b55c2214",
                 500
         );
@@ -73,6 +76,7 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
                 "b55c2214",
                 500
         );
@@ -94,6 +98,7 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
                 "b55c2214",
                 500
         );
@@ -115,6 +120,7 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
                 "b55c2214",
                 500
         );
@@ -132,6 +138,7 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
                 "b55c2214",
                 500
         );

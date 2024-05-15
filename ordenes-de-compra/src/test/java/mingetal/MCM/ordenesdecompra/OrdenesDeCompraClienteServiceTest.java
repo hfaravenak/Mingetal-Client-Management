@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.validation.constraints.AssertTrue;
 import java.time.LocalDate;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +19,7 @@ public class OrdenesDeCompraClienteServiceTest {
     void guardarOCClienteTestTrue(){
 
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "No Emitida",
                 "No Pagado",
                 100000,
@@ -42,7 +41,7 @@ public class OrdenesDeCompraClienteServiceTest {
     void guardarOCClienteTestFalse(){
 
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "No Emitida",
                 "No Pagado",
                 100000,
@@ -65,7 +64,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void deleteOCClienteTestTrue(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "No Emitida",
                 "No Pagado",
                 100000,
@@ -91,7 +90,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void findByIdTestTrue(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "No Emitida",
                 "No Pagado",
                 100000,
@@ -119,7 +118,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void findByIdClienteTestTrue(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "No Emitida",
                 "No Pagado",
                 100000,
@@ -135,19 +134,48 @@ public class OrdenesDeCompraClienteServiceTest {
         );
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
 
-        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByIdCliente(-1);
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByIdCliente(ordenesDeCompraClienteEntity.getId_cliente());
         assertFalse(ordenesDeCompraClienteEntities.isEmpty());
         ordenesDeCompraClienteService.deleteOCCliente(ordenesDeCompraClienteEntity.getId());
     }
     @Test
     void findByIdClienteTestFalse(){
-        assertTrue(ordenesDeCompraClienteService.findByIdCliente(101).isEmpty());
+        assertTrue(ordenesDeCompraClienteService.findByIdCliente("-2").isEmpty());
     }
+
+    @Test
+    void findByNameClienteTestTrue(){
+        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
+                "94.456.245-9",
+                "No Emitida",
+                "No Pagado",
+                100000,
+                LocalDate.parse("2024-05-25"),
+                LocalDate.parse("2024-05-02"),
+                "No Entregado",
+                "Efectivo",
+                LocalDate.parse("2024-05-02"),
+                30,
+                15888226,
+                12255,
+                "SoyYoUnaPrueba"
+        );
+        ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
+
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByNameCliente("Jonathan Tilberry");
+        assertFalse(ordenesDeCompraClienteEntities.isEmpty());
+        ordenesDeCompraClienteService.deleteOCCliente(ordenesDeCompraClienteEntity.getId());
+    }
+    @Test
+    void findByNameClienteTestFalse(){
+        assertTrue(ordenesDeCompraClienteService.findByNameCliente("Jonathan Tilberry").isEmpty());
+    }
+
 
     @Test
     void updateOCClienteByEstadoFacturaTestTrue(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "No Emitida",
                 "No Pagado",
                 100000,
@@ -172,7 +200,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void updateOCClienteByEstadoFacturaTestFalseYaEmitida(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "Emitida",
                 "No Pagado",
                 100000,
@@ -200,7 +228,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void updateOCClienteByEstadoPagoTestTrue(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "Emitida",
                 "No Pagado",
                 100000,
@@ -224,7 +252,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void updateOCClienteByEstadoPagoTestFalseYaPagada(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "Emitida",
                 "Pagado",
                 100000,
@@ -252,7 +280,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void updateOCClienteByEstadoEntregaTestTrue(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "Emitida",
                 "Pagado",
                 100000,
@@ -278,7 +306,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void updateOCClienteByEstadoEntregaTestFalseYaEntregada(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "Emitida",
                 "Pagado",
                 100000,
@@ -306,7 +334,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void updateOCClienteByModoPagoTestTrue_1(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "Emitida",
                 "Pagado",
                 100000,
@@ -332,7 +360,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void updateOCClienteByModoPagoTestTrue_2(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "Emitida",
                 "Pagado",
                 100000,
@@ -358,7 +386,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void updateOCClienteByModoPagoTestTrue_3(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "Emitida",
                 "Pagado",
                 100000,
@@ -384,7 +412,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void updateOCClienteByModoPagoTestTrue_otro(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "Emitida",
                 "Pagado",
                 100000,
@@ -413,7 +441,7 @@ public class OrdenesDeCompraClienteServiceTest {
     @Test
     void updateOCClienteByFechaPagoTestTrue(){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = new OrdenesDeCompraClienteEntity(
-                -1,
+                "-1",
                 "Emitida",
                 "Pagado",
                 100000,

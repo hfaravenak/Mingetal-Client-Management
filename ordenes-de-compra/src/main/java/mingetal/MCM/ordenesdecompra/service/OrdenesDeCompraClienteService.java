@@ -1,6 +1,7 @@
 package mingetal.MCM.ordenesdecompra.service;
 
 import javassist.expr.NewArray;
+import mingetal.MCM.ordenesdecompra.entity.ListaProductosEntity;
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraClienteEntity;
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.ordenesdecompra.model.ClienteEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -34,7 +37,9 @@ public class OrdenesDeCompraClienteService {
     }
 
     public List<OrdenesDeCompraClienteEntity> findAll(){
-        return ordenesDeCompraClienteRepository.findAll();
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findAll();
+        Collections.sort(ordenesDeCompraClienteEntities, Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
+        return ordenesDeCompraClienteEntities;
     }
 
     public OrdenesDeCompraClienteEntity findById(int id){
@@ -77,6 +82,20 @@ public class OrdenesDeCompraClienteService {
 
         System.out.println(ordenesDeCompraClienteEntities);
 
+
+        return ordenesDeCompraClienteEntities;
+    }
+
+    public List<OrdenesDeCompraClienteEntity> findByProductosCliente(String nombreProducto){
+
+        ListaProductosService listaProductosService = new ListaProductosService();
+        List<ListaProductosEntity> listaProductosEntities = listaProductosService.findByNameProducto(nombreProducto);
+
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = new ArrayList<>();
+
+        for(ListaProductosEntity list:listaProductosEntities){
+            ordenesDeCompraClienteEntities.add(findById(list.getId_OC_cliente()));
+        }
 
         return ordenesDeCompraClienteEntities;
     }
