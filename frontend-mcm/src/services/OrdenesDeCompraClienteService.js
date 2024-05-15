@@ -30,7 +30,9 @@ class OrdenesDeCompraService {
         }
         return axios.get(OC_API_URL+"cliente/empresa/"+empresa);
     }
-
+    putOCCliente(OCCliente){
+        return axios.put(OC_API_URL+"cliente/update", OCCliente)
+    }
     
 }
 

@@ -50,7 +50,20 @@ function ListOCClienteComponents() {
         });
         return variable;
     };
-    
+    const modificacionFecha = (fechaOriginal) => {  
+        const partesFecha = fechaOriginal.split("-");
+
+        // Crea un nuevo objeto Date con el formato "yyyy-mm-dd"
+        const fecha = new Date(partesFecha[0], partesFecha[1] - 1, partesFecha[2]);
+
+        // Formatea la fecha en el formato deseado "dd-mm-yyyy"
+        const dia = fecha.getDate().toString().padStart(2, "0");
+        const mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
+        const anio = fecha.getFullYear().toString();
+
+        const fechaSalida = `${dia}-${mes}-${anio}`;
+        return fechaSalida;
+    }
 
     const buscarId = () => {
         OrdenesDeCompraClienteService.getOCClienteById(input.id).then((res) => {
@@ -98,7 +111,7 @@ function ListOCClienteComponents() {
     };
 
     const ChangeViendoCliente = (todoElDato) => {
-        const datos = {
+        let datos = {
             id: todoElDato.id,
             id_cliente: todoElDato.id_cliente,
             estado_factura: todoElDato.estado_factura,
@@ -113,7 +126,7 @@ function ListOCClienteComponents() {
             numero_cheque: todoElDato.numero_cheque,
             numero_factura: todoElDato.numero_factura,
             empresa_despacho: todoElDato.empresa_despacho,
-            nombre: busquedaCliente(todoElDato.id_cliente),
+            cliente: busquedaCliente(todoElDato.id_cliente),
 
         };
         const datosComoTexto = JSON.stringify(datos);
@@ -177,8 +190,8 @@ function ListOCClienteComponents() {
                                             <td> #{OCCliente.id} </td>
                                             <td>{busquedaCliente(OCCliente.id_cliente).nombre}</td>
                                             <td> {OCCliente.estado_pago} </td>
-                                            <td> {OCCliente.fecha_pago} </td>
-                                            <td> {OCCliente.fecha_solicitud} </td>
+                                            <td> {modificacionFecha(OCCliente.fecha_pago)} </td>
+                                            <td> {modificacionFecha(OCCliente.fecha_solicitud)} </td>
                                             <td> {OCCliente.valor_pago} </td>
                                             <td> {OCCliente.estado_entrega} </td>
                                             <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
