@@ -27,7 +27,6 @@ function ListOCComponents() {
             setOCClienteEntity(res.data);
         });
         ClienteService.getClientes().then((res) => {
-            console.log(res.data);
             setClienteEntity(res.data);
         });
     }, []);
@@ -49,14 +48,12 @@ function ListOCComponents() {
                 variable=cliente.nombre;
             }
         });
-        console.log("rut= "+rut+"  variable= "+variable);
         return variable;
     };
     
 
     const buscarId = () => {
         OrdenesDeCompraClienteService.getOCClienteById(input.id).then((res) => {
-            console.log("Response data OC-CLiente:", res.data);
             if (Array.isArray(res.data)) {
                 setOCClienteEntity(res.data);
             } else if(res.data===""){
@@ -67,11 +64,17 @@ function ListOCComponents() {
         });
     }
     const buscarNombre = () => {
+        OrdenesDeCompraClienteService.getOCClienteByNombre(input.nombre).then((res) => {
+            setOCClienteEntity(res.data);
+        });
     }
     const buscarEmpresa = () => {
+        OrdenesDeCompraClienteService.getOCClienteByEmpresa(input.empresa).then((res) => {
+            setOCClienteEntity(res.data);
+        });
     }
 
-    const crearCliente = () => {
+    const crearOCCliente = () => {
         navigate("crear");
     }
 
@@ -119,7 +122,7 @@ function ListOCComponents() {
                             <Form className="inline-form">
                                 <Form.Group className="mb-3" controlId="id" value = {input.id} onChange={changeIdHandler}>
                                     <Form.Label className="agregar">Id de OC:</Form.Label>
-                                    <Form.Control className="agregar" type="text" name="id" placeholder="2044111" onKeyPress={handleKeyPressId}/>
+                                    <Form.Control className="agregar" type="number" name="id" placeholder="2044111" onKeyPress={handleKeyPressId}/>
                                 </Form.Group>
                                 <Button className="boton" onClick={buscarId}>Buscar</Button>
                             </Form>
@@ -139,7 +142,7 @@ function ListOCComponents() {
                             </Form>
                         </div>
                         <div className="btn-inf">
-                            <Button className="boton" onClick={crearCliente}>Ingresar Cliente</Button>
+                            <Button className="boton" onClick={crearOCCliente}>Ingresar nueva OC</Button>
                         </div>
                     </div>
                     <div align="center" className="container-2">
@@ -287,7 +290,7 @@ label {
     margin-left: 15px;
     margin-top: 10px;
 }
-input[type="text"]{
+input[type="text"], input[type="number"]{
     background-color: rgb(201, 201, 201);
     width: 100%;
     padding: 10px;
@@ -295,6 +298,19 @@ input[type="text"]{
     border-radius: 30px;
     border: 1px solid #ccc;
 }
+
+/* Para WebKit (Chrome, Safari, Edge) */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Para Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
 button{
     color: #fff;
     margin-left: 5px;

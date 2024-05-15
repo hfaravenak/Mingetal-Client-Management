@@ -15,19 +15,19 @@ class ClienteService {
 
     getClienteByRut(rut){
         if(rut===""){
-            return axios.get(CLIENTE_API_URL);
+            return this.getClientes();
         }
         return axios.get(CLIENTE_API_URL + "rut/" + rut);
     }
     getClienteByNombre(nombre){
         if(nombre===""){
-            return axios.get(CLIENTE_API_URL);
+            return this.getClientes();
         }
         return axios.get(CLIENTE_API_URL + "nombre/" + nombre);
     }
     getClienteByEmpresa(empresa){
         if(empresa===""){
-            return axios.get(CLIENTE_API_URL);
+            return this.getClientes();
         }
         return axios.get(CLIENTE_API_URL + "empresa/" + empresa);
     }

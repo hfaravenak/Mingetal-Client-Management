@@ -38,7 +38,7 @@ public class OrdenesDeCompraClienteService {
 
     public List<OrdenesDeCompraClienteEntity> findAll(){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findAll();
-        Collections.sort(ordenesDeCompraClienteEntities, Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
+        ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
         return ordenesDeCompraClienteEntities;
     }
 
@@ -52,18 +52,23 @@ public class OrdenesDeCompraClienteService {
     }
     public List<OrdenesDeCompraClienteEntity> findByNameCliente(String nombre){
 
-        ClienteEntity response = restTemplate.exchange(
+        List<ClienteEntity> response = restTemplate.exchange(
                 "http://localhost:8080/cliente/nombre/"+nombre,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<ClienteEntity>() {}
+                new ParameterizedTypeReference<List<ClienteEntity>>() {}
         ).getBody();
 
         if(response == null){
-            return null;
+            return new ArrayList<>();
         }
 
-        return findByIdCliente(response.getRut());
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = new ArrayList<>();
+
+        for (ClienteEntity client:response) {
+            ordenesDeCompraClienteEntities.addAll(findByIdCliente(client.getRut()));
+        }
+        return ordenesDeCompraClienteEntities;
     }
     public List<OrdenesDeCompraClienteEntity> findByEmpresaCliente(String empresa){
 
@@ -73,6 +78,10 @@ public class OrdenesDeCompraClienteService {
                 null,
                 new ParameterizedTypeReference<List<ClienteEntity>>() {}
         ).getBody();
+
+        if(response == null){
+            return new ArrayList<>();
+        }
 
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = new ArrayList<>();
 

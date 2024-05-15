@@ -12,7 +12,23 @@ class OrdenesDeCompraService {
         return axios.get(OC_API_URL+"cliente/");
     }
     getOCClienteById(id){
+        if(id===""){
+            return this.getOCCliente()
+        }
         return axios.get(OC_API_URL+"cliente/"+id);
+    }
+    getOCClienteByNombre(nombre){
+        if(nombre===""){
+            return this.getOCCliente()
+        }
+        return axios.get(OC_API_URL+"cliente/nombre/"+nombre);
+    }
+
+    getOCClienteByEmpresa(empresa){
+        if(empresa===""){
+            return this.getOCCliente()
+        }
+        return axios.get(OC_API_URL+"cliente/empresa/"+empresa);
     }
 
     
