@@ -8,6 +8,13 @@ class OrdenesDeCompraService {
         return axios.get(OC_API_URL+"cliente/id/"+rut);
     }
 
+    getOCCliente(){
+        return axios.get(OC_API_URL+"cliente/");
+    }
+    getOCClienteById(id){
+        return axios.get(OC_API_URL+"cliente/"+id);
+    }
+
     
 }
 

@@ -20,7 +20,7 @@ function HeaderComponents() {
                         <a className="btn" href="">Proveedores</a>
                         <a className="btn" href="">Ventas</a>
                         <nav></nav>
-                        <a className="btn" href="">Ordenes de Compra</a>
+                        <a className="btn" href="/oc">Ordenes de Compra</a>
                         </div>
                     <div className="header_der">
                         <a className="btn" href="">user</a>

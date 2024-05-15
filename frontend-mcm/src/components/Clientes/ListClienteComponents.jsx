@@ -4,9 +4,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 import styled from "styled-components";
-import editar from "../images/editar.png"
-import HeaderComponents from "./Headers/HeaderComponents";
-import ClienteService from '../services/ClienteService'
+import editar from "../../images/editar.png"
+import HeaderComponents from "../Headers/HeaderComponents";
+import ClienteService from '../../services/ClienteService'
 
 function ListClienteComponents() {
     const initialState = {
@@ -20,7 +20,6 @@ function ListClienteComponents() {
 
     useEffect(() => {
         ClienteService.getClientes().then((res) => {
-            console.log("Response data Cliente:", res.data);
             setClienteEntity(res.data);
         });
     }, []);
@@ -37,7 +36,6 @@ function ListClienteComponents() {
     };
     const buscarRut = () => {
         ClienteService.getClienteByRut(input.rut).then((res) => {
-            console.log("Response data Cliente:", res.data);
             if (Array.isArray(res.data)) {
                 setClienteEntity(res.data);
             } else if(res.data===""){
@@ -49,13 +47,11 @@ function ListClienteComponents() {
     }
     const buscarNombre = () => {
         ClienteService.getClienteByNombre(input.nombre).then((res) => {
-            console.log("Response data Cliente:", res.data);
             setClienteEntity(res.data);
         });
     }
     const buscarEmpresa = () => {
         ClienteService.getClienteByEmpresa(input.empresa).then((res) => {
-            console.log("Response data Cliente:", res.data);
             setClienteEntity(res.data);
         });
     }
@@ -84,7 +80,6 @@ function ListClienteComponents() {
     };
 
     const ChangeViendoCliente = (rut, nombre, email, empresa, telefono) => {
-        console.log(rut, nombre, email, telefono, empresa);
         const datos = {
             rut: rut,
             nombre: nombre,
@@ -93,8 +88,6 @@ function ListClienteComponents() {
             telefono: telefono
         };
         const datosComoTexto = JSON.stringify(datos);
-        console.log(datosComoTexto)
-        console.log(datos)
         navigate(`/clientes/mas info/${encodeURIComponent(datosComoTexto)}`);
     };
     return(

@@ -15,6 +15,10 @@ function MainComponents() {
     const handleClickClientes = () => {
         navigate("/clientes");
     };
+
+    const handleClickOC = () => {
+        navigate("/oc");
+    };
     const nathing = () => {
         navigate("/");
     };
@@ -38,7 +42,7 @@ function MainComponents() {
                         <h2>Inventario</h2>
                         <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
-                    <div className="card" onClick={nathing}>
+                    <div className="card" onClick={handleClickOC}>
                         <img id="ordenes_compra" src={ordenesCompra} alt="ordenesCompra" />
                         <h2>Ordenes de compra</h2>
                         <h2 style={{ color: 'gray' }}>- Proximamente - </h2>

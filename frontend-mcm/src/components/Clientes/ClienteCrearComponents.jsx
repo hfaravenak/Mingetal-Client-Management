@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import HeaderComponents from "./Headers/HeaderComponents";
+import HeaderComponents from "../Headers/HeaderComponents";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
-import ClienteService from "../services/ClienteService";
+import ClienteService from "../../services/ClienteService";
 import styled from "styled-components";
 
 function ClienteCrearComponents(){
@@ -48,7 +48,6 @@ function ClienteCrearComponents(){
             denyButtonColor: "rgb(190, 54, 54)",
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log(input.title);
                 let newCliente= {
                     rut: input.rut,
                     nombre: input.nombre,
@@ -56,7 +55,6 @@ function ClienteCrearComponents(){
                     email: input.correo,
                     telefono: input.telefono,
                 };
-                console.log(newCliente);
                 ClienteService.createCliente(newCliente);
                 Swal.fire({
                     title: "Enviado",

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import HeaderComponents from "./Headers/HeaderComponents";
+import HeaderComponents from "../Headers/HeaderComponents";
 import styled from "styled-components";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Swal from "sweetalert2";
 
-import clientes from "../images/cliente.png"
-import editar from "../images/editar.png"
-import OrdenesDeCompraService from '../services/OrdenesDeCompraService'
-import ClienteService from "../services/ClienteService";
+import clientes from "../../images/cliente.png"
+import editar from "../../images/editar.png"
+import OrdenesDeCompraService from '../../services/OrdenesDeCompraClienteService'
+import ClienteService from "../../services/ClienteService";
 
 function ClienteComponents() {
 
@@ -27,7 +27,7 @@ function ClienteComponents() {
     const { cliente } = useParams();
     const datos = JSON.parse(decodeURIComponent(cliente));
 
-    console.log(datos);
+    
     const navigate = useNavigate();
     const [OC_ClienteEntity, setOC_ClienteEntity] = useState([]);
 
@@ -38,10 +38,9 @@ function ClienteComponents() {
 
     useEffect(() => {
         OrdenesDeCompraService.getOCByCliente(datos.rut).then((res) => {
-            console.log("Response data Cliente:", res.data);
             setOC_ClienteEntity(res.data);
         });
-    }, []);
+    }, [datos.rut]);
 
     const changeNombreHandler = event => {
         setInput({ ...input, nombre: event.target.value });
@@ -64,7 +63,6 @@ function ClienteComponents() {
             nombre: datos.nombre,
             empresa: datos.empresa,
         });
-        console.log("Esto es lo que guarada",input);
         setMostrarCard(true);
     }
 
@@ -116,7 +114,6 @@ function ClienteComponents() {
         }).then((result) => {
             if (result.isConfirmed) {
                 let rut = datos.rut;
-                console.log("rut = " + rut);
                 ClienteService.deleteCliente(rut);
                 Swal.fire({
                     title: 'Eliminando...',
