@@ -35,7 +35,7 @@ public class OrdenesDeCompraProveedorController {
         System.out.println(ordenesDeCompraProveedorEntities);
         return ResponseEntity.ok(ordenesDeCompraProveedorEntities);
     }
-    
+
 
     @GetMapping("/{id}")
     public ResponseEntity<OrdenesDeCompraProveedorEntity> getOrdenProveedorById(@PathVariable("id") int id){
@@ -78,5 +78,11 @@ public class OrdenesDeCompraProveedorController {
     public ResponseEntity<OrdenesDeCompraProveedorEntity> updateOCProveedorByEstadoPago(@PathVariable("id") int id){
         OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = ordenesDeCompraProveedorService.updateOCProveedorByEstadoPago(id);
         return ResponseEntity.ok(ordenesDeCompraProveedorEntity);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<OrdenesDeCompraProveedorEntity> updateOCProveedor(@RequestBody OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity) {
+        OrdenesDeCompraProveedorEntity newOrdenesDeCompraProveedorEntity = ordenesDeCompraProveedorService.updateOCProveedor(ordenesDeCompraProveedorEntity);
+        return ResponseEntity.ok(newOrdenesDeCompraProveedorEntity);
     }
 }

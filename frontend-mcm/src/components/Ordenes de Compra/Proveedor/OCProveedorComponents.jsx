@@ -6,25 +6,21 @@ import Form from 'react-bootstrap/Form';
 import Swal from "sweetalert2";
 import HeaderComponents from "../../Headers/HeaderComponents";
 import clientes from "../../../images/cliente.png"
-import OrdenesDeCompraClienteService from '../../../services/OrdenesDeCompraClienteService'
+import OrdenesDeCompraProveedorService from "../../../services/OrdenesDeCompraProveedorService";
 
-function OCClienteComponents() {
+function OCProveedorComponents() {
     const initialState = {
-        estado_factura: "",
         estado_pago: "",
         estado_entrega: "",
-        modo_pago: "",
         fecha_pago: "",
-        empresa_despacho: "",
-        tiempo_de_pago: "",
-        numero_cheque: "",
-        numero_factura: "",
+        factura: "",
+        fecha_entrega: "",
     };
     const [input, setInput] = useState(initialState);
     const [mostrarCard, setMostrarCard] = useState(false);
 
-    const { oc_cliente } = useParams();
-    const datos = JSON.parse(decodeURIComponent(oc_cliente));
+    const { oc_proveedor } = useParams();
+    const datos = JSON.parse(decodeURIComponent(oc_proveedor));
 
     const navigate = useNavigate();
 
@@ -43,28 +39,9 @@ function OCClienteComponents() {
         return fechaSalida;
     }
 
-
-    const nathing = () => {
-        navigate("");
-    };
-
-    const changeEmpresaDespachoHandler = event => {
-        setInput({ ...input, empresa_despacho: event.target.value });
-    };
-    const changeTiempoPagoHandler = event => {
-        setInput({ ...input, tiempo_de_pago: event.target.value });
-    };
-    const changeNumeroChequeHandler = event => {
-        setInput({ ...input, numero_cheque: event.target.value });
-    };
-    const changeNumeroFacturaHandler = event => {
-        setInput({ ...input, numero_factura: event.target.value });
-    };
-    const changeEstadoFacturaHandler = event => {
-        setInput({ ...input, estado_factura: event.target.value });
-    };
-    const changeModoPagoHandler = event => {
-        setInput({ ...input, modo_pago: event.target.value });
+    
+    const changeFacturaHandler = event => {
+        setInput({ ...input, factura: event.target.value });
     };
     const changeEstadoPagoHandler = event => {
         setInput({ ...input, estado_pago: event.target.value });
@@ -75,18 +52,17 @@ function OCClienteComponents() {
     const changeFechaPagoHandler = event => {
         setInput({ ...input, fecha_pago: event.target.value });
     };
+    const changeFechaEntregaHandler = event => {
+        setInput({ ...input, fecha_entrega: event.target.value });
+    };
 
     const changeMostrarCard = () => {
         setInput({
-            estado_factura: datos.estado_factura,
             estado_pago: datos.estado_pago,
             estado_entrega: datos.estado_entrega,
-            modo_pago: datos.modo_pago,
             fecha_pago: datos.fecha_pago,
-            empresa_despacho: datos.empresa_despacho,
-            tiempo_de_pago: datos.tiempo_de_pago,
-            numero_cheque: datos.numero_cheque,
-            numero_factura: datos.numero_factura,
+            factura: datos.factura,
+            fecha_entrega: datos.fecha_entrega,
         });
         setMostrarCard(true);
     }
@@ -104,42 +80,42 @@ function OCClienteComponents() {
             if (result.isConfirmed) {
                 let updateOC = {
                     id: datos.id,
-                    id_cliente: datos.id_cliente,
-                    estado_factura: input.estado_factura,
+                    id_proveedor: datos.id_proveedor,
                     estado_pago: input.estado_pago,
                     valor_pago: datos.valor_pago,
                     fecha_pago: input.fecha_pago,
                     fecha_solicitud: datos.fecha_solicitud,
+                    fecha_entrega: input.fecha_entrega,
                     estado_entrega: input.estado_entrega,
-                    modo_pago: input.modo_pago,
-                    fecha_inicio_pago: datos.fecha_inicio_pago,
-                    tiempo_de_pago: input.tiempo_de_pago,
-                    numero_cheque: input.numero_cheque,
-                    numero_factura: input.numero_factura,
-                    empresa_despacho: input.empresa_despacho,
+                    factura: input.factura,
         
                 };
-                console.log(updateOC);
-                OrdenesDeCompraClienteService.putOCCliente(updateOC);
+                OrdenesDeCompraProveedorService.putOCProveedor(updateOC);
                 let OtherUpdateOC = {
                     id: datos.id,
-                    id_cliente: datos.id_cliente,
-                    estado_factura: input.estado_factura,
+                    id_proveedor: datos.id_proveedor,
                     estado_pago: input.estado_pago,
                     valor_pago: datos.valor_pago,
                     fecha_pago: input.fecha_pago,
                     fecha_solicitud: datos.fecha_solicitud,
+                    fecha_entrega: input.fecha_entrega,
                     estado_entrega: input.estado_entrega,
-                    modo_pago: input.modo_pago,
-                    fecha_inicio_pago: datos.fecha_inicio_pago,
-                    tiempo_de_pago: input.tiempo_de_pago,
-                    numero_cheque: input.numero_cheque,
-                    numero_factura: input.numero_factura,
-                    empresa_despacho: input.empresa_despacho,
-                    cliente: datos.cliente
+                    factura: input.factura,
+                    proveedor: datos.proveedor,
+                    contacto1: datos.contacto1,
                 };
-                navigate(`/oc/cliente/mas info/${encodeURIComponent(JSON.stringify(OtherUpdateOC))}`);
-                setMostrarCard(false);
+                Swal.fire({
+                    title: 'Editando...',
+                    text: 'Por favor espere',
+                    timer: 3000, // 3 segundos
+                    didOpen: () => {
+                        Swal.showLoading();
+                    },
+                    willClose: () => {
+                        navigate(`/oc/proveedor/mas info/${encodeURIComponent(JSON.stringify(OtherUpdateOC))}`);
+                        setMostrarCard(false);
+                    }
+                });
             }
         });
     }
@@ -150,7 +126,7 @@ function OCClienteComponents() {
     const EliminarCliente = () => {
         Swal.fire({
             title: "¿Seguro de que desea eliminar esta orden de compra?",
-            text: "Esta acción es irreversible y no podrá recuperar la Orden de compra perdida. Además no se recomienda hacer esta acción",
+            text: "Esta acción es irreversible y no podrá recuperar la Orden de compra eliminada. Además no se recomienda hacer esta acción",
             icon: "warning",   
             showDenyButton: true,
             confirmButtonText: "Confirmar",
@@ -171,7 +147,7 @@ function OCClienteComponents() {
         }).then((result) => {
             if (result.isConfirmed) {
                 let id = datos.id;
-                OrdenesDeCompraClienteService.deleteOCCliente(id);
+                OrdenesDeCompraProveedorService.deleteOCProveedor(id);
                 Swal.fire({
                     title: 'Eliminando...',
                     text: 'Por favor espera',
@@ -180,7 +156,7 @@ function OCClienteComponents() {
                         Swal.showLoading();
                     },
                     willClose: () => {
-                        navigate("/oc/cliente");
+                        navigate("/oc/proveedor");
                     }
                 });
             }
@@ -194,16 +170,19 @@ function OCClienteComponents() {
                     <HeaderComponents></HeaderComponents>
                     <div className="container">
                         <div className="container-1">
-                            <div className="card" onClick={nathing}>
+                            <div className="card">
                                 <div className="contenedor-img">
                                     <img id="clientes" src={clientes} alt="clientes" />
                                 </div>
                                 <div className="contenedor-informacion">
-                                    <h2>{datos.cliente.nombre}</h2>
-                                    <h3>Empresa: {datos.cliente.empresa}</h3>
-                                    <h3>Rut: {datos.cliente.rut}</h3>
-                                    <h3>Correo: {datos.cliente.email}</h3>
-                                    <h3>Telefono: {datos.cliente.telefono}</h3>
+                                    <h2>{datos.contacto1.nombre}</h2>
+                                    <h3><strong>Empresa: </strong>{datos.proveedor.empresa}</h3>
+                                    <h3><strong>Rubro: </strong>{datos.proveedor.rubro}</h3>
+                                    <h3><strong>Rut: </strong>{datos.contacto1.rut}</h3>
+                                    <h3><strong>Correo: </strong>{datos.contacto1.correo}</h3>
+                                    <h3><strong>Telefono Celular: </strong>{datos.contacto1.fono_cel}</h3>
+                                    <h3><strong>Telefono Fijo: </strong>{datos.contacto1.fono_fijo}</h3>
+                                    <h3><strong>Comentario: </strong> {datos.proveedor.comentario}</h3>
                                 </div>
                             </div>
                             <Button className="aceptar" onClick={enviarDatos}>Aceptar</Button>
@@ -217,13 +196,13 @@ function OCClienteComponents() {
                                         <th>Ref #</th>
                                         <th>Fecha de la Solicitud</th>
                                         <th>Estado de la Entrega</th>
-                                        <th>Empresa de Despacho</th>
+                                        <th>Fecha de la Entrega</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr key= {datos.id}>
                                         <td style={{color:"gray"}}> #{datos.id} </td>
-                                        <td style={{color:"gray"}}> {datos.fecha_solicitud} </td>
+                                        <td style={{color:"gray"}}> {modificacionFecha(datos.fecha_solicitud)} </td>
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
@@ -239,11 +218,11 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="empresa_despacho" value = {input.empresa_despacho} onChange={changeEmpresaDespachoHandler}>
-                                                        <Form.Control value={input.empresa_despacho} className="font-h2 no-border" type="text" name="empresa_despacho" placeholder="TransporteZ"/>
+                                                    <Form.Group className="mb-3" controlId="fecha_entrega" value = {input.fecha_entrega} onChange={changeFechaEntregaHandler}>
+                                                        <Form.Control style={{width:"100%"}} value={input.fecha_entrega} className="font-h2 no-border" type="date" name="fecha_entrega"/>
                                                     </Form.Group>
                                                 </Form>
-                                            </div>
+                                            </div> 
                                         </td>
                                     </tr>
                                 </tbody>
@@ -253,39 +232,13 @@ function OCClienteComponents() {
                                 <thead>
                                     <tr>
                                         <th>Valor del Pago</th>
-                                        <th>Modo del Pago</th>
-                                        <th>Numero del cheque</th>
                                         <th>Estado del Pago</th>
-                                        <th>Fecha de Inicio del Pago</th>
-                                        <th>Tiempo para pagar</th>
                                         <th>Fecha del Pago</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr key= {datos.id}>
                                         <td style={{color:"gray"}}> {datos.valor_pago} </td>
-                                        <td>
-                                            <div className="inline-forms-container contenedor-informacion">
-                                                <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="modo_pago" value = {input.modo_pago} onChange={changeModoPagoHandler}>
-                                                        <Form.Select style={{width:"100%"}} value={input.modo_pago} className="font-h2 no-border" name="modo_pago">
-                                                            <option value="Transferencia">Transferencia</option>
-                                                            <option value="Efectivo">Efectivo</option>
-                                                            <option value="Cheque">Cheque</option>
-                                                        </Form.Select>
-                                                    </Form.Group>
-                                                </Form>
-                                            </div> 
-                                        </td>
-                                        <td> 
-                                            <div className="inline-forms-container contenedor-informacion">
-                                                <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="numero_cheque" value = {input.numero_cheque} onChange={changeNumeroChequeHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.numero_cheque} className="font-h2 no-border" type="number" name="numero_cheque" placeholder="25"/>
-                                                    </Form.Group>
-                                                </Form>
-                                            </div>        
-                                        </td>
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
@@ -297,16 +250,6 @@ function OCClienteComponents() {
                                                     </Form.Group>
                                                 </Form>
                                             </div> 
-                                        </td>
-                                        <td style={{color:"gray"}}> {datos.fecha_inicio_pago} </td>
-                                        <td> 
-                                            <div className="inline-forms-container contenedor-informacion">
-                                                <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="tiempo_de_pago" value = {input.tiempo_de_pago} onChange={changeTiempoPagoHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.tiempo_de_pago} className="font-h2 no-border" type="number" name="tiempo_de_pago" placeholder="25"/>
-                                                    </Form.Group>
-                                                </Form>
-                                            </div>    
                                         </td>
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
@@ -325,7 +268,6 @@ function OCClienteComponents() {
                                 <thead>
                                     <tr>
                                         <th>Numero de la Factura</th>
-                                        <th>Estado de la Factura</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -333,20 +275,8 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="numero_factura" value = {input.numero_factura} onChange={changeNumeroFacturaHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.numero_factura} className="font-h2 no-border" type="number" name="numero_factura" placeholder="25"/>
-                                                    </Form.Group>
-                                                </Form>
-                                            </div> 
-                                        </td>
-                                        <td> 
-                                            <div className="inline-forms-container contenedor-informacion">
-                                                <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="estado_factura" value = {input.estado_factura} onChange={changeEstadoFacturaHandler}>
-                                                        <Form.Select style={{width:"100%"}} value={input.estado_factura} className="font-h2 no-border" name="estado_factura">
-                                                            <option value="No Emitida">No Emitida</option>
-                                                            <option value="Emitida">Emitida</option>
-                                                        </Form.Select>
+                                                    <Form.Group className="mb-3" controlId="factura" value = {input.factura} onChange={changeFacturaHandler}>
+                                                        <Form.Control style={{width:"100%"}} value={input.factura} className="font-h2 no-border" type="number" name="factura" placeholder="25"/>
                                                     </Form.Group>
                                                 </Form>
                                             </div> 
@@ -366,16 +296,19 @@ function OCClienteComponents() {
                 <HeaderComponents></HeaderComponents>
                 <div className="container">
                     <div className="container-1">
-                        <div className="card" onClick={nathing}>
+                        <div className="card">
                             <div className="contenedor-img">
                                 <img id="clientes" src={clientes} alt="clientes" />
                             </div>
                             <div className="contenedor-informacion">
-                                <h2>{datos.cliente.nombre}</h2>
-                                <h3>Empresa: {datos.cliente.empresa}</h3>
-                                <h3>Rut: {datos.cliente.rut}</h3>
-                                <h3>Correo: {datos.cliente.email}</h3>
-                                <h3>Telefono: {datos.cliente.telefono}</h3>
+                                <h2>{datos.contacto1.nombre}</h2>
+                                <h3><strong>Empresa: </strong>{datos.proveedor.empresa}</h3>
+                                <h3><strong>Rubro: </strong>{datos.proveedor.rubro}</h3>
+                                <h3><strong>Rut: </strong>{datos.contacto1.rut}</h3>
+                                <h3><strong>Correo: </strong>{datos.contacto1.correo}</h3>
+                                <h3><strong>Telefono Celular: </strong>{datos.contacto1.fono_cel}</h3>
+                                <h3><strong>Telefono Fijo: </strong>{datos.contacto1.fono_fijo}</h3>
+                                <h3><strong>Comentario: </strong> {datos.proveedor.comentario}</h3>
                             </div>
                         </div>
                         <Button className="editar" onClick={changeMostrarCard}>Editar</Button>
@@ -389,7 +322,7 @@ function OCClienteComponents() {
                                     <th>Ref #</th>
                                     <th>Fecha de la Solicitud</th>
                                     <th>Estado de la Entrega</th>
-                                    <th>Empresa de Despacho</th>
+                                    <th>Fecha de la Entrega</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -397,7 +330,7 @@ function OCClienteComponents() {
                                     <td> #{datos.id} </td>
                                     <td> {modificacionFecha(datos.fecha_solicitud)} </td>
                                     <td> {datos.estado_entrega} </td>
-                                    <td> {datos.empresa_despacho} </td>
+                                    <td> {modificacionFecha(datos.fecha_entrega)} </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -406,22 +339,14 @@ function OCClienteComponents() {
                             <thead>
                                 <tr>
                                     <th>Valor del Pago</th>
-                                    <th>Modo del Pago</th>
-                                    <th>Numero del cheque</th>
                                     <th>Estado del Pago</th>
-                                    <th>Fecha de Inicio del Pago</th>
-                                    <th>Tiempo para pagar</th>
                                     <th>Fecha del Pago</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr key= {datos.id}>
                                     <td> {datos.valor_pago} </td>
-                                    <td> {datos.modo_pago} </td>
-                                    <td> {datos.numero_cheque} </td>
                                     <td> {datos.estado_pago} </td>
-                                    <td> {modificacionFecha(datos.fecha_inicio_pago)} </td>
-                                    <td> {datos.tiempo_de_pago} </td>
                                     <td> {modificacionFecha(datos.fecha_pago)} </td>
                                 </tr>
                             </tbody>
@@ -431,13 +356,11 @@ function OCClienteComponents() {
                             <thead>
                                 <tr>
                                     <th>Numero de la Factura</th>
-                                    <th>Estado de la Factura</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr key= {datos.id}>
-                                    <td> {datos.numero_factura} </td>
-                                    <td> {datos.estado_factura} </td>
+                                    <td> {datos.factura} </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -447,7 +370,7 @@ function OCClienteComponents() {
         </div>
     );
 }
-export default OCClienteComponents
+export default OCProveedorComponents
 
 const NavStyle = styled.nav`
 

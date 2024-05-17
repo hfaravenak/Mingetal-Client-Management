@@ -124,4 +124,11 @@ public class OrdenesDeCompraProveedorService {
         ordenesDeCompraProveedorEntity.setEstado_pago("Pagado");
         return ordenesDeCompraProveedorRepository.save(ordenesDeCompraProveedorEntity);
     }
+
+    public OrdenesDeCompraProveedorEntity updateOCProveedor(OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity){
+        if(ordenesDeCompraProveedorEntity!=null){
+            return ordenesDeCompraProveedorRepository.save(ordenesDeCompraProveedorEntity);
+        }
+        return null;
+    }
 }

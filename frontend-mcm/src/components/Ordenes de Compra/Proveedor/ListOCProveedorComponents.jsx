@@ -48,7 +48,7 @@ function ListOCProveedorComponents() {
         setInput({ ...input, empresa: event.target.value });
     };
 
-    const busquedaProveedor= (id_proveedor) => {
+    const busquedaContacto= (id_proveedor) => {
         let variable = "";
         
         ProveedorEntity.forEach(proveedor => {
@@ -58,6 +58,16 @@ function ListOCProveedorComponents() {
                         variable=contacto;
                     }
                 })
+            }
+        });
+        return variable;
+    };
+    const busquedaProveedor= (id_proveedor) => {
+        let variable = "";
+        
+        ProveedorEntity.forEach(proveedor => {
+            if(proveedor.id_proveedor===id_proveedor){
+                variable=proveedor;
             }
         });
         return variable;
@@ -136,6 +146,7 @@ function ListOCProveedorComponents() {
             valor_pago: todoElDato.valor_pago,
             modo_pago: todoElDato.modo_pago,
             proveedor: busquedaProveedor(todoElDato.id_proveedor),
+            contacto1: busquedaContacto(todoElDato.id_proveedor),
 
         };
         const datosComoTexto = JSON.stringify(datos);
@@ -197,7 +208,7 @@ function ListOCProveedorComponents() {
                                     OCProveedorEntity.map((OCProveedor) => (
                                         <tr key= {OCProveedor.id}>
                                             <td> #{OCProveedor.id} </td>
-                                            <td>{busquedaProveedor(OCProveedor.id_proveedor).nombre}</td>
+                                            <td>{busquedaContacto(OCProveedor.id_proveedor).nombre}</td>
                                             <td> {OCProveedor.estado_pago} </td>
                                             <td> {modificacionFecha(OCProveedor.fecha_pago)} </td>
                                             <td> {modificacionFecha(OCProveedor.fecha_solicitud)} </td>
