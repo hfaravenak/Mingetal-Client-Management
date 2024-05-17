@@ -150,7 +150,43 @@ function OCClienteComponents() {
     }
 
     const EliminarCliente = () => {
-
+        Swal.fire({
+            title: "¿Seguro de que desea eliminar esta orden de compra?",
+            text: "Esta acción es irreversible y no podrá recuperar la Orden de compra perdida. Además no se recomienda hacer esta acción",
+            icon: "warning",   
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            confirmButtonColor: "rgb(68, 194, 68)",
+            denyButtonText: "Cancelar",
+            denyButtonColor: "rgb(190, 54, 54)",
+            input: "text",
+            inputPlaceholder: "Confirmo",
+            inputValidator: (value) => {
+                return new Promise((resolve) => {
+                    if (value==="Confirmo") {
+                        resolve();
+                    } else {
+                        resolve('ERROR al introducir la palabra');
+                    }
+                });
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let id = datos.id;
+                OrdenesDeCompraService.deleteOCCliente(id);
+                Swal.fire({
+                    title: 'Eliminando...',
+                    text: 'Por favor espera',
+                    timer: 3000, // 3 segundos
+                    didOpen: () => {
+                        Swal.showLoading();
+                    },
+                    willClose: () => {
+                        navigate("/oc/cliente");
+                    }
+                });
+            }
+        });
     }
 
     if(mostrarCard){
@@ -218,38 +254,17 @@ function OCClienteComponents() {
                             <table border="1" className="content-table">
                                 <thead>
                                     <tr>
-                                        <th>Estado del Pago</th>
-                                        <th>Fecha del Pago</th>
                                         <th>Valor del Pago</th>
                                         <th>Modo del Pago</th>
+                                        <th>Numero del cheque</th>
+                                        <th>Estado del Pago</th>
                                         <th>Fecha de Inicio del Pago</th>
                                         <th>Tiempo para pagar</th>
-                                        <th>Numero del cheque</th>
+                                        <th>Fecha del Pago</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr key= {datos.id}>
-                                        <td> 
-                                            <div className="inline-forms-container contenedor-informacion">
-                                                <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="estado_pago" value = {input.estado_pago} onChange={changeEstadoPagoHandler}>
-                                                        <Form.Select style={{width:"100%"}} value={input.estado_pago} className="font-h2 no-border" name="estado_pago">
-                                                            <option value="No Pagado">No Pagado</option>
-                                                            <option value="Pagado">Pagado</option>
-                                                        </Form.Select>
-                                                    </Form.Group>
-                                                </Form>
-                                            </div> 
-                                        </td>
-                                        <td> 
-                                            <div className="inline-forms-container contenedor-informacion">
-                                                <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="fecha_pago" value = {input.fecha_pago} onChange={changeFechaPagoHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.fecha_pago} className="font-h2 no-border" type="date" name="fecha_pago"/>
-                                                    </Form.Group>
-                                                </Form>
-                                            </div> 
-                                        </td>
                                         <td style={{color:"gray"}}> {datos.valor_pago} </td>
                                         <td>
                                             <div className="inline-forms-container contenedor-informacion">
@@ -259,6 +274,27 @@ function OCClienteComponents() {
                                                             <option value="Transferencia">Transferencia</option>
                                                             <option value="Efectivo">Efectivo</option>
                                                             <option value="Cheque">Cheque</option>
+                                                        </Form.Select>
+                                                    </Form.Group>
+                                                </Form>
+                                            </div> 
+                                        </td>
+                                        <td> 
+                                            <div className="inline-forms-container contenedor-informacion">
+                                                <Form className="inline-form" style={{width: "150px"}}>
+                                                    <Form.Group className="mb-3" controlId="numero_cheque" value = {input.numero_cheque} onChange={changeNumeroChequeHandler}>
+                                                        <Form.Control style={{width:"100%"}} value={input.numero_cheque} className="font-h2 no-border" type="number" name="numero_cheque" placeholder="25"/>
+                                                    </Form.Group>
+                                                </Form>
+                                            </div>        
+                                        </td>
+                                        <td> 
+                                            <div className="inline-forms-container contenedor-informacion">
+                                                <Form className="inline-form" style={{width: "150px"}}>
+                                                    <Form.Group className="mb-3" controlId="estado_pago" value = {input.estado_pago} onChange={changeEstadoPagoHandler}>
+                                                        <Form.Select style={{width:"100%"}} value={input.estado_pago} className="font-h2 no-border" name="estado_pago">
+                                                            <option value="No Pagado">No Pagado</option>
+                                                            <option value="Pagado">Pagado</option>
                                                         </Form.Select>
                                                     </Form.Group>
                                                 </Form>
@@ -277,11 +313,11 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="numero_cheque" value = {input.numero_cheque} onChange={changeNumeroChequeHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.numero_cheque} className="font-h2 no-border" type="number" name="numero_cheque" placeholder="25"/>
+                                                    <Form.Group className="mb-3" controlId="fecha_pago" value = {input.fecha_pago} onChange={changeFechaPagoHandler}>
+                                                        <Form.Control style={{width:"100%"}} value={input.fecha_pago} className="font-h2 no-border" type="date" name="fecha_pago"/>
                                                     </Form.Group>
                                                 </Form>
-                                            </div>        
+                                            </div> 
                                         </td>
                                     </tr>
                                 </tbody>
@@ -290,12 +326,21 @@ function OCClienteComponents() {
                             <table border="1" className="content-table">
                                 <thead>
                                     <tr>
-                                        <th>Estado de la Factura</th>
                                         <th>Numero de la Factura</th>
+                                        <th>Estado de la Factura</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr key= {datos.id}>
+                                        <td> 
+                                            <div className="inline-forms-container contenedor-informacion">
+                                                <Form className="inline-form" style={{width: "150px"}}>
+                                                    <Form.Group className="mb-3" controlId="numero_factura" value = {input.numero_factura} onChange={changeNumeroFacturaHandler}>
+                                                        <Form.Control style={{width:"100%"}} value={input.numero_factura} className="font-h2 no-border" type="number" name="numero_factura" placeholder="25"/>
+                                                    </Form.Group>
+                                                </Form>
+                                            </div> 
+                                        </td>
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
@@ -304,15 +349,6 @@ function OCClienteComponents() {
                                                             <option value="No Emitida">No Emitida</option>
                                                             <option value="Emitida">Emitida</option>
                                                         </Form.Select>
-                                                    </Form.Group>
-                                                </Form>
-                                            </div> 
-                                        </td>
-                                        <td> 
-                                            <div className="inline-forms-container contenedor-informacion">
-                                                <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="numero_factura" value = {input.numero_factura} onChange={changeNumeroFacturaHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.numero_factura} className="font-h2 no-border" type="number" name="numero_factura" placeholder="25"/>
                                                     </Form.Group>
                                                 </Form>
                                             </div> 
@@ -371,24 +407,24 @@ function OCClienteComponents() {
                         <table border="1" className="content-table">
                             <thead>
                                 <tr>
-                                    <th>Estado del Pago</th>
-                                    <th>Fecha del Pago</th>
                                     <th>Valor del Pago</th>
                                     <th>Modo del Pago</th>
+                                    <th>Numero del cheque</th>
+                                    <th>Estado del Pago</th>
                                     <th>Fecha de Inicio del Pago</th>
                                     <th>Tiempo para pagar</th>
-                                    <th>Numero del cheque</th>
+                                    <th>Fecha del Pago</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr key= {datos.id}>
-                                    <td> {datos.estado_pago} </td>
-                                    <td> {modificacionFecha(datos.fecha_pago)} </td>
                                     <td> {datos.valor_pago} </td>
                                     <td> {datos.modo_pago} </td>
+                                    <td> {datos.numero_cheque} </td>
+                                    <td> {datos.estado_pago} </td>
                                     <td> {modificacionFecha(datos.fecha_inicio_pago)} </td>
                                     <td> {datos.tiempo_de_pago} </td>
-                                    <td> {datos.numero_cheque} </td>
+                                    <td> {modificacionFecha(datos.fecha_pago)} </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -396,14 +432,14 @@ function OCClienteComponents() {
                         <table border="1" className="content-table">
                             <thead>
                                 <tr>
-                                    <th>Estado de la Factura</th>
                                     <th>Numero de la Factura</th>
+                                    <th>Estado de la Factura</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr key= {datos.id}>
-                                    <td> {datos.estado_factura} </td>
                                     <td> {datos.numero_factura} </td>
+                                    <td> {datos.estado_factura} </td>
                                 </tr>
                             </tbody>
                         </table>

@@ -107,7 +107,7 @@ function ClienteComponents() {
                     if (value==="Confirmo") {
                         resolve();
                     } else {
-                        resolve('No es el mismo');
+                        resolve('ERROR al introducir la palabra');
                     }
                 });
             }
