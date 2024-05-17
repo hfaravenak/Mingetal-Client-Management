@@ -455,7 +455,7 @@ const NavStyle = styled.nav`
 
 .container{
     margin: 2%;
-    border: 1px solid gray;
+    border: 2px solid #D5D5D5;
     background-color: #F0F0F0;
     display: flex;
     flex-direction: row;
@@ -463,19 +463,21 @@ const NavStyle = styled.nav`
     height: 100%;
 }
 .container-1{
-    height: 80%;
     background-color: #F0F0F0;
-    width: 20%;
+    width: 10%;
     flex-shrink: 0; /* Hace que el contenedor no se encoja */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+    display: flex;
+    flex-direction: column;
+    height: 58.9vh;
 }
 .container-2{
     background-color: #F0F0F0;
     flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
-    max-height: calc(0px + 74.5vh); /* Asegura que el contenedor no exceda la altura de la ventana */
+    max-height: calc(0px + 74.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
 }
 
 /* Todo la parte de la tabla */

@@ -17,20 +17,20 @@ function MainComponents() {
     };
 
     const handleClickOC = () => {
-        navigate("/oc/cliente");
+        navigate("/oc");
     };
     const nathing = () => {
         navigate("/");
     };
     return (
-        <div style={{background: '#F0F0F0'}}>
+        <div>
             <NavStyle>
                 <HeaderComponents></HeaderComponents>
+                <div className="general">
                 <div className="container_main">
                     <div className="card" onClick={handleClickClientes}>
                         <img id="clientes" src={clientes} alt="clientes" />
                         <h2>Clientes</h2>
-                        <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
                     <div className="card" onClick={nathing}>
                         <img id="proveedores" src={proveedores} alt="proveedores" />
@@ -45,7 +45,6 @@ function MainComponents() {
                     <div className="card" onClick={handleClickOC}>
                         <img id="ordenes_compra" src={ordenesCompra} alt="ordenesCompra" />
                         <h2>Ordenes de compra</h2>
-                        <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
                     <div className="card" onClick={nathing}>
                         <img id="ventas" src={ventas} alt="ventas" />
@@ -63,6 +62,7 @@ function MainComponents() {
                         <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
                 </div>
+                </div>
             </NavStyle>
         </div>
     );
@@ -72,20 +72,19 @@ export default MainComponents;
 
 
 const NavStyle = styled.nav`
+
 .container_main {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    max-width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 50px;
+    margin: 2%;
+    padding: 2%;
     border: 2px solid #D5D5D5;
-    background-color: white;
+    background-color: #f0f0f0;
 }
 .card {
-    background-color: rgb(201, 201, 201);
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;

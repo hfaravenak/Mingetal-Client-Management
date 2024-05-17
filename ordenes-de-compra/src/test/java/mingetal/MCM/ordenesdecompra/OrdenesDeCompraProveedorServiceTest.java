@@ -25,7 +25,8 @@ public class OrdenesDeCompraProveedorServiceTest {
                 LocalDate.parse("2024-05-30"),
                 LocalDate.parse("2024-05-10"),
                 "b55c2214",
-                500
+                500,
+                "Entregado"
         );
 
         boolean bool = ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
@@ -41,7 +42,8 @@ public class OrdenesDeCompraProveedorServiceTest {
                 LocalDate.parse("2024-05-30"),
                 LocalDate.parse("2024-05-10"),
                 "b55c2214",
-                500
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
         boolean bool = ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
@@ -58,7 +60,8 @@ public class OrdenesDeCompraProveedorServiceTest {
                 LocalDate.parse("2024-05-30"),
                 LocalDate.parse("2024-05-10"),
                 "b55c2214",
-                500
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
         assertEquals(ordenesDeCompraProveedorEntity, ordenesDeCompraProveedorService.deleteOCProveedor(ordenesDeCompraProveedorEntity.getId()));
@@ -78,7 +81,8 @@ public class OrdenesDeCompraProveedorServiceTest {
                 LocalDate.parse("2024-05-30"),
                 LocalDate.parse("2024-05-10"),
                 "b55c2214",
-                500
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
 
@@ -100,7 +104,8 @@ public class OrdenesDeCompraProveedorServiceTest {
                 LocalDate.parse("2024-05-30"),
                 LocalDate.parse("2024-05-10"),
                 "b55c2214",
-                500
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
 
@@ -122,7 +127,8 @@ public class OrdenesDeCompraProveedorServiceTest {
                 LocalDate.parse("2024-05-30"),
                 LocalDate.parse("2024-05-10"),
                 "b55c2214",
-                500
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
 
@@ -140,7 +146,8 @@ public class OrdenesDeCompraProveedorServiceTest {
                 LocalDate.parse("2024-05-30"),
                 LocalDate.parse("2024-05-10"),
                 "b55c2214",
-                500
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
 
