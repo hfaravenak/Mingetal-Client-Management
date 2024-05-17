@@ -7,6 +7,7 @@ import ClienteComponents from "./components/Clientes/ClienteComponents"
 import ClienteCrearComponents from "./components/Clientes/ClienteCrearComponents"
 import ListOCClienteComponents from "./components/Ordenes de Compra/Cliente/ListOCClienteComponents";
 import OCClienteComponents from "./components/Ordenes de Compra/Cliente/OCClienteComponents";
+import ListOCProveedorComponents from "./components/Ordenes de Compra/Proveedor/ListOCProveedorComponents";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
                   <Route path="/clientes/crear" element={<ClienteCrearComponents/>} />
                   <Route path="/oc/cliente" element={<ListOCClienteComponents/>} />
                   <Route path="/oc/cliente/mas info/:oc_cliente" element={<OCClienteComponents/>} />
+                  <Route path="/oc/proveedores" element={<ListOCProveedorComponents/>} />
               </Routes>
           </Router>
       </div>

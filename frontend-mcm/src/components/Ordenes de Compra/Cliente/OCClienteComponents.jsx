@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Swal from "sweetalert2";
 import HeaderComponents from "../../Headers/HeaderComponents";
 import clientes from "../../../images/cliente.png"
-import OrdenesDeCompraService from '../../../services/OrdenesDeCompraClienteService'
+import OrdenesDeCompraClienteService from '../../../services/OrdenesDeCompraClienteService'
 
 function OCClienteComponents() {
     const initialState = {
@@ -122,7 +122,7 @@ function OCClienteComponents() {
         
                 };
                 console.log(updateOC);
-                OrdenesDeCompraService.putOCCliente(updateOC);
+                OrdenesDeCompraClienteService.putOCCliente(updateOC);
                 let OtherUpdateOC = {
                     id: datos.id,
                     id_cliente: datos.id_cliente,
@@ -173,7 +173,7 @@ function OCClienteComponents() {
         }).then((result) => {
             if (result.isConfirmed) {
                 let id = datos.id;
-                OrdenesDeCompraService.deleteOCCliente(id);
+                OrdenesDeCompraClienteService.deleteOCCliente(id);
                 Swal.fire({
                     title: 'Eliminando...',
                     text: 'Por favor espera',

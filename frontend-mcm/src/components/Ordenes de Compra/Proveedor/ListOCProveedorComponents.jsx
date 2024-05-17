@@ -6,10 +6,10 @@ import Button from 'react-bootstrap/Button';
 import styled from "styled-components";
 import editar from "../../../images/editar.png"
 import HeaderComponents from "../../Headers/HeaderComponents";
-import OrdenesDeCompraClienteService from "../../../services/OrdenesDeCompraClienteService";
-import ClienteService from "../../../services/ClienteService";
+import OrdenesDeCompraProveedorService from "../../../services/OrdenesDeCompraProveedorService";
+import ProveedorService from "../../../services/ProveedorService";
 
-function ListOCClienteComponents() {
+function ListOCProveedorComponents() {
     const initialState = {
         id: "",
         nombre: "",
@@ -17,17 +17,25 @@ function ListOCClienteComponents() {
     };
     const [input, setInput] = useState(initialState);
 
-    const [ClienteEntity, setClienteEntity] = useState([]);
-    const [OCClienteEntity, setOCClienteEntity] = useState([]);
+    const [ProveedorEntity, setProveedorEntity] = useState([]);
+    const [ContactoEntity, setContactoEntity] = useState([]);
+    const [OCProveedorEntity, setOCProveedorEntity] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        OrdenesDeCompraClienteService.getOCCliente().then((res) => {
-            setOCClienteEntity(res.data);
+        OrdenesDeCompraProveedorService.getOCProveedor().then((res) => {
+            console.log(res.data);
+            setOCProveedorEntity(res.data);
         });
-        ClienteService.getClientes().then((res) => {
-            setClienteEntity(res.data);
+        ProveedorService.getProveedorByListOC().then((res) => {
+            console.log(res.data);
+            setProveedorEntity(res.data);
         });
+
+        ProveedorService.getContacto1ByListOC().then((res)=>{
+            console.log(res.data);
+            setContactoEntity(res.data);
+        })
     }, []);
         
     const changeIdHandler = event => {
@@ -40,11 +48,16 @@ function ListOCClienteComponents() {
         setInput({ ...input, empresa: event.target.value });
     };
 
-    const busquedaCliente = (rut) => {
+    const busquedaProveedor= (id_proveedor) => {
         let variable = "";
-        ClienteEntity.forEach(cliente => {
-            if(cliente.rut===rut){
-                variable=cliente;
+        
+        ProveedorEntity.forEach(proveedor => {
+            if(proveedor.id_proveedor===id_proveedor){
+                ContactoEntity.forEach(contacto =>{
+                    if(contacto.rut===proveedor.id_contacto){
+                        variable=contacto;
+                    }
+                })
             }
         });
         return variable;
@@ -65,28 +78,29 @@ function ListOCClienteComponents() {
     }
 
     const buscarId = () => {
-        OrdenesDeCompraClienteService.getOCClienteById(input.id).then((res) => {
+        OrdenesDeCompraProveedorService.getOCProveedorById(input.id).then((res) => {
             if (Array.isArray(res.data)) {
-                setOCClienteEntity(res.data);
+                setOCProveedorEntity(res.data);
             } else if(res.data===""){
-                setOCClienteEntity([]);
+                setOCProveedorEntity([]);
             }else{
-                setOCClienteEntity([res.data]);
+                setOCProveedorEntity([res.data]);
             }
         });
     }
     const buscarNombre = () => {
-        OrdenesDeCompraClienteService.getOCClienteByNombre(input.nombre).then((res) => {
-            setOCClienteEntity(res.data);
+        OrdenesDeCompraProveedorService.getOCProveedorByNombre(input.nombre).then((res) => {
+            setOCProveedorEntity(res.data);
         });
     }
     const buscarEmpresa = () => {
-        OrdenesDeCompraClienteService.getOCClienteByEmpresa(input.empresa).then((res) => {
-            setOCClienteEntity(res.data);
+        OrdenesDeCompraProveedorService.getOCProveedorByEmpresa(input.empresa).then((res) => {
+            console.log(res.data);
+            setOCProveedorEntity(res.data);
         });
     }
 
-    const crearOCCliente = () => {
+    const crearOCProveedor = () => {
         navigate("crear");
     }
 
@@ -109,29 +123,25 @@ function ListOCClienteComponents() {
         }
     };
 
-    const ChangeViendoCliente = (todoElDato) => {
+    const ChangeViendoProveedor = (todoElDato) => {
         let datos = {
             id: todoElDato.id,
-            id_cliente: todoElDato.id_cliente,
-            estado_factura: todoElDato.estado_factura,
+            id_proveedor: todoElDato.id_proveedor,
             estado_pago: todoElDato.estado_pago,
-            valor_pago: todoElDato.valor_pago,
             fecha_pago: todoElDato.fecha_pago,
-            fecha_solicitud: todoElDato.fecha_solicitud,
+            fecha_entrega: todoElDato.fecha_entrega,
             estado_entrega: todoElDato.estado_entrega,
+            fecha_solicitud: todoElDato.fecha_solicitud,
+            factura: todoElDato.factura,
+            valor_pago: todoElDato.valor_pago,
             modo_pago: todoElDato.modo_pago,
-            fecha_inicio_pago: todoElDato.fecha_inicio_pago,
-            tiempo_de_pago: todoElDato.tiempo_de_pago,
-            numero_cheque: todoElDato.numero_cheque,
-            numero_factura: todoElDato.numero_factura,
-            empresa_despacho: todoElDato.empresa_despacho,
-            cliente: busquedaCliente(todoElDato.id_cliente),
+            proveedor: busquedaProveedor(todoElDato.id_proveedor),
 
         };
         const datosComoTexto = JSON.stringify(datos);
         console.log(datosComoTexto)
         console.log(datos)
-        navigate(`/oc/cliente/mas info/${encodeURIComponent(datosComoTexto)}`);
+        navigate(`/oc/proveedor/mas info/${encodeURIComponent(datosComoTexto)}`);
     };
 
     return(
@@ -150,25 +160,25 @@ function ListOCClienteComponents() {
                             </Form>
                             <Form className="inline-form">
                                 <Form.Group className="mb-3" controlId="nombre" value = {input.nombre} onChange={changeNombreHandler}>
-                                    <Form.Label className="agregar">Nombre Cliente:</Form.Label>
+                                    <Form.Label className="agregar">Nombre Proveedor:</Form.Label>
                                     <Form.Control className="agregar" type="text" name="Nombre" placeholder="Juan Perez" onKeyPress={handleKeyPressNombre}/>
                                 </Form.Group>
                                 <Button className="boton" onClick={buscarNombre}>Buscar</Button>
                             </Form>
                             <Form className="inline-form">
                                 <Form.Group className="mb-3" controlId="empresa" value = {input.empresa} onChange={changeEmpresaHandler} >
-                                    <Form.Label className="agregar">Empresa del Cliente:</Form.Label>
+                                    <Form.Label className="agregar">Empresa del Proveedor:</Form.Label>
                                     <Form.Control className="agregar" type="text" name="empresa" placeholder="Nombre Generico" onKeyPress={handleKeyPressEmpresa}/>
                                 </Form.Group>
                                 <Button className="boton" onClick={buscarEmpresa}>Buscar</Button>
                             </Form>
                         </div>
                         <div className="btn-inf">
-                            <Button className="boton" onClick={crearOCCliente}>Ingresar nueva OC</Button>
+                            <Button className="boton" onClick={crearOCProveedor}>Ingresar nueva OC</Button>
                         </div>
                     </div>
                     <div align="center" className="container-2">
-                        <h1><b> Ordenes de Compra de Clientes</b></h1>
+                        <h1><b> Ordenes de Compra de Proveedor</b></h1>
                         <table border="1" className="content-table">
                             <thead>
                                 <tr>
@@ -184,17 +194,17 @@ function ListOCClienteComponents() {
                             </thead>
                             <tbody>
                                 {
-                                    OCClienteEntity.map((OCCliente) => (
-                                        <tr key= {OCCliente.id}>
-                                            <td> #{OCCliente.id} </td>
-                                            <td>{busquedaCliente(OCCliente.id_cliente).nombre}</td>
-                                            <td> {OCCliente.estado_pago} </td>
-                                            <td> {modificacionFecha(OCCliente.fecha_pago)} </td>
-                                            <td> {modificacionFecha(OCCliente.fecha_solicitud)} </td>
-                                            <td> {OCCliente.valor_pago} </td>
-                                            <td> {OCCliente.estado_entrega} </td>
+                                    OCProveedorEntity.map((OCProveedor) => (
+                                        <tr key= {OCProveedor.id}>
+                                            <td> #{OCProveedor.id} </td>
+                                            <td>{busquedaProveedor(OCProveedor.id_proveedor).nombre}</td>
+                                            <td> {OCProveedor.estado_pago} </td>
+                                            <td> {modificacionFecha(OCProveedor.fecha_pago)} </td>
+                                            <td> {modificacionFecha(OCProveedor.fecha_solicitud)} </td>
+                                            <td> {OCProveedor.valor_pago} </td>
+                                            <td> {OCProveedor.estado_entrega} </td>
                                             <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
-                                            <img id="editar" src={editar} alt="editar" onClick={() => ChangeViendoCliente(OCCliente)}/>
+                                            <img id="editar" src={editar} alt="editar" onClick={() => ChangeViendoProveedor(OCProveedor)}/>
                                             </td>
                                         </tr>
                                     ))
@@ -208,7 +218,7 @@ function ListOCClienteComponents() {
     );   
 }
 
-export default ListOCClienteComponents;
+export default ListOCProveedorComponents;
 
 const NavStyle = styled.nav`
 

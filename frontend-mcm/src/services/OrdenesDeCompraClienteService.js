@@ -1,43 +1,43 @@
 import axios from 'axios';
 
-const OC_API_URL = "http://localhost:8080/ordenes_de_compra/";
+const OC_API_URL = "http://localhost:8080/ordenes_de_compra/cliente/";
 
-class OrdenesDeCompraService {
+class OrdenesDeCompraClienteService {
 
     getOCByCliente(rut){
-        return axios.get(OC_API_URL+"cliente/id/"+rut);
+        return axios.get(OC_API_URL+"id/"+rut);
     }
 
     getOCCliente(){
-        return axios.get(OC_API_URL+"cliente/");
+        return axios.get(OC_API_URL);
     }
     getOCClienteById(id){
         if(id===""){
             return this.getOCCliente()
         }
-        return axios.get(OC_API_URL+"cliente/"+id);
+        return axios.get(OC_API_URL+id);
     }
     getOCClienteByNombre(nombre){
         if(nombre===""){
             return this.getOCCliente()
         }
-        return axios.get(OC_API_URL+"cliente/nombre/"+nombre);
+        return axios.get(OC_API_URL+"nombre/"+nombre);
     }
 
     getOCClienteByEmpresa(empresa){
         if(empresa===""){
             return this.getOCCliente()
         }
-        return axios.get(OC_API_URL+"cliente/empresa/"+empresa);
+        return axios.get(OC_API_URL+"empresa/"+empresa);
     }
     putOCCliente(OCCliente){
-        return axios.put(OC_API_URL+"cliente/update", OCCliente);
+        return axios.put(OC_API_URL+"update", OCCliente);
     }
 
     deleteOCCliente(id){
-        return axios.delete(OC_API_URL+"cliente/delete/"+id);
+        return axios.delete(OC_API_URL+"delete/"+id);
     }
     
 }
 
-export default new OrdenesDeCompraService()
+export default new OrdenesDeCompraClienteService()

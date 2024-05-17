@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 
 import clientes from "../../images/cliente.png"
 import editar from "../../images/editar.png"
-import OrdenesDeCompraService from '../../services/OrdenesDeCompraClienteService'
+import OrdenesDeCompraClienteService from '../../services/OrdenesDeCompraClienteService'
 import ClienteService from "../../services/ClienteService";
 
 function ClienteComponents() {
@@ -37,7 +37,7 @@ function ClienteComponents() {
     };
 
     useEffect(() => {
-        OrdenesDeCompraService.getOCByCliente(datos.rut).then((res) => {
+        OrdenesDeCompraClienteService.getOCByCliente(datos.rut).then((res) => {
             setOC_ClienteEntity(res.data);
         });
     }, [datos.rut]);
