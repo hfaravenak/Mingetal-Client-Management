@@ -1,6 +1,7 @@
 package mingetal.MCM.proveedor.controllers;
 
 import mingetal.MCM.proveedor.entities.ProveedorEntity;
+import mingetal.MCM.proveedor.model.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.proveedor.services.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,6 +62,12 @@ public class ProveedorController {
         return new ResponseEntity<>(proveedores, HttpStatus.OK);
     }
 
+    @GetMapping("/listOC/")
+    public ResponseEntity<List<ProveedorEntity>> getProveedorByListOC(){
+        List<ProveedorEntity> proveedores = proveedorService.findByListOC();
+        return new ResponseEntity<>(proveedores, HttpStatus.OK);
+    }
+
     // Endpoint para obtener un proveedor por su ID
     @GetMapping("/{id}")
     public ResponseEntity<ProveedorEntity> getSupplierById(@PathVariable int id) {
@@ -83,8 +90,8 @@ public class ProveedorController {
     }
 
     @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<ProveedorEntity> getSupplierByNombre(@PathVariable("nombre") String nombre) {
-        ProveedorEntity proveedor = proveedorService.findByContacto(nombre);
+    public ResponseEntity<List<ProveedorEntity>> getSupplierByNombre(@PathVariable("nombre") String nombre) {
+        List<ProveedorEntity> proveedor = proveedorService.findByContacto(nombre);
         return new ResponseEntity<>(proveedor, HttpStatus.OK);
     }
 

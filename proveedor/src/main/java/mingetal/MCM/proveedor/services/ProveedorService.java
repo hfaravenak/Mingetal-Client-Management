@@ -2,10 +2,15 @@ package mingetal.MCM.proveedor.services;
 
 import mingetal.MCM.proveedor.entities.ContactoEntity;
 import mingetal.MCM.proveedor.entities.ProveedorEntity;
+import mingetal.MCM.proveedor.model.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.proveedor.repositories.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +20,8 @@ public class ProveedorService {
 
     @Autowired
     ContactoService contactoService;
+    @Autowired
+    RestTemplate restTemplate;
 
     // Verificar si existe un proveedor con la misma empresa, rut o rubro
     public boolean existSupplier(ProveedorEntity proveedor) {
@@ -34,6 +41,25 @@ public class ProveedorService {
     // Read
     public List<ProveedorEntity> findAll() {
         return proveedorRepository.findAll();
+    }
+
+    public List<ProveedorEntity> findByListOC(){
+        List<OrdenesDeCompraProveedorEntity> response = restTemplate.exchange(
+                "http://localhost:8080/ordenes_de_compra/proveedor/",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<OrdenesDeCompraProveedorEntity>>() {}
+        ).getBody();
+
+        if(response == null){
+            return new ArrayList<>();
+        }
+        List<ProveedorEntity> proveedorEntities = new ArrayList<>();
+        for (OrdenesDeCompraProveedorEntity OC: response) {
+            System.out.println("OC: "+OC);
+            proveedorEntities.add(findById(OC.getId_proveedor()));
+        }
+        return proveedorEntities;
     }
 
     public ProveedorEntity findById(int id_proveedor) {
@@ -61,20 +87,24 @@ public class ProveedorService {
     }
 
     // find by contacto
-    public ProveedorEntity findByContacto(String contacto) {
-        System.out.println(contacto);
-        ContactoEntity contactoEntity = contactoService.findContactoByNombre(contacto);
-        System.out.println(contactoEntity);
-        ProveedorEntity proveedor;
-        proveedor = proveedorRepository.findByRut1(contactoEntity.getRut());
-        if(proveedor==null){
-            proveedor = proveedorRepository.findByRut2(contactoEntity.getRut());
-            if(proveedor ==null){
-                proveedor = proveedorRepository.findByRut3(contactoEntity.getRut());
+    public List<ProveedorEntity> findByContacto(String nombre) {
+        List<ContactoEntity> contactoEntity = contactoService.findContactoByNombre(nombre);
+        List<ProveedorEntity> proveedores = new ArrayList<>();
+        for(ContactoEntity contacto:contactoEntity){
+            ProveedorEntity proveedor = proveedorRepository.findByRut1(contacto.getRut());
+            if(proveedor==null) {
+                proveedor = proveedorRepository.findByRut2(contacto.getRut());
+                if (proveedor == null) {
+                    proveedor = proveedorRepository.findByRut3(contacto.getRut());
+                }
+            }
+
+            if(proveedor!=null){
+                proveedores.add(proveedor);
             }
         }
-        System.out.println(proveedor);
-        return proveedor;
+        //System.out.println(proveedor);
+        return proveedores;
     }
 
 

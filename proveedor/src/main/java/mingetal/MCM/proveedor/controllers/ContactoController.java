@@ -1,6 +1,7 @@
 package mingetal.MCM.proveedor.controllers;
 
 import mingetal.MCM.proveedor.entities.ContactoEntity;
+import mingetal.MCM.proveedor.entities.ProveedorEntity;
 import mingetal.MCM.proveedor.services.ContactoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,12 @@ public class ContactoController {
         return new ResponseEntity<>(contactos, HttpStatus.OK);
     }
 
+     @GetMapping("/listProv/")
+    public ResponseEntity<List<ContactoEntity>> findByProveedorContacto1(){
+         List<ContactoEntity> contactos = contactoService.findByProveedorContacto1();
+         return new ResponseEntity<>(contactos, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ContactoEntity> getContactoById(@PathVariable String id) {
         ContactoEntity contacto = contactoService.findContactoById(id);
@@ -41,8 +48,8 @@ public class ContactoController {
     }
 
     @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<ContactoEntity> getContactoByNombre(@PathVariable String nombre) {
-        ContactoEntity contactos = contactoService.findContactoByNombre(nombre);
+    public ResponseEntity<List<ContactoEntity>> getContactoByNombre(@PathVariable String nombre) {
+        List<ContactoEntity> contactos = contactoService.findContactoByNombre(nombre);
         return new ResponseEntity<>(contactos, HttpStatus.OK);
     }
     @GetMapping("/empresa/{empresa}")

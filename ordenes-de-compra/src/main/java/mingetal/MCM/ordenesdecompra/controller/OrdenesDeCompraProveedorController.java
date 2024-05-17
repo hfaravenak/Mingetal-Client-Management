@@ -35,6 +35,7 @@ public class OrdenesDeCompraProveedorController {
         System.out.println(ordenesDeCompraProveedorEntities);
         return ResponseEntity.ok(ordenesDeCompraProveedorEntities);
     }
+    
 
     @GetMapping("/{id}")
     public ResponseEntity<OrdenesDeCompraProveedorEntity> getOrdenProveedorById(@PathVariable("id") int id){

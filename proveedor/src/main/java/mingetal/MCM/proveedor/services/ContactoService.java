@@ -2,9 +2,13 @@ package mingetal.MCM.proveedor.services;
 
 import mingetal.MCM.proveedor.entities.ContactoEntity;
 import mingetal.MCM.proveedor.entities.ProveedorEntity;
+import mingetal.MCM.proveedor.model.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.proveedor.repositories.ContactoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +17,10 @@ import java.util.List;
 public class ContactoService {
     @Autowired
     private ContactoRepository contactoRepository;
+    @Autowired
+    private ProveedorService proveedorService;
+    @Autowired
+    RestTemplate restTemplate;
 
     // Create
     public ContactoEntity createContacto(ContactoEntity contacto) {
@@ -27,13 +35,33 @@ public class ContactoService {
         return contactoRepository.findAll();
     }
 
+    public List<ContactoEntity> findByProveedorContacto1(){
+        List<ProveedorEntity> proveedorEntities = proveedorService.findByListOC();
+
+        List<ContactoEntity> contactoEntities = new ArrayList<>();
+        for(ProveedorEntity proveedor:proveedorEntities){
+            contactoEntities.add(findContactoById(proveedor.getId_contacto()));
+        }
+        return contactoEntities;
+    }
+
     public ContactoEntity findContactoById(String id) {
         return contactoRepository.findById(id);
     }
 
     // find by nombre del contacto
-    public ContactoEntity findContactoByNombre(String nombre) {
-        return contactoRepository.findByNombreContacto(nombre);
+    public List<ContactoEntity> findContactoByNombre(String nombre) {
+        List<ContactoEntity> contactoEntities = findAllContactos();
+        List<ContactoEntity> resultados = new ArrayList<>();
+        for (ContactoEntity nombreDeLista : contactoEntities) {
+            if (nombreDeLista.getNombre().contains(nombre)) {
+                resultados.add(nombreDeLista);
+            }
+        }
+
+        resultados.sort((p1, p2) -> p1.getNombre().compareTo(p2.getNombre()));
+
+        return resultados;
     }
 
     public List<ContactoEntity> findByContactosFromEmpresa(String empresa) {
