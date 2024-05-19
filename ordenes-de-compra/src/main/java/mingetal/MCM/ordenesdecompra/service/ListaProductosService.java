@@ -1,9 +1,13 @@
 package mingetal.MCM.ordenesdecompra.service;
 
 import mingetal.MCM.ordenesdecompra.entity.ListaProductosEntity;
+import mingetal.MCM.ordenesdecompra.model.ProductosEntity;
 import mingetal.MCM.ordenesdecompra.repository.ListaProductosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -11,6 +15,9 @@ import java.util.List;
 public class ListaProductosService {
     @Autowired
     ListaProductosRepository listaProductosRepository;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     public boolean save(ListaProductosEntity listaProductosEntity){
         if(findById(listaProductosEntity.getId())==null){
@@ -39,6 +46,22 @@ public class ListaProductosService {
 
     public List<ListaProductosEntity> findByIdProveedor(int id_OC_proveedor){
         return listaProductosRepository.findByIdProveedor(id_OC_proveedor);
+    }
+
+    public List<ListaProductosEntity> findByNameProducto(String nombre){
+
+        ProductosEntity response = restTemplate.exchange(
+                "http://localhost:8080/productos/nombre/"+nombre,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ProductosEntity>() {}
+        ).getBody();
+
+        if(response == null){
+            return null;
+        }
+
+        return findByIdProducto(response.getId());
     }
 
 

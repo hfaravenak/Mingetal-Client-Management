@@ -13,7 +13,7 @@ public class ProductosService {
     ProductosRepository productosRepository;
 
     public boolean save(ProductosEntity productosEntity){
-        if(findById(productosEntity.getId())==null){
+        if(findById(productosEntity.getId())==null && findByNombre(productosEntity.getNombre())==null){
             productosRepository.save(productosEntity);
             return true;
         }
