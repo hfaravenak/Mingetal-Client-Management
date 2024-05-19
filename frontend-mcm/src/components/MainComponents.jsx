@@ -22,6 +22,9 @@ function MainComponents() {
     const nathing = () => {
         navigate("/");
     };
+    const handleClickCotizacion = () => {
+        navigate("/cotizaciones");
+    };
     return (
         <div>
             <NavStyle>
@@ -56,10 +59,9 @@ function MainComponents() {
                         <h2>Estadistica</h2>
                         <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
-                    <div className="card" onClick={nathing}>
+                    <div className="card" onClick={handleClickCotizacion}>
                         <img id="cotizacion" src={cotizacion} alt="cotizacion" />
                         <h2>Cotizaciones</h2>
-                        <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
                 </div>
                 </div>
