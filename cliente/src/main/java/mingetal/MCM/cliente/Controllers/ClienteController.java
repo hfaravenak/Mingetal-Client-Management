@@ -42,6 +42,14 @@ public class ClienteController {
 
     }
 
+    @GetMapping("/fullNombre/{nombre}")
+    public ResponseEntity<ClienteEntity> getClienteByNombreTextual(@PathVariable("nombre") String nombre){
+        ClienteEntity clienteEntity = clienteService.findByNombreTextual(nombre);
+        System.out.println(clienteEntity);
+        return ResponseEntity.ok(clienteEntity);
+
+    }
+
     @GetMapping("/empresa/{empresa}")
     public ResponseEntity<List<ClienteEntity>> getClienteByEmpresa(@PathVariable("empresa") String empresa){
         List<ClienteEntity> clienteEntities = clienteService.findByEmpresa(empresa);

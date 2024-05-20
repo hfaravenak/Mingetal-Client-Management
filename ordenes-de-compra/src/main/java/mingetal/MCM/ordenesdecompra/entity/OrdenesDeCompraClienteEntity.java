@@ -28,6 +28,7 @@ public class OrdenesDeCompraClienteEntity {
         private int valor_pago;
         private LocalDate fecha_pago; // yyyy-mm-dd
         private LocalDate fecha_solicitud; // yyyy-mm-dd
+        private LocalDate fecha_entrega;
         @Size(max=13, message = "El tamaño máximo del campo estado_entrega es 13")
         private String estado_entrega; //Entregado | No Entregado
         @Size(max=14, message = "El tamaño máximo del campo modo_pago es 14")
@@ -53,7 +54,8 @@ public class OrdenesDeCompraClienteEntity {
                                             int tiempo_de_pago,
                                             String numero_cheque,
                                             String numero_factura,
-                                            String empresa_despacho) {
+                                            String empresa_despacho,
+                                            LocalDate fecha_entrega) {
                 this.id_cliente = id_cliente;
                 this.estado_factura = estado_factura;
                 this.estado_pago = estado_pago;
@@ -67,5 +69,6 @@ public class OrdenesDeCompraClienteEntity {
                 this.numero_cheque = numero_cheque;
                 this.numero_factura = numero_factura;
                 this.empresa_despacho = empresa_despacho;
+                this.fecha_entrega = fecha_entrega;
         }
 }

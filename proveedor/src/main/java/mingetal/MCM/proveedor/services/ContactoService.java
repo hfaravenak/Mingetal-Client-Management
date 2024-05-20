@@ -64,6 +64,10 @@ public class ContactoService {
         return resultados;
     }
 
+    public ContactoEntity findContactoByNombreTextual(String nombre) {
+        return contactoRepository.findByNombreContacto(nombre);
+    }
+
     public List<ContactoEntity> findByContactosFromEmpresa(String empresa) {
         ProveedorService proveedorService = new ProveedorService();
         ProveedorEntity proveedorEntity = proveedorService.findByEmpresa(empresa);
