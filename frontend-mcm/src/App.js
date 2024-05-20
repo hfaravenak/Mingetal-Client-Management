@@ -13,7 +13,7 @@ import MainOCComponents from "./components/Ordenes de Compra/MainOCComponents";
 import ListCotizacionComponent from "./components/Cotizaciones/ListCotizacionComponent";
 import CotizacionCrearComponent from "./components/Cotizaciones/CotizacionCrearComponent";
 import CotizacionComponent from "./components/Cotizaciones/CotizacionComponent";
-
+import ListProductosComponent from "./components/Productos/ListProductosComponents"
 
 function App() {
   return (
@@ -32,6 +32,7 @@ function App() {
                   <Route path="/cotizaciones" element={<ListCotizacionComponent/>} />
                   <Route path="/crear-cotizacion" element={<CotizacionCrearComponent/>} />
                   <Route path="/info-cotizacion/:cotizacion" element={<CotizacionComponent/>} />
+                  <Route path="/productos" element={<ListProductosComponent/>} /> 
               </Routes>
           </Router>
       </div>

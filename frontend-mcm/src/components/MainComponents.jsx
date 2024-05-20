@@ -25,6 +25,9 @@ function MainComponents() {
     const handleClickCotizacion = () => {
         navigate("/cotizaciones");
     };
+    const handleClickProductos = () => {
+        navigate("/productos")
+    }
     return (
         <div>
             <NavStyle>
@@ -40,10 +43,9 @@ function MainComponents() {
                         <h2>Proveedores</h2>
                         <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
-                    <div className="card" onClick={nathing}>
+                    <div className="card" onClick={handleClickProductos}>
                         <img id="inventario" src={inventario} alt="inventario" />
                         <h2>Inventario</h2>
-                        <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
                     <div className="card" onClick={handleClickOC}>
                         <img id="ordenes_compra" src={ordenesCompra} alt="ordenesCompra" />
