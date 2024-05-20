@@ -25,6 +25,12 @@ class ClienteService {
         }
         return axios.get(CLIENTE_API_URL + "nombre/" + nombre);
     }
+    getClienteByNombreTextual(nombre){
+        if(nombre===""){
+            return this.getClientes();
+        }
+        return axios.get(CLIENTE_API_URL + "fullNombre/" + nombre);
+    }
     getClienteByEmpresa(empresa){
         if(empresa===""){
             return this.getClientes();

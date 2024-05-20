@@ -49,6 +49,9 @@ public class ClienteService {
 
         return resultados;
     }
+    public ClienteEntity findByNombreTextual(String nombre) {
+        return clienteRepository.findByNombre(nombre);
+    }
 
     public List<ClienteEntity> findByEmpresa(String empresa) {
         List<ClienteEntity> clienteEntities = clienteRepository.findByEmpresa(empresa);

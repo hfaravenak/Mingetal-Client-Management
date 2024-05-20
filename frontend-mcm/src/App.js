@@ -10,6 +10,8 @@ import OCClienteComponents from "./components/Ordenes de Compra/Cliente/OCClient
 import ListOCProveedorComponents from "./components/Ordenes de Compra/Proveedor/ListOCProveedorComponents";
 import OCProveedorComponents from "./components/Ordenes de Compra/Proveedor/OCProveedorComponents";
 import MainOCComponents from "./components/Ordenes de Compra/MainOCComponents";
+import OCClienteCrearComponents from "./components/Ordenes de Compra/Cliente/OCClienteCrearComponents";
+import OCProveedorCrearComponents from "./components/Ordenes de Compra/Proveedor/OCProveedorCrearComponents";
 import ListCotizacionComponent from "./components/Cotizaciones/ListCotizacionComponent";
 import CotizacionCrearComponent from "./components/Cotizaciones/CotizacionCrearComponent";
 import CotizacionComponent from "./components/Cotizaciones/CotizacionComponent";
@@ -27,8 +29,10 @@ function App() {
                   <Route path="/oc" element={<MainOCComponents/>} />
                   <Route path="/oc/cliente" element={<ListOCClienteComponents/>} />
                   <Route path="/oc/cliente/mas info/:oc_cliente" element={<OCClienteComponents/>} />
+                  <Route path="/oc/cliente/crear" element={<OCClienteCrearComponents/>} />
                   <Route path="/oc/proveedor" element={<ListOCProveedorComponents/>} />
                   <Route path="/oc/proveedor/mas info/:oc_proveedor" element={<OCProveedorComponents/>} />
+                  <Route path="/oc/proveedor/crear" element={<OCProveedorCrearComponents/>} />
                   <Route path="/cotizaciones" element={<ListCotizacionComponent/>} />
                   <Route path="/crear-cotizacion" element={<CotizacionCrearComponent/>} />
                   <Route path="/info-cotizacion/:cotizacion" element={<CotizacionComponent/>} />

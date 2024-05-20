@@ -25,6 +25,9 @@ function OCProveedorComponents() {
     const navigate = useNavigate();
 
     const modificacionFecha = (fechaOriginal) => {  
+        if(fechaOriginal===null){
+            return "-";
+        }
         const partesFecha = fechaOriginal.split("-");
 
         // Crea un nuevo objeto Date con el formato "yyyy-mm-dd"
@@ -206,8 +209,8 @@ function OCProveedorComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="estado_entrega" value = {input.estado_entrega} onChange={changeEstadoEntregaHandler}>
-                                                        <Form.Select style={{width:"100%"}} value={input.estado_entrega} className="font-h2 no-border" name="estado_entrega">
+                                                    <Form.Group className="mb-3" controlId="estado_entrega">
+                                                        <Form.Select style={{width:"100%"}} value = {input.estado_entrega} onChange={changeEstadoEntregaHandler} className="font-h2 no-border" name="estado_entrega">
                                                             <option value="No Entregado">No Entregado</option>
                                                             <option value="Entregado">Entregado</option>
                                                         </Form.Select>
@@ -218,8 +221,8 @@ function OCProveedorComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="fecha_entrega" value = {input.fecha_entrega} onChange={changeFechaEntregaHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.fecha_entrega} className="font-h2 no-border" type="date" name="fecha_entrega"/>
+                                                    <Form.Group className="mb-3" controlId="fecha_entrega">
+                                                        <Form.Control style={{width:"100%"}} value = {input.fecha_entrega} onChange={changeFechaEntregaHandler} className="font-h2 no-border" type="date" name="fecha_entrega"/>
                                                     </Form.Group>
                                                 </Form>
                                             </div> 
@@ -242,8 +245,8 @@ function OCProveedorComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="estado_pago" value = {input.estado_pago} onChange={changeEstadoPagoHandler}>
-                                                        <Form.Select style={{width:"100%"}} value={input.estado_pago} className="font-h2 no-border" name="estado_pago">
+                                                    <Form.Group className="mb-3" controlId="estado_pago">
+                                                        <Form.Select style={{width:"100%"}} value = {input.estado_pago} onChange={changeEstadoPagoHandler} className="font-h2 no-border" name="estado_pago">
                                                             <option value="No Pagado">No Pagado</option>
                                                             <option value="Pagado">Pagado</option>
                                                         </Form.Select>
@@ -254,8 +257,8 @@ function OCProveedorComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="fecha_pago" value = {input.fecha_pago} onChange={changeFechaPagoHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.fecha_pago} className="font-h2 no-border" type="date" name="fecha_pago"/>
+                                                    <Form.Group className="mb-3" controlId="fecha_pago">
+                                                        <Form.Control style={{width:"100%"}} value = {input.fecha_pago} onChange={changeFechaPagoHandler} className="font-h2 no-border" type="date" name="fecha_pago"/>
                                                     </Form.Group>
                                                 </Form>
                                             </div> 
@@ -275,8 +278,8 @@ function OCProveedorComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="factura" value = {input.factura} onChange={changeFacturaHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.factura} className="font-h2 no-border" type="number" name="factura" placeholder="25"/>
+                                                    <Form.Group className="mb-3" controlId="factura">
+                                                        <Form.Control style={{width:"100%"}} value = {input.factura} onChange={changeFacturaHandler} className="font-h2 no-border" type="number" name="factura" placeholder="25"/>
                                                     </Form.Group>
                                                 </Form>
                                             </div> 
@@ -386,14 +389,12 @@ const NavStyle = styled.nav`
     height: 100%;
 }
 .container-1{
+    height: 80%;
     background-color: #F0F0F0;
-    width: 10%;
+    width: 20%;
     flex-shrink: 0; /* Hace que el contenedor no se encoja */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
-    display: flex;
-    flex-direction: column;
-    height: 58.9vh;
 }
 .container-2{
     background-color: #F0F0F0;

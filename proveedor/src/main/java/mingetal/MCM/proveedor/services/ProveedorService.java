@@ -62,6 +62,10 @@ public class ProveedorService {
         return proveedorEntities;
     }
 
+    public List<ProveedorEntity> findDespacho(){
+        return proveedorRepository.findByDespacho("DESPACHOS");
+    }
+
     public ProveedorEntity findById(int id_proveedor) {
         return proveedorRepository.findById(id_proveedor);
     }
@@ -105,6 +109,19 @@ public class ProveedorService {
         }
         //System.out.println(proveedor);
         return proveedores;
+    }
+
+    public ProveedorEntity findByNombreTextual(String nombre) {
+        ContactoEntity contactoEntity = contactoService.findContactoByNombreTextual(nombre);
+        ProveedorEntity proveedor = proveedorRepository.findByRut1(contactoEntity.getRut());
+        if(proveedor==null) {
+            proveedor = proveedorRepository.findByRut2(contactoEntity.getRut());
+            if (proveedor == null) {
+                proveedor = proveedorRepository.findByRut3(contactoEntity.getRut());
+            }
+        }
+        //System.out.println(proveedor);
+        return proveedor;
     }
 
 

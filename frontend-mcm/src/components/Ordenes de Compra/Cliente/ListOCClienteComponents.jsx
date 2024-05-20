@@ -49,7 +49,10 @@ function ListOCClienteComponents() {
         });
         return variable;
     };
-    const modificacionFecha = (fechaOriginal) => {  
+    const modificacionFecha = (fechaOriginal) => {
+        if(fechaOriginal===null){
+            return "-";
+        }
         const partesFecha = fechaOriginal.split("-");
 
         // Crea un nuevo objeto Date con el formato "yyyy-mm-dd"
@@ -116,7 +119,7 @@ function ListOCClienteComponents() {
             estado_factura: todoElDato.estado_factura,
             estado_pago: todoElDato.estado_pago,
             valor_pago: todoElDato.valor_pago,
-            fecha_pago: todoElDato.fecha_pago,
+            fecha_pago: todoElDato.fecha_pago,  
             fecha_solicitud: todoElDato.fecha_solicitud,
             estado_entrega: todoElDato.estado_entrega,
             modo_pago: todoElDato.modo_pago,
@@ -129,8 +132,6 @@ function ListOCClienteComponents() {
 
         };
         const datosComoTexto = JSON.stringify(datos);
-        console.log(datosComoTexto)
-        console.log(datos)
         navigate(`/oc/cliente/mas info/${encodeURIComponent(datosComoTexto)}`);
     };
 

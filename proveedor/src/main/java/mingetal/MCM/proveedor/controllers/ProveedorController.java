@@ -101,4 +101,18 @@ public class ProveedorController {
         List<ProveedorEntity> proveedores = proveedorService.findByRubro(rubro);
         return new ResponseEntity<>(proveedores, HttpStatus.OK);
     }
+
+    @GetMapping("/despacho/")
+    public ResponseEntity<List<ProveedorEntity>> getSupplierByRubro() {
+        List<ProveedorEntity> proveedores = proveedorService.findDespacho();
+        return new ResponseEntity<>(proveedores, HttpStatus.OK);
+    }
+
+    @GetMapping("/fullNombre/{nombre}")
+    public ResponseEntity<ProveedorEntity> getProveedorByNombreTextual(@PathVariable("nombre") String nombre){
+        ProveedorEntity proveedorEntity = proveedorService.findByNombreTextual(nombre);
+        System.out.println(proveedorEntity);
+        return ResponseEntity.ok(proveedorEntity);
+
+    }
 }

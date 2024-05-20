@@ -4,6 +4,10 @@ const OC_API_URL = "http://localhost:8080/ordenes_de_compra/cliente/";
 
 class OrdenesDeCompraClienteService {
 
+    createOCCliente(newOC){
+        return axios.post(OC_API_URL, newOC);
+    }
+
     getOCByCliente(rut){
         return axios.get(OC_API_URL+"id/"+rut);
     }

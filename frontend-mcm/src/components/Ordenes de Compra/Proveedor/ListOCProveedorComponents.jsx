@@ -24,16 +24,13 @@ function ListOCProveedorComponents() {
 
     useEffect(() => {
         OrdenesDeCompraProveedorService.getOCProveedor().then((res) => {
-            console.log(res.data);
             setOCProveedorEntity(res.data);
         });
         ProveedorService.getProveedorByListOC().then((res) => {
-            console.log(res.data);
             setProveedorEntity(res.data);
         });
 
         ProveedorService.getContacto1ByListOC().then((res)=>{
-            console.log(res.data);
             setContactoEntity(res.data);
         })
     }, []);
@@ -73,6 +70,9 @@ function ListOCProveedorComponents() {
         return variable;
     };
     const modificacionFecha = (fechaOriginal) => {  
+        if(fechaOriginal===null){
+            return "-";
+        }
         const partesFecha = fechaOriginal.split("-");
 
         // Crea un nuevo objeto Date con el formato "yyyy-mm-dd"
@@ -105,7 +105,6 @@ function ListOCProveedorComponents() {
     }
     const buscarEmpresa = () => {
         OrdenesDeCompraProveedorService.getOCProveedorByEmpresa(input.empresa).then((res) => {
-            console.log(res.data);
             setOCProveedorEntity(res.data);
         });
     }
@@ -150,8 +149,6 @@ function ListOCProveedorComponents() {
 
         };
         const datosComoTexto = JSON.stringify(datos);
-        console.log(datosComoTexto)
-        console.log(datos)
         navigate(`/oc/proveedor/mas info/${encodeURIComponent(datosComoTexto)}`);
     };
 
