@@ -12,6 +12,7 @@ import OCProveedorComponents from "./components/Ordenes de Compra/Proveedor/OCPr
 import MainOCComponents from "./components/Ordenes de Compra/MainOCComponents";
 import ListCotizacionComponent from "./components/Cotizaciones/ListCotizacionComponent";
 import CotizacionCrearComponent from "./components/Cotizaciones/CotizacionCrearComponent";
+import CotizacionComponent from "./components/Cotizaciones/CotizacionComponent";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
                   <Route path="/oc/proveedor/mas info/:oc_proveedor" element={<OCProveedorComponents/>} />
                   <Route path="/cotizaciones" element={<ListCotizacionComponent/>} />
                   <Route path="/crear-cotizacion" element={<CotizacionCrearComponent/>} />
+                  <Route path="/info-cotizacion/:cotizacion" element={<CotizacionComponent/>} />
               </Routes>
           </Router>
       </div>

@@ -104,7 +104,7 @@ function ListCotizacionComponent() {
             rutCliente: rutCliente
         };
         const datosComoTexto = JSON.stringify(datos);
-        navigate(`/cotizaciones/mas info/${encodeURIComponent(datosComoTexto)}`);
+        navigate(`/info-cotizacion/${encodeURIComponent(datosComoTexto)}`);
     };
     return(
         <div>
