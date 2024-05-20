@@ -28,7 +28,10 @@ function OCClienteComponents() {
 
     const navigate = useNavigate();
 
-    const modificacionFecha = (fechaOriginal) => {  
+    const modificacionFecha = (fechaOriginal) => {
+        if(fechaOriginal===null){
+            return "-";
+        }
         const partesFecha = fechaOriginal.split("-");
 
         // Crea un nuevo objeto Date con el formato "yyyy-mm-dd"
@@ -48,32 +51,9 @@ function OCClienteComponents() {
         navigate("");
     };
 
-    const changeEmpresaDespachoHandler = event => {
-        setInput({ ...input, empresa_despacho: event.target.value });
-    };
-    const changeTiempoPagoHandler = event => {
-        setInput({ ...input, tiempo_de_pago: event.target.value });
-    };
-    const changeNumeroChequeHandler = event => {
-        setInput({ ...input, numero_cheque: event.target.value });
-    };
-    const changeNumeroFacturaHandler = event => {
-        setInput({ ...input, numero_factura: event.target.value });
-    };
-    const changeEstadoFacturaHandler = event => {
-        setInput({ ...input, estado_factura: event.target.value });
-    };
-    const changeModoPagoHandler = event => {
-        setInput({ ...input, modo_pago: event.target.value });
-    };
-    const changeEstadoPagoHandler = event => {
-        setInput({ ...input, estado_pago: event.target.value });
-    };
-    const changeEstadoEntregaHandler = event => {
-        setInput({ ...input, estado_entrega: event.target.value });
-    };
-    const changeFechaPagoHandler = event => {
-        setInput({ ...input, fecha_pago: event.target.value });
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setInput({ ...input, [name]: value });
     };
 
     const changeMostrarCard = () => {
@@ -119,7 +99,6 @@ function OCClienteComponents() {
                     empresa_despacho: input.empresa_despacho,
         
                 };
-                console.log(updateOC);
                 OrdenesDeCompraClienteService.putOCCliente(updateOC);
                 let OtherUpdateOC = {
                     id: datos.id,
@@ -194,7 +173,7 @@ function OCClienteComponents() {
                     <HeaderComponents></HeaderComponents>
                     <div className="container">
                         <div className="container-1">
-                            <div className="card" onClick={nathing}>
+                            <div className="card">
                                 <div className="contenedor-img">
                                     <img id="clientes" src={clientes} alt="clientes" />
                                 </div>
@@ -227,8 +206,8 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="estado_entrega" value = {input.estado_entrega} onChange={changeEstadoEntregaHandler}>
-                                                        <Form.Select style={{width:"100%"}} value={input.estado_entrega} className="font-h2 no-border" name="estado_entrega">
+                                                    <Form.Group className="mb-3" controlId="estado_entrega">
+                                                        <Form.Select style={{width:"100%"}} value = {input.estado_entrega} onChange={handleInputChange} className="font-h2 no-border" name="estado_entrega">
                                                             <option value="No Entregado">No Entregado</option>
                                                             <option value="Entregado">Entregado</option>
                                                         </Form.Select>
@@ -239,8 +218,8 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="empresa_despacho" value = {input.empresa_despacho} onChange={changeEmpresaDespachoHandler}>
-                                                        <Form.Control value={input.empresa_despacho} className="font-h2 no-border" type="text" name="empresa_despacho" placeholder="TransporteZ"/>
+                                                    <Form.Group className="mb-3" controlId="empresa_despacho">
+                                                        <Form.Control value = {input.empresa_despacho} onChange={handleInputChange} className="font-h2 no-border" type="text" name="empresa_despacho" placeholder="TransporteZ"/>
                                                     </Form.Group>
                                                 </Form>
                                             </div>
@@ -267,8 +246,8 @@ function OCClienteComponents() {
                                         <td>
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="modo_pago" value = {input.modo_pago} onChange={changeModoPagoHandler}>
-                                                        <Form.Select style={{width:"100%"}} value={input.modo_pago} className="font-h2 no-border" name="modo_pago">
+                                                    <Form.Group className="mb-3" controlId="modo_pago">
+                                                        <Form.Select style={{width:"100%"}} value = {input.modo_pago} onChange={handleInputChange} className="font-h2 no-border" name="modo_pago">
                                                             <option value="Transferencia">Transferencia</option>
                                                             <option value="Efectivo">Efectivo</option>
                                                             <option value="Cheque">Cheque</option>
@@ -280,8 +259,8 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="numero_cheque" value = {input.numero_cheque} onChange={changeNumeroChequeHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.numero_cheque} className="font-h2 no-border" type="number" name="numero_cheque" placeholder="25"/>
+                                                    <Form.Group className="mb-3" controlId="numero_cheque">
+                                                        <Form.Control style={{width:"100%"}} value = {input.numero_cheque} onChange={handleInputChange} className="font-h2 no-border" type="number" name="numero_cheque" placeholder="25"/>
                                                     </Form.Group>
                                                 </Form>
                                             </div>        
@@ -289,8 +268,8 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="estado_pago" value = {input.estado_pago} onChange={changeEstadoPagoHandler}>
-                                                        <Form.Select style={{width:"100%"}} value={input.estado_pago} className="font-h2 no-border" name="estado_pago">
+                                                    <Form.Group className="mb-3" controlId="estado_pago">
+                                                        <Form.Select style={{width:"100%"}} value = {input.estado_pago} onChange={handleInputChange} className="font-h2 no-border" name="estado_pago">
                                                             <option value="No Pagado">No Pagado</option>
                                                             <option value="Pagado">Pagado</option>
                                                         </Form.Select>
@@ -302,8 +281,8 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="tiempo_de_pago" value = {input.tiempo_de_pago} onChange={changeTiempoPagoHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.tiempo_de_pago} className="font-h2 no-border" type="number" name="tiempo_de_pago" placeholder="25"/>
+                                                    <Form.Group className="mb-3" controlId="tiempo_de_pago">
+                                                        <Form.Control style={{width:"100%"}} value = {input.tiempo_de_pago} onChange={handleInputChange} className="font-h2 no-border" type="number" name="tiempo_de_pago" placeholder="25"/>
                                                     </Form.Group>
                                                 </Form>
                                             </div>    
@@ -311,8 +290,8 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="fecha_pago" value = {input.fecha_pago} onChange={changeFechaPagoHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.fecha_pago} className="font-h2 no-border" type="date" name="fecha_pago"/>
+                                                    <Form.Group className="mb-3" controlId="fecha_pago">
+                                                        <Form.Control style={{width:"100%"}} value = {input.fecha_pago} onChange={handleInputChange} className="font-h2 no-border" type="date" name="fecha_pago"/>
                                                     </Form.Group>
                                                 </Form>
                                             </div> 
@@ -333,8 +312,8 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="numero_factura" value = {input.numero_factura} onChange={changeNumeroFacturaHandler}>
-                                                        <Form.Control style={{width:"100%"}} value={input.numero_factura} className="font-h2 no-border" type="number" name="numero_factura" placeholder="25"/>
+                                                    <Form.Group className="mb-3" controlId="numero_factura">
+                                                        <Form.Control style={{width:"100%"}} value = {input.numero_factura} onChange={handleInputChange} className="font-h2 no-border" type="number" name="numero_factura" placeholder="25"/>
                                                     </Form.Group>
                                                 </Form>
                                             </div> 
@@ -342,8 +321,8 @@ function OCClienteComponents() {
                                         <td> 
                                             <div className="inline-forms-container contenedor-informacion">
                                                 <Form className="inline-form" style={{width: "150px"}}>
-                                                    <Form.Group className="mb-3" controlId="estado_factura" value = {input.estado_factura} onChange={changeEstadoFacturaHandler}>
-                                                        <Form.Select style={{width:"100%"}} value={input.estado_factura} className="font-h2 no-border" name="estado_factura">
+                                                    <Form.Group className="mb-3" controlId="estado_factura">
+                                                        <Form.Select style={{width:"100%"}} value = {input.estado_factura} onChange={handleInputChange} className="font-h2 no-border" name="estado_factura">
                                                             <option value="No Emitida">No Emitida</option>
                                                             <option value="Emitida">Emitida</option>
                                                         </Form.Select>
@@ -463,14 +442,12 @@ const NavStyle = styled.nav`
     height: 100%;
 }
 .container-1{
+    height: 80%;
     background-color: #F0F0F0;
-    width: 10%;
+    width: 20%;
     flex-shrink: 0; /* Hace que el contenedor no se encoja */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
-    display: flex;
-    flex-direction: column;
-    height: 58.9vh;
 }
 .container-2{
     background-color: #F0F0F0;

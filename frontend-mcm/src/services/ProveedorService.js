@@ -10,6 +10,14 @@ class ProveedorService {
     getContacto1ByListOC(){
         return axios.get(PROVEEDOR_API_URL+"contactos/listProv/");
     }
+
+    getDespacho(){
+        return axios.get(PROVEEDOR_API_URL+"despacho/");
+    }
+    
+    getProveedorByNombreTextual(nombre){
+        return axios.get(PROVEEDOR_API_URL+"fullNombre/"+nombre);
+    }
 }
 
 export default new ProveedorService()

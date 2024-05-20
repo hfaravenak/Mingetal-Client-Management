@@ -32,8 +32,61 @@ function ClienteComponents() {
     const [OC_ClienteEntity, setOC_ClienteEntity] = useState([]);
 
 
-    const nathing = () => {
-        navigate("");
+    const verOrdenDeCompra = (OC_Cliente) => {
+        let datosEnvio = {
+            id: OC_Cliente.id,
+            id_cliente: OC_Cliente.id_cliente,
+            estado_factura: OC_Cliente.estado_factura,
+            estado_pago: OC_Cliente.estado_pago,
+            valor_pago: OC_Cliente.valor_pago,
+            fecha_pago: OC_Cliente.fecha_pago,
+            fecha_solicitud: OC_Cliente.fecha_solicitud,
+            estado_entrega: OC_Cliente.estado_entrega,
+            modo_pago: OC_Cliente.modo_pago,
+            fecha_inicio_pago: OC_Cliente.fecha_inicio_pago,
+            tiempo_de_pago: OC_Cliente.tiempo_de_pago,
+            numero_cheque: OC_Cliente.numero_cheque,
+            numero_factura: OC_Cliente.numero_factura,
+            empresa_despacho: OC_Cliente.empresa_despacho,
+            cliente: datos,
+
+        };
+        const datosComoTexto = JSON.stringify(datosEnvio);
+        navigate(`/oc/cliente/mas info/${encodeURIComponent(datosComoTexto)}`);
+    };
+    const verOrdenDeCompraEditar = (OC_Cliente) => {
+        Swal.fire({
+            title: "¿Desea cancelar la edición del cliente?",
+            icon: "question",   
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            confirmButtonColor: "rgb(68, 194, 68)",
+            denyButtonText: "Cancelar",
+            denyButtonColor: "rgb(190, 54, 54)",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let datosEnvio = {
+                    id: OC_Cliente.id,
+                    id_cliente: OC_Cliente.id_cliente,
+                    estado_factura: OC_Cliente.estado_factura,
+                    estado_pago: OC_Cliente.estado_pago,
+                    valor_pago: OC_Cliente.valor_pago,
+                    fecha_pago: OC_Cliente.fecha_pago,
+                    fecha_solicitud: OC_Cliente.fecha_solicitud,
+                    estado_entrega: OC_Cliente.estado_entrega,
+                    modo_pago: OC_Cliente.modo_pago,
+                    fecha_inicio_pago: OC_Cliente.fecha_inicio_pago,
+                    tiempo_de_pago: OC_Cliente.tiempo_de_pago,
+                    numero_cheque: OC_Cliente.numero_cheque,
+                    numero_factura: OC_Cliente.numero_factura,
+                    empresa_despacho: OC_Cliente.empresa_despacho,
+                    cliente: datos,
+        
+                };
+                const datosComoTexto = JSON.stringify(datosEnvio);
+                navigate(`/oc/cliente/mas info/${encodeURIComponent(datosComoTexto)}`);
+            }
+        });
     };
 
     useEffect(() => {
@@ -140,20 +193,20 @@ function ClienteComponents() {
                     <HeaderComponents></HeaderComponents>
                     <div className="container">
                         <div className="container-1">
-                            <div className="card" onClick={nathing}>
+                            <div className="card">
                                 <div className="contenedor-img">
                                     <img id="clientes" src={clientes} alt="clientes" />
                                 </div>
                                 <div className="inline-forms-container contenedor-informacion">
                                     <Form className="inline-form">
-                                        <Form.Group className="mb-3" controlId="nombre" value = {input.nombre} onChange={changeNombreHandler}>
-                                            <Form.Control value={input.nombre} className="font-h3 no-border" type="text" name="Nombre" placeholder="Juan Perez"/>
+                                        <Form.Group className="mb-3" controlId="nombre">
+                                            <Form.Control value = {input.nombre} onChange={changeNombreHandler} className="font-h3 no-border" type="text" name="Nombre" placeholder="Juan Perez"/>
                                         </Form.Group>
                                     </Form>
                                     <Form className="inline-form" style={{marginTop:"2.2%"}}>
-                                        <Form.Group className="mb-3" controlId="empresa" value = {input.empresa} onChange={changeEmpresaHandler}>
+                                        <Form.Group className="mb-3" controlId="empresa">
                                             <Form.Label className="font-h2">Empresa:</Form.Label>
-                                            <Form.Control value={input.empresa} className="font-h2-control no-border" type="text" name="empresa" placeholder="Nombre Generico"/>
+                                            <Form.Control value = {input.empresa} onChange={changeEmpresaHandler} className="font-h2-control no-border" type="text" name="empresa" placeholder="Nombre Generico"/>
                                         </Form.Group>
                                     </Form>
                                     <h3 style={{color:"gray", marginTop:"2%", marginBottom:"2%"}}>Rut: {datos.rut}</h3>
@@ -164,9 +217,9 @@ function ClienteComponents() {
                                         </Form.Group>
                                     </Form>
                                     <Form className="inline-form">
-                                        <Form.Group className="mb-3" controlId="telefono" value = {input.telefono} onChange={changeTelefonoHandler}>
+                                        <Form.Group className="mb-3" controlId="telefono">
                                             <Form.Label className="font-h2">Telefono:</Form.Label>
-                                            <Form.Control value={input.telefono} className="font-h2-control no-border" type="text" name="telefono" placeholder="+569 12345678"/>
+                                            <Form.Control value = {input.telefono} onChange={changeTelefonoHandler} className="font-h2-control no-border" type="text" name="telefono" placeholder="+569 12345678"/>
                                         </Form.Group>
                                     </Form>
                                 </div>
@@ -177,13 +230,14 @@ function ClienteComponents() {
                         <div className="container-2">
                         <h1><b> Ordenes de Compra</b></h1>
                             <table border="1" className="content-table">
-                                <thead>
+                            <thead>
                                     <tr>
                                         <th>Ref #</th>
-                                        <th>Fecha</th>
-                                        <th>Estado</th>
-                                        <th>Monto</th>
-                                        <th>Modo Pago</th>
+                                        <th>Estado del Pago</th>
+                                        <th>Fecha del Pago</th>
+                                        <th>Fecha de la Solicitud</th>
+                                        <th>Valor del Pago</th>
+                                        <th>Estado de la Entrega</th>
                                         <th>Más información</th>
                                     </tr>
                                 </thead>
@@ -191,13 +245,14 @@ function ClienteComponents() {
                                     {
                                         OC_ClienteEntity.map((OC_Cliente) => (
                                             <tr key= {OC_Cliente.id}>
-                                                <td> {OC_Cliente.id} </td>
-                                                <td> {OC_Cliente.fecha_solicitud} </td>
+                                                <td> #{OC_Cliente.id} </td>
                                                 <td> {OC_Cliente.estado_pago} </td>
+                                                <td> {OC_Cliente.fecha_pago} </td>
+                                                <td> {OC_Cliente.fecha_solicitud} </td>
                                                 <td> {OC_Cliente.valor_pago} </td>
-                                                <td> {OC_Cliente.modo_pago} </td>
+                                                <td> {OC_Cliente.estado_entrega} </td>
                                                 <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
-                                                <img id="editar" src={editar} alt="editar" onClick={() => nathing}/>
+                                                <img id="editar" src={editar} alt="editar" onClick={()=>verOrdenDeCompraEditar(OC_Cliente)}/>
                                                 </td>
                                             </tr>
                                         ))
@@ -217,7 +272,7 @@ function ClienteComponents() {
                     <HeaderComponents></HeaderComponents>
                     <div className="container">
                         <div className="container-1">
-                            <div className="card" onClick={nathing}>
+                            <div className="card">
                                 <div className="contenedor-img">
                                     <img id="clientes" src={clientes} alt="clientes" />
                                 </div>
@@ -257,7 +312,7 @@ function ClienteComponents() {
                                                 <td> {OC_Cliente.valor_pago} </td>
                                                 <td> {OC_Cliente.estado_entrega} </td>
                                                 <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
-                                                <img id="editar" src={editar} alt="editar" onClick={() => nathing}/>
+                                                <img id="editar" src={editar} alt="editar" onClick={()=>verOrdenDeCompra(OC_Cliente)}/>
                                                 </td>
                                             </tr>
                                         ))
@@ -289,14 +344,12 @@ const NavStyle = styled.nav`
     height: 100%;
 }
 .container-1{
+    height: 80%;
     background-color: #F0F0F0;
-    width: 10%;
+    width: 20%;
     flex-shrink: 0; /* Hace que el contenedor no se encoja */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
-    display: flex;
-    flex-direction: column;
-    height: 58.9vh;
 }
 .container-2{
     background-color: #F0F0F0;
