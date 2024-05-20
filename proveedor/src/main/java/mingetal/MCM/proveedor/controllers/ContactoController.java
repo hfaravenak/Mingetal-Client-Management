@@ -31,6 +31,12 @@ public class ContactoController {
         return new ResponseEntity<>(contactos, HttpStatus.OK);
     }
 
+    @GetMapping("/proveedores")
+    public ResponseEntity<List<ContactoEntity>> getAllContactos1Proveedor() {
+        List<ContactoEntity> contactos = contactoService.getAllContactos1Proveedor();
+        return new ResponseEntity<>(contactos, HttpStatus.OK);
+    }
+
      @GetMapping("/listProv/")
     public ResponseEntity<List<ContactoEntity>> findByProveedorContacto1(){
          List<ContactoEntity> contactos = contactoService.findByProveedorContacto1();

@@ -45,6 +45,16 @@ public class ContactoService {
         return contactoEntities;
     }
 
+    public List<ContactoEntity> getAllContactos1Proveedor(){
+        List<ProveedorEntity> proveedorEntities = proveedorService.findAll();
+
+        List<ContactoEntity> contactoEntities = new ArrayList<>();
+        for(ProveedorEntity proveedor:proveedorEntities){
+            contactoEntities.add(findContactoById(proveedor.getId_contacto()));
+        }
+        return contactoEntities;
+    }
+
     public ContactoEntity findContactoById(String id) {
         return contactoRepository.findById(id);
     }
