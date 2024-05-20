@@ -23,7 +23,10 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
-                "b55c2214"
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                500,
+                "Entregado"
         );
 
         boolean bool = ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
@@ -37,7 +40,10 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
-                "b55c2214"
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
         boolean bool = ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
@@ -52,7 +58,10 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
-                "b55c2214"
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
         assertEquals(ordenesDeCompraProveedorEntity, ordenesDeCompraProveedorService.deleteOCProveedor(ordenesDeCompraProveedorEntity.getId()));
@@ -70,7 +79,10 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
-                "b55c2214"
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
 
@@ -90,7 +102,10 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
-                "b55c2214"
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
 
@@ -110,7 +125,10 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
-                "b55c2214"
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
 
@@ -123,10 +141,13 @@ public class OrdenesDeCompraProveedorServiceTest {
     void updateOCProveedorByEstadoPagoTestFalseYaPagada(){
         OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = new OrdenesDeCompraProveedorEntity(
                 -2,
-                "Pagado",
+                "No Pagado",
                 LocalDate.parse("2024-05-25"),
                 LocalDate.parse("2024-05-30"),
-                "b55c2214"
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                500,
+                "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
 

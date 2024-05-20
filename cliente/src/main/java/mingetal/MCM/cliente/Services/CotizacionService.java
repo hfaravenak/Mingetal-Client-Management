@@ -15,13 +15,13 @@ public class CotizacionService {
 
     public void save(CotizacionEntity cotizacionEntity) { cotizacionRepository.save(cotizacionEntity); }
     public List<CotizacionEntity> findAll() { return cotizacionRepository.findAll(); }
-    public CotizacionEntity findById(Long id) { return cotizacionRepository.findById(id).orElse(null); }
+    public CotizacionEntity findById(int id) { return cotizacionRepository.findById(id).orElse(null); }
 
     public List<CotizacionEntity> findByPedido(String pedido) { return cotizacionRepository.findByPedido(pedido); }
     public List<CotizacionEntity> findByFecha(LocalDate fecha) { return cotizacionRepository.findByFecha(fecha); }
     public List<CotizacionEntity> findByEstado(String estado) { return cotizacionRepository.findByEstado(estado); }
     public List<CotizacionEntity> findByRutCliente(String rutCliente) { return cotizacionRepository.findByRutCliente(rutCliente); }
-    public CotizacionEntity delete(Long id) {
+    public CotizacionEntity delete(int id) {
         CotizacionEntity cotizacionEntity = findById(id);
         cotizacionRepository.delete(cotizacionEntity);
         return cotizacionEntity;

@@ -1,6 +1,7 @@
 package mingetal.MCM.proveedor.controllers;
 
 import mingetal.MCM.proveedor.entities.ProveedorEntity;
+import mingetal.MCM.proveedor.model.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.proveedor.services.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,40 +11,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/proveedores")
+@RequestMapping("/proveedor")
 public class ProveedorController {
 
     @Autowired
     private ProveedorService proveedorService;
 
     // Endpoint para crear un nuevo proveedor
-    @PostMapping("/crear")
-    public ResponseEntity<ProveedorEntity> createSupplier(@RequestParam String empresa,
-                                                          @RequestParam String rut,
-                                                          @RequestParam String rubro,
-                                                          @RequestParam String comentario) {
-        ProveedorEntity proveedor = proveedorService.createSupplier(empresa, rut, rubro, comentario);
-        return new ResponseEntity<>(proveedor, HttpStatus.CREATED);
+    @PostMapping("")
+    public ResponseEntity<ProveedorEntity> createSupplier(@RequestBody ProveedorEntity proveedor) {
+        ProveedorEntity proveedorNew = proveedorService.createSupplier(proveedor);
+        return new ResponseEntity<>(proveedorNew, HttpStatus.CREATED);
     }
 
     // Endpoint para actualizar la empresa de un proveedor
-    @PutMapping("/{id}/empresa")
+    @PutMapping("/empresa/{id}")
     public ResponseEntity<ProveedorEntity> updateSupplierEmpresa(@PathVariable int id,
                                                                  @RequestParam String nuevaEmpresa) {
         ProveedorEntity proveedor = proveedorService.updateEmpresa(id, nuevaEmpresa);
         return new ResponseEntity<>(proveedor, HttpStatus.OK);
     }
 
-    // Endpoint para actualizar el rut de un proveedor
-    @PutMapping("/{id}/rut")
-    public ResponseEntity<ProveedorEntity> updateSupplierRut(@PathVariable int id,
-                                                             @RequestParam String nuevoRut) {
-        ProveedorEntity proveedor = proveedorService.updateRut(id, nuevoRut);
-        return new ResponseEntity<>(proveedor, HttpStatus.OK);
-    }
-
     // Endpoint para actualizar el rubro de un proveedor
-    @PutMapping("/{id}/rubro")
+    @PutMapping("/rubro/{id}")
     public ResponseEntity<ProveedorEntity> updateSupplierRubro(@PathVariable int id,
                                                                @RequestParam String nuevoRubro) {
         ProveedorEntity proveedor = proveedorService.updateRubro(id, nuevoRubro);
@@ -51,7 +41,7 @@ public class ProveedorController {
     }
 
     // Endpoint para actualizar el comentario de un proveedor
-    @PutMapping("/{id}/comentario")
+    @PutMapping("/comentario/{id}")
     public ResponseEntity<ProveedorEntity> updateSupplierComentario(@PathVariable int id,
                                                                     @RequestParam String nuevoComentario) {
         ProveedorEntity proveedor = proveedorService.updateComentario(id, nuevoComentario);
@@ -66,9 +56,15 @@ public class ProveedorController {
     }
 
     // Endpoint para obtener todos los proveedores
-    @GetMapping("/todos")
+    @GetMapping("/")
     public ResponseEntity<List<ProveedorEntity>> getAllSuppliers() {
         List<ProveedorEntity> proveedores = proveedorService.findAll();
+        return new ResponseEntity<>(proveedores, HttpStatus.OK);
+    }
+
+    @GetMapping("/listOC/")
+    public ResponseEntity<List<ProveedorEntity>> getProveedorByListOC(){
+        List<ProveedorEntity> proveedores = proveedorService.findByListOC();
         return new ResponseEntity<>(proveedores, HttpStatus.OK);
     }
 
@@ -80,22 +76,28 @@ public class ProveedorController {
     }
 
     // Endpoint para buscar proveedores por empresa
-    @GetMapping("/buscar/empresa")
-    public ResponseEntity<ProveedorEntity> getSupplierByEmpresa(@RequestParam String empresa) {
+    @GetMapping("/empresa/{empresa}")
+    public ResponseEntity<ProveedorEntity> getSupplierByEmpresa(@PathVariable("empresa") String empresa) {
         ProveedorEntity proveedor = proveedorService.findByEmpresa(empresa);
         return new ResponseEntity<>(proveedor, HttpStatus.OK);
     }
 
     // Endpoint para buscar proveedores por rut
-    @GetMapping("/buscar/rut")
-    public ResponseEntity<ProveedorEntity> getSupplierByRut(@RequestParam String rut) {
+    @GetMapping("/rut/{rut}")
+    public ResponseEntity<ProveedorEntity> getSupplierByRut(@PathVariable("rut") String rut) {
         ProveedorEntity proveedor = proveedorService.findByRut(rut);
         return new ResponseEntity<>(proveedor, HttpStatus.OK);
     }
 
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<List<ProveedorEntity>> getSupplierByNombre(@PathVariable("nombre") String nombre) {
+        List<ProveedorEntity> proveedor = proveedorService.findByContacto(nombre);
+        return new ResponseEntity<>(proveedor, HttpStatus.OK);
+    }
+
     // Endpoint para buscar proveedores por rubro
-    @GetMapping("/buscar/rubro")
-    public ResponseEntity<List<ProveedorEntity>> getSupplierByRubro(@RequestParam String rubro) {
+    @GetMapping("/rubro/{rubro}")
+    public ResponseEntity<List<ProveedorEntity>> getSupplierByRubro(@PathVariable("rubro") String rubro) {
         List<ProveedorEntity> proveedores = proveedorService.findByRubro(rubro);
         return new ResponseEntity<>(proveedores, HttpStatus.OK);
     }

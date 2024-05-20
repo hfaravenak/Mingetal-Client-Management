@@ -19,6 +19,7 @@ public class CotizacionController {
 
     @PostMapping("/guardar-cotizacion")
     public ResponseEntity<CotizacionEntity> saveCotizacion(@RequestBody CotizacionEntity cotizacionEntity) {
+        System.out.println(cotizacionEntity);
         cotizacionService.save(cotizacionEntity);
         return ResponseEntity.ok(cotizacionEntity);
     }
@@ -34,7 +35,7 @@ public class CotizacionController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<CotizacionEntity> getCotizacionById(@PathVariable("id") Long id){
+    public ResponseEntity<CotizacionEntity> getCotizacionById(@PathVariable("id") int id){
         CotizacionEntity cotizacionEntity = cotizacionService.findById(id);
         System.out.println(cotizacionEntity);
         if(cotizacionEntity != null){
@@ -84,7 +85,7 @@ public class CotizacionController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<CotizacionEntity> deleteCotizacion(@PathVariable("id") Long id){
+    public ResponseEntity<CotizacionEntity> deleteCotizacion(@PathVariable("id") int id){
         CotizacionEntity cotizacionEntity = cotizacionService.delete(id);
         System.out.println(cotizacionEntity);
         if(cotizacionEntity != null){

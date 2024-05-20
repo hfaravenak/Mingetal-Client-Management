@@ -10,5 +10,10 @@ import java.util.List;
 
 @Repository
 public interface ContactoRepository extends JpaRepository<ContactoEntity, Integer> {
+    @Query("select e from ContactoEntity e where e.rut = :rut")
+    ContactoEntity findById(@Param("rut") String rut);
 
+    // find by nombre contacto
+    @Query("select e from ContactoEntity e where e.nombre = :nombre")
+    ContactoEntity findByNombreContacto(@Param("nombre") String nombre);
 }
