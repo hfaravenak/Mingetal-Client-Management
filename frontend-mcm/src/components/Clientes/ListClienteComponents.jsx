@@ -163,10 +163,9 @@ function ListClienteComponents() {
 export default ListClienteComponents;
 
 const NavStyle = styled.nav`
+/* Separación de las partes */
 
-/* Separacion de las partes */
-
-.container{
+.container {
     margin: 2%;
     border: 2px solid #D5D5D5;
     background-color: #F0F0F0;
@@ -175,7 +174,7 @@ const NavStyle = styled.nav`
     gap: 20px;
     height: 100%;
 }
-.container-1{
+.container-1 {
     background-color: #F0F0F0;
     width: 10%;
     flex-shrink: 0; /* Hace que el contenedor no se encoja */
@@ -185,7 +184,7 @@ const NavStyle = styled.nav`
     flex-direction: column;
     height: 58.9vh;
 }
-.container-2{
+.container-2 {
     background-color: #F0F0F0;
     flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
@@ -193,9 +192,9 @@ const NavStyle = styled.nav`
     max-height: calc(0px + 74.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
 }
 
-/* Todo la parte de la tabla */
+/* Parte de la tabla */
 
-.content-table{
+.content-table {
     border-collapse: collapse;
     margin-left: 1;
     font-size: 0.9em;
@@ -204,30 +203,28 @@ const NavStyle = styled.nav`
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
-.content-table thead tr{
+.content-table thead tr {
     background-color: #D2712B;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
 }
-.content-table th, .content-table td{
+.content-table th, .content-table td {
     padding: 12px 15px;
 }
-
-.content-table td{
+.content-table td {
     font-size: 18px;
 }
-
-.content-table tbody tr{
+.content-table tbody tr {
     border-bottom: 1px solid #dddddd;
 }
-.content-table tbody tr:nth-of-type(even){
+.content-table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
 }
-.content-table tbody tr:last-of-type{
+.content-table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
-.content-table tbody tr.active-row{
+.content-table tbody tr.active-row {
     font-weight: bold;
     color: #009879;
 }
@@ -236,16 +233,14 @@ img {
     width: 50%;
     object-fit: cover;
 }
-
-img:hover{
+img:hover {
     cursor: pointer;
 }
-
-th:hover, td:hover{
+th:hover, td:hover {
     cursor: default;
 }
 
-/* Todo lo relacionado al form del filtro */
+/* Formulario de filtro */
 
 .inline-forms-container {
     flex-grow: 1;
@@ -253,11 +248,9 @@ th:hover, td:hover{
     flex-direction: column;
     gap: 20px;
 }
-
 .inline-form {
     display: inline-block;
 }
-
 form {
     max-width: 500px;
     margin: 0 auto;
@@ -268,7 +261,7 @@ label {
     margin-left: 15px;
     margin-top: 10px;
 }
-input[type="text"]{
+input[type="text"] {
     background-color: rgb(201, 201, 201);
     width: 100%;
     padding: 10px;
@@ -276,7 +269,7 @@ input[type="text"]{
     border-radius: 30px;
     border: 1px solid #ccc;
 }
-button{
+button {
     color: #fff;
     margin-left: 5px;
     margin-top: 10px;
@@ -286,23 +279,22 @@ button{
     border: none;
     cursor: pointer;
 }
-.boton{
+.boton {
     background-color: #D2712B;
 }
 
-/* Apartado del boton de crear */
+/* Botón de crear */
 
-.btn-inf .boton{
+.btn-inf .boton {
     font-size: 20px;
 }
-
-.boton:hover{
+.boton:hover {
     border: 1px solid black;
 }
 
-/* Fuente de la letra*/
+/* Fuente de la letra */
 
-td, th, h1, Label, Control, Button{
-    font-family: 'Pacifico',serif;
+td, th, h1, Label, Control, Button {
+    font-family: 'Pacifico', serif;
 }
-`
+`;

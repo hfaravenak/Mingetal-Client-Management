@@ -5,6 +5,7 @@ import mingetal.MCM.productos.repository.ProductosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,7 +34,21 @@ public class ProductosService {
         return productosRepository.findByTipo(tipo);
     }
 
-    public ProductosEntity findByNombre(String nombre){
+    public List<ProductosEntity> findByNombre(String nombre) {
+        List<ProductosEntity> productoEntities = findAll();
+        List<ProductosEntity> resultados = new ArrayList<>();
+        for (ProductosEntity nombreDeLista : productoEntities) {
+            if (nombreDeLista.getNombre().contains(nombre)) {
+                resultados.add(nombreDeLista);
+            }
+        }
+
+        resultados.sort((p1, p2) -> p1.getNombre().compareTo(p2.getNombre()));
+
+        return resultados;
+    }
+
+    public ProductosEntity findByNombreTextual(String nombre) {
         return productosRepository.findByNombre(nombre);
     }
 

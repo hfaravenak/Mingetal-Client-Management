@@ -1,6 +1,5 @@
 package mingetal.MCM.productos.controller;
 
-
 import mingetal.MCM.productos.entity.ProductosEntity;
 import mingetal.MCM.productos.service.ProductosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +40,17 @@ public class ProductosController {
     }
 
     @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<ProductosEntity> getProductoByNombre(@PathVariable("nombre") String nombre){
-        ProductosEntity productosEntity = productosService.findByNombre(nombre);
+    public ResponseEntity<List<ProductosEntity>> getProductoByNombre(@PathVariable("nombre") String nombre){
+        List<ProductosEntity> productosEntity = productosService.findByNombre(nombre);
         return ResponseEntity.ok(productosEntity);
     }
+    @GetMapping("/fullNombre/{nombre}")
+    public ResponseEntity<ProductosEntity>getClienteByNombreTextual(@PathVariable("nombre") String nombre){
+        ProductosEntity productosEntity = productosService.findByNombreTextual(nombre);
+        System.out.println(productosEntity);
+        return ResponseEntity.ok(productosEntity);
+    }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ProductosEntity> deleteProductoById(@PathVariable("id") int id){

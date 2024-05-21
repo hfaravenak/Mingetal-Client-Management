@@ -14,7 +14,6 @@ function ListProductosComponents(){
     const initialState = {
         tipo: "",
         nombre: "",
-        cantidad: "",
     };
 
     const [ProductoEntity, setProductoEntity] = useState([]);
@@ -33,9 +32,6 @@ function ListProductosComponents(){
     const changeNombreHandler = event => {
         setInput({ ...input, nombre: event.target.value });
     };
-    const changeCantidadHandler = event => {
-        setInput({ ...input, cantidad: event.target.value });
-    };
 
     const buscarTipo = () => {
         ProductoService.getProductoByTipo(input.tipo).then((res) => {
@@ -48,11 +44,6 @@ function ListProductosComponents(){
         });
     };
 
-    const buscarCantidad = () => {
-        ProductoService.getProductoByCantidad(input.cantidad).then((res) => {
-            setProductoEntity(res.data);
-        });
-    };
 
     const crearProducto = () => {
         navigate("crear");
@@ -68,13 +59,6 @@ function ListProductosComponents(){
         if (event.key === 'Enter') {
             event.preventDefault();
             buscarNombre();
-        }
-    };
-
-    const handleKeyPressCantidad = (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            buscarCantidad();
         }
     };
 
@@ -110,13 +94,6 @@ function ListProductosComponents(){
                                     <Form.Control className="agregar" type="text" name="nombre" placeholder="iPhone" onKeyPress={handleKeyPressNombre} />
                                 </Form.Group>
                                 <Button className="boton" onClick={buscarNombre}>Buscar</Button>
-                            </Form>
-                            <Form className="inline-form">
-                                <Form.Group className="mb-3" controlId="cantidad" value={input.cantidad} onChange={changeCantidadHandler}>
-                                    <Form.Label className="agregar">Cantidad del Producto:</Form.Label>
-                                    <Form.Control className="agregar" type="number" name="cantidad" placeholder="10" onKeyPress={handleKeyPressCantidad} />
-                                </Form.Group>
-                                <Button className="boton" onClick={buscarCantidad}>Buscar</Button>
                             </Form>
                         </div>
                         <div className="btn-inf">
@@ -165,6 +142,7 @@ function ListProductosComponents(){
 export default ListProductosComponents;
 
 const NavStyle = styled.nav`
+
 /* Separacion de las partes */
 
 .container{
@@ -269,8 +247,41 @@ label {
     margin-left: 15px;
     margin-top: 10px;
 }
-input[type="text"], input[type="number"]{
+input[type="text"]{
     background-color: rgb(201, 201, 201);
     width: 100%;
-    padding: 10}
-    `
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+}
+button{
+    color: #fff;
+    margin-left: 5px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+}
+.boton{
+    background-color: #D2712B;
+}
+
+/* Apartado del boton de crear */
+
+.btn-inf .boton{
+    font-size: 20px;
+}
+
+.boton:hover{
+    border: 1px solid black;
+}
+
+/* Fuente de la letra*/
+
+td, th, h1, Label, Control, Button{
+    font-family: 'Pacifico',serif;
+}
+`
