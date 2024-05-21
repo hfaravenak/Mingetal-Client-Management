@@ -141,8 +141,8 @@ function ListProductosComponents(){
 
 export default ListProductosComponents;
 
-const NavStyle = styled.nav`
 
+const NavStyle = styled.nav`
 /* Separacion de las partes */
 
 .container{
@@ -155,14 +155,12 @@ const NavStyle = styled.nav`
     height: 100%;
 }
 .container-1{
+    height: 80%;
     background-color: #F0F0F0;
-    width: 10%;
+    width: 20%;
     flex-shrink: 0; /* Hace que el contenedor no se encoja */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
-    display: flex;
-    flex-direction: column;
-    height: 58.9vh;
 }
 .container-2{
     background-color: #F0F0F0;
@@ -211,12 +209,12 @@ const NavStyle = styled.nav`
     color: #009879;
 }
 
-img {
+td img {
     width: 50%;
     object-fit: cover;
 }
 
-img:hover{
+td img:hover{
     cursor: pointer;
 }
 
@@ -224,39 +222,55 @@ th:hover, td:hover{
     cursor: default;
 }
 
-/* Todo lo relacionado al form del filtro */
+/* Por el lado de la información del producto*/
 
-.inline-forms-container {
-    flex-grow: 1;
+.card{
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+}
+.card .contenedor-img{
+    background-color: #F0F0F0;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    align-items: center;
+}
+.card .contenedor-informacion{
+    background-color: white;
+    height: 100%;
 }
 
-.inline-form {
-    display: inline-block;
+.card .contenedor-informacion h3,
+.card .contenedor-informacion h2,
+.font-h2, .font-h3{
+    margin-left: 4%;
 }
 
-form {
-    max-width: 500px;
-    margin: 0 auto;
+.card .contenedor-informacion h3,
+.font-h2, .font-h2-control{
+    font-size: 20px;
+    font-weight: normal;
 }
-label {
-    display: block;
-    margin-bottom: 10px;
-    margin-left: 15px;
-    margin-top: 10px;
+
+.font-h3{
+    margin-top: 5%;
+    font-size: 24px;
+    font-weight: bold;
+    width: 90%;
 }
-input[type="text"]{
-    background-color: rgb(201, 201, 201);
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 30px;
-    border: 1px solid #ccc;
+
+.font-h2, font-h3, .font-h2-control{
+    padding-bottom: 3%;
+    padding-top: 3%;
 }
-button{
-    color: #fff;
+
+.no-border {
+    border: none;
+    box-shadow: none;
+}
+
+.editar, .eliminar, .cancelar, .aceptar {
     margin-left: 5px;
     margin-top: 10px;
     padding: 10px 20px;
@@ -265,23 +279,32 @@ button{
     border: none;
     cursor: pointer;
 }
-.boton{
-    background-color: #D2712B;
+
+.eliminar, .cancelar{
+    background-color: #550100;
+    color: #fff;
 }
 
-/* Apartado del boton de crear */
-
-.btn-inf .boton{
-    font-size: 20px;
+.editar{
+    background-color: #39BEAB;
+    color: black;
 }
 
-.boton:hover{
+.aceptar{
+    background-color: #00A768;
+    color: black;
+}
+
+.editar:hover, 
+.eliminar:hover,
+.aceptar:hover,
+.cancelar:hover{
     border: 1px solid black;
 }
 
 /* Fuente de la letra*/
 
-td, th, h1, Label, Control, Button{
+td, th, h1, h2, h3, Button, .font-h2, .font-h3, .font-h2-control{
     font-family: 'Pacifico',serif;
 }
 `
