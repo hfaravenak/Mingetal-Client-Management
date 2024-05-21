@@ -1,6 +1,5 @@
 package mingetal.MCM.cliente;
 
-import mingetal.MCM.cliente.Entities.ClienteEntity;
 import mingetal.MCM.cliente.Entities.CotizacionEntity;
 import mingetal.MCM.cliente.Services.CotizacionService;
 import org.junit.jupiter.api.Test;

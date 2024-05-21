@@ -42,9 +42,6 @@ public class ClienteService {
             }
         }
 
-<<<<<<< HEAD
-    public ClienteEntity findByEmpresa(String empresa) { return clienteRepository.findByEmpresa(empresa); }
-=======
         resultados.sort((p1, p2) -> p1.getNombre().compareTo(p2.getNombre()));
 
         return resultados;
@@ -58,7 +55,6 @@ public class ClienteService {
         clienteEntities.sort((p1, p2) -> p1.getNombre().compareTo(p2.getNombre()));
         return clienteEntities;
     }
->>>>>>> c72a1d92eb9ddb5a03bb97c9076a3b1c72d34b9f
 
     public ClienteEntity delete(String rut) {
         ClienteEntity clienteEntity = findByRut(rut);

@@ -1,17 +1,29 @@
 package mingetal.MCM.cliente;
 
+import mingetal.MCM.cliente.Entities.ClienteEntity;
+import mingetal.MCM.cliente.Services.ClienteService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
-class ClienteApplicationTests {
+public class ClienteApplicationTests {
+    @Autowired
+    private ClienteService clienteService;
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void saveTest() {
+        ClienteEntity cliente = new ClienteEntity();
+        cliente.setNombre("Juan Perez");
+        cliente.setRut("12345678-9");
+        cliente.setEmail("juan@example.com");
+        cliente.setTelefono("123456789");
+        cliente.setEmpresa("EmpresaX");
 
-<<<<<<< HEAD
-=======
         clienteService.save(cliente);
 
         ClienteEntity clienteGuardado = clienteService.findByRut(cliente.getRut());
@@ -168,5 +180,5 @@ class ClienteApplicationTests {
 
         clienteService.delete(cliente.getRut());
     }
->>>>>>> c72a1d92eb9ddb5a03bb97c9076a3b1c72d34b9f
 }
+

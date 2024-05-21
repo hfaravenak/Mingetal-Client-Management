@@ -24,12 +24,8 @@ public class ClienteEntity {
     private String nombre;
     @Size(max=100, message = "El tamaño máximo del campo email es 100")
     private String email;
-<<<<<<< HEAD
-    private int telefono;
-=======
     @Size(max=13, message = "El tamaño máximo del campo telefono es 13")
     private String telefono;
     @Size(max=30, message = "El tamaño máximo del campo empresa es 30")
->>>>>>> c72a1d92eb9ddb5a03bb97c9076a3b1c72d34b9f
     private String empresa;
 }

@@ -51,20 +51,10 @@ public class ClienteController {
     }
 
     @GetMapping("/empresa/{empresa}")
-<<<<<<< HEAD
-    public ResponseEntity<ClienteEntity> getClienteByEmpresa(@PathVariable("empresa") String empresa){
-        ClienteEntity clienteEntity = clienteService.findByEmpresa(empresa);
-        System.out.println(clienteEntity);
-        if(clienteEntity != null){
-            return ResponseEntity.ok(clienteEntity);
-        }
-        return ResponseEntity.notFound().build();
-=======
     public ResponseEntity<List<ClienteEntity>> getClienteByEmpresa(@PathVariable("empresa") String empresa){
         List<ClienteEntity> clienteEntities = clienteService.findByEmpresa(empresa);
         System.out.println(clienteEntities);
         return ResponseEntity.ok(clienteEntities);
->>>>>>> c72a1d92eb9ddb5a03bb97c9076a3b1c72d34b9f
     }
 
     @DeleteMapping("/delete-rut/{rut}")
