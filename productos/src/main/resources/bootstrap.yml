@@ -15,7 +15,7 @@ spring:
     dbname: productos
     url: jdbc:postgresql://localhost:5432/productos
     username: postgres
-    password: postgres
+    password: admin
   cloud:
     config:
       enabled: true

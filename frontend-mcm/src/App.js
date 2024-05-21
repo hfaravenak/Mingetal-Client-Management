@@ -15,8 +15,10 @@ import OCProveedorCrearComponents from "./components/Ordenes de Compra/Proveedor
 import ListCotizacionComponent from "./components/Cotizaciones/ListCotizacionComponent";
 import CotizacionCrearComponent from "./components/Cotizaciones/CotizacionCrearComponent";
 import CotizacionComponent from "./components/Cotizaciones/CotizacionComponent";
-import ListProductosComponent from "./components/Productos/ListProductosComponents"
+import ListProductosComponent from "./components/Productos/ListProductosComponents";
 import ListProveedorComponents from "./components/Proveedores/ListProveedorComponents";
+import ProductoComponent from "./components/Productos/ProductoComponents";
+import ProductoCrearComponent from "./components/Productos/ProductoCrearComponents";
 
 function App() {
   return (
@@ -38,7 +40,9 @@ function App() {
                   <Route path="/cotizaciones" element={<ListCotizacionComponent/>} />
                   <Route path="/crear-cotizacion" element={<CotizacionCrearComponent/>} />
                   <Route path="/info-cotizacion/:cotizacion" element={<CotizacionComponent/>} />
-                  <Route path="/productos" element={<ListProductosComponent/>} /> 
+                  <Route path="/productos" element={<ListProductosComponent/>} />
+                  <Route path="/productos/mas-info/:producto" element={<ProductoComponent/>} />
+                  <Route path="/productos/crear" element={<ProductoCrearComponent/>} />   
               </Routes>
           </Router>
       </div>

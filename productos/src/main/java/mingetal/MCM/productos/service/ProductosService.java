@@ -13,13 +13,17 @@ public class ProductosService {
     @Autowired
     ProductosRepository productosRepository;
 
-    public boolean save(ProductosEntity productosEntity){
-        if(findById(productosEntity.getId())==null && findByNombre(productosEntity.getNombre())==null){
-            productosRepository.save(productosEntity);
-            return true;
-        }
-        return false;
+    public void save(ProductosEntity productosEntity){
+        String[] palabras = productosEntity.getNombre().split("\\s+");
+        StringBuilder sb = new StringBuilder();
 
+        for (String palabra : palabras) {
+            // Convertir la primera letra de la palabra a mayúscula y agregar el resto de la palabra
+            sb.append(Character.toUpperCase(palabra.charAt(0))).append(palabra.substring(1)).append(" ");
+        }
+
+        productosEntity.setNombre(sb.toString().trim());
+        productosRepository.save(productosEntity);
     }
 
     public List<ProductosEntity> findAll(){
