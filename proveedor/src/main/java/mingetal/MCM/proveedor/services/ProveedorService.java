@@ -104,7 +104,9 @@ public class ProveedorService {
             }
 
             if(proveedor!=null){
-                proveedores.add(proveedor);
+                if(!proveedores.contains(proveedor)){
+                    proveedores.add(proveedor);
+                }
             }
         }
         //System.out.println(proveedor);
@@ -122,6 +124,19 @@ public class ProveedorService {
         }
         //System.out.println(proveedor);
         return proveedor;
+    }
+
+    public List<String> findRubros(){
+        List<String> rubros = new ArrayList<>();
+        List<ProveedorEntity> proveedorEntities = proveedorRepository.findAll();
+
+        for(ProveedorEntity proveedor: proveedorEntities){
+            if(!rubros.contains(proveedor.getRubro())){
+                rubros.add(proveedor.getRubro());
+            }
+        }
+
+        return rubros;
     }
 
 

@@ -24,7 +24,41 @@ class ProveedorService {
     }
     
     getProveedorByNombreTextual(nombre){
+        if(nombre===""){
+            return this.getClientes();
+        }
         return axios.get(PROVEEDOR_API_URL+"fullNombre/"+nombre);
+    }
+
+    getProveedorByNombre(nombre){
+        if(nombre===""){
+            return this.getProveedores();
+        }
+        return axios.get(PROVEEDOR_API_URL+"nombre/"+nombre);
+    }
+    getProveedorByEmpresa(empresa){
+        if(empresa===""){
+            return this.getProveedores();
+        }
+        return axios.get(PROVEEDOR_API_URL+"empresa/"+empresa);
+    }
+
+    getProveedorByRut(rut){
+        if(rut===""){
+            return this.getProveedores();
+        }
+        return axios.get(PROVEEDOR_API_URL+"rut/"+rut);
+    }
+
+    getRubroProveedores(){
+        return axios.get(PROVEEDOR_API_URL+"rubro/");
+    }
+
+    getProveedorByRubro(rubro){
+        if(rubro===""){
+            return this.getProveedores();
+        }
+        return axios.get(PROVEEDOR_API_URL+"rubro/"+rubro);
     }
 }
 
