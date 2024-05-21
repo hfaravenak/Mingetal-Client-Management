@@ -94,6 +94,11 @@ function ListCotizacionComponent() {
         }
     };
 
+    const formatFecha = (fecha) => {
+        const [year, month, day] = fecha.split("-");
+        return `${day}-${month}-${year}`;
+    };
+
 
     const ChangeViendoCotizacion = (idCotizacion, pedido, fecha, estado, rutCliente) => {
         const datos = {
@@ -121,23 +126,39 @@ function ListCotizacionComponent() {
                                 <Button className="boton" onClick={buscarPedido}>Buscar por pedido</Button>
                             </Form>
                             <Form className="inline-form">
-                                <Form.Group className="mb-3" controlId="estado" value = {input.estado} onChange={changeEstadoHandler}>
+                                <Form.Group className="mb-3" controlId="estado">
                                     <Form.Label className="agregar">Buscar por Estado del pedido:</Form.Label>
-                                    <Form.Control className="agregar" type="text" name="estado" placeholder="En espera, listo, etc." onKeyPress={handleKeyPressEstado}/>
+                                    <Form.Select
+                                className="agregar"
+                                name="estado"
+                                value={input.estado}
+                                onChange={changeEstadoHandler}
+                            >
+                                <option value="">Seleccionar estado</option>
+                                <option value="Listo">Listo</option>
+                                <option value="En espera">En espera</option>
+                            </Form.Select>
                                 </Form.Group>
                                 <Button className="boton" onClick={buscarEstado}>Buscar por estado</Button>
                             </Form>
                             <Form className="inline-form">
-                                <Form.Group className="mb-3" controlId="fecha" value = {input.fecha} onChange={changeFechaHandler}>
-                                    <Form.Label className="agregar">Buscar por fecha de pedido:</Form.Label>
-                                    <Form.Control className="agregar" type="text" name="fecha" placeholder="yyyy-MM-dd" onKeyPress={handleKeyPressFecha}/>
-                                </Form.Group>
+                            <Form.Group className="mb-3" controlId="fecha">
+                                <Form.Label className="agregar">Buscar por fecha de pedido:</Form.Label>
+                                <Form.Control
+                                    className="agregar"
+                                    type="date"
+                                    name="fecha"
+                                    value={input.fecha}
+                                    onChange={changeFechaHandler}
+                                    onKeyPress={handleKeyPressFecha}
+                                    />
+                            </Form.Group>
                                 <Button className="boton" onClick={buscarFecha}>Buscar por fecha</Button>
                             </Form>
                             <Form className="inline-form">
                                 <Form.Group className="mb-3" controlId="rutCliente" value = {input.rutCliente} onChange={changeRutClienteHandler}>
                                     <Form.Label className="agregar">Buscar pedido por Rut del Cliente:</Form.Label>
-                                    <Form.Control className="agregar" type="text" name="rutCliente" placeholder="12.345.678-8" onKeyPress={handleKeyPressRutCliente}/>
+                                    <Form.Control className="agregar" type="text" name="rutCliente" placeholder="12.345.678-9" onKeyPress={handleKeyPressRutCliente}/>
                                 </Form.Group>
                                 <Button className="boton" onClick={buscarRutCliente}>Buscar por Rut de Cliente</Button>
                             </Form>
@@ -163,7 +184,7 @@ function ListCotizacionComponent() {
                                     CotizacionEntity.map((cotizacion) => (
                                         <tr key= {cotizacion.idCotizacion}>
                                             <td> {cotizacion.pedido} </td>
-                                            <td> {cotizacion.fecha} </td>
+                                            <td> {formatFecha(cotizacion.fecha)} </td>
                                             <td> {cotizacion.estado} </td>
                                             <td> {cotizacion.rutCliente} </td>
                                             <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
@@ -277,6 +298,10 @@ th:hover, td:hover{
 
 .inline-form {
     display: inline-block;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 form {
@@ -289,7 +314,7 @@ label {
     margin-left: 15px;
     margin-top: 10px;
 }
-input[type="text"]{
+input[type="text"], input[type="date"] {
     background-color: rgb(201, 201, 201);
     width: 100%;
     padding: 10px;
@@ -297,6 +322,14 @@ input[type="text"]{
     border-radius: 30px;
     border: 1px solid #ccc;
     font-family: "Segoe UI";
+}
+select {
+    background-color: rgb(201, 201, 201);
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
 }
 button{
     color: #fff;

@@ -80,12 +80,27 @@ function CotizacionCrearComponent(){
 
                         <Form.Group className="mb-3" controlId="fecha" value = {input.fecha} onChange={changeFechaHandler}>
                             <Form.Label className="agregar">Fecha:</Form.Label>
-                            <Form.Control className="agregar" type="text" name="fecha"/>
+                            <Form.Control
+                                    className="agregar"
+                                    type="date"
+                                    name="fecha"
+                                    value={input.fecha}
+                                    onChange={changeFechaHandler}
+                                    />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="estado" value = {input.estado} onChange={changeEstadoHandler}>
                             <Form.Label className="agregar">Estado:</Form.Label>
-                            <Form.Control className="agregar" type="text" name="estado"/>
+                            <Form.Select
+                                className="agregar"
+                                name="estado"
+                                value={input.estado}
+                                onChange={changeEstadoHandler}
+                            >
+                                <option value="">Seleccionar estado</option>
+                                <option value="Listo">Listo</option>
+                                <option value="En espera">En espera</option>
+                            </Form.Select>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="rutCliente" value = {input.rutCliente} onChange={changeRutClienteHandler}>
@@ -122,7 +137,16 @@ label {
     margin-left: 15px;
     margin-top: 10px;
 }
-input[type="text"]{
+input[type="text"], input[type="date"] {
+    background-color: rgb(201, 201, 201);
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    font-family: "Segoe UI";
+}
+select {
     background-color: rgb(201, 201, 201);
     width: 100%;
     padding: 10px;
