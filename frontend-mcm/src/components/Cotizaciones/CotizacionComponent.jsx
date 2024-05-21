@@ -25,6 +25,10 @@ function CotizacionComponent() {
     const { cotizacion } = useParams();
     const datos = JSON.parse(decodeURIComponent(cotizacion));
 
+    const formatFecha = (fecha) => {
+        const [year, month, day] = fecha.split("-");
+        return `${day}-${month}-${year}`;
+    };
    
     const navigate = useNavigate();
 
@@ -142,13 +146,28 @@ function CotizacionComponent() {
                                     <Form className="inline-form" style={{marginTop:"2.2%"}}>
                                         <Form.Group className="mb-3" controlId="fecha" value = {input.fecha} onChange={changeFechaHandler}>
                                             <Form.Label className="font-h2">Fecha:</Form.Label>
-                                            <Form.Control value={input.fecha} className="font-h2-control no-border" type="text" name="Fecha" placeholder="yyy-MM-dd"/>
+                                            <Form.Control
+                                                className="agregar"
+                                                type="date"
+                                                name="fecha"
+                                                value={input.fecha}
+                                                onChange={changeFechaHandler}
+                                                />
                                         </Form.Group>
                                     </Form>
                                     <Form className="inline-form">
                                         <Form.Group className="mb-3" controlId="estado" value = {input.estado} onChange={changeEstadoHandler}>
                                             <Form.Label className="font-h2 eliminarMargen">Estado:</Form.Label>
-                                            <Form.Control value={input.estado} className="font-h2-control no-border" type="text" name="estado" placeholder="En espera, listo, etc."/>
+                                            <Form.Select
+                                                className="agregar"
+                                                name="estado"
+                                                value={input.estado}
+                                                onChange={changeEstadoHandler}
+                                            >
+                                                <option value="">Seleccionar estado</option>
+                                                <option value="Listo">Listo</option>
+                                                <option value="En espera">En espera</option>
+                                            </Form.Select>
                                         </Form.Group>
                                     </Form>
                                     <Form className="inline-form">
@@ -180,7 +199,7 @@ function CotizacionComponent() {
                                 </div>
                                 <div className="contenedor-informacion">
                                     <h2>{datos.pedido}</h2>
-                                    <h3>fecha: {datos.fecha}</h3>
+                                    <h3>fecha: {formatFecha(datos.fecha)}</h3>
                                     <h3>estado: {datos.estado}</h3>
                                     <h3>Rut del cliente: {datos.rutCliente}</h3>
                                 </div>
