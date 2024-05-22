@@ -17,8 +17,9 @@ import CotizacionCrearComponent from "./components/Cotizaciones/CotizacionCrearC
 import CotizacionComponent from "./components/Cotizaciones/CotizacionComponent";
 import ListProductosComponent from "./components/Productos/ListProductosComponents";
 import ListProveedorComponents from "./components/Proveedores/ListProveedorComponents";
-import ProductoComponent from "./components/Productos/ProductoComponents";
 import ProductoCrearComponent from "./components/Productos/ProductoCrearComponents";
+import ProductoComponent from "./components/Productos/ProductoComponents";
+import ProveedorCrearComponent from "./components/Proveedores/ProveedorCrearComponent";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                   <Route path="/clientes/mas info/:cliente" element={<ClienteComponents/>} />
                   <Route path="/clientes/crear" element={<ClienteCrearComponents/>} />
                   <Route path="/proveedores" element={<ListProveedorComponents/>} />
+                  <Route path="/proveedores/crear" element={<ProveedorCrearComponent/>} />
                   <Route path="/oc" element={<MainOCComponents/>} />
                   <Route path="/oc/cliente" element={<ListOCClienteComponents/>} />
                   <Route path="/oc/cliente/mas info/:oc_cliente" element={<OCClienteComponents/>} />

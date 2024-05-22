@@ -27,7 +27,12 @@ function MainComponents() {
     };
     const handleClickProductos = () => {
         navigate("/productos")
-    }
+    };
+    const handleClickProveedores = () => {
+        navigate("/proveedores")
+    };
+
+
     return (
         <div>
             <NavStyle>
@@ -38,10 +43,9 @@ function MainComponents() {
                         <img id="clientes" src={clientes} alt="clientes" />
                         <h2>Clientes</h2>
                     </div>
-                    <div className="card" onClick={nathing}>
+                    <div className="card" onClick={handleClickProveedores}>
                         <img id="proveedores" src={proveedores} alt="proveedores" />
                         <h2>Proveedores</h2>
-                        <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
                     <div className="card" onClick={handleClickProductos}>
                         <img id="inventario" src={inventario} alt="inventario" />

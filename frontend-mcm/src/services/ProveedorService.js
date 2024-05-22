@@ -3,6 +3,11 @@ import axios from 'axios';
 const PROVEEDOR_API_URL = "http://localhost:8080/proveedor/";
 
 class ProveedorService {
+
+    createProveedor(newProveedor){
+        console.log(newProveedor);
+        return axios.post(PROVEEDOR_API_URL, newProveedor);
+    }
     getProveedores(){
         return axios.get(PROVEEDOR_API_URL);
     }
@@ -60,6 +65,7 @@ class ProveedorService {
         }
         return axios.get(PROVEEDOR_API_URL+"rubro/"+rubro);
     }
+
 }
 
 export default new ProveedorService()
