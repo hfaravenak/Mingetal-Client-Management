@@ -7,13 +7,13 @@ import Form from 'react-bootstrap/Form';
 import Swal from "sweetalert2";
 
 import productos from "../../images/producto.png";
-import editar from "../../images/editar.png";
 import ProductoService from "../../services/ProductoService";
 
 
 function ProductoComponents() {
 
     const initialState = {
+        id: 0,
         tipo: "",
         nombre: "",
         valor: 0,
@@ -27,31 +27,35 @@ function ProductoComponents() {
     const datos = JSON.parse(decodeURIComponent(producto));
     const navigate = useNavigate();
 
-    useEffect(() => {
+    const changeNombreHandler = event => {
+        setInput({ ...input, nombre: event.target.value });
+    };
+
+    const changeTipoHandler = event => {
+        setInput({ ...input, tipo: event.target.value });
+    };
+    const changeValorHandler = event => {
+        setInput({ ...input, valor: event.target.value });
+    };
+    const changeValorFinalHandler = event => {
+        setInput({ ...input, valor_final: event.target.value });
+    };
+    const changeCantidadHandler = event => {
+        setInput({ ...input, cantidad: event.target.value });
+    };
+
+    const changeMostrarCard = () => {
         setInput({
+            id: datos.id,
             tipo: datos.tipo,
             nombre: datos.nombre,
             valor: datos.valor,
             valor_final: datos.valor_final,
             cantidad: datos.cantidad,
         });
-    }, [datos]);
-
-    const changeHandler = (e) => {
-        const { name, value } = e.target;
-        setInput({
-            ...input,
-            [name]: value
-        });
-    };
-
-    const handleEditarProducto = () => {
         setMostrarCard(true);
-    };
+    }
 
-    const handleCancelarEdit = () => {
-        setMostrarCard(false);
-    };
 
     const handleGuardarProducto = () => {
         Swal.fire({
@@ -65,19 +69,21 @@ function ProductoComponents() {
         }).then((result) => {
             if (result.isConfirmed) {
                 let updateProducto = {
+                    id: datos.id,
                     tipo: input.tipo,
                     nombre: input.nombre,
                     valor: input.valor,
                     valor_final: input.valor_final,
                     cantidad: input.cantidad
                 };
-                ProductoService.updateProducto(datos.id, updateProducto).then(() => {
-                    navigate(`/productos/mas info/${encodeURIComponent(JSON.stringify(updateProducto))}`);
+                ProductoService.updateProducto(updateProducto);
+                    navigate(`/productos/mas-info/${encodeURIComponent(JSON.stringify(updateProducto))}`);
                     setMostrarCard(false);
-                });
+                }
             }
-        });
-    };
+        );
+    }
+       
 
     const handleEliminarProducto = () => {
         Swal.fire({
@@ -106,7 +112,7 @@ function ProductoComponents() {
                     Swal.fire({
                         title: 'Eliminando...',
                         text: 'Por favor espera',
-                        timer: 3000, // 3 segundos
+                        timer: 2000, // 2 segundos
                         didOpen: () => {
                             Swal.showLoading();
                         },
@@ -119,6 +125,9 @@ function ProductoComponents() {
         });
     };
 
+    const CancelarEdit = () => {
+        setMostrarCard(false);
+    }
 
     if (mostrarCard) {
         return (
@@ -132,40 +141,38 @@ function ProductoComponents() {
                                     <img id="productos" src={productos} alt="productos" />
                                 </div>
                                 <div className="inline-forms-container contenedor-informacion">
+                                <Form className="inline-form">
+                                        <Form.Group className="mb-3" controlId="nombre">
+                                            <Form.Control value = {input.nombre} onChange={changeNombreHandler} className="font-h3 no-border" type="text" name="Nombre" placeholder="Nombre producto"/>
+                                        </Form.Group>
+                                    </Form>
                                     <Form className="inline-form">
                                         <Form.Group className="mb-3" controlId="tipo">
-                                            <Form.Control value={input.tipo} onChange={changeHandler} className="font-h3 no-border" type="text" name="tipo" placeholder="Tipo del Producto" />
-                                        </Form.Group>
-                                    </Form>
-                                    <Form className="inline-form" style={{ marginTop: "2.2%" }}>
-                                        <Form.Group className="mb-3" controlId="nombre">
-                                            <Form.Label className="font-h2">Nombre:</Form.Label>
-                                            <Form.Control value={input.nombre} onChange={changeHandler} className="font-h2-control no-border" type="text" name="nombre" placeholder="Nombre del Producto" />
-                                        </Form.Group>
-                                    </Form>
-                                    <h3 style={{ color: "gray", marginTop: "2%", marginBottom: "2%" }}>ID: {datos.id}</h3>
-                                    <Form className="inline-form">
-                                        <Form.Group className="mb-3" controlId="valor">
-                                            <Form.Label className="font-h2 eliminarMargen">Valor:</Form.Label>
-                                            <Form.Control value={input.valor} onChange={changeHandler} className="font-h2-control no-border" type="number" name="valor" placeholder="Valor del Producto" />
+                                            <Form.Control value={input.tipo} onChange={changeTipoHandler} className="font-h3 no-border" type="text" name="tipo" placeholder="Tipo del Producto" />
                                         </Form.Group>
                                     </Form>
                                     <Form className="inline-form">
                                         <Form.Group className="mb-3" controlId="valor_final">
                                             <Form.Label className="font-h2">Valor Final:</Form.Label>
-                                            <Form.Control value={input.valor_final} onChange={changeHandler} className="font-h2-control no-border" type="number" name="valor_final" placeholder="Valor Final del Producto" />
+                                            <Form.Control value={input.valor} onChange={changeValorHandler} className="font-h2-control no-border" type="number" name="valor" placeholder="Valor del Producto" />
+                                        </Form.Group>
+                                    </Form>
+                                    <Form className="inline-form">
+                                        <Form.Group className="mb-3" controlId="valor_final">
+                                            <Form.Label className="font-h2">Valor Final:</Form.Label>
+                                            <Form.Control value={input.valor_final} onChange={changeValorFinalHandler} className="font-h2-control no-border" type="number" name="valor_final" placeholder="Valor Final del Producto" />
                                         </Form.Group>
                                     </Form>
                                     <Form className="inline-form">
                                         <Form.Group className="mb-3" controlId="cantidad">
                                             <Form.Label className="font-h2">Cantidad:</Form.Label>
-                                            <Form.Control value={input.cantidad} onChange={changeHandler} className="font-h2-control no-border" type="number" name="cantidad" placeholder="Cantidad del Producto" />
+                                            <Form.Control value={input.cantidad} onChange={changeCantidadHandler} className="font-h2-control no-border" type="number" name="cantidad" placeholder="Cantidad del Producto" />
                                         </Form.Group>
                                     </Form>
                                 </div>
                             </div>
                             <Button className="aceptar" onClick={handleGuardarProducto}>Aceptar</Button>
-                            <Button className="cancelar" onClick={handleCancelarEdit}>Cancelar</Button>
+                            <Button className="cancelar" onClick={CancelarEdit}>Cancelar</Button>
                         </div>
                     </div>
                 </NavStyle>
@@ -183,14 +190,14 @@ function ProductoComponents() {
                                     <img id="productos" src={productos} alt="productos" />
                                 </div>
                                 <div className="contenedor-informacion">
-                                    <h2>{datos.nombre}</h2>
+                                    <h2> {datos.id} || {datos.nombre}</h2> 
                                     <h3>Tipo: {datos.tipo}</h3>
                                     <h3>Valor: {datos.valor}</h3>
                                     <h3>Valor Final: {datos.valor_final}</h3>
                                     <h3>Cantidad: {datos.cantidad}</h3>
                                 </div>
                             </div>
-                            <Button className="editar" onClick={handleEditarProducto}>Editar</Button>
+                            <Button className="editar" onClick={changeMostrarCard}>Editar</Button>
                             <Button className="eliminar" onClick={handleEliminarProducto}>Eliminar</Button>
                         </div>
                     </div>

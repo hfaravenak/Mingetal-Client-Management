@@ -32,6 +32,12 @@ class ProductoService{
         console.log(producto);
         return axios.post(PRODUCTOS_API_URL+"guardar-producto", producto);
     }
+
+    updateProducto(producto){
+        console.log(producto);
+        return axios.put(PRODUCTOS_API_URL +"update", producto);
+  
+    }
 }
 
 export default new ProductoService()

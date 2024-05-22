@@ -112,4 +112,18 @@ public class ProductosService {
         return productosRepository.save(productosEntity);
     }
 
+    public ProductosEntity update(ProductosEntity productosEntity) {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        System.out.println(productosEntity);
+        ProductosEntity producto_1 = findById(productosEntity.getId()) ;
+        producto_1.setNombre(productosEntity.getNombre());
+        producto_1.setTipo(productosEntity.getTipo());
+        producto_1.setValor(productosEntity.getValor());
+        producto_1.setValor_final(productosEntity.getValor_final());
+        producto_1.setCantidad(productosEntity.getCantidad());
+
+        System.out.println(producto_1);
+        return productosRepository.save(producto_1);
+    }
+
 }

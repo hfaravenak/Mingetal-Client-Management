@@ -88,4 +88,11 @@ public class ProductosController {
         ProductosEntity productosEntity = productosService.updateCantidad(id, newCantidad);
         return ResponseEntity.ok(productosEntity);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<ProductosEntity> updateProducto(@RequestBody ProductosEntity productosEntity){
+        ProductosEntity producto_1 = productosService.update(productosEntity);
+        System.out.println(producto_1);
+        return ResponseEntity.ok(producto_1);
+    }
 }

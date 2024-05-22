@@ -141,8 +141,8 @@ function ListProductosComponents(){
 
 export default ListProductosComponents;
 
-
 const NavStyle = styled.nav`
+
 /* Separacion de las partes */
 
 .container{
@@ -155,12 +155,14 @@ const NavStyle = styled.nav`
     height: 100%;
 }
 .container-1{
-    height: 80%;
     background-color: #F0F0F0;
-    width: 20%;
+    width: 10%;
     flex-shrink: 0; /* Hace que el contenedor no se encoja */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+    display: flex;
+    flex-direction: column;
+    height: 58.9vh;
 }
 .container-2{
     background-color: #F0F0F0;
@@ -209,12 +211,12 @@ const NavStyle = styled.nav`
     color: #009879;
 }
 
-td img {
+img {
     width: 50%;
     object-fit: cover;
 }
 
-td img:hover{
+img:hover{
     cursor: pointer;
 }
 
@@ -222,55 +224,39 @@ th:hover, td:hover{
     cursor: default;
 }
 
-/* Por el lado de la información del producto*/
+/* Todo lo relacionado al form del filtro */
 
-.card{
-    border: 1px solid black;
-    border-radius: 10px;
-    background-color: white;
-}
-.card .contenedor-img{
-    background-color: #F0F0F0;
-    border-radius: 10px;
+.inline-forms-container {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-.card .contenedor-informacion{
-    background-color: white;
-    height: 100%;
+    gap: 20px;
 }
 
-.card .contenedor-informacion h3,
-.card .contenedor-informacion h2,
-.font-h2, .font-h3{
-    margin-left: 4%;
+.inline-form {
+    display: inline-block;
 }
 
-.card .contenedor-informacion h3,
-.font-h2, .font-h2-control{
-    font-size: 20px;
-    font-weight: normal;
+form {
+    max-width: 500px;
+    margin: 0 auto;
 }
-
-.font-h3{
-    margin-top: 5%;
-    font-size: 24px;
-    font-weight: bold;
-    width: 90%;
+label {
+    display: block;
+    margin-bottom: 10px;
+    margin-left: 15px;
+    margin-top: 10px;
 }
-
-.font-h2, font-h3, .font-h2-control{
-    padding-bottom: 3%;
-    padding-top: 3%;
+input[type="text"]{
+    background-color: rgb(201, 201, 201);
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
 }
-
-.no-border {
-    border: none;
-    box-shadow: none;
-}
-
-.editar, .eliminar, .cancelar, .aceptar {
+button{
+    color: #fff;
     margin-left: 5px;
     margin-top: 10px;
     padding: 10px 20px;
@@ -279,32 +265,23 @@ th:hover, td:hover{
     border: none;
     cursor: pointer;
 }
-
-.eliminar, .cancelar{
-    background-color: #550100;
-    color: #fff;
+.boton{
+    background-color: #D2712B;
 }
 
-.editar{
-    background-color: #39BEAB;
-    color: black;
+/* Apartado del boton de crear */
+
+.btn-inf .boton{
+    font-size: 20px;
 }
 
-.aceptar{
-    background-color: #00A768;
-    color: black;
-}
-
-.editar:hover, 
-.eliminar:hover,
-.aceptar:hover,
-.cancelar:hover{
+.boton:hover{
     border: 1px solid black;
 }
 
 /* Fuente de la letra*/
 
-td, th, h1, h2, h3, Button, .font-h2, .font-h3, .font-h2-control{
+td, th, h1, Label, Control, Button{
     font-family: 'Pacifico',serif;
 }
 `
