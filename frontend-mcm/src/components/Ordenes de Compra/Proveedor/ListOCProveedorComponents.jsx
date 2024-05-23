@@ -8,6 +8,7 @@ import editar from "../../../images/editar.png"
 import HeaderComponents from "../../Headers/HeaderComponents";
 import OrdenesDeCompraProveedorService from "../../../services/OrdenesDeCompraProveedorService";
 import ProveedorService from "../../../services/ProveedorService";
+import ContactoService from "../../../services/ContactoService";
 
 function ListOCProveedorComponents() {
     const initialState = {
@@ -30,7 +31,7 @@ function ListOCProveedorComponents() {
             setProveedorEntity(res.data);
         });
 
-        ProveedorService.getContacto1ByListOC().then((res)=>{
+        ContactoService.getContactos().then((res)=>{
             setContactoEntity(res.data);
         })
     }, []);
@@ -65,6 +66,7 @@ function ListOCProveedorComponents() {
         ProveedorEntity.forEach(proveedor => {
             if(proveedor.id_proveedor===id_proveedor){
                 variable=proveedor;
+                variable.id_contacto = busquedaContacto(proveedor.id_proveedor);
             }
         });
         return variable;
@@ -143,10 +145,7 @@ function ListOCProveedorComponents() {
             fecha_solicitud: todoElDato.fecha_solicitud,
             factura: todoElDato.factura,
             valor_pago: todoElDato.valor_pago,
-            modo_pago: todoElDato.modo_pago,
             proveedor: busquedaProveedor(todoElDato.id_proveedor),
-            contacto1: busquedaContacto(todoElDato.id_proveedor),
-
         };
         const datosComoTexto = JSON.stringify(datos);
         navigate(`/oc/proveedor/mas info/${encodeURIComponent(datosComoTexto)}`);

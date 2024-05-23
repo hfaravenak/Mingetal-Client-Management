@@ -178,13 +178,13 @@ function OCProveedorComponents() {
                                     <img id="clientes" src={clientes} alt="clientes" />
                                 </div>
                                 <div className="contenedor-informacion">
-                                    <h2>{datos.contacto1.nombre}</h2>
+                                    <h2>{datos.proveedor.id_contacto.nombre}</h2>
                                     <h3><strong>Empresa: </strong>{datos.proveedor.empresa}</h3>
                                     <h3><strong>Rubro: </strong>{datos.proveedor.rubro}</h3>
-                                    <h3><strong>Rut: </strong>{datos.contacto1.rut}</h3>
-                                    <h3><strong>Correo: </strong>{datos.contacto1.correo}</h3>
-                                    <h3><strong>Telefono Celular: </strong>{datos.contacto1.fono_cel}</h3>
-                                    <h3><strong>Telefono Fijo: </strong>{datos.contacto1.fono_fijo}</h3>
+                                    <h3><strong>Rut: </strong>{datos.proveedor.id_contacto.rut}</h3>
+                                    <h3><strong>Correo: </strong>{datos.proveedor.id_contacto.correo}</h3>
+                                    <h3><strong>Telefono Celular: </strong>{datos.proveedor.id_contacto.fono_cel}</h3>
+                                    <h3><strong>Telefono Fijo: </strong>{datos.proveedor.id_contacto.fono_fijo}</h3>
                                     <h3><strong>Comentario: </strong> {datos.proveedor.comentario}</h3>
                                 </div>
                             </div>
@@ -304,13 +304,13 @@ function OCProveedorComponents() {
                                 <img id="clientes" src={clientes} alt="clientes" />
                             </div>
                             <div className="contenedor-informacion">
-                                <h2>{datos.contacto1.nombre}</h2>
+                                <h2>{datos.proveedor.id_contacto.nombre}</h2>
                                 <h3><strong>Empresa: </strong>{datos.proveedor.empresa}</h3>
                                 <h3><strong>Rubro: </strong>{datos.proveedor.rubro}</h3>
-                                <h3><strong>Rut: </strong>{datos.contacto1.rut}</h3>
-                                <h3><strong>Correo: </strong>{datos.contacto1.correo}</h3>
-                                <h3><strong>Telefono Celular: </strong>{datos.contacto1.fono_cel}</h3>
-                                <h3><strong>Telefono Fijo: </strong>{datos.contacto1.fono_fijo}</h3>
+                                <h3><strong>Rut: </strong>{datos.proveedor.id_contacto.rut}</h3>
+                                <h3><strong>Correo: </strong>{datos.proveedor.id_contacto.correo}</h3>
+                                <h3><strong>Telefono Celular: </strong>{datos.proveedor.id_contacto.fono_cel}</h3>
+                                <h3><strong>Telefono Fijo: </strong>{datos.proveedor.id_contacto.fono_fijo}</h3>
                                 <h3><strong>Comentario: </strong> {datos.proveedor.comentario}</h3>
                             </div>
                         </div>

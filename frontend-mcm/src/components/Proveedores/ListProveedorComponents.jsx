@@ -4,10 +4,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 import styled from "styled-components";
-import editar from "../../images/editar.png"
+import editar from "../../images/editar.png";
 import HeaderComponents from "../Headers/HeaderComponents";
-import ClienteService from '../../services/ClienteService'
 import ProveedorService from "../../services/ProveedorService";
+import ContactoService from "../../services/ContactoService";
 
 function ListProveedorComponents() {
     const initialState = {
@@ -26,7 +26,7 @@ function ListProveedorComponents() {
         ProveedorService.getProveedores().then((res) => {
             setProveedorEntity(res.data);
         });
-        ProveedorService.getContacto1ByProveedores().then((res) => {
+        ContactoService.getContactos().then((res) => {
             setContactosEntity(res.data);
         });
         ProveedorService.getRubroProveedores().then((res) => {
@@ -98,7 +98,7 @@ function ListProveedorComponents() {
     };
     
     const busquedaContacto = (id_contacto) => {
-        let variable="";
+        let variable=null;
         ContactosEntity.forEach(contacto => {
             if(contacto.rut===id_contacto){
                 variable=contacto;
@@ -107,13 +107,15 @@ function ListProveedorComponents() {
         return variable;
     }
 
-    const ChangeViendoCliente = (rut, nombre, email, empresa, telefono) => {
+    const ChangeViendoCliente = (proveedor) => {
         const datos = {
-            rut: rut,
-            nombre: nombre,
-            email: email,
-            empresa: empresa,
-            telefono: telefono
+            id_proveedor: proveedor.id_proveedor,
+            empresa: proveedor.empresa,
+            rubro: proveedor.rubro,
+            id_contacto: busquedaContacto(proveedor.id_contacto),
+            id_contacto2: busquedaContacto(proveedor.id_contacto2),
+            id_contacto3: busquedaContacto(proveedor.id_contacto3),
+            comentario: proveedor.comentario
         };
         const datosComoTexto = JSON.stringify(datos);
         navigate(`/proveedores/mas info/${encodeURIComponent(datosComoTexto)}`);
@@ -126,28 +128,28 @@ function ListProveedorComponents() {
                     <div className="container-1">
                         <div className="inline-forms-container">
                             <Form className="inline-form">
-                                <Form.Group className="mb-3" name="rut" controlId="rut" value = {input.rut} onChange={handleInputChange}>
+                                <Form.Group  name="rut" controlId="rut" value = {input.rut} onChange={handleInputChange}>
                                     <Form.Label className="agregar">Rut del Proveedor:</Form.Label>
                                     <Form.Control className="agregar" type="text" name="rut" placeholder="12.345.678-9" onKeyPress={handleKeyPressRut}/>
                                 </Form.Group>
                                 <Button className="boton" onClick={buscarRut}>Buscar</Button>
                             </Form>
                             <Form className="inline-form">
-                                <Form.Group className="mb-3" name="nombre" controlId="nombre" value = {input.nombre} onChange={handleInputChange}>
+                                <Form.Group name="nombre" controlId="nombre" value = {input.nombre} onChange={handleInputChange}>
                                     <Form.Label className="agregar">Nombre Proveedor:</Form.Label>
                                     <Form.Control className="agregar" type="text" name="nombre" placeholder="Juan Perez" onKeyPress={handleKeyPressNombre}/>
                                 </Form.Group>
                                 <Button className="boton" onClick={buscarNombre}>Buscar</Button>
                             </Form>
                             <Form className="inline-form">
-                                <Form.Group className="mb-3" name="empresa" controlId="empresa" value = {input.empresa} onChange={handleInputChange} >
+                                <Form.Group name="empresa" controlId="empresa" value = {input.empresa} onChange={handleInputChange} >
                                     <Form.Label className="agregar">Empresa del Proveedor:</Form.Label>
                                     <Form.Control className="agregar" type="text" name="empresa" placeholder="Nombre Generico" onKeyPress={handleKeyPressEmpresa}/>
                                 </Form.Group>
                                 <Button className="boton" onClick={buscarEmpresa}>Buscar</Button>
                             </Form>
                             <Form className="inline-form">
-                                <Form.Group className="mb-3" name="rubro" controlId="rubro">
+                                <Form.Group name="rubro" controlId="rubro">
                                     <Form.Label className="agregar">Rubro:</Form.Label>
                                     <Form.Select style={{ width: "100%" }} className="font-h2 no-border" name="rubro" value = {input.rubro} onChange={handleInputChange}>
                                             <option value="" style={{color:"gray"}}>Rubros</option>
@@ -180,18 +182,21 @@ function ListProveedorComponents() {
                             </thead>
                             <tbody>
                                 {
-                                    ProveedorEntity.map((proveedor) => (
-                                        <tr key= {proveedor.id_proveedor}>
-                                            <td> {busquedaContacto(proveedor.id_contacto).nombre} </td>
-                                            <td> {proveedor.empresa} </td>
-                                            <td> {proveedor.rubro} </td>
-                                            <td> {busquedaContacto(proveedor.id_contacto).fono_cel} </td>
-                                            <td> {busquedaContacto(proveedor.id_contacto).correo} </td>
-                                            <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
-                                            <img id="editar" src={editar} alt="editar" onClick={() => ChangeViendoCliente(proveedor)}/>
-                                            </td>
-                                        </tr>
-                                    ))
+                                    ProveedorEntity.map((proveedor) => {
+                                        const contacto = busquedaContacto(proveedor.id_contacto);
+                                        return (
+                                            <tr key={proveedor.id_proveedor}>
+                                                <td> {contacto ? contacto.nombre : ''} </td>
+                                                <td> {proveedor.empresa} </td>
+                                                <td> {proveedor.rubro} </td>
+                                                <td> {contacto ? contacto.fono_cel : ''} </td>
+                                                <td> {contacto ? contacto.correo : ''} </td>
+                                                <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
+                                                    <img id="editar" src={editar} alt="editar" onClick={() => ChangeViendoCliente(proveedor)}/>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
                                 }
                             </tbody>
                         </table>

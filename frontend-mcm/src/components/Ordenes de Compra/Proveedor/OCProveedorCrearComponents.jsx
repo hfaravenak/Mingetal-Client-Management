@@ -41,10 +41,10 @@ function OCProveedorCrearComponents(){
     };
     const handleSubmit = (event) => {
         event.preventDefault(); // Previene el comportamiento predeterminado del formulario
-        ingresarOCProveedor(event); // Llama a la función para procesar el formulario
+        ingresarOCProveedor(); // Llama a la función para procesar el formulario
     };
     
-    const ingresarOCProveedor = (event) => {
+    const ingresarOCProveedor = () => {
         Swal.fire({
             title: "¿Desea registrar esta orden de compra?",
             text: "Luego podrá modificar los valores, pero no todos. Recomiendo revisar el contenido de este",

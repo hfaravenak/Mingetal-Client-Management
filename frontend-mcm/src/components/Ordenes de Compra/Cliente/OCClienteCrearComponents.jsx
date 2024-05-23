@@ -58,7 +58,7 @@ function OCClienteCrearComponents(){
         ingresarOCCliente(event); // Llama a la función para procesar el formulario
     };
     
-    const ingresarOCCliente = (event) => {
+    const ingresarOCCliente = () => {
         Swal.fire({
             title: "¿Desea registrar esta orden de compra?",
             text: "Luego podrá modificar los valores, pero no todos. Recomiendo revisar el contenido de este",

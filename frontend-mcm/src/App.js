@@ -20,6 +20,7 @@ import ListProveedorComponents from "./components/Proveedores/ListProveedorCompo
 import ProductoCrearComponent from "./components/Productos/ProductoCrearComponents";
 import ProductoComponent from "./components/Productos/ProductoComponents";
 import ProveedorCrearComponent from "./components/Proveedores/ProveedorCrearComponent";
+import ProveedorComponents from "./components/Proveedores/ProveedorComponents";
 
 function App() {
   return (
@@ -27,21 +28,29 @@ function App() {
           <Router>
               <Routes>
                   <Route path="/" element={<MainComponents/>} />
+
                   <Route path="/clientes" element={<ListClienteComponents/>} />
                   <Route path="/clientes/mas info/:cliente" element={<ClienteComponents/>} />
                   <Route path="/clientes/crear" element={<ClienteCrearComponents/>} />
+
                   <Route path="/proveedores" element={<ListProveedorComponents/>} />
+                  <Route path="/proveedores/mas info/:proveedor" element={<ProveedorComponents/>} />
                   <Route path="/proveedores/crear" element={<ProveedorCrearComponent/>} />
+
                   <Route path="/oc" element={<MainOCComponents/>} />
+
                   <Route path="/oc/cliente" element={<ListOCClienteComponents/>} />
                   <Route path="/oc/cliente/mas info/:oc_cliente" element={<OCClienteComponents/>} />
                   <Route path="/oc/cliente/crear" element={<OCClienteCrearComponents/>} />
+
                   <Route path="/oc/proveedor" element={<ListOCProveedorComponents/>} />
                   <Route path="/oc/proveedor/mas info/:oc_proveedor" element={<OCProveedorComponents/>} />
                   <Route path="/oc/proveedor/crear" element={<OCProveedorCrearComponents/>} />
+
                   <Route path="/cotizaciones" element={<ListCotizacionComponent/>} />
-                  <Route path="/crear-cotizacion" element={<CotizacionCrearComponent/>} />
                   <Route path="/info-cotizacion/:cotizacion" element={<CotizacionComponent/>} />
+                  <Route path="/crear-cotizacion" element={<CotizacionCrearComponent/>} />
+
                   <Route path="/productos" element={<ListProductosComponent/>} />
                   <Route path="/productos/mas-info/:producto" element={<ProductoComponent/>} />
                   <Route path="/productos/crear" element={<ProductoCrearComponent/>} />   
