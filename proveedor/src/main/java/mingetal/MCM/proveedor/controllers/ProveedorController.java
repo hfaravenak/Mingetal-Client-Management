@@ -24,6 +24,12 @@ public class ProveedorController {
         return new ResponseEntity<>(proveedorNew, HttpStatus.CREATED);
     }
 
+    @PutMapping("/update/")
+    public ResponseEntity<ProveedorEntity> updateProveedor(@RequestBody ProveedorEntity proveedorEntity) {
+        ProveedorEntity proveedor = proveedorService.updateProveedor(proveedorEntity);
+        return new ResponseEntity<>(proveedor, HttpStatus.OK);
+    }
+
     // Endpoint para actualizar la empresa de un proveedor
     @PutMapping("/empresa/{id}")
     public ResponseEntity<ProveedorEntity> updateSupplierEmpresa(@PathVariable int id,
@@ -49,7 +55,7 @@ public class ProveedorController {
     }
 
     // Endpoint para eliminar un proveedor
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteSupplier(@PathVariable int id) {
         proveedorService.deleteSupplier(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

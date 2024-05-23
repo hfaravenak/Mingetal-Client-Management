@@ -141,6 +141,15 @@ public class ProveedorService {
 
 
     // Update
+
+    public ProveedorEntity updateProveedor(ProveedorEntity proveedorEntity){
+        ProveedorEntity proveedor = proveedorRepository.findById(proveedorEntity.getId_proveedor());
+        if (proveedor == null) {
+            return null;
+        }
+        return proveedorRepository.save(proveedorEntity);
+    }
+
     // Update empresa
     public ProveedorEntity updateEmpresa(int id_proveedor, String nuevaEmpresa) {
         ProveedorEntity proveedor = proveedorRepository.findById(id_proveedor);

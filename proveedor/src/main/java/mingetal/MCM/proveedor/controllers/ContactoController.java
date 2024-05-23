@@ -46,11 +46,7 @@ public class ContactoController {
     @GetMapping("/{id}")
     public ResponseEntity<ContactoEntity> getContactoById(@PathVariable String id) {
         ContactoEntity contacto = contactoService.findContactoById(id);
-        if (contacto != null) {
-            return new ResponseEntity<>(contacto, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(contacto, HttpStatus.OK);
     }
 
     @GetMapping("/nombre/{nombre}")
@@ -65,15 +61,14 @@ public class ContactoController {
     }
 
     // Update
-    @PutMapping("/{id}")
-    public ResponseEntity<ContactoEntity> updateContacto(@PathVariable String id, @RequestBody ContactoEntity updatedContacto) {
-        updatedContacto.setRut(id);
+    @PutMapping("/update/")
+    public ResponseEntity<ContactoEntity> updateContacto(@RequestBody ContactoEntity updatedContacto) {
         ContactoEntity contacto = contactoService.updateContacto(updatedContacto);
         return new ResponseEntity<>(contacto, HttpStatus.OK);
     }
 
     // Delete
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteContacto(@PathVariable String id) {
         contactoService.deleteContacto(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
