@@ -358,34 +358,34 @@ function OCClienteComponents() {
                                 </tbody>
                             </table>
                             <h1><b> Lista de Productos</b></h1>
-                        <table border="1" className="content-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Tipo</th>
-                                    <th>Valor Final</th>
-                                    <th>Cantidad</th>
-                                    <th>Más información</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    ListProductos.map((productos) => (
-                                        <tr key= {productos.id}>
-                                            <td> #{productos.id} </td>
-                                            <td> {productos.nombre}</td>
-                                            <td> {productos.tipo} </td>
-                                            <td> {productos.valor_final} </td>
-                                            <td> {productos.cantidad} </td>
-                                            <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
-                                            <img id="editar" src={editar} alt="editar" onClick={() => ChangeViendoProducto(productos)}/>
-                                            </td>
-                                        </tr>
-                                    ))
-                                }
-                            </tbody>
-                        </table>
+                            <table border="1" className="content-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Tipo</th>
+                                        <th>Valor Final</th>
+                                        <th>Cantidad</th>
+                                        <th>Más información</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        ListProductos.map((productos) => (
+                                            <tr key= {productos.id}>
+                                                <td> #{productos.id} </td>
+                                                <td> {productos.nombre}</td>
+                                                <td> {productos.tipo} </td>
+                                                <td> {productos.valor_final} </td>
+                                                <td> {productos.cantidad} </td>
+                                                <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
+                                                <img id="editar" src={editar} alt="editar" onClick={() => ChangeViendoProducto(productos)}/>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </NavStyle>
