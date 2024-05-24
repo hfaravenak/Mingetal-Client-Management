@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import HeaderComponents from "../Headers/HeaderComponents";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Swal from "sweetalert2";
 
 import styled from "styled-components";
 import editar from "../../images/editar.png"

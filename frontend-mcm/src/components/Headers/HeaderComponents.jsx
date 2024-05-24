@@ -38,7 +38,7 @@ function HeaderComponents() {
                         </div>
                     </div>
                     <div className="header_der">
-                        <a className="btn" href="#">user</a>
+                        <a className="btn" href="#">Usuario</a>
                     </div>
                 </header>
             </NavStyle>

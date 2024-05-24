@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Swal from "sweetalert2";
+
 import HeaderComponents from "../../Headers/HeaderComponents";
-import clientes from "../../../images/cliente.png"
 import OrdenesDeCompraProveedorService from "../../../services/OrdenesDeCompraProveedorService";
+import ProductoService from "../../../services/ProductoService";
+
+import clientes from "../../../images/cliente.png"
+import editar from "../../../images/editar.png"
 
 function OCProveedorComponents() {
     const initialState = {
@@ -23,6 +27,13 @@ function OCProveedorComponents() {
     const datos = JSON.parse(decodeURIComponent(oc_proveedor));
 
     const navigate = useNavigate();
+
+    const [ListProductos, setListProductos] = useState([]);
+    useEffect(() => {
+        ProductoService.getListByOCProveedor(datos.id).then((res) => {
+            setListProductos(res.data);
+        });
+    }, []);
 
     const modificacionFecha = (fechaOriginal) => {  
         if(fechaOriginal===null){
@@ -69,6 +80,8 @@ function OCProveedorComponents() {
         });
         setMostrarCard(true);
     }
+
+
 
     const enviarDatos = () => {
         Swal.fire({
@@ -166,6 +179,20 @@ function OCProveedorComponents() {
         });
     }
 
+
+    const ChangeViendoProducto = (todoElDato) => {
+        const datos = {
+            id: todoElDato.id,
+            tipo: todoElDato.tipo,
+            nombre: todoElDato.nombre,
+            valor: todoElDato.valor,
+            valor_final: todoElDato.valor_final,
+            cantidad: todoElDato.cantidad
+        };
+        const datosComoTexto = JSON.stringify(datos);
+        navigate(`/productos/mas-info/${encodeURIComponent(datosComoTexto)}`);
+    };
+    
     if(mostrarCard){
         return(
             <div>
@@ -365,6 +392,35 @@ function OCProveedorComponents() {
                                 <tr key= {datos.id}>
                                     <td> {datos.factura} </td>
                                 </tr>
+                            </tbody>
+                        </table>
+                        <h1><b> Lista de Productos</b></h1>
+                        <table border="1" className="content-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Valor Final</th>
+                                    <th>Cantidad</th>
+                                    <th>Más información</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    ListProductos.map((productos) => (
+                                        <tr key= {productos.id}>
+                                            <td> #{productos.id} </td>
+                                            <td> {productos.nombre}</td>
+                                            <td> {productos.tipo} </td>
+                                            <td> {productos.valor_final} </td>
+                                            <td> {productos.cantidad} </td>
+                                            <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
+                                            <img id="editar" src={editar} alt="editar" onClick={() => ChangeViendoProducto(productos)}/>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
                             </tbody>
                         </table>
                     </div>

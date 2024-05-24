@@ -27,6 +27,14 @@ class ProductoService{
         }
         return axios.get(PRODUCTOS_API_URL + "tipo/" + tipo);
     }
+
+    getListByOCCliente(id){
+        return axios.get(PRODUCTOS_API_URL+"OCCliente/"+id);
+    }
+
+    getListByOCProveedor(id){
+        return axios.get(PRODUCTOS_API_URL+"OCProveedor/"+id);
+    }
      
     crearProducto(producto){
         console.log(producto);
