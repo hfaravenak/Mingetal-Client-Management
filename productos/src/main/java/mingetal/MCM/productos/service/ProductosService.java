@@ -1,9 +1,13 @@
 package mingetal.MCM.productos.service;
 
 import mingetal.MCM.productos.entity.ProductosEntity;
+import mingetal.MCM.productos.model.ListaProductosEntity;
 import mingetal.MCM.productos.repository.ProductosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +16,9 @@ import java.util.List;
 public class ProductosService {
     @Autowired
     ProductosRepository productosRepository;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     public void save(ProductosEntity productosEntity){
         String[] palabras = productosEntity.getNombre().split("\\s+");
@@ -54,6 +61,48 @@ public class ProductosService {
 
     public ProductosEntity findByNombreTextual(String nombre) {
         return productosRepository.findByNombre(nombre);
+    }
+
+    public List<ProductosEntity> findByOCCliente(int id){
+        List<ListaProductosEntity> response = restTemplate.exchange(
+                "http://localhost:8080/ordenes_de_compra/productos/cliente/"+id,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ListaProductosEntity>>() {}
+        ).getBody();
+
+        if(response == null){
+            return new ArrayList<>();
+        }
+
+        List<ProductosEntity> productosEntities = new ArrayList<>();
+
+        for(ListaProductosEntity listaProductosEntity: response){
+            productosEntities.add(findById(listaProductosEntity.getId_producto()));
+        }
+
+        return productosEntities;
+    }
+
+    public List<ProductosEntity> findByOCProveedor(int id){
+        List<ListaProductosEntity> response = restTemplate.exchange(
+                "http://localhost:8080/ordenes_de_compra/productos/proveedor/"+id,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ListaProductosEntity>>() {}
+        ).getBody();
+
+        if(response == null){
+            return new ArrayList<>();
+        }
+
+        List<ProductosEntity> productosEntities = new ArrayList<>();
+
+        for(ListaProductosEntity listaProductosEntity: response){
+            productosEntities.add(findById(listaProductosEntity.getId_producto()));
+        }
+
+        return productosEntities;
     }
 
     public ProductosEntity deleteProductos(int id){

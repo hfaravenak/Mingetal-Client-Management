@@ -20,7 +20,7 @@ public class OrdenesDeCompraClienteController {
     OrdenesDeCompraClienteService ordenesDeCompraClienteService;
 
     @PostMapping()
-    public ResponseEntity<OrdenesDeCompraClienteEntity> saveCliente(@RequestBody OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity) {
+    public ResponseEntity<OrdenesDeCompraClienteEntity> saveOCCliente(@RequestBody OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity) {
         boolean bool = ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
         if(bool){
             return ResponseEntity.ok(ordenesDeCompraClienteEntity);
@@ -29,33 +29,33 @@ public class OrdenesDeCompraClienteController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getAllCliente(){
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getAllOCCliente(){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities=ordenesDeCompraClienteService.findAll();
         System.out.println(ordenesDeCompraClienteEntities);
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrdenesDeCompraClienteEntity> getOrdenClienteById(@PathVariable("id") int id){
+    public ResponseEntity<OrdenesDeCompraClienteEntity> getOCClienteById(@PathVariable("id") int id){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findById(id);
         System.out.println(ordenesDeCompraClienteEntities);
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);
     }
 
     @GetMapping("/id/{id_cliente}")
-    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOrdenProveedorByIdCliente(@PathVariable("id_cliente") String id_cliente){
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOCClienteByIdCliente(@PathVariable("id_cliente") String id_cliente){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByIdCliente(id_cliente);
         System.out.println(ordenesDeCompraClienteEntities);
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);
     }
     @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOrdenProveedorByNombreCliente(@PathVariable("nombre") String nombre){
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOCClienteByNombreCliente(@PathVariable("nombre") String nombre){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByNameCliente(nombre);
         System.out.println(ordenesDeCompraClienteEntities);
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);
     }
     @GetMapping("/empresa/{empresa}")
-    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOrdenProveedorByEmpresaCliente(@PathVariable("empresa") String empresa){
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOCClienteByEmpresaCliente(@PathVariable("empresa") String empresa){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByEmpresaCliente(empresa);
         System.out.println(ordenesDeCompraClienteEntities);
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);

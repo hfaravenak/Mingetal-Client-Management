@@ -96,13 +96,13 @@ public class ListaProductosServiceTest {
         );
         listaProductosService.save(listaProductosEntity);
 
-        assertFalse(listaProductosService.findByIdCliente(listaProductosEntity.getId_OC_cliente()).isEmpty());
+        assertFalse(listaProductosService.findByIdOCCliente(listaProductosEntity.getId_OC_cliente()).isEmpty());
 
         listaProductosService.delete(listaProductosEntity.getId());
     }
     @Test
     void findByIdClienteTestFalse(){
-        assertTrue(listaProductosService.findByIdCliente(-1).isEmpty());
+        assertTrue(listaProductosService.findByIdOCCliente(-1).isEmpty());
     }
 
     @Test
@@ -136,13 +136,13 @@ public class ListaProductosServiceTest {
         );
         listaProductosService.save(listaProductosEntity);
 
-        assertFalse(listaProductosService.findByIdProveedor(listaProductosEntity.getId_OC_proveedor()).isEmpty());
+        assertFalse(listaProductosService.findByIdOCProveedor(listaProductosEntity.getId_OC_proveedor()).isEmpty());
 
         listaProductosService.delete(listaProductosEntity.getId());
     }
     @Test
     void findByIdProveedorTestFalse(){
-        assertTrue(listaProductosService.findByIdProveedor(-2).isEmpty());
+        assertTrue(listaProductosService.findByIdOCProveedor(-2).isEmpty());
     }
 
     @Test

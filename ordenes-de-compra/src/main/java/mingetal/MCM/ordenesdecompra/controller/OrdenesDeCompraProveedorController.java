@@ -20,7 +20,7 @@ public class OrdenesDeCompraProveedorController {
     OrdenesDeCompraProveedorService ordenesDeCompraProveedorService;
 
     @PostMapping()
-    public ResponseEntity<OrdenesDeCompraProveedorEntity> saveProveedor(@RequestBody OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity) {
+    public ResponseEntity<OrdenesDeCompraProveedorEntity> saveOCProveedor(@RequestBody OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity) {
         System.out.println(ordenesDeCompraProveedorEntity);
         boolean bool = ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
         if(bool){
@@ -30,7 +30,7 @@ public class OrdenesDeCompraProveedorController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<OrdenesDeCompraProveedorEntity>> getAllProveedor(){
+    public ResponseEntity<List<OrdenesDeCompraProveedorEntity>> getAllOCProveedor(){
         List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities=ordenesDeCompraProveedorService.findAll();
         System.out.println(ordenesDeCompraProveedorEntities);
         return ResponseEntity.ok(ordenesDeCompraProveedorEntities);
@@ -38,31 +38,31 @@ public class OrdenesDeCompraProveedorController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrdenesDeCompraProveedorEntity> getOrdenProveedorById(@PathVariable("id") int id){
+    public ResponseEntity<OrdenesDeCompraProveedorEntity> getOCProveedorById(@PathVariable("id") int id){
         OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntities = ordenesDeCompraProveedorService.findById(id);
         System.out.println(ordenesDeCompraProveedorEntities);
         return ResponseEntity.ok(ordenesDeCompraProveedorEntities);
     }
     @GetMapping("/id/{id_proveedor}")
-    public ResponseEntity<List<OrdenesDeCompraProveedorEntity>> getOrdenProveedorByIdProveedor(@PathVariable("id_proveedor") int id_proveedor){
+    public ResponseEntity<List<OrdenesDeCompraProveedorEntity>> getOCProveedorByIdProveedor(@PathVariable("id_proveedor") int id_proveedor){
         List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = ordenesDeCompraProveedorService.findByIdProveedor(id_proveedor);
         System.out.println(ordenesDeCompraProveedorEntities);
         return ResponseEntity.ok(ordenesDeCompraProveedorEntities);
     }
     @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<List<OrdenesDeCompraProveedorEntity>> getOrdenProveedorByNombreProveedor(@PathVariable("nombre") String nombre){
+    public ResponseEntity<List<OrdenesDeCompraProveedorEntity>> getOCProveedorByNombreProveedor(@PathVariable("nombre") String nombre){
         List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = ordenesDeCompraProveedorService.findByNameProveedor(nombre);
         System.out.println(ordenesDeCompraProveedorEntities);
         return ResponseEntity.ok(ordenesDeCompraProveedorEntities);
     }
     @GetMapping("/empresa/{empresa}")
-    public ResponseEntity<List<OrdenesDeCompraProveedorEntity>> getOrdenProveedorByEmpresaProveedor(@PathVariable("empresa") String empresa){
+    public ResponseEntity<List<OrdenesDeCompraProveedorEntity>> getOCProveedorByEmpresaProveedor(@PathVariable("empresa") String empresa){
         List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = ordenesDeCompraProveedorService.findByEmpresa(empresa);
         System.out.println(ordenesDeCompraProveedorEntities);
         return ResponseEntity.ok(ordenesDeCompraProveedorEntities);
     }
     @GetMapping("/rubro/{rubro}")
-    public ResponseEntity<List<OrdenesDeCompraProveedorEntity>> getOrdenProveedorByRubroProveedor(@PathVariable("rubro") String rubro){
+    public ResponseEntity<List<OrdenesDeCompraProveedorEntity>> getOCProveedorByRubroProveedor(@PathVariable("rubro") String rubro){
         List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = ordenesDeCompraProveedorService.findByRubro(rubro);
         System.out.println(ordenesDeCompraProveedorEntities);
         return ResponseEntity.ok(ordenesDeCompraProveedorEntities);

@@ -36,7 +36,7 @@ public class ListaProductosService {
         return listaProductosRepository.findById(id);
     }
 
-    public List<ListaProductosEntity> findByIdCliente(int id_OC_cliente){
+    public List<ListaProductosEntity> findByIdOCCliente(int id_OC_cliente){
         return  listaProductosRepository.findByIdCliente(id_OC_cliente);
     }
 
@@ -44,7 +44,7 @@ public class ListaProductosService {
         return listaProductosRepository.findByIdProducto(id_producto);
     }
 
-    public List<ListaProductosEntity> findByIdProveedor(int id_OC_proveedor){
+    public List<ListaProductosEntity> findByIdOCProveedor(int id_OC_proveedor){
         return listaProductosRepository.findByIdProveedor(id_OC_proveedor);
     }
 
