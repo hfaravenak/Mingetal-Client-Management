@@ -98,17 +98,17 @@ function ProveedorCrearComponent(){
                             <Form.Control className="agregar" type="text" name="id_contacto"/>
                         </Form.Group>
 
-                        {/*
+                        
                         <Form.Group className="mb-3" controlId="id_contacto2" value = {input.id_contacto2} onChange={changeId_contacto2Handler}>
-                            <Form.Label className="agregar">id contacto2:</Form.Label>
+                            <Form.Label className="agregar">Email:</Form.Label>
                             <Form.Control className="agregar" type="text" name="id_contacto2"/>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="id_contacto3" value = {input.id_contacto3} onChange={changeId_contacto3Handler}>
-                            <Form.Label className="agregar">idcontacto3:</Form.Label>
+                            <Form.Label className="agregar">Teléfono:</Form.Label>
                             <Form.Control className="agregar" type="text" name="id_contacto3"/>
                         </Form.Group>
-                        */}
+                        
 
                         <Form.Group className="mb-3" controlId="comentario" value = {input.comentario} onChange={changeComentarioHandler}>
                             <Form.Label className="agregar">Comentario:</Form.Label>
