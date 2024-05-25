@@ -59,11 +59,25 @@ const CarruselContactos = ({ datos, onMostrarCard }) => {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                let rut = datos.id_contacto.rut;
-                ContactoService.deleteContacto(rut);
-                datos.id_contacto = datos.id_contacto2;
-                datos.id_contacto2 = datos.id_contacto3;
-                datos.id_contacto3 = null;
+                if(currentIndex===0){
+                    let rut = datos.id_contacto.rut;
+                    ContactoService.deleteContacto(rut);
+                    datos.id_contacto = datos.id_contacto2;
+                    datos.id_contacto2 = datos.id_contacto3;
+                    datos.id_contacto3 = null;
+                }
+                else if(currentIndex===1){
+                    let rut = datos.id_contacto2.rut;
+                    ContactoService.deleteContacto(rut);
+                    datos.id_contacto2 = datos.id_contacto3;
+                    datos.id_contacto3 = null;
+                }
+                else{
+                    let rut = datos.id_contacto3.rut;
+                    ContactoService.deleteContacto(rut);
+                    datos.id_contacto3 = null;
+                }
+
                 if (datos.id_contacto === null) {
                     ProveedorService.deleteProveedor(datos.id_proveedor);
                 } else {
