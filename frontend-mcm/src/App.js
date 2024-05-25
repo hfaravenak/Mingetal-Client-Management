@@ -1,26 +1,34 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import MainComponents from "./components/MainComponents";
+
 import ListClienteComponents from "./components/Clientes/ListClienteComponents";
 import ClienteComponents from "./components/Clientes/ClienteComponents"
 import ClienteCrearComponents from "./components/Clientes/ClienteCrearComponents"
+
+import ListProveedorComponents from "./components/Proveedores/ListProveedorComponents";
+import ProveedorComponents from "./components/Proveedores/ProveedorComponents";
+import ProveedorCrearComponent from "./components/Proveedores/ProveedorCrearComponent";
+
+import MainOCComponents from "./components/Ordenes de Compra/MainOCComponents";
+
 import ListOCClienteComponents from "./components/Ordenes de Compra/Cliente/ListOCClienteComponents";
 import OCClienteComponents from "./components/Ordenes de Compra/Cliente/OCClienteComponents";
+import OCClienteCrearComponents from "./components/Ordenes de Compra/Cliente/OCClienteCrearComponents";
+
 import ListOCProveedorComponents from "./components/Ordenes de Compra/Proveedor/ListOCProveedorComponents";
 import OCProveedorComponents from "./components/Ordenes de Compra/Proveedor/OCProveedorComponents";
-import MainOCComponents from "./components/Ordenes de Compra/MainOCComponents";
-import OCClienteCrearComponents from "./components/Ordenes de Compra/Cliente/OCClienteCrearComponents";
 import OCProveedorCrearComponents from "./components/Ordenes de Compra/Proveedor/OCProveedorCrearComponents";
+
 import ListCotizacionComponent from "./components/Cotizaciones/ListCotizacionComponent";
-import CotizacionCrearComponent from "./components/Cotizaciones/CotizacionCrearComponent";
 import CotizacionComponent from "./components/Cotizaciones/CotizacionComponent";
+import CotizacionCrearComponent from "./components/Cotizaciones/CotizacionCrearComponent";
+
 import ListProductosComponent from "./components/Productos/ListProductosComponents";
-import ListProveedorComponents from "./components/Proveedores/ListProveedorComponents";
-import ProductoCrearComponent from "./components/Productos/ProductoCrearComponents";
 import ProductoComponent from "./components/Productos/ProductoComponents";
-import ProveedorCrearComponent from "./components/Proveedores/ProveedorCrearComponent";
-import ProveedorComponents from "./components/Proveedores/ProveedorComponents";
+import ProductoCrearComponent from "./components/Productos/ProductoCrearComponents";
 
 function App() {
   return (
