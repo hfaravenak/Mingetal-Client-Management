@@ -28,6 +28,13 @@ class OrdenesDeCompraProveedorService {
         }
         return axios.get(OC_API_URL+"empresa/"+empresa);
     }
+    getOCByProveedor(id_proveedor){
+        if(id_proveedor===""){
+            return this.getOCProveedor()
+        }
+        return axios.get(OC_API_URL+"id/"+id_proveedor);
+    }
+
     putOCProveedor(OCProveedor){
         return axios.put(OC_API_URL+"update", OCProveedor);
     }

@@ -23,10 +23,10 @@ function ProveedorComponents() {
 
     const [OC_ProveedorEntity, setOC_ProveedorEntity] = useState([]);
     useEffect(() => {
-        OrdenesDeCompraProveedorService.getOCProveedor(datos.id_contacto).then((res) => {
+        OrdenesDeCompraProveedorService.getOCByProveedor(datos.id_proveedor).then((res) => {
             setOC_ProveedorEntity(res.data);
         });
-    }, [datos.id_contacto]);
+    }, [datos.id_proveedor]);
 
     const verOrdenDeCompra = (OC_Proveedor) => {
         let datosEnvio = {
