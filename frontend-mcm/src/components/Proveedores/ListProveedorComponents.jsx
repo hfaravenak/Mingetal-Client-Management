@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-
 import styled from "styled-components";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
 import editar from "../../images/editar.png";
+
 import HeaderComponents from "../Headers/HeaderComponents";
 import ProveedorService from "../../services/ProveedorService";
 import ContactoService from "../../services/ContactoService";
 
 function ListProveedorComponents() {
+    const navigate = useNavigate();
+
     const initialState = {
         rut: "",
         nombre: "",
         empresa: "",
         rubro: "",
     };
+    const [input, setInput] = useState(initialState);
+
     const [ProveedorEntity, setProveedorEntity] = useState([]);
     const [ContactosEntity, setContactosEntity] = useState([]);
     const [RubroEntity, setRubroEntity] = useState([]);
-    const [input, setInput] = useState(initialState);
-    const navigate = useNavigate();
-
     useEffect(() => {
         ProveedorService.getProveedores().then((res) => {
             setProveedorEntity(res.data);
@@ -33,11 +35,22 @@ function ListProveedorComponents() {
             setRubroEntity(res.data);
         });
     }, []);
+
+    const busquedaContacto = (id_contacto) => {
+        let variable=null;
+        ContactosEntity.forEach(contacto => {
+            if(contacto.rut===id_contacto){
+                variable=contacto;
+            }
+        })
+        return variable;
+    }
    
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setInput({ ...input, [name]: value });
     };
+
 
     const buscarRut = () => {
         ProveedorService.getProveedorByRut(input.rut).then((res) => {
@@ -73,11 +86,6 @@ function ListProveedorComponents() {
             setProveedorEntity(res.data);
         });
     }
-
-    const crearProveedor = () => {
-        navigate("crear");
-    }
-
     const handleKeyPressRut = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault(); // Evita que el formulario se envíe si está dentro de un <form>
@@ -96,15 +104,9 @@ function ListProveedorComponents() {
             buscarEmpresa(); // Llama a la función que deseas ejecutar
         }
     };
-    
-    const busquedaContacto = (id_contacto) => {
-        let variable=null;
-        ContactosEntity.forEach(contacto => {
-            if(contacto.rut===id_contacto){
-                variable=contacto;
-            }
-        })
-        return variable;
+
+    const crearProveedor = () => {
+        navigate("crear");
     }
 
     const ChangeViendoCliente = (proveedor) => {
@@ -120,55 +122,99 @@ function ListProveedorComponents() {
         const datosComoTexto = JSON.stringify(datos);
         navigate(`/proveedores/mas info/${encodeURIComponent(datosComoTexto)}`);
     };
-    return(
+    return (
         <div>
             <NavStyle>
-                <HeaderComponents/>
+                <HeaderComponents />
                 <div className="container">
                     <div className="container-1">
                         <div className="inline-forms-container">
                             <Form className="inline-form">
-                                <Form.Group  name="rut" controlId="rut" value = {input.rut} onChange={handleInputChange}>
+                                <Form.Group name="rut" controlId="rut">
                                     <Form.Label className="agregar">Rut del Proveedor:</Form.Label>
-                                    <Form.Control className="agregar" type="text" name="rut" placeholder="12.345.678-9" onKeyPress={handleKeyPressRut}/>
+                                    <Form.Control
+                                        className="agregar"
+                                        type="text"
+                                        name="rut"
+                                        placeholder="12.345.678-9"
+                                        onKeyPress={handleKeyPressRut}
+                                        value={input.rut}
+                                        onChange={handleInputChange}
+                                    />
                                 </Form.Group>
-                                <Button className="boton" onClick={buscarRut}>Buscar</Button>
+                                <Button className="boton" onClick={buscarRut}>
+                                    Buscar
+                                </Button>
                             </Form>
                             <Form className="inline-form">
-                                <Form.Group name="nombre" controlId="nombre" value = {input.nombre} onChange={handleInputChange}>
+                                <Form.Group name="nombre" controlId="nombre">
                                     <Form.Label className="agregar">Nombre Proveedor:</Form.Label>
-                                    <Form.Control className="agregar" type="text" name="nombre" placeholder="Juan Perez" onKeyPress={handleKeyPressNombre}/>
+                                    <Form.Control
+                                        className="agregar"
+                                        type="text"
+                                        name="nombre"
+                                        placeholder="Juan Perez"
+                                        onKeyPress={handleKeyPressNombre}
+                                        value={input.nombre}
+                                        onChange={handleInputChange}
+                                    />
                                 </Form.Group>
-                                <Button className="boton" onClick={buscarNombre}>Buscar</Button>
+                                <Button className="boton" onClick={buscarNombre}>
+                                    Buscar
+                                </Button>
                             </Form>
                             <Form className="inline-form">
-                                <Form.Group name="empresa" controlId="empresa" value = {input.empresa} onChange={handleInputChange} >
+                                <Form.Group name="empresa" controlId="empresa">
                                     <Form.Label className="agregar">Empresa del Proveedor:</Form.Label>
-                                    <Form.Control className="agregar" type="text" name="empresa" placeholder="Nombre Generico" onKeyPress={handleKeyPressEmpresa}/>
+                                    <Form.Control
+                                        className="agregar"
+                                        type="text"
+                                        name="empresa"
+                                        placeholder="Nombre Generico"
+                                        onKeyPress={handleKeyPressEmpresa}
+                                        value={input.empresa}
+                                        onChange={handleInputChange}
+                                    />
                                 </Form.Group>
-                                <Button className="boton" onClick={buscarEmpresa}>Buscar</Button>
+                                <Button className="boton" onClick={buscarEmpresa}>
+                                    Buscar
+                                </Button>
                             </Form>
                             <Form className="inline-form">
                                 <Form.Group name="rubro" controlId="rubro">
                                     <Form.Label className="agregar">Rubro:</Form.Label>
-                                    <Form.Select style={{ width: "100%" }} className="font-h2 no-border" name="rubro" value = {input.rubro} onChange={handleInputChange}>
-                                            <option value="" style={{color:"gray"}}>Rubros</option>
-                                        {
-                                            RubroEntity.map((rubro) => (
-                                                <option key={rubro} value={rubro}>{rubro}</option>
-                                            ))
-                                        }
+                                    <Form.Select
+                                        style={{ width: "100%" }}
+                                        className="font-h2 no-border"
+                                        name="rubro"
+                                        value={input.rubro}
+                                        onChange={handleInputChange}
+                                    >
+                                        <option value="" style={{ color: "gray" }}>
+                                            Rubros
+                                        </option>
+                                        {RubroEntity.map((rubro) => (
+                                            <option key={rubro} value={rubro}>
+                                                {rubro}
+                                            </option>
+                                        ))}
                                     </Form.Select>
                                 </Form.Group>
-                                <Button className="boton" onClick={buscarRubro}>Buscar</Button>
+                                <Button className="boton" onClick={buscarRubro}>
+                                    Buscar
+                                </Button>
                             </Form>
                         </div>
                         <div className="btn-inf">
-                            <Button className="boton" onClick={crearProveedor}>Ingresar Proveedor</Button>
+                            <Button className="boton" onClick={crearProveedor}>
+                                Ingresar Proveedor
+                            </Button>
                         </div>
                     </div>
                     <div align="center" className="container-2">
-                        <h1><b> Listado de Proveedores</b></h1>
+                        <h1>
+                            <b> Listado de Proveedores</b>
+                        </h1>
                         <table border="1" className="content-table">
                             <thead>
                                 <tr>
@@ -181,23 +227,26 @@ function ListProveedorComponents() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {
-                                    ProveedorEntity.map((proveedor) => {
-                                        const contacto = busquedaContacto(proveedor.id_contacto);
-                                        return (
-                                            <tr key={proveedor.id_proveedor}>
-                                                <td> {contacto ? contacto.nombre : ''} </td>
-                                                <td> {proveedor.empresa} </td>
-                                                <td> {proveedor.rubro} </td>
-                                                <td> {contacto ? contacto.fono_cel : ''} </td>
-                                                <td> {contacto ? contacto.correo : ''} </td>
-                                                <td style={{textAlign: 'center', verticalAlign: 'middle', width:'1%'}}>
-                                                    <img id="editar" src={editar} alt="editar" onClick={() => ChangeViendoCliente(proveedor)}/>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                }
+                                {ProveedorEntity.map((proveedor) => {
+                                    const contacto = busquedaContacto(proveedor.id_contacto);
+                                    return (
+                                        <tr key={proveedor.id_proveedor}>
+                                            <td> {contacto ? contacto.nombre : ""} </td>
+                                            <td> {proveedor.empresa} </td>
+                                            <td> {proveedor.rubro} </td>
+                                            <td> {contacto ? contacto.fono_cel : ""} </td>
+                                            <td> {contacto ? contacto.correo : ""} </td>
+                                            <td style={{ textAlign: "center", verticalAlign: "middle", width: "1%" }}>
+                                                <img
+                                                    id="editar"
+                                                    src={editar}
+                                                    alt="editar"
+                                                    onClick={() => ChangeViendoCliente(proveedor)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>

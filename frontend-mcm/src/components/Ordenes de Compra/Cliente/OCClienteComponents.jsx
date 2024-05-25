@@ -40,7 +40,7 @@ function OCClienteComponents() {
         ProductoService.getListByOCCliente(datos.id).then((res) => {
             setListProductos(res.data);
         });
-    }, []);
+    }, [datos.id]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -226,7 +226,7 @@ function OCClienteComponents() {
                                             <td style={{ color: "gray" }}> {datos.fecha_solicitud} </td>
                                             <td>
                                                 <div className=" contenedor-informacion">
-                                                    <Form.Group className="mb-3" controlId="estado_entrega">
+                                                    <Form.Group controlId="estado_entrega">
                                                         <Form.Select
                                                             style={{ width: "100%" }}
                                                             value={input.estado_entrega}
@@ -242,7 +242,7 @@ function OCClienteComponents() {
                                             </td>
                                             <td>
                                                 <div className=" contenedor-informacion">
-                                                    <Form.Group className="mb-3" controlId="empresa_despacho">
+                                                    <Form.Group controlId="empresa_despacho">
                                                         <Form.Control
                                                             value={input.empresa_despacho}
                                                             onChange={handleInputChange}
@@ -277,7 +277,7 @@ function OCClienteComponents() {
                                             <td style={{ color: "gray" }}> {datos.valor_pago} </td>
                                             <td>
                                                 <div className=" contenedor-informacion">
-                                                    <Form.Group className="mb-3" controlId="modo_pago">
+                                                    <Form.Group controlId="modo_pago">
                                                         <Form.Select
                                                             style={{ width: "100%" }}
                                                             value={input.modo_pago}
@@ -294,7 +294,7 @@ function OCClienteComponents() {
                                             </td>
                                             <td>
                                                 <div className=" contenedor-informacion">
-                                                    <Form.Group className="mb-3" controlId="numero_cheque">
+                                                    <Form.Group controlId="numero_cheque">
                                                         <Form.Control
                                                             style={{ width: "100%" }}
                                                             value={input.numero_cheque}
@@ -309,7 +309,7 @@ function OCClienteComponents() {
                                             </td>
                                             <td>
                                                 <div className=" contenedor-informacion">
-                                                    <Form.Group className="mb-3" controlId="estado_pago">
+                                                    <Form.Group controlId="estado_pago">
                                                         <Form.Select
                                                             style={{ width: "100%" }}
                                                             value={input.estado_pago}
@@ -326,7 +326,7 @@ function OCClienteComponents() {
                                             <td style={{ color: "gray" }}> {datos.fecha_inicio_pago} </td>
                                             <td>
                                                 <div className=" contenedor-informacion">
-                                                    <Form.Group className="mb-3" controlId="tiempo_de_pago">
+                                                    <Form.Group controlId="tiempo_de_pago">
                                                         <Form.Control
                                                             style={{ width: "100%" }}
                                                             value={input.tiempo_de_pago}
@@ -341,7 +341,7 @@ function OCClienteComponents() {
                                             </td>
                                             <td>
                                                 <div className=" contenedor-informacion">
-                                                    <Form.Group className="mb-3" controlId="fecha_pago">
+                                                    <Form.Group controlId="fecha_pago">
                                                         <Form.Control
                                                             style={{ width: "100%" }}
                                                             value={input.fecha_pago}
@@ -370,7 +370,7 @@ function OCClienteComponents() {
                                         <tr key={datos.id}>
                                             <td>
                                                 <div className=" contenedor-informacion">
-                                                    <Form.Group className="mb-3" controlId="numero_factura">
+                                                    <Form.Group controlId="numero_factura">
                                                         <Form.Control
                                                             style={{ width: "100%" }}
                                                             value={input.numero_factura}
@@ -385,7 +385,7 @@ function OCClienteComponents() {
                                             </td>
                                             <td>
                                                 <div className=" contenedor-informacion">
-                                                    <Form.Group className="mb-3" controlId="estado_factura">
+                                                    <Form.Group controlId="estado_factura">
                                                         <Form.Select
                                                             style={{ width: "100%" }}
                                                             value={input.estado_factura}

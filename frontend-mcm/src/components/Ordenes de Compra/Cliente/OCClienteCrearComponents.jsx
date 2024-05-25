@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import HeaderComponents from "../../Headers/HeaderComponents";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Swal from "sweetalert2";
-import ClienteService from "../../../services/ClienteService";
 import styled from "styled-components";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Swal from "sweetalert2";
+
+import HeaderComponents from "../../Headers/HeaderComponents";
+import ClienteService from "../../../services/ClienteService";
 import ProveedorService from "../../../services/ProveedorService";
 import OrdenesDeCompraClienteService from "../../../services/OrdenesDeCompraClienteService";
 
@@ -209,7 +210,7 @@ function OCClienteCrearComponents() {
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="nombre">
+                                                <Form.Group controlId="nombre">
                                                     <Form.Control
                                                         style={{ width: "100%" }}
                                                         className="font-h2 no-border"
@@ -221,7 +222,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="fecha_solicitud">
+                                                <Form.Group controlId="fecha_solicitud">
                                                     <Form.Control
                                                         style={{ width: "100%" }}
                                                         className="font-h2 no-border"
@@ -233,7 +234,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="fecha_entrega">
+                                                <Form.Group controlId="fecha_entrega">
                                                     <Form.Control
                                                         style={{ width: "100%" }}
                                                         className="font-h2 no-border"
@@ -245,7 +246,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="estado_entrega">
+                                                <Form.Group controlId="estado_entrega">
                                                     <Form.Select
                                                         style={{ width: "100%" }}
                                                         value={input.estado_entrega}
@@ -259,7 +260,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="empresa_despacho">
+                                                <Form.Group controlId="empresa_despacho">
                                                     <Form.Select
                                                         style={{ width: "100%" }}
                                                         className="font-h2 no-border"
@@ -306,7 +307,7 @@ function OCClienteCrearComponents() {
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="valor_pago">
+                                                <Form.Group controlId="valor_pago">
                                                     <Form.Control
                                                         className="agregar"
                                                         type="number"
@@ -318,7 +319,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="modo_pago">
+                                                <Form.Group controlId="modo_pago">
                                                     <Form.Select
                                                         style={{ width: "100%" }}
                                                         value={input.modo_pago}
@@ -333,7 +334,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="numero_cheque">
+                                                <Form.Group controlId="numero_cheque">
                                                     <Form.Control
                                                         className="agregar"
                                                         type="number"
@@ -344,7 +345,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="estado_pago">
+                                                <Form.Group controlId="estado_pago">
                                                     <Form.Select
                                                         style={{ width: "100%" }}
                                                         value={input.estado_pago}
@@ -358,7 +359,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="fecha_inicio_pago">
+                                                <Form.Group controlId="fecha_inicio_pago">
                                                     <Form.Control
                                                         style={{ width: "100%" }}
                                                         className="font-h2 no-border"
@@ -370,7 +371,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="tiempo_de_pago">
+                                                <Form.Group controlId="tiempo_de_pago">
                                                     <Form.Control
                                                         className="agregar"
                                                         type="number"
@@ -382,7 +383,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="fecha_pago">
+                                                <Form.Group controlId="fecha_pago">
                                                     <Form.Control
                                                         style={{ width: "100%" }}
                                                         value={input.fecha_pago}
@@ -412,7 +413,7 @@ function OCClienteCrearComponents() {
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="numero_factura">
+                                                <Form.Group controlId="numero_factura">
                                                     <Form.Control
                                                         className="agregar"
                                                         type="number"
@@ -424,7 +425,7 @@ function OCClienteCrearComponents() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                                <Form.Group className="mb-3" controlId="estado_factura">
+                                                <Form.Group controlId="estado_factura">
                                                     <Form.Select
                                                         style={{ width: "100%" }}
                                                         value={input.estado_factura}

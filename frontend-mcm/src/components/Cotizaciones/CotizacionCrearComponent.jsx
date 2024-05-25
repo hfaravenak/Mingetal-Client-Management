@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Swal from "sweetalert2";
 import styled from "styled-components";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Swal from "sweetalert2";
+
 
 import HeaderComponents from "../Headers/HeaderComponents";
 import CotizacionService from "../../services/CotizacionService";

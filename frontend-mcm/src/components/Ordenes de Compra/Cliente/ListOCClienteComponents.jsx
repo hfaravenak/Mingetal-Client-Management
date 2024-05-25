@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import styled from "styled-components";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 import editar from "../../../images/editar.png";
 
@@ -34,16 +34,7 @@ function ListOCClienteComponents() {
             setClienteEntity(res.data);
         });
     }, []);
-
-    const changeIdHandler = (event) => {
-        setInput({ ...input, id: event.target.value });
-    };
-    const changeNombreHandler = (event) => {
-        setInput({ ...input, nombre: event.target.value });
-    };
-    const changeEmpresaHandler = (event) => {
-        setInput({ ...input, empresa: event.target.value });
-    };
+    
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setInput({ ...input, [name]: value });

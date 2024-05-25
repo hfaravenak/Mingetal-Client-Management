@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import HeaderComponents from "./Headers/HeaderComponents";
+
 import clientes from "../images/cliente.png"
 import proveedores from "../images/proveedores.png"
 import inventario from "../images/inventario.png"
@@ -9,6 +9,8 @@ import ordenesCompra from "../images/ordenesCompra.png"
 import ventas from "../images/ventas.png"
 import estadistica from "../images/estadistica.png"
 import cotizacion from "../images/cotizacion.png"
+
+import HeaderComponents from "./Headers/HeaderComponents";
 
 function MainComponents() {
     const navigate = useNavigate();

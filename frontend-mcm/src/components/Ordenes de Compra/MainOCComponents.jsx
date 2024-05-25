@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 import HeaderComponents from "./../Headers/HeaderComponents";
 import clientes from "../../images/cliente.png"
 import proveedores from "../../images/proveedores.png"
@@ -13,9 +14,6 @@ function MainOCComponents() {
 
     const handleClickProveedores = () => {
         navigate("/oc/proveedor");
-    };
-    const nathing = () => {
-        navigate("/");
     };
     return (
         <div>
