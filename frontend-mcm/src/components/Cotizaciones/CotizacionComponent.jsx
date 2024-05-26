@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
@@ -9,8 +9,12 @@ import cotizaciones from "../../images/cotizacion.png";
 
 import HeaderComponents from "../Headers/HeaderComponents";
 import CotizacionService from "../../services/CotizacionService";
+import ClienteService from "../../services/ClienteService";
+import OrdenesDeCompraClienteService from "../../services/OrdenesDeCompraClienteService";
+import ProductoService from "../../services/ProductoService";
 
 function CotizacionComponent() {
+
     const formatFecha = (fecha) => {
         const [year, month, day] = fecha.split("-");
         return `${day}-${month}-${year}`;
@@ -29,6 +33,49 @@ function CotizacionComponent() {
         rutCliente: "",
     };
     const [input, setInput] = useState(initialState);
+
+    const [ClienteEntity, setClienteEntity] = useState([]);
+    useEffect(() => {
+        ClienteService.getClientes().then((res) => {
+            setClienteEntity(res.data);
+        });
+    }, []);
+
+    const [ListProductos, setListProductos] = useState([]);
+    useEffect(() => {
+        if (input.rutCliente) {
+            obtenerProductosPorCliente(input.rutCliente);
+        }
+    }, [input.rutCliente]);
+
+    const obtenerProductosPorCliente = (rutCliente) => {
+        // Obtener la orden de compra del cliente
+        OrdenesDeCompraClienteService.getOCByCliente(rutCliente)
+            .then((res) => {
+                // Verificar si se encontró la orden de compra
+                if (res.data.length > 0) {
+                    // Obtener el ID de la orden de compra encontrada
+                    const idOrdenCompra = res.data[0].id; // Suponiendo que solo hay una orden de compra por cliente
+                    // Utilizar el ID de la orden de compra para obtener la lista de productos asociada
+                    ProductoService.getListByOCCliente(idOrdenCompra)
+                        .then((res) => {
+                            // Manejar la respuesta
+                            console.log("Lista de productos:", res.data);
+                        })
+                        .catch((error) => {
+                            // Manejar errores
+                            console.error("Error al obtener la lista de productos:", error);
+                        });
+                } else {
+                    // No se encontró ninguna orden de compra para el cliente
+                    console.log("No se encontró ninguna orden de compra para el cliente:", rutCliente);
+                }
+            })
+            .catch((error) => {
+                // Manejar errores
+                console.error("Error al obtener la orden de compra:", error);
+            });
+    };
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -205,162 +252,286 @@ function CotizacionComponent() {
     } else {
         return (
             <div>
-                <NavStyle>
-                    <HeaderComponents></HeaderComponents>
-                    <div className="container">
-                        <div className="container-1">
-                            <div className="card">
-                                <div className="contenedor-img">
-                                    <img
-                                        id="cotizaciones"
-                                        src={cotizaciones}
-                                        alt="cotizaciones"
-                                        style={{ width: "400px" }}
-                                    />
-                                </div>
-                                <div className="contenedor-informacion">
-                                    <h2>{datos.pedido}</h2>
-                                    <h3>fecha: {formatFecha(datos.fecha)}</h3>
-                                    <h3>estado: {datos.estado}</h3>
-                                    <h3>Rut del cliente: {datos.rutCliente}</h3>
-                                </div>
-                            </div>
-                            <div style={{ display: "flex", justifyContent: "center", padding: "5px" }}>
-                                    <Button className="editar" onClick={changeMostrarCard}>
-                                        Editar
-                                    </Button>
-                                    <Button className="eliminar" onClick={EliminarCotizacion}>
-                                        Eliminar
-                                    </Button>
-                                </div>
-                        </div>
+    <NavStyle>
+        <HeaderComponents></HeaderComponents>
+        <div className="container">
+            <div className="container-1">
+                <div className="card">
+                    <div className="contenedor-img">
+                        <img
+                            id="cotizaciones"
+                            src={cotizaciones}
+                            alt="cotizaciones"
+                            style={{ width: "400px" }}
+                        />
                     </div>
-                </NavStyle>
+                    <div className="contenedor-informacion">
+                        <h2>{datos.pedido}</h2>
+                        <h3>Fecha: {formatFecha(datos.fecha)}</h3>
+                        <h3>Estado: {datos.estado}</h3>
+                        <h3>Rut del Cliente: {datos.rutCliente}</h3>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center", padding: "5px" }}>
+                        <Button className="editar" onClick={changeMostrarCard}>
+                            Editar
+                        </Button>
+                        <Button className="eliminar" onClick={EliminarCotizacion}>
+                            Eliminar
+                        </Button>
+                    </div>
+                </div>
             </div>
+            <div className="container-2">
+                <div align="center" className="container-3">
+                    <h1><b> Cliente</b></h1>
+                    <table border="1" className="content-table">
+                        <thead>
+                            <tr>
+                                <th>Rut Cliente</th>
+                                <th>Nombre Cliente</th>
+                                <th>Email</th>
+                                <th>Telefono</th>
+                                <th>Empresa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {ClienteEntity.filter(cliente => cliente.rut === datos.rutCliente).map((Cliente) => (
+                                <tr key={Cliente.rut}>
+                                    <td>{Cliente.rut}</td>
+                                    <td>{Cliente.nombre}</td>
+                                    <td>{Cliente.email}</td>
+                                    <td>{Cliente.telefono}</td>
+                                    <td>{Cliente.empresa}</td>
+                                    <td style={{ textAlign: "center", verticalAlign: "middle", width: "1%" }}></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div align="center" className="container-3">
+                    <h1><b> Lista de Productos</b></h1>
+                    <table border="1" className="content-table">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Tipo</th>
+                                <th>Nombre</th>
+                                <th>Valor</th>
+                                <th>Cantidad</th>
+                                <th>Valor Final</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {ListProductos.map((producto) => (
+                                <tr key={producto.id}>
+                                    <td>{producto.id}</td>
+                                    <td>{producto.tipo}</td>
+                                    <td>{producto.nombre}</td>
+                                    <td>{producto.valor}</td>
+                                    <td>{producto.cantidad}</td>
+                                    <td>{producto.valorFinal}</td>
+                                    <td style={{ textAlign: "center", verticalAlign: "middle", width: "1%" }}></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </NavStyle>
+</div>
+
         );
     }
 }
 export default CotizacionComponent;
 
 const NavStyle = styled.nav`
-    /* Separacion de las partes */
+.container {
+    margin: 2%;
+    border: 2px solid #d5d5d5;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    height: 100%;
+}
+.container-1 {
+    height: 80%;
+    background-color: #f0f0f0;
+    width: 20%;
+    flex-shrink: 0; /* Hace que el contenedor no se encoja */
+    overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
+    padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+}
+.container-2 {
+    background-color: #f0f0f0;
+    flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
+    overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
+    padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+    max-height: calc(0px + 74.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
+}
+.container-3 {
+    background-color: #f0f0f0;
+    flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
+    overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
+    padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+    max-height: calc(0px + 74.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
+}
 
-    .container {
-        margin: 2%;
-        border: 2px solid #d5d5d5;
-        background-color: #f0f0f0;
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-    }
+/* Todo la parte de la tabla */
 
-    .container-1 {
-        background-color: #f0f0f0;
-        width: 30%;
-        flex-shrink: 0; /* Hace que el contenedor no se encoja */
-        overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
-        padding: 1%; /*
-    }
+.content-table {
+    border-collapse: collapse;
+    margin-left: 1;
+    font-size: 0.9em;
+    min-width: 100px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.content-table thead tr {
+    background-color: #d2712b;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+}
 
-    /* Por el lado de la información del cliente*/
+.content-table td {
+    font-size: 18px;
+}
 
-    .card {
-        border: 1px solid black;
-        border-radius: 10px;
-        background-color: white;
-    }
-    .card .contenedor-img {
-        background-color: #f0f0f0;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .card .contenedor-informacion {
-        background-color: white;
-        height: 100%;
-    }
+.content-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+.content-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+.content-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
 
-    .card .contenedor-informacion h3,
-    .card .contenedor-informacion h2,
-    .font-h2,
-    .font-h3 {
-        margin-left: 4%;
-    }
+td img {
+    width: 50%;
+    object-fit: cover;
+}
 
-    .card .contenedor-informacion h3,
-    .font-h2,
-    .font-h2-control {
-        font-size: 20px;
-        font-weight: normal;
-    }
+td img:hover {
+    cursor: pointer;
+}
 
-    .font-h3 {
-        margin-top: 5%;
-        font-size: 24px;
-        font-weight: bold;
-        width: 90%;
-    }
+th:hover,
+td:hover {
+    cursor: default;
+}
 
-    .font-h2,
-    font-h3,
-    .font-h2-control {
-        padding-bottom: 3%;
-        padding-top: 3%;
-    }
+/* Por el lado de la información del cliente*/
 
-    .no-border {
-        border: none;
-        box-shadow: none;
-    }
+.card {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+}
+.card .contenedor-img {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card .contenedor-informacion {
+    background-color: white;
+    height: 100%;
+}
 
-    .editar,
-    .eliminar,
-    .cancelar,
-    .aceptar {
-        margin-left: 5px;
-        margin-top: 10px;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 30px;
-        border: none;
-        cursor: pointer;
-    }
+.card .contenedor-informacion h3,
+.card .contenedor-informacion h2,
+.font-h2,
+.font-h3 {
+    margin-left: 4%;
+}
 
-    .eliminar,
-    .cancelar {
-        background-color: #550100;
-        color: #fff;
-    }
+.card .contenedor-informacion h3,
+.font-h2,
+.font-h2-control {
+    font-size: 20px;
+    font-weight: normal;
+}
 
-    .editar {
-        background-color: #39beab;
-        color: black;
-    }
+.font-h3 {
+    margin-top: 5%;
+    font-size: 24px;
+    font-weight: bold;
+    width: 90%;
+}
 
-    .aceptar {
-        background-color: #00a768;
-        color: black;
-    }
+.font-h2,
+font-h3,
+.font-h2-control {
+    padding-bottom: 3%;
+    padding-top: 3%;
+}
 
-    .editar:hover,
-    .eliminar:hover,
-    .aceptar:hover,
-    .cancelar:hover {
-        border: 1px solid black;
-    }
+.no-border {
+    border: none;
+    box-shadow: none;
+}
 
-    /* Fuente de la letra*/
+.editar,
+.eliminar,
+.cancelar,
+.aceptar {
+    margin-left: 5px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+}
 
-    td,
-    th,
-    h1,
-    h2,
-    h3,
-    Button,
-    .font-h2,
-    .font-h3,
-    .font-h2-control {
-        font-family: "Pacifico", serif;
-    }
+.eliminar,
+.cancelar {
+    background-color: #550100;
+    color: #fff;
+}
+
+.editar {
+    background-color: #39beab;
+    color: black;
+}
+
+.aceptar {
+    background-color: #00a768;
+    color: black;
+}
+
+.editar:hover,
+.eliminar:hover,
+.aceptar:hover,
+.cancelar:hover {
+    border: 1px solid black;
+}
+
+/* Fuente de la letra*/
+
+td,
+th,
+h1,
+h2,
+h3,
+Button,
+.font-h2,
+.font-h3,
+.font-h2-control {
+    font-family: "Pacifico", serif;
+}
 `;
