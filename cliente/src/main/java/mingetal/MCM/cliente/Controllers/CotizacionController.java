@@ -1,14 +1,13 @@
-package mingetal.MCM.cliente.Controllers;
+package mingetal.MCM.cliente.controllers;
 
-import mingetal.MCM.cliente.Entities.CotizacionEntity;
-import mingetal.MCM.cliente.Services.CotizacionService;
+import mingetal.MCM.cliente.entities.CotizacionEntity;
+import mingetal.MCM.cliente.services.CotizacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -33,8 +32,7 @@ public class CotizacionController {
         }
         return ResponseEntity.notFound().build();
     }
-
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CotizacionEntity> getCotizacionById(@PathVariable("id") int id){
         CotizacionEntity cotizacionEntity = cotizacionService.findById(id);
         System.out.println(cotizacionEntity);
@@ -43,7 +41,6 @@ public class CotizacionController {
         }
         return ResponseEntity.notFound().build();
     }
-
     @GetMapping("/pedido/{pedido}")
     public ResponseEntity<List<CotizacionEntity>> getCotizacionByPedido(@PathVariable("pedido") String pedido){
         List<CotizacionEntity> cotizacionEntities = cotizacionService.findByPedido(pedido);
@@ -53,7 +50,6 @@ public class CotizacionController {
         }
         return ResponseEntity.notFound().build();
     }
-
     @GetMapping("/fecha/{fecha}")
     public ResponseEntity<List<CotizacionEntity>> getCotizacionByFecha(@PathVariable("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha){
         List<CotizacionEntity> cotizacionEntities = cotizacionService.findByFecha(fecha);
@@ -63,7 +59,6 @@ public class CotizacionController {
         }
         return ResponseEntity.notFound().build();
     }
-
     @GetMapping("/estado/{estado}")
     public ResponseEntity<List<CotizacionEntity>> getCotizacionByEstado(@PathVariable("estado") String estado){
         List<CotizacionEntity> cotizacionEntities = cotizacionService.findByEstado(estado);
@@ -73,8 +68,7 @@ public class CotizacionController {
         }
         return ResponseEntity.notFound().build();
     }
-
-    @GetMapping("/rut-cliente/{rut}")
+    @GetMapping("/rut/{rut}")
     public ResponseEntity<List<CotizacionEntity>> getCotizacionByRutCliente(@PathVariable("rut") String rutCliente){
         List<CotizacionEntity> cotizacionEntities = cotizacionService.findByRutCliente(rutCliente);
         System.out.println(cotizacionEntities);

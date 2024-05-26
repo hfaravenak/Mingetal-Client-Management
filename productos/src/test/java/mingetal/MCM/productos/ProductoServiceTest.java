@@ -1,10 +1,16 @@
 package mingetal.MCM.productos;
 
 import mingetal.MCM.productos.entity.ProductosEntity;
+import mingetal.MCM.productos.model.ListaProductosEntity;
 import mingetal.MCM.productos.service.ProductosService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,154 +19,297 @@ public class ProductoServiceTest {
     @Autowired
     private ProductosService productosService;
 
+    @Autowired
+    RestTemplate restTemplate;
+
+    //-------------------- save --------------------
+
     @Test
     void guardarProductoTestTrue(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
-        boolean bool = productosService.save(productosEntity);
-        assertTrue(bool);
-        productosService.deleteProductos(productosEntity.getId());
-    }
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico",
+                "prueba",
+                30000,
+                50000,
+                5);
 
+        assertNotNull(productosService.save(productosEntity));
+        assertEquals(productosEntity, productosService.findById(productosEntity.getId()));
+
+        productosService.delete(productosEntity.getId());
+    }
     @Test
     void guardarProductoTestFail(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico",
+                "prueba",
+                30000,
+                50000,
+                5);
+
         productosService.save(productosEntity);
-        boolean bool = productosService.save(productosEntity);
-        assertFalse(bool);
-        productosService.deleteProductos(productosEntity.getId());
+        assertNull(productosService.save(productosEntity));
+
+        productosService.delete(productosEntity.getId());
     }
 
-    @Test
-    void deleteProductoTestTrue(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
-        productosService.save(productosEntity);
-        assertEquals(productosEntity, productosService.deleteProductos(productosEntity.getId()));
-        assertNull(productosService.findById(productosEntity.getId()));
-    }
+    //-------------------- findAll --------------------
 
     @Test
-    void deleteProductoTestFail(){
-        assertNull(productosService.deleteProductos(101));
+    void findAllTest() {
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico",
+                "prueba",
+                30000,
+                50000,
+                5);
+        ProductosEntity productosEntity2 = new ProductosEntity(
+                "Quimico2",
+                "prueba2",
+                30000,
+                50000,
+                5);
+
+        productosService.save(productosEntity);
+        productosService.save(productosEntity2);
+
+        assertFalse(productosService.findAll().isEmpty());
+
+        productosService.delete(productosEntity.getId());
+        productosService.delete(productosEntity2.getId());
     }
+
+    //-------------------- findById --------------------
 
     @Test
     void findByIdTestTrue(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico",
+                "prueba",
+                30000,
+                50000,
+                5);
         productosService.save(productosEntity);
-        ProductosEntity productosEntityGetId = productosService.findById(productosEntity.getId());
-        assertEquals(productosEntityGetId.getId(), productosEntity.getId());
-        productosService.deleteProductos(productosEntity.getId());
+
+        assertEquals(productosEntity, productosService.findById(productosEntity.getId()));
+
+        productosService.delete(productosEntity.getId());
     }
     @Test
     void findByIdTestFalse(){
-        assertNull(productosService.findById(101));
+        assertNull(productosService.findById(-1));
     }
+
+    //-------------------- findByTipo --------------------
 
     @Test
     void findByTipoTestTrue(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico",
+                "prueba",
+                30000,
+                50000,
+                5);
         productosService.save(productosEntity);
         List<ProductosEntity> productosEntities = productosService.findByTipo("Quimico");
-        assertFalse(productosEntities.isEmpty());
-        productosService.deleteProductos(productosEntity.getId());
+
+        assertEquals(1, productosEntities.size());
+        assertEquals(productosEntity, productosEntities.get(0));
+
+        productosService.delete(productosEntity.getId());
     }
     @Test
     void findByTipoTestFalse(){
         assertTrue(productosService.findByTipo("Quimico").isEmpty());
     }
 
+    //-------------------- findByNombre --------------------
+
     @Test
     void findByNombreTestTrue(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico",
+                "Prueba",
+                30000,
+                50000,
+                5);
         productosService.save(productosEntity);
 
-        ProductosEntity productosEntityGetNombre = productosService.findByNombre("prueba");
-        assertEquals(productosEntityGetNombre.getNombre(), "prueba");
+        List<ProductosEntity> productosEntities = productosService.findByNombre("Prueba");
 
-        productosService.deleteProductos(productosEntity.getId());
+        assertEquals(1, productosEntities.size());
+        assertEquals(productosEntity, productosEntities.get(0));
+
+        productosService.delete(productosEntity.getId());
+    }
+    @Test
+    void findMultipleByNombreTestTrue(){
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico1",
+                "Prueba1",
+                30000,
+                50000,
+                5);
+        productosService.save(productosEntity);
+        ProductosEntity productosEntity2 = new ProductosEntity(
+                "Quimico2",
+                "Prueba2",
+                30000,
+                50000,
+                5);
+        productosService.save(productosEntity2);
+
+        List<ProductosEntity> productosEntities = productosService.findByNombre("Prueba");
+
+        assertEquals(2, productosEntities.size());
+        assertEquals(productosEntity, productosEntities.get(0));
+        assertEquals(productosEntity2, productosEntities.get(1));
+
+        productosService.delete(productosEntity.getId());
+        productosService.delete(productosEntity2.getId());
     }
     @Test
     void findByNombreTestFalse(){
-        assertNull(productosService.findByNombre("prueba_2"));
+        assertTrue(productosService.findByNombre("Quimico").isEmpty());
     }
 
+    //-------------------- findByNombreTextual --------------------
+
     @Test
-    void updateValorTestTrue(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
+    void findByNombreTextualTestTrue(){
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico",
+                "Prueba",
+                30000,
+                50000,
+                5);
         productosService.save(productosEntity);
 
-        ProductosEntity productosEntityModify = productosService.updateValor(productosEntity.getId(), 999);
-        assertEquals(999, productosEntityModify.getValor());
-        assertEquals(999, productosService.findById(productosEntity.getId()).getValor());
+        assertEquals(productosEntity, productosService.findByNombreTextual("Prueba"));
 
-        productosService.deleteProductos(productosEntity.getId());
+        productosService.delete(productosEntity.getId());
     }
     @Test
-    void updateValorTestFalse(){
-        assertNull(productosService.updateValorFinal(101, 999));
+    void findMultipleByNombreTextualTestTrue(){
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico1",
+                "Prueba1",
+                30000,
+                50000,
+                5);
+        productosService.save(productosEntity);
+        ProductosEntity productosEntity2 = new ProductosEntity(
+                "Quimico2",
+                "Prueba2",
+                30000,
+                50000,
+                5);
+        productosService.save(productosEntity2);
+
+        assertNull(productosService.findByNombreTextual("Prueba"));
+        assertEquals(productosEntity, productosService.findByNombreTextual("Prueba1"));
+        assertEquals(productosEntity2, productosService.findByNombreTextual("Prueba2"));
+
+        productosService.delete(productosEntity.getId());
+        productosService.delete(productosEntity2.getId());
+    }
+    @Test
+    void findByNombreTextualTestFalse(){
+        assertNull(productosService.findByNombreTextual("Quimico"));
     }
 
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-------------------- TERMINAR FUTURO PROGRAMADOR (Mi yo del futuro) --------------------
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+    //-
+
+
+    //-------------------- findByOCCliente --------------------
+
+
+    //-------------------- findByOCProveedor --------------------
+
+
+    //-------------------- findByCotizacion --------------------
+
+
+    //-------------------- delete --------------------
+
     @Test
-    void updateValorFinalTestTrue(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
+    void deleteProductoTestTrue(){
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico1",
+                "prueba1",
+                30000,
+                50000,
+                5);
         productosService.save(productosEntity);
 
-        ProductosEntity productosEntityModify = productosService.updateValorFinal(productosEntity.getId(), 9999);
-        assertEquals(9999, productosEntityModify.getValor_final());
-        assertEquals(9999, productosService.findById(productosEntity.getId()).getValor_final());
-
-        productosService.deleteProductos(productosEntity.getId());
+        assertEquals(productosEntity, productosService.delete(productosEntity.getId()));
+        assertNull(productosService.findById(productosEntity.getId()));
     }
     @Test
-    void updateValorFinalTestFalse(){
-        assertNull(productosService.updateValorFinal(101, 9999));
+    void deleteProductoTestFail(){
+        assertNull(productosService.delete(-1));
     }
 
+    //-------------------- update --------------------
+
     @Test
-    void updateTipoTestTrue(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
+    void updateTestTrue() {
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico1",
+                "prueba1",
+                30000,
+                50000,
+                5);
         productosService.save(productosEntity);
 
-        ProductosEntity productosEntityModify = productosService.updateTipo(productosEntity.getId(), "De Tipo");
-        assertEquals("De Tipo", productosEntityModify.getTipo());
-        assertEquals("De Tipo", productosService.findById(productosEntity.getId()).getTipo());
+        productosEntity.setTipo("New Tipo");
+        productosEntity.setNombre("New Nombre");
+        productosEntity.setValor(1000);
+        productosEntity.setValor_final(1500);
+        productosEntity.setCantidad(3);
+        ProductosEntity updateProducto = productosService.update(productosEntity);
 
-        productosService.deleteProductos(productosEntity.getId());
+        assertEquals(productosEntity, updateProducto);
+        assertEquals(updateProducto, productosService.findById(productosEntity.getId()));
+
+        productosService.delete(productosEntity.getId());
     }
     @Test
-    void updateTipoTestFalse(){
-        assertNull(productosService.updateTipo(101, "De Tipo"));
-    }
-
-    @Test
-    void updateNombreTestTrue(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
-        productosService.save(productosEntity);
-
-        ProductosEntity productosEntityModify = productosService.updateNombre(productosEntity.getId(), "Cambio");
-        assertEquals("Cambio", productosEntityModify.getNombre());
-        assertEquals("Cambio", productosService.findById(productosEntity.getId()).getNombre());
-
-        productosService.deleteProductos(productosEntity.getId());
-    }
-    @Test
-    void updateNombreTestFalse(){
-        assertNull(productosService.updateNombre(101, "Cambio"));
-    }
-
-    @Test
-    void updateCantidadTestTrue(){
-        ProductosEntity productosEntity = new ProductosEntity("Quimico", "prueba", 30000, 50000, 5);
-        productosService.save(productosEntity);
-
-        ProductosEntity productosEntityModify = productosService.updateCantidad(productosEntity.getId(), 50);
-        assertEquals(50, productosEntityModify.getCantidad());
-        assertEquals(50, productosService.findById(productosEntity.getId()).getCantidad());
-
-        productosService.deleteProductos(productosEntity.getId());
-    }
-    @Test
-    void updateCantidadTestFalse(){
-        assertNull(productosService.updateCantidad(101, 50));
+    void updateTestFalse() {
+        ProductosEntity productosEntity = new ProductosEntity(
+                "Quimico1",
+                "prueba1",
+                30000,
+                50000,
+                5);
+        assertNull(productosService.update(productosEntity));
     }
 }

@@ -20,7 +20,9 @@ public class ProductosService {
     @Autowired
     RestTemplate restTemplate;
 
-    public void save(ProductosEntity productosEntity){
+    //-------------------- Guardado --------------------
+
+    public ProductosEntity save(ProductosEntity productosEntity){
         String[] palabras = productosEntity.getNombre().split("\\s+");
         StringBuilder sb = new StringBuilder();
 
@@ -28,23 +30,24 @@ public class ProductosService {
             // Convertir la primera letra de la palabra a mayúscula y agregar el resto de la palabra
             sb.append(Character.toUpperCase(palabra.charAt(0))).append(palabra.substring(1)).append(" ");
         }
-
         productosEntity.setNombre(sb.toString().trim());
-        productosRepository.save(productosEntity);
+        if(findByNombreTextual(productosEntity.getNombre())==null){
+            return productosRepository.save(productosEntity);
+        }
+        return null;
     }
+
+    //-------------------- Buscar --------------------
 
     public List<ProductosEntity> findAll(){
         return productosRepository.findAll();
     }
-
     public ProductosEntity findById(int id){
         return productosRepository.findById(id);
     }
-
     public List<ProductosEntity> findByTipo(String tipo){
         return productosRepository.findByTipo(tipo);
     }
-
     public List<ProductosEntity> findByNombre(String nombre) {
         List<ProductosEntity> productoEntities = findAll();
         List<ProductosEntity> resultados = new ArrayList<>();
@@ -58,11 +61,9 @@ public class ProductosService {
 
         return resultados;
     }
-
     public ProductosEntity findByNombreTextual(String nombre) {
         return productosRepository.findByNombre(nombre);
     }
-
     public List<ProductosEntity> findByOCCliente(int id){
         List<ListaProductosEntity> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/productos/cliente/"+id,
@@ -73,7 +74,6 @@ public class ProductosService {
 
         return getProductosEntities(response);
     }
-
     public List<ProductosEntity> findByOCProveedor(int id){
         List<ListaProductosEntity> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/productos/proveedor/"+id,
@@ -84,7 +84,6 @@ public class ProductosService {
 
         return getProductosEntities(response);
     }
-
     public List<ProductosEntity> findByCotizacion(int id){
         List<ListaProductosEntity> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/productos/cotizacion/"+id,
@@ -110,7 +109,9 @@ public class ProductosService {
         return productosEntities;
     }
 
-    public ProductosEntity deleteProductos(int id){
+    //-------------------- Eliminar --------------------
+
+    public ProductosEntity delete(int id){
         ProductosEntity productosEntity = findById(id);
         if(productosEntity==null){
             //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
@@ -120,64 +121,13 @@ public class ProductosService {
         return productosEntity;
     }
 
-    public ProductosEntity updateValor(int id, int valor){
-        ProductosEntity productosEntity = productosRepository.findById(id);
-        if(productosEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
-        productosEntity.setValor(valor);
-        return productosRepository.save(productosEntity);
-    }
-    public ProductosEntity updateValorFinal(int id, int valor_final){
-        ProductosEntity productosEntity = productosRepository.findById(id);
-        if(productosEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
-        productosEntity.setValor_final(valor_final);
-        return productosRepository.save(productosEntity);
-    }
-    public ProductosEntity updateTipo(int id, String tipo){
-        ProductosEntity productosEntity = productosRepository.findById(id);
-        if(productosEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
-        productosEntity.setTipo(tipo);
-        return productosRepository.save(productosEntity);
-    }
-    public ProductosEntity updateNombre(int id, String nombre){
-        ProductosEntity productosEntity = productosRepository.findById(id);
-        if(productosEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
-        productosEntity.setNombre(nombre);
-        return productosRepository.save(productosEntity);
-    }
-    public ProductosEntity updateCantidad(int id, int cantidad){
-        ProductosEntity productosEntity = productosRepository.findById(id);
-        if(productosEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
-        productosEntity.setCantidad(cantidad);
-        return productosRepository.save(productosEntity);
-    }
+    //-------------------- Editar --------------------
 
     public ProductosEntity update(ProductosEntity productosEntity) {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println(productosEntity);
-        ProductosEntity producto_1 = findById(productosEntity.getId()) ;
-        producto_1.setNombre(productosEntity.getNombre());
-        producto_1.setTipo(productosEntity.getTipo());
-        producto_1.setValor(productosEntity.getValor());
-        producto_1.setValor_final(productosEntity.getValor_final());
-        producto_1.setCantidad(productosEntity.getCantidad());
-
-        System.out.println(producto_1);
-        return productosRepository.save(producto_1);
+        if(findById(productosEntity.getId())==null){
+            return null;
+        }
+        return productosRepository.save(productosEntity);
     }
 
 }

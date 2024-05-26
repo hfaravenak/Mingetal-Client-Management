@@ -105,8 +105,7 @@ const CarruselContactosEditar = ({ datos, onMostrarCard }) => {
                     };
                     updateAll.id_contacto = updateContacto1;
                     updateProveedor.id_contacto = datos.id_contacto.rut;
-                    console.log(updateContacto1);
-                    ContactoService.putContacto(updateContacto1);
+                    ContactoService.updateContacto(updateContacto1);
                 } else {
                     updateAll.id_contacto = null;
                     updateProveedor.id_contacto = null;
@@ -121,8 +120,7 @@ const CarruselContactosEditar = ({ datos, onMostrarCard }) => {
                     };
                     updateAll.id_contacto2 = updateContacto2;
                     updateProveedor.id_contacto2 = datos.id_contacto2.rut;
-                    console.log(updateContacto2);
-                    ContactoService.putContacto(updateContacto2);
+                    ContactoService.updateContacto(updateContacto2);
                 } else {
                     updateAll.id_contacto2 = null;
                     updateProveedor.id_contacto2 = null;
@@ -137,14 +135,12 @@ const CarruselContactosEditar = ({ datos, onMostrarCard }) => {
                     };
                     updateAll.id_contacto3 = updateContacto3;
                     updateProveedor.id_contacto3 = datos.id_contacto3.rut;
-                    console.log(updateContacto3);
-                    ContactoService.putContacto(updateContacto3);
+                    ContactoService.updateContacto(updateContacto3);
                 } else {
                     updateAll.id_contacto3 = null;
                     updateProveedor.id_contacto3 = null;
                 }
-                console.log(updateProveedor);
-                ProveedorService.putProveedor(updateProveedor);
+                ProveedorService.updateProveedor(updateProveedor);
                 navigate(`/proveedores/mas info/${encodeURIComponent(JSON.stringify(updateAll))}`);
                 onMostrarCard(false);
             }

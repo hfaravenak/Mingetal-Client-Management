@@ -23,26 +23,21 @@ public class ProveedorService {
     @Autowired
     RestTemplate restTemplate;
 
-    // Verificar si existe un proveedor con la misma empresa, rut o rubro
-    public boolean existSupplier(ProveedorEntity proveedor) {
-        return proveedorRepository.findByEmpresa(proveedor.getEmpresa()) != null &&
-                proveedorRepository.findByRubro(proveedor.getRubro()) != null;
-    }
 
-    // Create
-    public ProveedorEntity createSupplier(ProveedorEntity proveedorEntity) {
-        if (existSupplier(proveedorEntity)) {
-            //throw new IllegalStateException("El proveedor ya existe en la base de datos.");
-            return null;
+    //-------------------- Guardado --------------------
+
+    public ProveedorEntity save(ProveedorEntity proveedorEntity) {
+        if (findById(proveedorEntity.getId_proveedor())==null) {
+            return proveedorRepository.save(proveedorEntity);
         }
-        return proveedorRepository.save(proveedorEntity);
+        return null;
     }
 
-    // Read
+    //-------------------- Buscar --------------------
+    
     public List<ProveedorEntity> findAll() {
         return proveedorRepository.findAll();
     }
-
     public List<ProveedorEntity> findByListOC(){
         List<OrdenesDeCompraProveedorEntity> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/proveedor/",
@@ -51,33 +46,19 @@ public class ProveedorService {
                 new ParameterizedTypeReference<List<OrdenesDeCompraProveedorEntity>>() {}
         ).getBody();
 
-        if(response == null){
-            return new ArrayList<>();
-        }
         List<ProveedorEntity> proveedorEntities = new ArrayList<>();
-        for (OrdenesDeCompraProveedorEntity OC: response) {
-            System.out.println("OC: "+OC);
-            proveedorEntities.add(findById(OC.getId_proveedor()));
+
+        if(response != null){
+            for (OrdenesDeCompraProveedorEntity OC: response) {
+                proveedorEntities.add(findById(OC.getId_proveedor()));
+            }
         }
+
         return proveedorEntities;
     }
-
-    public List<ProveedorEntity> findDespacho(){
-        return proveedorRepository.findByDespacho("DESPACHOS");
-    }
-
-    public ProveedorEntity findById(int id_proveedor) {
-        return proveedorRepository.findById(id_proveedor);
-    }
-
     public ProveedorEntity findByEmpresa(String empresa) {
         return proveedorRepository.findByEmpresa(empresa);
     }
-
-    public List<ProveedorEntity> findByRubro(String rubro) {
-        return proveedorRepository.findByRubro(rubro);
-    }
-
     public ProveedorEntity findByRut(String rut) {
         ProveedorEntity proveedor;
         proveedor = proveedorRepository.findByRut1(rut);
@@ -89,10 +70,8 @@ public class ProveedorService {
         }
         return proveedor;
     }
-
-    // find by contacto
-    public List<ProveedorEntity> findByContacto(String nombre) {
-        List<ContactoEntity> contactoEntity = contactoService.findContactoByNombre(nombre);
+    public List<ProveedorEntity> findByNombre(String nombre) {
+        List<ContactoEntity> contactoEntity = contactoService.findByNombre(nombre);
         List<ProveedorEntity> proveedores = new ArrayList<>();
         for(ContactoEntity contacto:contactoEntity){
             ProveedorEntity proveedor = proveedorRepository.findByRut1(contacto.getRut());
@@ -109,23 +88,11 @@ public class ProveedorService {
                 }
             }
         }
-        //System.out.println(proveedor);
         return proveedores;
     }
-
-    public ProveedorEntity findByNombreTextual(String nombre) {
-        ContactoEntity contactoEntity = contactoService.findContactoByNombreTextual(nombre);
-        ProveedorEntity proveedor = proveedorRepository.findByRut1(contactoEntity.getRut());
-        if(proveedor==null) {
-            proveedor = proveedorRepository.findByRut2(contactoEntity.getRut());
-            if (proveedor == null) {
-                proveedor = proveedorRepository.findByRut3(contactoEntity.getRut());
-            }
-        }
-        //System.out.println(proveedor);
-        return proveedor;
+    public List<ProveedorEntity> findByRubro(String rubro) {
+        return proveedorRepository.findByRubro(rubro);
     }
-
     public List<String> findRubros(){
         List<String> rubros = new ArrayList<>();
         List<ProveedorEntity> proveedorEntities = proveedorRepository.findAll();
@@ -138,62 +105,45 @@ public class ProveedorService {
 
         return rubros;
     }
+    public List<ProveedorEntity> findDespacho(){
+        return proveedorRepository.findByDespacho("DESPACHOS");
+    }
+    public ProveedorEntity findByNombreTextual(String nombre) {
+        ContactoEntity contactoEntity = contactoService.findByNombreTextual(nombre);
+        if(contactoEntity==null){
+            return null;
+        }
+        ProveedorEntity proveedor = proveedorRepository.findByRut1(contactoEntity.getRut());
+        if(proveedor==null) {
+            proveedor = proveedorRepository.findByRut2(contactoEntity.getRut());
+            if (proveedor == null) {
+                proveedor = proveedorRepository.findByRut3(contactoEntity.getRut());
+            }
+        }
+        return proveedor;
+    }
+    public ProveedorEntity findById(int id_proveedor) {
+        return proveedorRepository.findById(id_proveedor);
+    }
 
+    //-------------------- Eliminar --------------------
 
-    // Update
+    public ProveedorEntity delete(int id_proveedor) {
+        ProveedorEntity proveedor = proveedorRepository.findById(id_proveedor);
+        if (proveedor == null) {
+            return null;
+        }
+        proveedorRepository.delete(proveedor);
+        return proveedor;
+    }
 
-    public ProveedorEntity updateProveedor(ProveedorEntity proveedorEntity){
+    //-------------------- Editar --------------------
+
+    public ProveedorEntity update(ProveedorEntity proveedorEntity){
         ProveedorEntity proveedor = proveedorRepository.findById(proveedorEntity.getId_proveedor());
         if (proveedor == null) {
             return null;
         }
         return proveedorRepository.save(proveedorEntity);
     }
-
-    // Update empresa
-    public ProveedorEntity updateEmpresa(int id_proveedor, String nuevaEmpresa) {
-        ProveedorEntity proveedor = proveedorRepository.findById(id_proveedor);
-        if (proveedor == null) {
-            return null;
-        }
-        proveedor.setEmpresa(nuevaEmpresa);
-        return proveedorRepository.save(proveedor);
-    }
-
-    // Update rubro
-    public ProveedorEntity updateRubro(int id_proveedor, String nuevoRubro) {
-        ProveedorEntity proveedor = proveedorRepository.findById(id_proveedor);
-        if (proveedor == null) {
-            return null;
-        }
-        proveedor.setRubro(nuevoRubro);
-        return proveedorRepository.save(proveedor);
-    }
-
-    // Update comentario
-    public ProveedorEntity updateComentario(int id_proveedor, String nuevoComentario) {
-        ProveedorEntity proveedor = proveedorRepository.findById(id_proveedor);
-        if (proveedor == null) {
-            return null;
-        }
-        proveedor.setComentario(nuevoComentario);
-        return proveedorRepository.save(proveedor);
-    }
-
-    // Delete
-    public ProveedorEntity deleteSupplier(int id_proveedor) {
-        ProveedorEntity proveedor = proveedorRepository.findById(id_proveedor);
-        // Verificar si el proveedor existe
-        if (proveedor == null) {
-            //throw new IllegalArgumentException("El proveedor con ID " + id_proveedor + " no existe.");
-            return null;
-        }
-        // Eliminar el proveedor de la base de datos
-        String name = proveedor.getEmpresa();
-        proveedorRepository.delete(proveedor);
-        System.out.println("Proveedor " + name + " ha sido eliminado correctamente.");
-        return proveedor;
-    }
-
-
 }

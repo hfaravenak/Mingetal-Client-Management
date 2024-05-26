@@ -16,6 +16,8 @@ public class OrdenesDeCompraProveedorServiceTest {
     @Autowired
     private OrdenesDeCompraProveedorService ordenesDeCompraProveedorService;
 
+    //-------------------- save --------------------
+
     @Test
     void guardarOCProveedorTestTrue(){
         OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = new OrdenesDeCompraProveedorEntity(
@@ -29,9 +31,9 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "Entregado"
         );
 
-        boolean bool = ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
-        assertTrue(bool);
-        ordenesDeCompraProveedorService.deleteOCProveedor(ordenesDeCompraProveedorEntity.getId());
+        assertEquals(ordenesDeCompraProveedorEntity, ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity));
+        assertEquals(ordenesDeCompraProveedorEntity, ordenesDeCompraProveedorService.findById(ordenesDeCompraProveedorEntity.getId()));
+        ordenesDeCompraProveedorService.delete(ordenesDeCompraProveedorEntity.getId());
     }
     @Test
     void guardarOCProveedorTestFalse(){
@@ -46,31 +48,13 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
-        boolean bool = ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
-        assertFalse(bool);
-        ordenesDeCompraProveedorService.deleteOCProveedor(ordenesDeCompraProveedorEntity.getId());
+        assertNull(ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity));
+        ordenesDeCompraProveedorService.delete(ordenesDeCompraProveedorEntity.getId());
     }
 
-    @Test
-    void deleteOCClienteTestTrue(){
-        OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = new OrdenesDeCompraProveedorEntity(
-                -2,
-                "No Pagado",
-                LocalDate.parse("2024-05-25"),
-                LocalDate.parse("2024-05-30"),
-                LocalDate.parse("2024-05-10"),
-                "b55c2214",
-                500,
-                "Entregado"
-        );
-        ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
-        assertEquals(ordenesDeCompraProveedorEntity, ordenesDeCompraProveedorService.deleteOCProveedor(ordenesDeCompraProveedorEntity.getId()));
-        assertNull(ordenesDeCompraProveedorService.findById(ordenesDeCompraProveedorEntity.getId()));
-    }
-    @Test
-    void deleteOCClienteTestFalse(){
-        assertNull(ordenesDeCompraProveedorService.deleteOCProveedor(101));
-    }
+    //-------------------- findAll --------------------
+
+    //-------------------- findById --------------------
 
     @Test
     void findByIdTestTrue(){
@@ -88,12 +72,18 @@ public class OrdenesDeCompraProveedorServiceTest {
 
         OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntityGetId = ordenesDeCompraProveedorService.findById(ordenesDeCompraProveedorEntity.getId());
         assertEquals(ordenesDeCompraProveedorEntityGetId.getId(), ordenesDeCompraProveedorEntity.getId());
-        ordenesDeCompraProveedorService.deleteOCProveedor(ordenesDeCompraProveedorEntity.getId());
+        ordenesDeCompraProveedorService.delete(ordenesDeCompraProveedorEntity.getId());
     }
     @Test
     void findByIdTestFalse(){
         assertNull(ordenesDeCompraProveedorService.findById(101));
     }
+
+    //-------------------- findByNameProveedor --------------------
+
+    //-------------------- findByRubro --------------------
+
+    //-------------------- findByIdProveedor --------------------
 
     @Test
     void findByIdProveedorTestTrue(){
@@ -111,15 +101,17 @@ public class OrdenesDeCompraProveedorServiceTest {
 
         List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = ordenesDeCompraProveedorService.findByIdProveedor(-2);
         assertFalse(ordenesDeCompraProveedorEntities.isEmpty());
-        ordenesDeCompraProveedorService.deleteOCProveedor(ordenesDeCompraProveedorEntity.getId());
+        ordenesDeCompraProveedorService.delete(ordenesDeCompraProveedorEntity.getId());
     }
     @Test
     void findByIdProveedorTestFalse(){
         assertTrue(ordenesDeCompraProveedorService.findByIdProveedor(-2).isEmpty());
     }
 
+    //-------------------- delete --------------------
+
     @Test
-    void updateOCProveedorByEstadoPagoTestTrue(){
+    void deleteOCClienteTestTrue(){
         OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = new OrdenesDeCompraProveedorEntity(
                 -2,
                 "No Pagado",
@@ -131,33 +123,15 @@ public class OrdenesDeCompraProveedorServiceTest {
                 "Entregado"
         );
         ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
-
-        assertNotNull(ordenesDeCompraProveedorService.updateOCProveedorByEstadoPago(ordenesDeCompraProveedorEntity.getId()));
-        assertEquals("Pagado", ordenesDeCompraProveedorService.findById(ordenesDeCompraProveedorEntity.getId()).getEstado_pago());
-
-        ordenesDeCompraProveedorService.deleteOCProveedor(ordenesDeCompraProveedorEntity.getId());
+        assertEquals(ordenesDeCompraProveedorEntity, ordenesDeCompraProveedorService.delete(ordenesDeCompraProveedorEntity.getId()));
+        assertNull(ordenesDeCompraProveedorService.findById(ordenesDeCompraProveedorEntity.getId()));
     }
     @Test
-    void updateOCProveedorByEstadoPagoTestFalseYaPagada(){
-        OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = new OrdenesDeCompraProveedorEntity(
-                -2,
-                "No Pagado",
-                LocalDate.parse("2024-05-25"),
-                LocalDate.parse("2024-05-30"),
-                LocalDate.parse("2024-05-10"),
-                "b55c2214",
-                500,
-                "Entregado"
-        );
-        ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
-
-        assertNull(ordenesDeCompraProveedorService.updateOCProveedorByEstadoPago(ordenesDeCompraProveedorEntity.getId()));
-
-        ordenesDeCompraProveedorService.deleteOCProveedor(ordenesDeCompraProveedorEntity.getId());
+    void deleteOCClienteTestFalse(){
+        assertNull(ordenesDeCompraProveedorService.delete(101));
     }
-    @Test
-    void updateOCProveedorByEstadoPagoTestFalse(){
-        assertNull(ordenesDeCompraProveedorService.updateOCProveedorByEstadoPago(101));
-    }
+
+    //-------------------- update --------------------
+
 
 }

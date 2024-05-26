@@ -80,9 +80,7 @@ function ListProveedorComponents() {
         });
     }
     const buscarRubro = () => {
-        console.log(input.rubro);
         ProveedorService.getProveedorByRubro(input.rubro).then((res) => {
-            console.log(res.data);
             setProveedorEntity(res.data);
         });
     }

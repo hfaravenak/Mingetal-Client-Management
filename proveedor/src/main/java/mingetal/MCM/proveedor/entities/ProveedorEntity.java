@@ -34,4 +34,13 @@ public class ProveedorEntity {
         this.rubro = rubro;
         this.comentario = comentario;
     }
+
+    public ProveedorEntity(String empresa, String rubro, String id_contacto, String id_contacto2, String id_contacto3, String comentario) {
+        this.empresa = empresa;
+        this.rubro = rubro;
+        this.id_contacto = id_contacto;
+        this.id_contacto2 = id_contacto2;
+        this.id_contacto3 = id_contacto3;
+        this.comentario = comentario;
+    }
 }

@@ -29,8 +29,7 @@ public class ListaProductosServiceTest {
                 -4
         );
 
-        boolean bool = listaProductosService.save(listaProductosEntity);
-        assertTrue(bool);
+        assertEquals(listaProductosEntity, listaProductosService.save(listaProductosEntity));
         listaProductosService.delete(listaProductosEntity.getId());
     }
     @Test
@@ -44,8 +43,7 @@ public class ListaProductosServiceTest {
                 -4
         );
         listaProductosService.save(listaProductosEntity);
-        boolean bool = listaProductosService.save(listaProductosEntity);
-        assertFalse(bool);
+        assertNull(listaProductosService.save(listaProductosEntity));
         listaProductosService.delete(listaProductosEntity.getId());
     }
 

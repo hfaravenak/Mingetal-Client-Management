@@ -8,10 +8,6 @@ class OrdenesDeCompraClienteService {
         return axios.post(OC_API_URL, newOC);
     }
 
-    getOCByCliente(rut){
-        return axios.get(OC_API_URL+"id/"+rut);
-    }
-
     getOCCliente(){
         return axios.get(OC_API_URL);
     }
@@ -21,27 +17,29 @@ class OrdenesDeCompraClienteService {
         }
         return axios.get(OC_API_URL+id);
     }
+    getOCByCliente(rut){
+        return axios.get(OC_API_URL+"id/"+rut);
+    }
     getOCClienteByNombre(nombre){
         if(nombre===""){
             return this.getOCCliente()
         }
         return axios.get(OC_API_URL+"nombre/"+nombre);
     }
-
     getOCClienteByEmpresa(empresa){
         if(empresa===""){
             return this.getOCCliente()
         }
         return axios.get(OC_API_URL+"empresa/"+empresa);
     }
-    putOCCliente(OCCliente){
-        return axios.put(OC_API_URL+"update", OCCliente);
-    }
 
     deleteOCCliente(id){
         return axios.delete(OC_API_URL+"delete/"+id);
     }
-    
-}
 
-export default new OrdenesDeCompraClienteService()
+    putOCCliente(OCCliente){
+        return axios.put(OC_API_URL+"update", OCCliente);
+    } 
+}
+const ordenesDeCompraClienteService = new OrdenesDeCompraClienteService();
+export default ordenesDeCompraClienteService;

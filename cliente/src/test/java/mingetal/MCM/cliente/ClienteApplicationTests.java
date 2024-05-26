@@ -1,7 +1,7 @@
 package mingetal.MCM.cliente;
 
-import mingetal.MCM.cliente.Entities.ClienteEntity;
-import mingetal.MCM.cliente.Services.ClienteService;
+import mingetal.MCM.cliente.entities.ClienteEntity;
+import mingetal.MCM.cliente.services.ClienteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,170 +15,290 @@ public class ClienteApplicationTests {
     @Autowired
     private ClienteService clienteService;
 
+    //-------------------- save --------------------
+
     @Test
-    void saveTest() {
-        ClienteEntity cliente = new ClienteEntity();
-        cliente.setNombre("Juan Perez");
-        cliente.setRut("12345678-9");
-        cliente.setEmail("juan@example.com");
-        cliente.setTelefono("123456789");
-        cliente.setEmpresa("EmpresaX");
+    void saveTestTrue() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
 
-        clienteService.save(cliente);
+        assertEquals(cliente1, clienteService.save(cliente1));
+        assertNotNull(clienteService.findByRut(cliente1.getRut()));
 
-        ClienteEntity clienteGuardado = clienteService.findByRut(cliente.getRut());
-        assertNotNull(clienteGuardado);
-
-        clienteService.delete(clienteGuardado.getRut());
+        clienteService.delete(cliente1.getRut());
     }
+    @Test
+    void saveTestFalse() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
+
+        clienteService.save(cliente1);
+        assertNull(clienteService.save(cliente1));
+
+        clienteService.delete(cliente1.getRut());
+    }
+
+    //-------------------- findAll --------------------
 
     @Test
     void findAllTest() {
-        ClienteEntity cliente1 = new ClienteEntity();
-        cliente1.setNombre("Juan Perez");
-        cliente1.setRut("12345678-9");
-        cliente1.setEmail("juan@example.com");
-        cliente1.setTelefono("123456789");
-        cliente1.setEmpresa("EmpresaX");
-
-        ClienteEntity cliente2 = new ClienteEntity();
-        cliente2.setNombre("María Gomez");
-        cliente2.setRut("98765432-1");
-        cliente2.setEmail("maria@example.com");
-        cliente2.setTelefono("987654321");
-        cliente2.setEmpresa("EmpresaX");
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
+        ClienteEntity cliente2 = new ClienteEntity(
+                "98765432-1",
+                "User 2",
+                "user2@example.com",
+                "987654321",
+                "EmpresaX");
 
         clienteService.save(cliente1);
         clienteService.save(cliente2);
 
-        List<ClienteEntity> clientes = clienteService.findAll();
-        assertFalse(clientes.isEmpty());
+        assertFalse(clienteService.findAll().isEmpty());
 
         clienteService.delete(cliente1.getRut());
         clienteService.delete(cliente2.getRut());
     }
 
+    //-------------------- findByRut --------------------
+
     @Test
-    void findByRutTest() {
+    void findByRutTestTrue() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
 
-        ClienteEntity cliente = new ClienteEntity();
-        cliente.setNombre("Juan Perez");
-        cliente.setRut("12345678-9");
-        cliente.setEmail("juan@example.com");
-        cliente.setTelefono("123456789");
-        cliente.setEmpresa("EmpresaX");
+        clienteService.save(cliente1);
 
-        clienteService.save(cliente);
+        assertEquals(cliente1, clienteService.findByRut("12345678-9"));
 
-        ClienteEntity clienteGuardado = clienteService.findByRut("12345678-9");
-        assertNotNull(clienteGuardado);
-        assertEquals("12345678-9", clienteGuardado.getRut());
-
-        clienteService.delete(clienteGuardado.getRut());
-
+        clienteService.delete(cliente1.getRut());
+    }
+    @Test
+    void findByRutTestFalse() {
+        assertNull(clienteService.findByRut("-1"));
     }
 
+    //-------------------- findByNombre --------------------
+
     @Test
-    void findByNombreTest() {
+    void findByNombreTestTrue() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
 
-        ClienteEntity cliente = new ClienteEntity();
-        cliente.setNombre("Juan Perez");
-        cliente.setRut("12345678-9");
-        cliente.setEmail("juan@example.com");
-        cliente.setTelefono("123456789");
-        cliente.setEmpresa("EmpresaX");
+        clienteService.save(cliente1);
 
-        clienteService.save(cliente);
+        List<ClienteEntity> clienteEncontrado = clienteService.findByNombre("User 1");
+        assertEquals(1, clienteEncontrado.size());
+        assertEquals(cliente1, clienteEncontrado.get(0));
 
-        List<ClienteEntity> clienteEncontrado = clienteService.findByNombre("Juan Perez");
-        assertFalse(clienteEncontrado.isEmpty());
-        assertEquals("Juan Perez", clienteEncontrado.get(0).getNombre());
+        clienteService.delete(clienteEncontrado.get(0).getRut());
+    }
+    @Test
+    void findMultipleByNombreTestTrue() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
+        ClienteEntity cliente2 = new ClienteEntity(
+                "98765432-1",
+                "User 2",
+                "user2@example.com",
+                "987654321",
+                "EmpresaX");
 
-        clienteService.deleteByNombre(clienteEncontrado.get(0).getNombre());
+        clienteService.save(cliente1);
+        clienteService.save(cliente2);
 
+        List<ClienteEntity> clienteEncontrado = clienteService.findByNombre("User");
+        assertEquals(2, clienteEncontrado.size());
+        assertEquals("User 1", clienteEncontrado.get(0).getNombre());
+        assertEquals("User 2", clienteEncontrado.get(1).getNombre());
+
+        clienteService.delete(clienteEncontrado.get(0).getRut());
+        clienteService.delete(clienteEncontrado.get(1).getRut());
+    }
+    @Test
+    void findByNombreTestFalse() {
+        assertTrue(clienteService.findByNombre("NoExisteEsteNombre").isEmpty());
     }
 
-    @Test
-    void findByEmpresaTest() {
-        ClienteEntity cliente1 = new ClienteEntity();
-        cliente1.setNombre("Juan Perez");
-        cliente1.setRut("12345678-9");
-        cliente1.setEmail("juan@example.com");
-        cliente1.setTelefono("123456789");
-        cliente1.setEmpresa("EmpresaX");
+    //-------------------- findByNombreTextual --------------------
 
-        ClienteEntity cliente2 = new ClienteEntity();
-        cliente2.setNombre("María Gomez");
-        cliente2.setRut("98765432-1");
-        cliente2.setEmail("maria@example.com");
-        cliente2.setTelefono("987654321");
-        cliente2.setEmpresa("EmpresaX");
+    @Test
+    void findByNombreTextualTestTrue() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
+
+        clienteService.save(cliente1);
+
+        assertEquals(cliente1, clienteService.findByNombreTextual("User 1"));
+
+        clienteService.delete(cliente1.getRut());
+    }
+    @Test
+    void findByNombreTextualTestFalseForBadTyping() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
+
+        clienteService.save(cliente1);
+
+        assertNull(clienteService.findByNombreTextual("User"));
+
+        clienteService.delete(cliente1.getRut());
+    }
+    @Test
+    void findByNombreTextualTestFalse() {
+        assertNull(clienteService.findByNombreTextual("NoExisteEsteNombre"));
+    }
+
+    //-------------------- findByEmpresa --------------------
+
+    @Test
+    void findByEmpresaTestTrue() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
+        ClienteEntity cliente2 = new ClienteEntity(
+                "98765432-1",
+                "User 2",
+                "user2@example.com",
+                "987654321",
+                "EmpresaX");
 
         clienteService.save(cliente1);
         clienteService.save(cliente2);
 
         List<ClienteEntity> clientesEncontrados = clienteService.findByEmpresa("EmpresaX");
 
-        assertNotNull(clientesEncontrados);
+        assertEquals(2,clientesEncontrados.size());
+        assertEquals("EmpresaX", clientesEncontrados.get(0).getEmpresa());
+        assertEquals("EmpresaX", clientesEncontrados.get(1).getEmpresa());
 
-        assertTrue(!clientesEncontrados.isEmpty());
+        clienteService.delete(clientesEncontrados.get(0).getRut());
+        clienteService.delete(clientesEncontrados.get(1).getRut());
+    }
+    @Test
+    void findByEmpresaTestFalse() {
+        assertTrue(clienteService.findByEmpresa("EmpresaX").isEmpty());
+    }
+    @Test
+    void findByEmpresaTestFalseForBadTyping() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
+        ClienteEntity cliente2 = new ClienteEntity(
+                "98765432-1",
+                "User 2",
+                "user2@example.com",
+                "987654321",
+                "EmpresaX");
 
-        for (ClienteEntity cliente : clientesEncontrados) {
-            assertEquals("EmpresaX", cliente.getEmpresa());
-        }
+        clienteService.save(cliente1);
+        clienteService.save(cliente2);
 
-        for (ClienteEntity cliente : clientesEncontrados) {
-            clienteService.delete(cliente.getRut());
-        }
+        clienteService.save(cliente1);
+        clienteService.save(cliente2);
 
+        assertTrue(clienteService.findByEmpresa("Empresa").isEmpty());
+
+        clienteService.delete(cliente1.getRut());
+        clienteService.delete(cliente2.getRut());
     }
 
-    @Test
-    void deleteTest() {
-        ClienteEntity cliente = new ClienteEntity();
-        cliente.setNombre("Juan Perez");
-        cliente.setRut("12345678-9");
-        cliente.setEmail("juan@example.com");
-        cliente.setTelefono("123456789");
-        cliente.setEmpresa("EmpresaX");
+    //-------------------- delete --------------------
 
-        clienteService.save(cliente);
-        assertNotNull(cliente);
-        clienteService.delete(cliente.getRut());
+    @Test
+    void deleteTestTrue() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
+
+        clienteService.save(cliente1);
+
+        assertEquals(cliente1, clienteService.delete(cliente1.getRut()));
+        assertNull((clienteService.findByRut(cliente1.getRut())));
+    }
+    @Test
+    void deleteTestFalse() {
+        assertNull(clienteService.delete("-1"));
     }
 
-    @Test
-    void deleteByNombreTest() {
-        ClienteEntity cliente = new ClienteEntity();
-        cliente.setNombre("Juan Perez");
-        cliente.setRut("12345678-9");
-        cliente.setEmail("juan@example.com");
-        cliente.setTelefono("123456789");
-        cliente.setEmpresa("EmpresaX");
+    //-------------------- update --------------------
 
-        clienteService.save(cliente);
-        assertNotNull(cliente);
-        clienteService.deleteByNombre(cliente.getNombre());
+    @Test
+    void updateTestTrue() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
+
+        clienteService.save(cliente1);
+
+        cliente1.setNombre("New User Random");
+        cliente1.setEmail("newEmail@example.com");
+        cliente1.setTelefono("11223344");
+        cliente1.setEmpresa("New Empresa Random");
+        ClienteEntity updatedCliente = clienteService.update(cliente1);
+
+        assertEquals(cliente1, updatedCliente);
+        assertEquals(updatedCliente, clienteService.findByRut(cliente1.getRut()));
+
+        clienteService.delete(cliente1.getRut());
     }
-
     @Test
-    void updateTest() {
-        ClienteEntity cliente = new ClienteEntity();
-        cliente.setNombre("Juan Perez");
-        cliente.setRut("12345678-9");
-        cliente.setEmail("juan@example.com");
-        cliente.setTelefono("123456789");
-        cliente.setEmpresa("EmpresaX");
+    void updateTestFalse() {
+        ClienteEntity cliente1 = new ClienteEntity(
+                "12345678-9",
+                "User 1",
+                "user1@example.com",
+                "123456789",
+                "EmpresaX");
 
-        clienteService.save(cliente);
+        cliente1.setNombre("New User Random");
+        ClienteEntity updatedCliente = clienteService.update(cliente1);
 
-        cliente.setNombre("Juan Pablo");
-        ClienteEntity updatedCliente = clienteService.update(cliente);
-
-        assertNotNull(updatedCliente);
-        assertEquals("Juan Pablo", updatedCliente.getNombre());
-
-        clienteService.delete(cliente.getRut());
+        assertNull(updatedCliente);
     }
 }
 

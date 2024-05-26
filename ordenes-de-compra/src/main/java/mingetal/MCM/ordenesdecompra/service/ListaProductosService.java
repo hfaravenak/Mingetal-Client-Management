@@ -19,12 +19,11 @@ public class ListaProductosService {
     @Autowired
     RestTemplate restTemplate;
 
-    public boolean save(ListaProductosEntity listaProductosEntity){
+    public ListaProductosEntity save(ListaProductosEntity listaProductosEntity){
         if(findById(listaProductosEntity.getId())==null){
-            listaProductosRepository.save(listaProductosEntity);
-            return true;
+            return listaProductosRepository.save(listaProductosEntity);
         }
-        return false;
+        return null;
 
     }
 

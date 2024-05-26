@@ -5,7 +5,6 @@ const PROVEEDOR_API_URL = "http://localhost:8080/proveedor/";
 class ProveedorService {
 
     createProveedor(newProveedor){
-        console.log(newProveedor);
         return axios.post(PROVEEDOR_API_URL, newProveedor);
     }
 
@@ -14,21 +13,6 @@ class ProveedorService {
     }
     getProveedorByListOC(){
         return axios.get(PROVEEDOR_API_URL+"listOC/");
-    }
-    getDespacho(){
-        return axios.get(PROVEEDOR_API_URL+"despacho/");
-    }
-    getProveedorByNombreTextual(nombre){
-        if(nombre===""){
-            return this.getClientes();
-        }
-        return axios.get(PROVEEDOR_API_URL+"fullNombre/"+nombre);
-    }
-    getProveedorByNombre(nombre){
-        if(nombre===""){
-            return this.getProveedores();
-        }
-        return axios.get(PROVEEDOR_API_URL+"nombre/"+nombre);
     }
     getProveedorByEmpresa(empresa){
         if(empresa===""){
@@ -42,8 +26,11 @@ class ProveedorService {
         }
         return axios.get(PROVEEDOR_API_URL+"rut/"+rut);
     }
-    getRubroProveedores(){
-        return axios.get(PROVEEDOR_API_URL+"rubro/");
+    getProveedorByNombre(nombre){
+        if(nombre===""){
+            return this.getProveedores();
+        }
+        return axios.get(PROVEEDOR_API_URL+"nombre/"+nombre);
     }
     getProveedorByRubro(rubro){
         if(rubro===""){
@@ -51,14 +38,28 @@ class ProveedorService {
         }
         return axios.get(PROVEEDOR_API_URL+"rubro/"+rubro);
     }
-
-    putProveedor(proveedor){
-        return axios.put(PROVEEDOR_API_URL +"update/", proveedor);
+    getRubroProveedores(){
+        return axios.get(PROVEEDOR_API_URL+"rubro/");
     }
-
+    getDespacho(){
+        return axios.get(PROVEEDOR_API_URL+"despacho/");
+    }
+    getProveedorByNombreTextual(nombre){
+        if(nombre===""){
+            return this.getClientes();
+        }
+        return axios.get(PROVEEDOR_API_URL+"fullNombre/"+nombre);
+    }
+    
     deleteProveedor(id){
         return axios.delete(PROVEEDOR_API_URL + "delete/"+id);
     }
-}
 
-export default new ProveedorService()
+    updateProveedor(proveedor){
+        return axios.put(PROVEEDOR_API_URL +"update/", proveedor);
+    }
+
+    
+}
+const proveedorService = new ProveedorService();
+export default proveedorService;

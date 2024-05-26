@@ -1,7 +1,7 @@
 package mingetal.MCM.cliente;
 
-import mingetal.MCM.cliente.Entities.CotizacionEntity;
-import mingetal.MCM.cliente.Services.CotizacionService;
+import mingetal.MCM.cliente.entities.CotizacionEntity;
+import mingetal.MCM.cliente.services.CotizacionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,21 +16,26 @@ public class CotizacionApplicationTests {
     @Autowired
     private CotizacionService cotizacionService;
 
+    //-------------------- save --------------------
+
     @Test
     void saveTest() {
-        CotizacionEntity cotizacion = new CotizacionEntity();
+        CotizacionEntity cotizacion = new CotizacionEntity(
+                "PedidoX",
+                LocalDate.parse("2000-12-24"),
+                "Enviado",
+                "12345678-9"
+        );
 
-        cotizacion.setPedido("PedidoX");
-        cotizacion.setFecha(LocalDate.parse("2000-12-24"));
-        cotizacion.setEstado("Enviado");
-        cotizacion.setRutCliente("12.345.678-9");
-
-        cotizacionService.save(cotizacion);
+        CotizacionEntity cotizacionEntity = cotizacionService.save(cotizacion);
+        assertNotNull(cotizacionEntity);
 
         CotizacionEntity cotizacionGuardada = cotizacionService.findById(cotizacion.getIdCotizacion());
         assertNotNull(cotizacionGuardada);
         cotizacionService.delete(cotizacionGuardada.getIdCotizacion());
     }
+
+    //-------------------- findAll --------------------
 
     @Test
     void findAllTest() {
@@ -55,6 +60,8 @@ public class CotizacionApplicationTests {
         cotizacionService.delete(cotizacion2.getIdCotizacion());
     }
 
+    //-------------------- findById ------------------
+
     @Test
     void findByIdTest() {
         CotizacionEntity cotizacion = new CotizacionEntity();
@@ -71,6 +78,8 @@ public class CotizacionApplicationTests {
 
         cotizacionService.delete(cotizacionGuardada.getIdCotizacion());
     }
+
+    //-------------------- findByPedido --------------------
 
     @Test
     void findByPedidoTest() {
@@ -105,6 +114,8 @@ public class CotizacionApplicationTests {
         }
     }
 
+    //-------------------- findByFecha --------------------
+
     @Test
     void findByFechaTest() {
         CotizacionEntity cotizacion1 = new CotizacionEntity();
@@ -137,6 +148,8 @@ public class CotizacionApplicationTests {
             cotizacionService.delete(cotizacion.getIdCotizacion());
         }
     }
+
+    //-------------------- findByEstado --------------------
 
     @Test
     void findByEstadoTest() {
@@ -171,6 +184,8 @@ public class CotizacionApplicationTests {
         }
     }
 
+    //-------------------- findByRutCliente --------------------
+
     @Test
     void findByRutClienteTest() {
         CotizacionEntity cotizacion1 = new CotizacionEntity();
@@ -204,6 +219,8 @@ public class CotizacionApplicationTests {
         }
     }
 
+    //-------------------- delete --------------------
+
     @Test
     void deleteTest() {
         CotizacionEntity cotizacion = new CotizacionEntity();
@@ -220,6 +237,8 @@ public class CotizacionApplicationTests {
 
         cotizacionService.delete(cotizacionGuardada.getIdCotizacion());
     }
+
+    //-------------------- update --------------------
 
     @Test
     void updateTest() {
@@ -240,4 +259,5 @@ public class CotizacionApplicationTests {
 
         cotizacionService.delete(updatedCotizacion.getIdCotizacion());
     }
+
 }

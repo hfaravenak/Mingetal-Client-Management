@@ -28,24 +28,25 @@ public class OrdenesDeCompraClienteService {
     @Autowired
     RestTemplate restTemplate;
 
-    public boolean save(OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity){
+    //-------------------- Guardado --------------------
+
+    public OrdenesDeCompraClienteEntity save(OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity){
         if(findById(ordenesDeCompraClienteEntity.getId())==null){
-            ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
-            return true;
+            return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
         }
-        return false;
+        return null;
     }
+
+    //-------------------- Buscar --------------------
 
     public List<OrdenesDeCompraClienteEntity> findAll(){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findAll();
         ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
         return ordenesDeCompraClienteEntities;
     }
-
     public OrdenesDeCompraClienteEntity findById(int id){
         return ordenesDeCompraClienteRepository.findById(id);
     }
-
     public  List<OrdenesDeCompraClienteEntity> findByIdCliente(String id_cliente){
         return ordenesDeCompraClienteRepository.findByIdCliente(id_cliente);
 
@@ -95,19 +96,7 @@ public class OrdenesDeCompraClienteService {
         return ordenesDeCompraClienteEntities;
     }
 
-    public List<OrdenesDeCompraClienteEntity> findByProductosCliente(String nombreProducto){
-
-        ListaProductosService listaProductosService = new ListaProductosService();
-        List<ListaProductosEntity> listaProductosEntities = listaProductosService.findByNameProducto(nombreProducto);
-
-        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = new ArrayList<>();
-
-        for(ListaProductosEntity list:listaProductosEntities){
-            ordenesDeCompraClienteEntities.add(findById(list.getId_OC_cliente()));
-        }
-
-        return ordenesDeCompraClienteEntities;
-    }
+    //-------------------- Eliminar --------------------
 
     public OrdenesDeCompraClienteEntity deleteOCCliente(int id){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = findById(id);
@@ -118,80 +107,7 @@ public class OrdenesDeCompraClienteService {
         return ordenesDeCompraClienteEntity;
     }
 
-    public OrdenesDeCompraClienteEntity updateOCClienteByEstadoFactura(int id){
-        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = ordenesDeCompraClienteRepository.findById(id);
-        if(ordenesDeCompraClienteEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
-        if(ordenesDeCompraClienteEntity.getEstado_factura().equals("Emitida")){
-            return null;
-        }
-        ordenesDeCompraClienteEntity.setEstado_factura("Emitida");
-        return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
-    }
-
-    public OrdenesDeCompraClienteEntity updateOCClienteByEstadoPago(int id){
-        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = ordenesDeCompraClienteRepository.findById(id);
-        if(ordenesDeCompraClienteEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
-        if(ordenesDeCompraClienteEntity.getEstado_pago().equals("Pagado")){
-            return null;
-        }
-        ordenesDeCompraClienteEntity.setEstado_pago("Pagado");
-        return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
-    }
-
-    public OrdenesDeCompraClienteEntity updateOCClienteByEstadoEntrega(int id){
-        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = ordenesDeCompraClienteRepository.findById(id);
-        if(ordenesDeCompraClienteEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
-        if(ordenesDeCompraClienteEntity.getEstado_entrega().equals("Entregado")){
-            return null;
-        }
-        ordenesDeCompraClienteEntity.setEstado_entrega("Entregado");
-        return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
-    }
-
-    public OrdenesDeCompraClienteEntity updateOCClienteByModoPago(int id, int modo_pago){
-        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = ordenesDeCompraClienteRepository.findById(id);
-        if(ordenesDeCompraClienteEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
-        switch (modo_pago) {
-            case 1 -> {
-                ordenesDeCompraClienteEntity.setModo_pago("Transferencia");
-                return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
-            }
-            case 2 -> {
-                ordenesDeCompraClienteEntity.setModo_pago("Cheque");
-                return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
-            }
-            case 3 -> {
-                ordenesDeCompraClienteEntity.setModo_pago("Efectivo");
-                return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
-            }
-            default -> {
-                return null;
-            }
-        }
-
-    }
-
-    public OrdenesDeCompraClienteEntity updateOCClienteByFechaPago(int id, LocalDate fecha_pago){
-        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = ordenesDeCompraClienteRepository.findById(id);
-        if(ordenesDeCompraClienteEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
-            return null;
-        }
-        ordenesDeCompraClienteEntity.setFecha_pago(fecha_pago);
-        return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
-    }
+    //-------------------- Editar --------------------
 
     public OrdenesDeCompraClienteEntity updateOCCliente(OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity){
         if(ordenesDeCompraClienteEntity!=null){

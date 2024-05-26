@@ -1,4 +1,4 @@
-package mingetal.MCM.cliente.Entities;
+package mingetal.MCM.cliente.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,4 +26,11 @@ public class CotizacionEntity {
     private String estado; // En espera // Listo
     @Size(max=13, message = "El tamaño máximo del campo rutCliente es 13")
     private String rutCliente;
+
+    public CotizacionEntity(String pedido, LocalDate fecha, String estado, String rutCliente) {
+        this.pedido = pedido;
+        this.fecha = fecha;
+        this.estado = estado;
+        this.rutCliente = rutCliente;
+    }
 }

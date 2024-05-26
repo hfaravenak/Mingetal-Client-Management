@@ -5,19 +5,17 @@ const COTIZACION_API_URL = "http://localhost:8080/cliente/cotizacion/";
 class CotizacionService {
 
     createCotizacion(cotizacion){
-        console.log(cotizacion);
         return axios.post(COTIZACION_API_URL+"guardar-cotizacion", cotizacion);
     }
 
     getCotizaciones(){
         return axios.get(COTIZACION_API_URL);
     }
-
     getCotizacionesById(idCotizacion){
         if(idCotizacion===""){
             return this.getCotizaciones();
         }
-        return axios.get(COTIZACION_API_URL + "id/" + idCotizacion);
+        return axios.get(COTIZACION_API_URL + idCotizacion);
     }
     getCotizacionByPedido(pedido){
         if(pedido===""){
@@ -41,7 +39,7 @@ class CotizacionService {
         if(rutCliente===""){
             return this.getCotizaciones();
         }
-        return axios.get(COTIZACION_API_URL + "rut-cliente/" + rutCliente);
+        return axios.get(COTIZACION_API_URL + "rut/" + rutCliente);
     }
 
     putCotizacion(cotizacion){
@@ -49,11 +47,11 @@ class CotizacionService {
     }
 
     deleteCotizacion(idCotizacion){
-        console.log("la entrada del serivce: "+idCotizacion);
         return axios.delete(COTIZACION_API_URL + "delete/"+idCotizacion);
     }
 
     
 }
 
-export default new CotizacionService()
+const cotizacionService = new CotizacionService();
+export default cotizacionService;

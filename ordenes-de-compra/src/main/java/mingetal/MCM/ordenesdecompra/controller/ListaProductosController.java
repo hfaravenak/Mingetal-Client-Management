@@ -22,33 +22,30 @@ public class ListaProductosController {
 
     @PostMapping()
     public ResponseEntity<ListaProductosEntity> saveListProductos(@RequestBody ListaProductosEntity listaProductosEntity) {
-        boolean bool = listaProductosService.save(listaProductosEntity);
-        if(bool){
-            return ResponseEntity.ok(listaProductosEntity);
-        }
-        return null;
+        return ResponseEntity.ok(listaProductosService.save(listaProductosEntity));
+
     }
 
     @GetMapping("/")
     public ResponseEntity<List<ListaProductosEntity>> getAllListProductos(){
-        List<ListaProductosEntity> listaProductosEntities=listaProductosService.findAll();
-        return ResponseEntity.ok(listaProductosEntities);
+        return ResponseEntity.ok(listaProductosService.findAll());
     }
 
     @GetMapping("/cliente/{id}")
     public ResponseEntity<List<ListaProductosEntity>> getListProductosByIdOCCliente(@PathVariable("id") int id){
-        List<ListaProductosEntity> listaProductosEntities=listaProductosService.findByIdOCCliente(id);
-        return ResponseEntity.ok(listaProductosEntities);
+        return ResponseEntity.ok(listaProductosService.findByIdOCCliente(id));
     }
     @GetMapping("/proveedor/{id}")
     public ResponseEntity<List<ListaProductosEntity>> getListProductosByIdOCProveedor(@PathVariable("id") int id){
-        List<ListaProductosEntity> listaProductosEntities=listaProductosService.findByIdOCProveedor(id);
-        return ResponseEntity.ok(listaProductosEntities);
+        return ResponseEntity.ok(listaProductosService.findByIdOCProveedor(id));
     }
 
     @GetMapping("/cotizacion/{id}")
     public ResponseEntity<List<ListaProductosEntity>> getListProductosByIdCotizacion(@PathVariable("id") int id){
-        List<ListaProductosEntity> listaProductosEntities=listaProductosService.findByIdCotizacion(id);
-        return ResponseEntity.ok(listaProductosEntities);
+        return ResponseEntity.ok(listaProductosService.findByIdCotizacion(id));
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ListaProductosEntity> deleteListProductos(@PathVariable("id") int id){
+        return ResponseEntity.ok(listaProductosService.delete(id));
     }
 }

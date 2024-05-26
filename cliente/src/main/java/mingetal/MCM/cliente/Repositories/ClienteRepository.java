@@ -1,6 +1,6 @@
-package mingetal.MCM.cliente.Repositories;
+package mingetal.MCM.cliente.repositories;
 
-import mingetal.MCM.cliente.Entities.ClienteEntity;
+import mingetal.MCM.cliente.entities.ClienteEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

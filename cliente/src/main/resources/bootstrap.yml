@@ -1,7 +1,7 @@
 spring:
-  devtools:
-    restart:
-      aditional-paths: src/main/java
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   application:
     name: cliente
   jpa:
@@ -10,12 +10,11 @@ spring:
     hibernate:
       ddl-auto: create
   datasource:
-    plataform: postgres
+    platform: postgres
     driver-class-name: org.postgresql.Driver
-    dbname: cliente
     url: jdbc:postgresql://localhost:5432/cliente
     username: postgres
-    password: postgres
+    password: Simon_789
   cloud:
     config:
       enabled: true

@@ -5,8 +5,7 @@ const CLIENTE_API_URL = "http://localhost:8080/cliente/";
 class ClienteService {
 
     createCliente(cliente){
-        console.log(cliente);
-        return axios.post(CLIENTE_API_URL+"guardar-cliente", cliente);
+        return axios.post(CLIENTE_API_URL, cliente);
     }
 
     getClientes(){
@@ -43,11 +42,11 @@ class ClienteService {
     }
 
     deleteCliente(rut){
-        console.log("la entrada del serivce: "+rut);
-        return axios.delete(CLIENTE_API_URL + "delete-rut/"+rut);
+        return axios.delete(CLIENTE_API_URL + "delete/"+rut);
     }
 
     
 }
 
-export default new ClienteService()
+const clienteService = new ClienteService();
+export default clienteService;

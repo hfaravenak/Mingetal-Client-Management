@@ -1,7 +1,7 @@
-package mingetal.MCM.cliente.Services;
+package mingetal.MCM.cliente.services;
 
-import mingetal.MCM.cliente.Entities.CotizacionEntity;
-import mingetal.MCM.cliente.Repositories.CotizacionRepository;
+import mingetal.MCM.cliente.entities.CotizacionEntity;
+import mingetal.MCM.cliente.repositories.CotizacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +13,36 @@ public class CotizacionService {
     @Autowired
     CotizacionRepository cotizacionRepository;
 
-    public void save(CotizacionEntity cotizacionEntity) { cotizacionRepository.save(cotizacionEntity); }
-    public List<CotizacionEntity> findAll() { return cotizacionRepository.findAll(); }
-    public CotizacionEntity findById(int id) { return cotizacionRepository.findById(id).orElse(null); }
+    //-------------------- Guardado --------------------
 
+    public CotizacionEntity save(CotizacionEntity cotizacionEntity) {
+        if(findById(cotizacionEntity.getIdCotizacion())==null){
+            return cotizacionRepository.save(cotizacionEntity);
+        }
+        return null;
+    }
+
+    //-------------------- Buscar --------------------
+
+    public List<CotizacionEntity> findAll() {
+        return cotizacionRepository.findAll();
+    }
+    public CotizacionEntity findById(int id) { return cotizacionRepository.findById(id).orElse(null); }
     public List<CotizacionEntity> findByPedido(String pedido) { return cotizacionRepository.findByPedido(pedido); }
     public List<CotizacionEntity> findByFecha(LocalDate fecha) { return cotizacionRepository.findByFecha(fecha); }
     public List<CotizacionEntity> findByEstado(String estado) { return cotizacionRepository.findByEstado(estado); }
     public List<CotizacionEntity> findByRutCliente(String rutCliente) { return cotizacionRepository.findByRutCliente(rutCliente); }
+
+    //-------------------- Eliminar --------------------
+
     public CotizacionEntity delete(int id) {
         CotizacionEntity cotizacionEntity = findById(id);
         cotizacionRepository.delete(cotizacionEntity);
         return cotizacionEntity;
     }
+
+    //-------------------- Editar --------------------
+
     public CotizacionEntity update(CotizacionEntity cotizacionEntity) {
         CotizacionEntity cotizacionEntity1 = findById(cotizacionEntity.getIdCotizacion());
         cotizacionEntity1.setPedido(cotizacionEntity.getPedido());

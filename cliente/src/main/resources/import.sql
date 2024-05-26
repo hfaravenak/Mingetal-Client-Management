@@ -101,9 +101,9 @@ insert into cliente (rut, nombre, email, telefono, empresa) values ('01.677.012-
 insert into cliente (rut, nombre, email, telefono, empresa) values ('21.120.639-0', 'Hilary Chapple', 'hchapple2o@t.co', '+569 63811286', 'Divape');
 
 -- TABLA COTIZACION --
-insert into cotizacion (pedido, fecha, estado, rut_cliente) values ('Venta a Falabella', '2024/08/10', 'Listo', '49.967.932-9');
-insert into cotizacion (pedido, fecha, estado, rut_cliente) values ('Venta a Paris', '2024/03/04', 'En espera', '19.345.653-2');
-insert into cotizacion (pedido, fecha, estado, rut_cliente) values ('Venta a Ripley', '2023/04/05', 'En espera', '19.345.653-2');
+insert into cotizacion (pedido, fecha, estado, rut_cliente) values ('Venta a Falabella', '2024/08/10', 'Listo', '21.120.639-0');
+insert into cotizacion (pedido, fecha, estado, rut_cliente) values ('Venta a Paris', '2024/03/04', 'En espera', '21.120.639-0');
+insert into cotizacion (pedido, fecha, estado, rut_cliente) values ('Venta a Ripley', '2023/04/05', 'En espera', '21.120.639-0');
 insert into cotizacion (pedido, fecha, estado, rut_cliente) values ('Vinder', '2021-04-19', 'En espera', '50.854.451-8');
 insert into cotizacion (pedido, fecha, estado, rut_cliente) values ('Kwimbee', '2022-10-21', 'Listo', '22.372.991-5');
 insert into cotizacion (pedido, fecha, estado, rut_cliente) values ('Kimia', '2019-10-02', 'En espera', '71.036.035-0');

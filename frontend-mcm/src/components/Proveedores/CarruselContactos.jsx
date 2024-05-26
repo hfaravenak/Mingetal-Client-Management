@@ -102,18 +102,45 @@ const CarruselContactos = ({ datos, onMostrarCard }) => {
                         id_contacto3: rut_contacto3,
                         comentario: datos.comentario,
                     };
-                    ProveedorService.putProveedor(updateProveedor);
+                    ProveedorService.updateProveedor(updateProveedor);
                 }
 
                 Swal.fire({
                     title: "Eliminando...",
                     text: "Por favor espera",
-                    timer: 3000, // 3 segundos
+                    timer: 2000, // 3 segundos
                     didOpen: () => {
                         Swal.showLoading();
                     },
                     willClose: () => {
-                        navigate("/proveedores");
+                        if (datos.id_contacto === null) {
+                            ProveedorService.deleteProveedor(datos.id_proveedor);
+                            navigate("/proveedores");
+                        } else {
+                            let rut_contacto = null;
+                            if (datos.id_contacto != null) {
+                                rut_contacto = datos.id_contacto.rut;
+                            }
+                            let rut_contacto2 = null;
+                            if (datos.id_contacto2 != null) {
+                                rut_contacto2 = datos.id_contacto2.rut;
+                            }
+                            let rut_contacto3 = null;
+                            if (datos.id_contacto3 != null) {
+                                rut_contacto3 = datos.id_contacto3.rut;
+                            }
+                            let updateProveedor = {
+                                id_proveedor: datos.id_proveedor,
+                                empresa: datos.empresa,
+                                rubro: datos.rubro,
+                                id_contacto: rut_contacto,
+                                id_contacto2: rut_contacto2,
+                                id_contacto3: rut_contacto3,
+                                comentario: datos.comentario,
+                            };
+                            const datosComoTexto = JSON.stringify(updateProveedor);
+                            navigate(`/proveedores/mas info/${encodeURIComponent(datosComoTexto)}`);
+                        }
                     },
                 });
             }

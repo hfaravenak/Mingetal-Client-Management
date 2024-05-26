@@ -1,12 +1,8 @@
 package mingetal.MCM.proveedor.services;
 
 import mingetal.MCM.proveedor.entities.ContactoEntity;
-import mingetal.MCM.proveedor.entities.ProveedorEntity;
-import mingetal.MCM.proveedor.model.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.proveedor.repositories.ContactoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,50 +14,27 @@ public class ContactoService {
     @Autowired
     private ContactoRepository contactoRepository;
     @Autowired
-    private ProveedorService proveedorService;
-    @Autowired
     RestTemplate restTemplate;
 
-    // Create
-    public ContactoEntity createContacto(ContactoEntity contacto) {
-        if(findContactoById(contacto.getRut()) != null){
+    //-------------------- Guardado --------------------
+
+    public ContactoEntity save(ContactoEntity contacto) {
+        if(findByRut(contacto.getRut()) != null){
             return null;
         }
         return contactoRepository.save(contacto);
     }
 
-    // Read
-    public List<ContactoEntity> findAllContactos() {
+    //-------------------- Buscar --------------------
+
+    public List<ContactoEntity> findAll() {
         return contactoRepository.findAll();
     }
-
-    public List<ContactoEntity> findByProveedorContacto1(){
-        List<ProveedorEntity> proveedorEntities = proveedorService.findByListOC();
-
-        List<ContactoEntity> contactoEntities = new ArrayList<>();
-        for(ProveedorEntity proveedor:proveedorEntities){
-            contactoEntities.add(findContactoById(proveedor.getId_contacto()));
-        }
-        return contactoEntities;
+    public ContactoEntity findByRut(String rut) {
+        return contactoRepository.findById(rut);
     }
-
-    public List<ContactoEntity> getAllContactos1Proveedor(){
-        List<ProveedorEntity> proveedorEntities = proveedorService.findAll();
-
-        List<ContactoEntity> contactoEntities = new ArrayList<>();
-        for(ProveedorEntity proveedor:proveedorEntities){
-            contactoEntities.add(findContactoById(proveedor.getId_contacto()));
-        }
-        return contactoEntities;
-    }
-
-    public ContactoEntity findContactoById(String id) {
-        return contactoRepository.findById(id);
-    }
-
-    // find by nombre del contacto
-    public List<ContactoEntity> findContactoByNombre(String nombre) {
-        List<ContactoEntity> contactoEntities = findAllContactos();
+    public List<ContactoEntity> findByNombre(String nombre) {
+        List<ContactoEntity> contactoEntities = findAll();
         List<ContactoEntity> resultados = new ArrayList<>();
         for (ContactoEntity nombreDeLista : contactoEntities) {
             if (nombreDeLista.getNombre().contains(nombre)) {
@@ -70,40 +43,30 @@ public class ContactoService {
         }
 
         resultados.sort((p1, p2) -> p1.getNombre().compareTo(p2.getNombre()));
-
         return resultados;
     }
-
-    public ContactoEntity findContactoByNombreTextual(String nombre) {
+    public ContactoEntity findByNombreTextual(String nombre) {
         return contactoRepository.findByNombreContacto(nombre);
     }
 
-    public List<ContactoEntity> findByContactosFromEmpresa(String empresa) {
-        ProveedorService proveedorService = new ProveedorService();
-        ProveedorEntity proveedorEntity = proveedorService.findByEmpresa(empresa);
-        List<ContactoEntity> contactoEntities = new ArrayList<>();
-        contactoEntities.add(findContactoById(proveedorEntity.getId_contacto()));
-        contactoEntities.add(findContactoById(proveedorEntity.getId_contacto2()));
-        contactoEntities.add(findContactoById(proveedorEntity.getId_contacto3()));
-        return contactoEntities;
-    }
+    //-------------------- Eliminar --------------------
 
-    // Update
-    public ContactoEntity updateContacto(ContactoEntity updatedContacto) {
-        if(findContactoById(updatedContacto.getRut())==null){
+    public ContactoEntity delete(String id) {
+        ContactoEntity contacto= findByRut(id);
+        if(contacto==null){
             return null;
         }
-        return contactoRepository.save(updatedContacto);
-    }
 
-    // Delete
-    public ContactoEntity deleteContacto(String id) {
-        if(findContactoById(id)==null){
-            return null;
-        }
-        ContactoEntity contacto= findContactoById(id);
         contactoRepository.delete(contacto);
         return contacto;
     }
 
+    //-------------------- Editar --------------------
+
+    public ContactoEntity update(ContactoEntity updatedContacto) {
+        if(findByRut(updatedContacto.getRut())==null){
+            return null;
+        }
+        return contactoRepository.save(updatedContacto);
+    }
 }
