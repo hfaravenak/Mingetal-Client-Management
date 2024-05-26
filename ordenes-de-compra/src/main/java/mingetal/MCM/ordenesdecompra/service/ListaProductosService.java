@@ -47,6 +47,9 @@ public class ListaProductosService {
     public List<ListaProductosEntity> findByIdOCProveedor(int id_OC_proveedor){
         return listaProductosRepository.findByIdProveedor(id_OC_proveedor);
     }
+    public List<ListaProductosEntity> findByIdCotizacion(int id_OC_proveedor){
+        return listaProductosRepository.findByIdCotizacion(id_OC_proveedor);
+    }
 
     public List<ListaProductosEntity> findByNameProducto(String nombre){
 

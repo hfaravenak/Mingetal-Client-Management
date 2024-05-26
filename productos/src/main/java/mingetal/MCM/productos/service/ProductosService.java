@@ -71,17 +71,7 @@ public class ProductosService {
                 new ParameterizedTypeReference<List<ListaProductosEntity>>() {}
         ).getBody();
 
-        if(response == null){
-            return new ArrayList<>();
-        }
-
-        List<ProductosEntity> productosEntities = new ArrayList<>();
-
-        for(ListaProductosEntity listaProductosEntity: response){
-            productosEntities.add(findById(listaProductosEntity.getId_producto()));
-        }
-
-        return productosEntities;
+        return getProductosEntities(response);
     }
 
     public List<ProductosEntity> findByOCProveedor(int id){
@@ -92,6 +82,21 @@ public class ProductosService {
                 new ParameterizedTypeReference<List<ListaProductosEntity>>() {}
         ).getBody();
 
+        return getProductosEntities(response);
+    }
+
+    public List<ProductosEntity> findByCotizacion(int id){
+        List<ListaProductosEntity> response = restTemplate.exchange(
+                "http://localhost:8080/ordenes_de_compra/productos/cotizacion/"+id,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ListaProductosEntity>>() {}
+        ).getBody();
+
+        return getProductosEntities(response);
+    }
+
+    private List<ProductosEntity> getProductosEntities(List<ListaProductosEntity> response) {
         if(response == null){
             return new ArrayList<>();
         }

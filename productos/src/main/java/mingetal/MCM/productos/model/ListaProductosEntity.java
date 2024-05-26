@@ -14,4 +14,5 @@ public class ListaProductosEntity {
     private int id_OC_proveedor;
     private int cantidad;
     private int valor_pago;
+    private int id_cotizacion;
 }

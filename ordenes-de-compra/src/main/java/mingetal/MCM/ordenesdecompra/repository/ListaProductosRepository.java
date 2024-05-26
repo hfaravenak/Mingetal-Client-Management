@@ -22,4 +22,7 @@ public interface ListaProductosRepository extends JpaRepository<ListaProductosEn
 
     @Query("select e from ListaProductosEntity e where e.id_OC_proveedor = :id_OC_proveedor")
     List<ListaProductosEntity> findByIdProveedor(@Param("id_OC_proveedor") int id_OC_proveedor);
+
+    @Query("select e from ListaProductosEntity e where e.id_cotizacion = :id_cotizacion")
+    List<ListaProductosEntity> findByIdCotizacion(@Param("id_cotizacion") int id_cotizacion);
 }

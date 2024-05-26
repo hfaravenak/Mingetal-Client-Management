@@ -62,6 +62,11 @@ public class ProductosController {
         List<ProductosEntity> productosEntity = productosService.findByOCProveedor(id);
         return ResponseEntity.ok(productosEntity);
     }
+    @GetMapping("/cotizacion/{id}")
+    public ResponseEntity<List<ProductosEntity>>getProductosByCotizacion(@PathVariable("id") int id){
+        List<ProductosEntity> productosEntity = productosService.findByCotizacion(id);
+        return ResponseEntity.ok(productosEntity);
+    }
 
 
     @DeleteMapping("/delete/{id}")

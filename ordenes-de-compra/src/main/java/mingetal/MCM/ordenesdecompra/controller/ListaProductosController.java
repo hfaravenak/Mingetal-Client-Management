@@ -45,4 +45,10 @@ public class ListaProductosController {
         List<ListaProductosEntity> listaProductosEntities=listaProductosService.findByIdOCProveedor(id);
         return ResponseEntity.ok(listaProductosEntities);
     }
+
+    @GetMapping("/cotizacion/{id}")
+    public ResponseEntity<List<ListaProductosEntity>> getListProductosByIdCotizacion(@PathVariable("id") int id){
+        List<ListaProductosEntity> listaProductosEntities=listaProductosService.findByIdCotizacion(id);
+        return ResponseEntity.ok(listaProductosEntities);
+    }
 }

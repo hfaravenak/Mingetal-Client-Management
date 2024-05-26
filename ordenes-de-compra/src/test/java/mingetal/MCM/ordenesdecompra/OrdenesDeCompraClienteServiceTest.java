@@ -36,6 +36,8 @@ public class OrdenesDeCompraClienteServiceTest {
         );
         boolean bool = ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity);
         assertTrue(bool);
+        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity1 = ordenesDeCompraClienteService.findById(ordenesDeCompraClienteEntity.getId());
+        assertNotNull(ordenesDeCompraClienteEntity1);
         ordenesDeCompraClienteService.deleteOCCliente(ordenesDeCompraClienteEntity.getId());
     }
     @Test
@@ -87,7 +89,7 @@ public class OrdenesDeCompraClienteServiceTest {
     }
     @Test
     void deleteOCClienteTestFalse(){
-        assertNull(ordenesDeCompraClienteService.deleteOCCliente(101));
+        assertNull(ordenesDeCompraClienteService.deleteOCCliente(-1));
     }
 
     @Test

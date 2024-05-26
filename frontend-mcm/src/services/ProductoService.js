@@ -35,6 +35,10 @@ class ProductoService{
     getListByOCProveedor(id){
         return axios.get(PRODUCTOS_API_URL+"OCProveedor/"+id);
     }
+
+    getListByCotizacion(id){
+        return axios.get(PRODUCTOS_API_URL+"cotizacion/"+id);
+    }
      
     crearProducto(producto){
         console.log(producto);

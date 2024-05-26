@@ -25,7 +25,8 @@ public class ListaProductosServiceTest {
                 -1,
                 -2,
                 5,
-                300
+                300,
+                -4
         );
 
         boolean bool = listaProductosService.save(listaProductosEntity);
@@ -39,7 +40,8 @@ public class ListaProductosServiceTest {
                 -1,
                 -2,
                 5,
-                300
+                300,
+                -4
         );
         listaProductosService.save(listaProductosEntity);
         boolean bool = listaProductosService.save(listaProductosEntity);
@@ -54,7 +56,8 @@ public class ListaProductosServiceTest {
                 -1,
                 -2,
                 5,
-                300
+                300,
+                -4
         );
         listaProductosService.save(listaProductosEntity);
         assertEquals(listaProductosEntity, listaProductosService.delete(listaProductosEntity.getId()));
@@ -72,7 +75,8 @@ public class ListaProductosServiceTest {
                 -1,
                 -2,
                 5,
-                300
+                300,
+                -4
         );
         listaProductosService.save(listaProductosEntity);
 
@@ -92,7 +96,8 @@ public class ListaProductosServiceTest {
                 -1,
                 -2,
                 5,
-                300
+                300,
+                -4
         );
         listaProductosService.save(listaProductosEntity);
 
@@ -112,7 +117,8 @@ public class ListaProductosServiceTest {
                 -1,
                 -2,
                 5,
-                300
+                300,
+                -4
         );
         listaProductosService.save(listaProductosEntity);
 
@@ -132,7 +138,8 @@ public class ListaProductosServiceTest {
                 -1,
                 -2,
                 5,
-                300
+                300,
+                -4
         );
         listaProductosService.save(listaProductosEntity);
 
@@ -152,7 +159,8 @@ public class ListaProductosServiceTest {
                 -1,
                 -2,
                 5,
-                300
+                300,
+                -4
         );
         listaProductosService.save(listaProductosEntity);
 
