@@ -8,6 +8,7 @@ import editar from "../../images/editar.png";
 
 import HeaderComponents from "../Headers/HeaderComponents";
 import CotizacionService from "../../services/CotizacionService";
+import ClienteService from "../../services/ClienteService";
 
 function ListCotizacionComponent() {
     const formatFecha = (fecha) => {
@@ -26,9 +27,13 @@ function ListCotizacionComponent() {
     const [input, setInput] = useState(initialState);
 
     const [CotizacionEntity, setCotizacionEntity] = useState([]);
+    const [ClienteEntity, setClienteEntity] = useState([]);
     useEffect(() => {
         CotizacionService.getCotizaciones().then((res) => {
             setCotizacionEntity(res.data);
+        });
+        ClienteService.getClientes().then((res) => {
+            setClienteEntity(res.data);
         });
     }, []);
 
@@ -86,6 +91,16 @@ function ListCotizacionComponent() {
         navigate("/crear-cotizacion");
     };
 
+    const busquedaCliente = (rut) => {
+        let variable = "";
+        ClienteEntity.forEach((cliente) => {
+            if (cliente.rut === rut) {
+                variable = cliente;
+            }
+        });
+        return variable;
+    };
+
     const ChangeViendoCotizacion = (todoElDato) => {
         const datos = {
             idCotizacion: todoElDato.idCotizacion,
@@ -93,6 +108,7 @@ function ListCotizacionComponent() {
             fecha: todoElDato.fecha,
             estado: todoElDato.estado,
             rutCliente: todoElDato.rutCliente,
+            cliente: busquedaCliente(todoElDato.rutCliente),
         };
         const datosComoTexto = JSON.stringify(datos);
         navigate(`/info-cotizacion/${encodeURIComponent(datosComoTexto)}`);
@@ -188,9 +204,10 @@ function ListCotizacionComponent() {
                             <thead>
                                 <tr>
                                     <th>Pedido</th>
+                                    <th>Nombre Cliente</th>
+                                    <th>Rut Cliente</th>
                                     <th>Fecha</th>
                                     <th>Estado</th>
-                                    <th>Rut Cliente</th>
                                     <th>Más información</th>
                                 </tr>
                             </thead>
@@ -198,9 +215,10 @@ function ListCotizacionComponent() {
                                 {CotizacionEntity.map((cotizacion) => (
                                     <tr key={cotizacion.idCotizacion}>
                                         <td> {cotizacion.pedido} </td>
+                                        <td> {cotizacion.rutCliente} </td>
+                                        <td> {busquedaCliente(cotizacion.rutCliente).nombre} </td>
                                         <td> {formatFecha(cotizacion.fecha)} </td>
                                         <td> {cotizacion.estado} </td>
-                                        <td> {cotizacion.rutCliente} </td>
                                         <td style={{ textAlign: "center", verticalAlign: "middle", width: "1%" }}>
                                             <img
                                                 id="editar"

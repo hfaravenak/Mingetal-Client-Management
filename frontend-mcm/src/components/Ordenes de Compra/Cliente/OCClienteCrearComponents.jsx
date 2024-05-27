@@ -115,9 +115,8 @@ function OCClienteCrearComponents() {
         }).then((result) => {
             if (result.isConfirmed) {
                 ClienteService.getClienteByNombreTextual(input.nombre).then((res) => {
-                    const rut = res.data.rut;
-
-                    if (rut === "" || rut === null) {
+                    console.log(res.data)
+                    if (res.data === null || res.data === "") {
                         Swal.fire({
                             title: "Cliente no encontrado",
                             timer: 2000,
@@ -129,7 +128,7 @@ function OCClienteCrearComponents() {
                         });
                     } else {
                         let newOC = {
-                            id_cliente: rut,
+                            id_cliente: res.data.rut,
                             fecha_solicitud: input.fecha_solicitud,
                             fecha_entrega: input.fecha_entrega,
                             estado_entrega: input.estado_entrega,
@@ -562,8 +561,6 @@ const NavStyle = styled.nav`
     color: #009879;
 }
 
-
-
 h1 {
     text-align: left;
 }
@@ -615,8 +612,6 @@ button{
     background-color: #D2712B;
     margin: 2%;
 }
-
-
 
 .button-container {
     display: flex;

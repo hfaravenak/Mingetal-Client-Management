@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
@@ -32,15 +32,62 @@ function OCProveedorCrearComponents() {
         numero_factura: "",
     };
     const [input, setInput] = useState(initialState);
+    useEffect(() => {
+        OrdenesDeCompraProveedorService.getOCProveedor().then((res) => {
+            setID(res.data.length + 1);
+        });
+    }, []);
 
-    const handleInputChange = (event) => {
+    const [id, setID] = useState();
+    
+    const [ListProducto, setListProducto] = useState([{ nombre: "", cantidad: "" }]);
+    const handleInputChange = (event, index = null) => {
         const { name, value } = event.target;
-        setInput({ ...input, [name]: value });
+
+        if (index !== null) {
+            const newListProducto = [...ListProducto];
+            newListProducto[index][name] = value;
+            setListProducto(newListProducto);
+        } else {
+            setInput({ ...input, [name]: value });
+        }
+    };
+    const handleAddRow = () => {
+        setListProducto([...ListProducto, { nombre: "", cantidad: "" }]);
+    };
+    const handleMinusRow = () => {
+        if (ListProducto.length > 1) {
+            setListProducto(ListProducto.slice(0, -1));
+        }
+    };
+
+    const validateForm = () => {
+        const requiredFields = ["nombre", "valor_pago", "numero_factura"];
+        for (let field of requiredFields) {
+            if (!input[field]) {
+                return false;
+            }
+        }
+        for (let producto of ListProducto) {
+            if (!producto.nombre || !producto.cantidad) {
+                return false;
+            }
+        }
+        return true;
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault(); // Previene el comportamiento predeterminado del formulario
-        ingresarOCProveedor(); // Llama a la función para procesar el formulario
+        event.preventDefault();
+        if (validateForm()) {
+            ingresarOCProveedor();
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: "Por favor, complete todos los campos requeridos.",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        }
     };
 
     const ingresarOCProveedor = () => {
@@ -56,9 +103,8 @@ function OCProveedorCrearComponents() {
         }).then((result) => {
             if (result.isConfirmed) {
                 ProveedorService.getProveedorByNombreTextual(input.nombre).then((res) => {
-                    const id_proveedor = res.data.id_proveedor;
-
-                    if (id_proveedor === "" || id_proveedor === null) {
+                    console.log(res.data)
+                    if (res.data === null || res.data === "") {
                         Swal.fire({
                             title: "Cliente no encontrado",
                             timer: 2000,
@@ -70,7 +116,7 @@ function OCProveedorCrearComponents() {
                         });
                     } else {
                         let newOC = {
-                            id_proveedor: id_proveedor,
+                            id_proveedor: res.data.id_proveedor,
                             fecha_solicitud: input.fecha_solicitud,
                             fecha_entrega: input.fecha_entrega,
                             estado_entrega: input.estado_entrega,
@@ -98,113 +144,240 @@ function OCProveedorCrearComponents() {
             }
         });
     };
+    
+
+    const [isTableVisibleOC, setisTableVisibleOC] = useState(false);
+    const [isTableVisiblePago, setisTableVisiblePago] = useState(false);
+    const [isTableVisibleFactura, setisTableVisibleFactura] = useState(false);
+    const [isTableVisibleListaProducto, setisTableVisibleListaProducto] = useState(false);
+
+    const toggleTableVisibilityOC = () => {
+        setisTableVisibleOC(!isTableVisibleOC);
+    };
+    const toggleTableVisibilityPago = () => {
+        setisTableVisiblePago(!isTableVisiblePago);
+    };
+    const toggleTableVisibilityFactura = () => {
+        setisTableVisibleFactura(!isTableVisibleFactura);
+    };
+    const toggleTableVisibilityListaProducto = () => {
+        setisTableVisibleListaProducto(!isTableVisibleListaProducto);
+    };
 
     return (
-        <div className="general">
-            <HeaderComponents></HeaderComponents>
+        <div>
             <NavStyle>
-                <div className="container-create">
-                    <h1>Crear Orden de Compra de Proveedor</h1>
+                <HeaderComponents></HeaderComponents>
+                <div className="container">
+                    <h1 style={{ marginLeft: "1%" }}>
+                        <b>N° O/C: {id}</b>
+                    </h1>
                     <Form onSubmit={handleSubmit}>
-                        <div className="Table-Column">
-                            <div className="column column-izq">
-                                <Form.Group controlId="nombre">
-                                    <Form.Label className="agregar">* Nombre:</Form.Label>
-                                    <Form.Control
-                                        className="agregar"
-                                        type="text"
-                                        value={input.nombre}
-                                        onChange={handleInputChange}
-                                        name="nombre"
-                                        required
-                                    />
-                                </Form.Group>
-                                <Form.Group controlId="fecha_solicitud">
-                                    <Form.Label className="agregar">Fecha de Solicitud:</Form.Label>
-                                    <Form.Control
-                                        style={{ width: "100%" }}
-                                        className="font-h2 no-border"
-                                        type="date"
-                                        value={input.fecha_solicitud}
-                                        onChange={handleInputChange}
-                                        name="fecha_solicitud"
-                                    />
-                                </Form.Group>
-                                <Form.Group controlId="fecha_entrega">
-                                    <Form.Label className="agregar">Fecha de la Entrega:</Form.Label>
-                                    <Form.Control
-                                        style={{ width: "100%" }}
-                                        className="font-h2 no-border"
-                                        type="date"
-                                        value={input.fecha_entrega}
-                                        onChange={handleInputChange}
-                                        name="fecha_entrega"
-                                    />
-                                </Form.Group>
-                                <Form.Group controlId="estado_entrega">
-                                    <Form.Label className="agregar">Estado de la Entrega:</Form.Label>
-                                    <Form.Select
-                                        style={{ width: "100%" }}
-                                        value={input.estado_entrega}
-                                        onChange={handleInputChange}
-                                        className="font-h2 no-border"
-                                        name="estado_entrega"
-                                    >
-                                        <option value="No Entregado">No Entregado</option>
-                                        <option value="Entregado">Entregado</option>
-                                    </Form.Select>
-                                </Form.Group>
-                            </div>
-                            <div className="column column-cen">
-                                <Form.Group controlId="valor_pago">
-                                    <Form.Label className="agregar">* Valor del Pago:</Form.Label>
-                                    <Form.Control
-                                        className="agregar"
-                                        type="number"
-                                        value={input.valor_pago}
-                                        onChange={handleInputChange}
-                                        name="valor_pago"
-                                        required
-                                    />
-                                </Form.Group>
-                                <Form.Group controlId="estado_pago">
-                                    <Form.Label className="agregar">Estado del Pago:</Form.Label>
-                                    <Form.Select
-                                        style={{ width: "100%" }}
-                                        value={input.estado_pago}
-                                        onChange={handleInputChange}
-                                        className="font-h2 no-border"
-                                        name="estado_pago"
-                                    >
-                                        <option value="No Entregado">No Pagado</option>
-                                        <option value="Entregado">Pagado</option>
-                                    </Form.Select>
-                                </Form.Group>
-                                <Form.Group controlId="fecha_pago">
-                                    <Form.Label className="agregar">Fecha de cuando Pagó:</Form.Label>
-                                    <Form.Control
-                                        style={{ width: "100%" }}
-                                        value={input.fecha_pago}
-                                        onChange={handleInputChange}
-                                        className="font-h2 no-border"
-                                        type="date"
-                                        name="fecha_pago"
-                                    />
-                                </Form.Group>
-                            </div>
-                            <div className="column column-der">
-                                <Form.Group controlId="numero_factura">
-                                    <Form.Label className="agregar">* Numero Factura:</Form.Label>
-                                    <Form.Control
-                                        className="agregar"
-                                        type="number"
-                                        value={input.numero_factura}
-                                        onChange={handleInputChange}
-                                        name="numero_factura"
-                                        required
-                                    />
-                                </Form.Group>
-                            </div>
+                        <div className="container-2">
+                            <h1 onClick={toggleTableVisibilityOC} style={{ cursor: "pointer" }}>
+                                <b> Ordenes de Compra</b>
+                                <span style={{ marginLeft: "10px" }}>{isTableVisibleOC ? "−" : "+"}</span>
+                            </h1>
+                            {isTableVisibleOC && (
+                                <table border="1" className="content-table">
+                                    <thead>
+                                        <tr>
+                                            <th>* Nombre</th>
+                                            <th>Fecha de la Solicitud</th>
+                                            <th>Fecha de la Entrega</th>
+                                            <th>Estado de la Entrega</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <Form.Group controlId="nombre">
+                                                    <Form.Control
+                                                        style={{ width: "100%" }}
+                                                        className="font-h2 no-border"
+                                                        type="text"
+                                                        value={input.nombre}
+                                                        onChange={handleInputChange}
+                                                        name="nombre"
+                                                    />
+                                                </Form.Group>
+                                            </td>
+                                            <td>
+                                                <Form.Group controlId="fecha_solicitud">
+                                                    <Form.Control
+                                                        style={{ width: "100%" }}
+                                                        className="font-h2 no-border"
+                                                        type="date"
+                                                        value={input.fecha_solicitud}
+                                                        onChange={handleInputChange}
+                                                        name="fecha_solicitud"
+                                                    />
+                                                </Form.Group>
+                                            </td>
+                                            <td>
+                                                <Form.Group controlId="fecha_entrega">
+                                                    <Form.Control
+                                                        style={{ width: "100%" }}
+                                                        className="font-h2 no-border"
+                                                        type="date"
+                                                        value={input.fecha_entrega}
+                                                        onChange={handleInputChange}
+                                                        name="fecha_entrega"
+                                                    />
+                                                </Form.Group>
+                                            </td>
+                                            <td>
+                                                <Form.Group controlId="estado_entrega">
+                                                    <Form.Select
+                                                        style={{ width: "100%" }}
+                                                        value={input.estado_entrega}
+                                                        onChange={handleInputChange}
+                                                        className="font-h2 no-border"
+                                                        name="estado_entrega"
+                                                    >
+                                                        <option value="No Entregado">No Entregado</option>
+                                                        <option value="Entregado">Entregado</option>
+                                                    </Form.Select>
+                                                </Form.Group>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            )}
+                            <h1 onClick={toggleTableVisibilityPago} style={{ cursor: "pointer" }}>
+                                <b> Pago</b>
+                                <span style={{ marginLeft: "10px" }}>{isTableVisiblePago ? "−" : "+"}</span>
+                            </h1>
+                            {isTableVisiblePago && (
+                                <table border="1" className="content-table">
+                                    <thead>
+                                        <tr>
+                                            <th>* Valor del Pago</th>
+                                            <th>Estado del Pago</th>
+                                            <th>Fecha del Pago</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <Form.Group controlId="valor_pago">
+                                                    <Form.Control
+                                                        className="agregar"
+                                                        type="number"
+                                                        value={input.valor_pago}
+                                                        onChange={handleInputChange}
+                                                        name="valor_pago"
+                                                        required
+                                                    />
+                                                </Form.Group>
+                                            </td>
+                                            <td>
+                                                <Form.Group controlId="estado_pago">
+                                                    <Form.Select
+                                                        style={{ width: "100%" }}
+                                                        value={input.estado_pago}
+                                                        onChange={handleInputChange}
+                                                        className="font-h2 no-border"
+                                                        name="estado_pago"
+                                                    >
+                                                        <option value="No Entregado">No Pagado</option>
+                                                        <option value="Entregado">Pagado</option>
+                                                    </Form.Select>
+                                                </Form.Group>
+                                            </td>
+                                            <td>
+                                                <Form.Group controlId="fecha_pago">
+                                                    <Form.Control
+                                                        style={{ width: "100%" }}
+                                                        value={input.fecha_pago}
+                                                        onChange={handleInputChange}
+                                                        className="font-h2 no-border"
+                                                        type="date"
+                                                        name="fecha_pago"
+                                                    />
+                                                </Form.Group>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            )}
+                            <h1 onClick={toggleTableVisibilityFactura} style={{ cursor: "pointer" }}>
+                                <b> Factura</b>
+                                <span style={{ marginLeft: "10px" }}>{isTableVisibleFactura ? "−" : "+"}</span>
+                            </h1>
+                            {isTableVisibleFactura && (
+                                <table border="1" className="content-table">
+                                    <thead>
+                                        <tr>
+                                            <th>*Numero de la Factura</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <Form.Group controlId="numero_factura">
+                                                    <Form.Control
+                                                        className="agregar"
+                                                        type="number"
+                                                        name="numero_factura"
+                                                        value={input.numero_factura}
+                                                        onChange={handleInputChange}
+                                                        required
+                                                    />
+                                                </Form.Group>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            )}
+                            <h1 onClick={toggleTableVisibilityListaProducto} style={{ cursor: "pointer" }}>
+                                <b> Lista de Productos</b>
+                                <span style={{ marginLeft: "10px" }}>{isTableVisibleListaProducto ? "−" : "+"}</span>
+                            </h1>
+                            {isTableVisibleListaProducto && (
+                                <div>
+                                    <table border="1" className="content-table">
+                                        <thead>
+                                            <tr>
+                                                <th>* Nombre</th>
+                                                <th>* Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {ListProducto.map((row, index) => (
+                                                <tr key={index}>
+                                                    <td>
+                                                        <Form.Group controlId={`nombre-${index}`}>
+                                                            <Form.Control
+                                                                type="text"
+                                                                value={row.nombre}
+                                                                onChange={(event) => handleInputChange(event, index)}
+                                                                name="nombre"
+                                                            />
+                                                        </Form.Group>
+                                                    </td>
+                                                    <td>
+                                                        <Form.Group controlId={`cantidad-${index}`}>
+                                                            <Form.Control
+                                                                type="number"
+                                                                value={row.cantidad}
+                                                                onChange={(event) => handleInputChange(event, index)}
+                                                                name="cantidad"
+                                                            />
+                                                        </Form.Group>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    <Button className="Aumentar" onClick={handleAddRow}>
+                                        +
+                                    </Button>
+                                    <Button className="Disminuir" onClick={handleMinusRow}>
+                                        -
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                         <div className="button-container">
                             <Button className="boton" type="submit">
@@ -220,85 +393,123 @@ function OCProveedorCrearComponents() {
 export default OCProveedorCrearComponents;
 
 const NavStyle = styled.nav`
-    .Table-Column {
-        display: flex;
-        justify-content: space-between;
-    }
+}
 
-    .column-izq {
-        padding-left: 10%;
-    }
-    .column-der {
-        padding-right: 10%;
-    }
+.container{
+    margin: 2%;
+    border: 2px solid #D5D5D5;
+    background-color: #F0F0F0;
+    gap: 20px;
+    height: 100%;
+}
+.container-2{
+    
+    background-color: #F0F0F0;
+    flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
+    overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
+    padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+    max-height: calc(0px + 55.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
+}
 
-    .container-create {
-        margin: 2%;
-        padding: 2%;
-        border: 2px solid #d5d5d5;
-        background-color: #f0f0f0;
-    }
+/* Tabla */
 
-    h1 {
-        text-align: center;
-    }
-    label {
-        display: block;
-        margin-bottom: 10px;
-        margin-left: 15px;
-        margin-top: 10px;
-    }
-    input[type="text"],
-    input[type="date"],
-    input[type="number"],
-    option,
-    select {
-        background-color: rgb(201, 201, 201);
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border-radius: 30px;
-        border: 1px solid #ccc;
-        box-sizing: border-box; /* Asegura que los inputs tengan el mismo ancho */
-    }
+.content-table{
+    border-collapse: collapse;
+    margin-left: 1;
+    font-size: 0.9em;
+    min-width: 100px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.content-table thead tr{
+    background-color: #D2712B;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+.content-table th, .content-table td{
+    padding: 12px 15px;
+}
 
-    /* Para WebKit (Chrome, Safari, Edge) */
-    input[type="number"]::-webkit-outer-spin-button,
-    input[type="number"]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-    /* Para Firefox */
-    input[type="number"] {
-        -moz-appearance: textfield;
-    }
+.content-table td{
+    font-size: 18px;
+}
 
-    button {
-        color: #fff;
-        margin-left: 5px;
-        margin-top: 10px;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 30px;
-        border: none;
-        cursor: pointer;
-    }
-    .boton {
-        background-color: #d2712b;
-    }
+.content-table tbody tr{
+    border-bottom: 1px solid #dddddd;
+}
+.content-table tbody tr:nth-of-type(even){
+    background-color: #f3f3f3;
+}
+.content-table tbody tr:last-of-type{
+    border-bottom: 2px solid #009879;
+}
+.content-table tbody tr.active-row{
+    font-weight: bold;
+    color: #009879;
+}
 
-    .button-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
+h1 {
+    text-align: left;
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+    margin-left: 15px;
+    margin-top: 10px;
+}
+input[type="text"], input[type="date"], input[type="number"], option, select{
+    background-color: rgb(201, 201, 201);
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Asegura que los inputs tengan el mismo ancho */
+}
 
-    td,
-    th,
-    h1,
-    Label,
-    Control,
-    Button {
-        font-family: "Pacifico", serif;
-    }
+/* Para WebKit (Chrome, Safari, Edge) */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Para Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.Aumentar, .Disminuir{
+    padding: 10px;
+    background-color: #D2712B;
+    margin-left: 1%;
+    width:30px;
+}
+
+button{
+    color: #fff;
+    margin-left: 5px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+}
+.boton{
+    background-color: #D2712B;
+    margin: 2%;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+td, th, h1, Label, Control, Button{
+    font-family: 'Pacifico',serif;
+}
 `;
+

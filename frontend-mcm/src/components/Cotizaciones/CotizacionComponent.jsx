@@ -5,15 +5,13 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 
-import cotizaciones from "../../images/cotizacion.png";
+import clientes from "../../images/cliente.png";
 
 import HeaderComponents from "../Headers/HeaderComponents";
 import CotizacionService from "../../services/CotizacionService";
-import ClienteService from "../../services/ClienteService";
 import ProductoService from "../../services/ProductoService";
 
 function CotizacionComponent() {
-
     const formatFecha = (fecha) => {
         const [year, month, day] = fecha.split("-");
         return `${day}-${month}-${year}`;
@@ -34,21 +32,11 @@ function CotizacionComponent() {
     const [input, setInput] = useState(initialState);
 
     const [CotizacionEntity, setCotizacionEntity] = useState(null);
+    const [ProductoEntity, setProductoEntity] = useState([]);
     useEffect(() => {
         CotizacionService.getCotizacionesById(datos.idCotizacion).then((res) => {
             setCotizacionEntity(res.data);
         });
-    }, [datos.idCotizacion]);
-
-    const [ClienteEntity, setClienteEntity] = useState([]);
-    useEffect(() => {
-        ClienteService.getClientes().then((res) => {
-            setClienteEntity(res.data);
-        });
-    }, []);
-
-    const [ProductoEntity, setProductoEntity] = useState([]);
-    useEffect(() => {
         ProductoService.getListByCotizacion(datos.idCotizacion).then((res) => {
             setProductoEntity(res.data);
         });
@@ -100,7 +88,7 @@ function CotizacionComponent() {
                     willClose: () => {
                         navigate(`/info-cotizacion/${encodeURIComponent(JSON.stringify(updateCotizacion))}`);
                         setMostrarCard(false);
-                    }
+                    },
                 });
             }
         });
@@ -157,70 +145,22 @@ function CotizacionComponent() {
                         <div className="container-1">
                             <div className="card">
                                 <div className="contenedor-img">
-                                    <img
-                                        id="cotizaciones"
-                                        src={cotizaciones}
-                                        alt="cotizaciones"
-                                        style={{ width: "400px" }}
-                                    />
+                                    <img id="clientes" src={clientes} alt="clientes" />
                                 </div>
                                 <div className="contenedor-informacion">
-                                    <Form>
-                                        <Form.Group controlId="pedido">
-                                            <Form.Control
-                                                value={input.pedido}
-                                                className="font-h3 no-border"
-                                                type="text"
-                                                name="Pedido"
-                                                placeholder="PEDIDO X"
-                                                onChange={handleInputChange}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="fecha" style={{ marginTop: "2.2%" }}>
-                                            <Form.Label className="font-h2">Fecha:</Form.Label>
-                                            <Form.Control
-                                                className="font-h2 no-border"
-                                                type="date"
-                                                name="fecha"
-                                                value={input.fecha}
-                                                onChange={handleInputChange}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="estado">
-                                            <Form.Label className="font-h2">Estado:</Form.Label>
-                                            <Form.Select
-                                                className="font-h2 no-border"
-                                                name="estado"
-                                                value={input.estado}
-                                                onChange={handleInputChange}
-                                            >
-                                                <option value="En espera">En espera</option>
-                                                <option value="Listo">Listo</option>
-                                                
-                                            </Form.Select>
-                                        </Form.Group>
-                                        <Form.Group controlId="rutCliente">
-                                            <Form.Label className="font-h2">Rut Cliente:</Form.Label>
-                                            <Form.Control
-                                                value={input.rutCliente}
-                                                className="font-h2-control no-border"
-                                                type="text"
-                                                name="Rut del cliente"
-                                                placeholder="12.345.678-9"
-                                                onChange={handleInputChange}
-                                            />
-                                        </Form.Group>
-                                    </Form>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "center", padding: "5px" }}>
-                                    <Button className="aceptar" onClick={enviarDatos}>
-                                        Aceptar
-                                    </Button>
-                                    <Button className="cancelar" onClick={CancelarEdit}>
-                                        Cancelar
-                                    </Button>
+                                    <h2>{datos.cliente.nombre}</h2>
+                                    <h3>Empresa: {datos.cliente.empresa}</h3>
+                                    <h3>Rut: {datos.cliente.rut}</h3>
+                                    <h3>Correo: {datos.cliente.email}</h3>
+                                    <h3>Telefono: {datos.cliente.telefono}</h3>
                                 </div>
                             </div>
+                            <Button className="aceptar" onClick={enviarDatos}>
+                                Aceptar
+                            </Button>
+                            <Button className="cancelar" onClick={CancelarEdit}>
+                                Cancelar
+                            </Button>
                         </div>
                     </div>
                 </NavStyle>
@@ -229,96 +169,84 @@ function CotizacionComponent() {
     } else {
         return (
             <div>
-    <NavStyle>
-        <HeaderComponents></HeaderComponents>
-        <div className="container">
-            <div className="container-1">
-                <div className="card">
-                    <div className="contenedor-img">
-                        <img
-                            id="cotizaciones"
-                            src={cotizaciones}
-                            alt="cotizaciones"
-                            style={{ width: "400px" }}
-                        />
+                <NavStyle>
+                    <HeaderComponents></HeaderComponents>
+                    <div className="container">
+                        <div className="container-1">
+                            <div className="card">
+                                <div className="contenedor-img">
+                                    <img id="clientes" src={clientes} alt="clientes" />
+                                </div>
+                                <div className="contenedor-informacion">
+                                    <h2>{datos.cliente.nombre}</h2>
+                                    <h3>Empresa: {datos.cliente.empresa}</h3>
+                                    <h3>Rut: {datos.cliente.rut}</h3>
+                                    <h3>Correo: {datos.cliente.email}</h3>
+                                    <h3>Telefono: {datos.cliente.telefono}</h3>
+                                </div>
+                            </div>
+                            <Button className="editar" onClick={changeMostrarCard}>
+                                Editar
+                            </Button>
+                            <Button className="eliminar" onClick={EliminarCotizacion}>
+                                Eliminar
+                            </Button>
+                        </div>
+                        <div className="container-2">
+                            <div align="center" className="container-2">
+                                <h1>
+                                    <b> Cotizacion</b>
+                                </h1>
+                                <table border="1" className="content-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Cotizacion</th>
+                                            <th>Pedido</th>
+                                            <th>Fecha</th>
+                                            <th>Estado</th>
+                                            <th>Rut Cliente</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {CotizacionEntity && (
+                                            <tr>
+                                                <td>{CotizacionEntity.idCotizacion}</td>
+                                                <td>{CotizacionEntity.pedido}</td>
+                                                <td>{formatFecha(CotizacionEntity.fecha)}</td>
+                                                <td>{CotizacionEntity.estado}</td>
+                                                <td>{CotizacionEntity.rutCliente}</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div align="center" className="container-3">
+                                <h1>
+                                    <b> Lista de productos</b>
+                                </h1>
+                                <table border="1" className="content-table">
+                                    <thead>
+                                        <tr>
+                                            <th>id Producto #</th>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {ProductoEntity.map((ListaProductosCotizacion) => (
+                                            <tr key={ListaProductosCotizacion.id}>
+                                                <td> #{ListaProductosCotizacion.id} </td>
+                                                <td> {ListaProductosCotizacion.nombre} </td>
+                                                <td> {ListaProductosCotizacion.cantidad} </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                    <div className="contenedor-informacion">
-                        <h2>{datos.pedido}</h2>
-                        <h3>Fecha: {formatFecha(datos.fecha)}</h3>
-                        <h3>Estado: {datos.estado}</h3>
-                        <h3>Rut del Cliente: {datos.rutCliente}</h3>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "center", padding: "5px" }}>
-                        <Button className="editar" onClick={changeMostrarCard}>
-                            Editar
-                        </Button>
-                        <Button className="eliminar" onClick={EliminarCotizacion}>
-                            Eliminar
-                        </Button>
-                    </div>
-                </div>
+                </NavStyle>
             </div>
-            <div className="container-2">
-                <div align="center" className="container-2">
-                    <h1><b> Cotizacion</b></h1>
-                    <table border="1" className="content-table">
-                        <thead>
-                            <tr>
-                                <th>ID Cotizacion</th>
-                                <th>Pedido</th>
-                                <th>Fecha</th>
-                                <th>Estado</th>
-                                <th>Rut Cliente</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {CotizacionEntity && (
-                                <tr>
-                                    <td>{CotizacionEntity.idCotizacion}</td>
-                                    <td>{CotizacionEntity.pedido}</td>
-                                    <td>{formatFecha(CotizacionEntity.fecha)}</td>
-                                    <td>{CotizacionEntity.estado}</td>
-                                    <td>{CotizacionEntity.rutCliente}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-                <div align="center" className="container-3">
-                    <h1><b> Lista de productos</b></h1>
-                    <table border="1" className="content-table">
-                        <thead>
-                        <tr>
-                            <th>id Producto #</th>
-                            <th>id OC Cliente</th>
-                            <th>id Producto</th>
-                            <th>id OC proveedor</th>
-                            <th>Cantidad</th>
-                            <th>Valor pago</th>
-                            <th>id Cotizacion</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {ProductoEntity.map((ListaProductosCotizacion) => (
-                                <tr key={ListaProductosCotizacion.id}>
-                                <td> #{ListaProductosCotizacion.id} </td>
-                                <td> {ListaProductosCotizacion.id_OC_cliente} </td>
-                                <td> {ListaProductosCotizacion.id_producto} </td>
-                                <td> {ListaProductosCotizacion.id_OC_proveedor} </td>
-                                <td> {ListaProductosCotizacion.cantidad} </td>
-                                <td> {ListaProductosCotizacion.valor_pago} </td>
-                                <td> {ListaProductosCotizacion.id_cotizacion} </td>
-                                    <td style={{ textAlign: "center", verticalAlign: "middle", width: "1%" }}></td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </NavStyle>
-</div>
-
         );
     }
 }
