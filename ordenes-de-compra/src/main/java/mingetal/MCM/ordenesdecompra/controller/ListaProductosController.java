@@ -20,8 +20,8 @@ public class ListaProductosController {
     @Autowired
     ListaProductosService listaProductosService;
 
-    @PostMapping()
-    public ResponseEntity<ListaProductosEntity> saveListProductos(@RequestBody ListaProductosEntity listaProductosEntity) {
+    @PostMapping(("{producto}/{cantidad}"))
+    public ResponseEntity<List<ListaProductosEntity>> saveListProductos(@RequestBody List<ListaProductosEntity> listaProductosEntity) {
         return ResponseEntity.ok(listaProductosService.save(listaProductosEntity));
 
     }

@@ -130,4 +130,16 @@ public class ProductosService {
         return productosRepository.save(productosEntity);
     }
 
+    public List<ProductosEntity> updateCantidadProductos(List<List<Integer>> productosEntities){
+        List<ProductosEntity> productosEntities1 = new ArrayList<>();
+        for(List<Integer> productos:productosEntities){
+            ProductosEntity productosEntity = findById(productos.get(0));
+            if(productosEntity!=null){
+                productosEntity.setCantidad(productosEntity.getCantidad()-productos.get(1));
+                productosEntities1.add(update(productosEntity));
+            }
+        }
+        return productosEntities1;
+    }
+
 }

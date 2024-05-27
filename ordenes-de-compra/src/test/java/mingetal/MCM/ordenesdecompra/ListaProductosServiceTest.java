@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,8 +29,12 @@ public class ListaProductosServiceTest {
                 300,
                 -4
         );
+        List<ListaProductosEntity> listaProductosEntities = new ArrayList<>();
+        listaProductosEntities.add(listaProductosEntity);
 
-        assertEquals(listaProductosEntity, listaProductosService.save(listaProductosEntity));
+        List<ListaProductosEntity> listaProductosEntities1 = listaProductosService.save(listaProductosEntities);
+        assertEquals(1, listaProductosEntities1.size());
+        assertEquals(listaProductosEntity, listaProductosEntities1.get(0));
         listaProductosService.delete(listaProductosEntity.getId());
     }
     @Test
@@ -42,8 +47,10 @@ public class ListaProductosServiceTest {
                 300,
                 -4
         );
-        listaProductosService.save(listaProductosEntity);
-        assertNull(listaProductosService.save(listaProductosEntity));
+        List<ListaProductosEntity> listaProductosEntities = new ArrayList<>();
+        listaProductosEntities.add(listaProductosEntity);
+        listaProductosService.save(listaProductosEntities);
+        assertTrue(listaProductosService.save(listaProductosEntities).isEmpty());
         listaProductosService.delete(listaProductosEntity.getId());
     }
 
@@ -57,7 +64,9 @@ public class ListaProductosServiceTest {
                 300,
                 -4
         );
-        listaProductosService.save(listaProductosEntity);
+        List<ListaProductosEntity> listaProductosEntities = new ArrayList<>();
+        listaProductosEntities.add(listaProductosEntity);
+        listaProductosService.save(listaProductosEntities);
         assertEquals(listaProductosEntity, listaProductosService.delete(listaProductosEntity.getId()));
         assertNull(listaProductosService.findById(listaProductosEntity.getId()));
     }
@@ -76,7 +85,9 @@ public class ListaProductosServiceTest {
                 300,
                 -4
         );
-        listaProductosService.save(listaProductosEntity);
+        List<ListaProductosEntity> listaProductosEntities = new ArrayList<>();
+        listaProductosEntities.add(listaProductosEntity);
+        listaProductosService.save(listaProductosEntities);
 
         ListaProductosEntity listaProductosEntityGetId = listaProductosService.findById(listaProductosEntity.getId());
         assertEquals(listaProductosEntityGetId.getId(), listaProductosEntity.getId());
@@ -97,7 +108,9 @@ public class ListaProductosServiceTest {
                 300,
                 -4
         );
-        listaProductosService.save(listaProductosEntity);
+        List<ListaProductosEntity> listaProductosEntities = new ArrayList<>();
+        listaProductosEntities.add(listaProductosEntity);
+        listaProductosService.save(listaProductosEntities);
 
         assertFalse(listaProductosService.findByIdOCCliente(listaProductosEntity.getId_OC_cliente()).isEmpty());
 
@@ -118,7 +131,9 @@ public class ListaProductosServiceTest {
                 300,
                 -4
         );
-        listaProductosService.save(listaProductosEntity);
+        List<ListaProductosEntity> listaProductosEntities = new ArrayList<>();
+        listaProductosEntities.add(listaProductosEntity);
+        listaProductosService.save(listaProductosEntities);
 
         assertFalse(listaProductosService.findByIdProducto(listaProductosEntity.getId_producto()).isEmpty());
 
@@ -139,7 +154,9 @@ public class ListaProductosServiceTest {
                 300,
                 -4
         );
-        listaProductosService.save(listaProductosEntity);
+        List<ListaProductosEntity> listaProductosEntities = new ArrayList<>();
+        listaProductosEntities.add(listaProductosEntity);
+        listaProductosService.save(listaProductosEntities);
 
         assertFalse(listaProductosService.findByIdOCProveedor(listaProductosEntity.getId_OC_proveedor()).isEmpty());
 
@@ -160,7 +177,9 @@ public class ListaProductosServiceTest {
                 300,
                 -4
         );
-        listaProductosService.save(listaProductosEntity);
+        List<ListaProductosEntity> listaProductosEntities = new ArrayList<>();
+        listaProductosEntities.add(listaProductosEntity);
+        listaProductosService.save(listaProductosEntities);
 
         assertNotNull(listaProductosService.updateCantidad(listaProductosEntity.getId(), 10));
         assertEquals(10, listaProductosService.findById(listaProductosEntity.getId()).getCantidad());

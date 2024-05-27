@@ -1,14 +1,17 @@
 package mingetal.MCM.ordenesdecompra.service;
 
 import mingetal.MCM.ordenesdecompra.entity.ListaProductosEntity;
+import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.ordenesdecompra.model.ProductosEntity;
 import mingetal.MCM.ordenesdecompra.repository.ListaProductosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,12 +22,27 @@ public class ListaProductosService {
     @Autowired
     RestTemplate restTemplate;
 
-    public ListaProductosEntity save(ListaProductosEntity listaProductosEntity){
-        if(findById(listaProductosEntity.getId())==null){
-            return listaProductosRepository.save(listaProductosEntity);
+    public List<ListaProductosEntity> save(List<ListaProductosEntity> listaProductosEntity){
+        List<ListaProductosEntity> listaProductosEntities = new ArrayList<>();
+        List<List<Integer>> lists = new ArrayList<>();
+        for(ListaProductosEntity productos:listaProductosEntity){
+            if(findById(productos.getId())==null){
+                List<Integer> integers = new ArrayList<>();
+                integers.add(productos.getId_producto());
+                integers.add(productos.getCantidad());
+                lists.add(integers);
+                listaProductosEntities.add(listaProductosRepository.save(productos));
+            }
         }
-        return null;
 
+        HttpEntity<List<List<Integer>>> requestEntity = new HttpEntity<>(lists);
+        restTemplate.exchange(
+                "http://localhost:8080/productos/update/cantidadProductos",
+                HttpMethod.PUT,
+                requestEntity,
+                new ParameterizedTypeReference<List<ProductosEntity>>() {}
+        ).getBody();
+        return listaProductosEntities;
     }
 
     public List<ListaProductosEntity> findAll(){
