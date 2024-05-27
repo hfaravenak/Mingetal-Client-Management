@@ -23,11 +23,14 @@ function ListCotizacionComponent() {
         fecha: "",
         estado: "",
         rutCliente: "",
+        nombre: "", // Añadido para la búsqueda por nombre del cliente
     };
     const [input, setInput] = useState(initialState);
-
+    
     const [CotizacionEntity, setCotizacionEntity] = useState([]);
     const [ClienteEntity, setClienteEntity] = useState([]);
+    const [filtered, setFiltered] = useState(false); // Nuevo estado para controlar si la tabla está filtrada
+
     useEffect(() => {
         CotizacionService.getCotizaciones().then((res) => {
             setCotizacionEntity(res.data);
@@ -45,45 +48,71 @@ function ListCotizacionComponent() {
     const buscarPedido = () => {
         CotizacionService.getCotizacionByPedido(input.pedido).then((res) => {
             setCotizacionEntity(res.data);
+            setFiltered(true);
+            setInput({...input, pedido: ""});
         });
     };
     const buscarEstado = () => {
         CotizacionService.getCotizacionByEstado(input.estado).then((res) => {
             setCotizacionEntity(res.data);
+            setFiltered(true);
+            setInput({...input, estado: ""});
         });
     };
     const buscarFecha = () => {
         CotizacionService.getCotizacionByFecha(input.fecha).then((res) => {
             setCotizacionEntity(res.data);
+            setFiltered(true);
+            setInput({...input, fecha: ""});
         });
     };
     const buscarRutCliente = () => {
         CotizacionService.getCotizacionByRutCliente(input.rutCliente).then((res) => {
             setCotizacionEntity(res.data);
+            setFiltered(true);
+            setInput({...input, rutCliente: ""});
         });
     };
+
+    const buscarNombreCliente = () => {
+        const clienteEncontrado = ClienteEntity.find(cliente => cliente.nombre.toLowerCase() === input.nombre.toLowerCase());
+        if (clienteEncontrado) {
+            CotizacionService.getCotizacionByRutCliente(clienteEncontrado.rut).then((res) => {
+                setCotizacionEntity(res.data);
+                setFiltered(true);
+                setInput({...input, nombre: ""});
+            });
+        } 
+    };
+
     const handleKeyPressPedido = (event) => {
         if (event.key === "Enter") {
-            event.preventDefault(); // Evita que el formulario se envíe si está dentro de un <form>
-            buscarPedido(); // Llama a la función que deseas ejecutar
+            event.preventDefault();
+            buscarPedido();
         }
     };
     const handleKeyPressEstado = (event) => {
         if (event.key === "Enter") {
-            event.preventDefault(); // Evita que el formulario se envíe si está dentro de un <form>
-            buscarEstado(); // Llama a la función que deseas ejecutar
+            event.preventDefault();
+            buscarEstado();
         }
     };
     const handleKeyPressFecha = (event) => {
         if (event.key === "Enter") {
-            event.preventDefault(); // Evita que el formulario se envíe si está dentro de un <form>
-            buscarFecha(); // Llama a la función que deseas ejecutar
+            event.preventDefault();
+            buscarFecha();
         }
     };
     const handleKeyPressRutCliente = (event) => {
         if (event.key === "Enter") {
-            event.preventDefault(); // Evita que el formulario se envíe si está dentro de un <form>
-            buscarRutCliente(); // Llama a la función que deseas ejecutar
+            event.preventDefault();
+            buscarRutCliente();
+        }
+    };
+    const handleKeyPressNombreCliente = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            buscarNombreCliente();
         }
     };
 
@@ -92,13 +121,7 @@ function ListCotizacionComponent() {
     };
 
     const busquedaCliente = (rut) => {
-        let variable = "";
-        ClienteEntity.forEach((cliente) => {
-            if (cliente.rut === rut) {
-                variable = cliente;
-            }
-        });
-        return variable;
+        return ClienteEntity.find(cliente => cliente.rut === rut) || {};
     };
 
     const ChangeViendoCotizacion = (todoElDato) => {
@@ -113,6 +136,14 @@ function ListCotizacionComponent() {
         const datosComoTexto = JSON.stringify(datos);
         navigate(`/info-cotizacion/${encodeURIComponent(datosComoTexto)}`);
     };
+
+    const mostrarTodasCotizaciones = () => {
+        CotizacionService.getCotizaciones().then((res) => {
+            setCotizacionEntity(res.data);
+            setFiltered(false);
+        });
+    };
+
     return (
         <div>
             <NavStyle>
@@ -135,6 +166,23 @@ function ListCotizacionComponent() {
                                 </Form.Group>
                                 <Button className="boton" onClick={buscarPedido}>
                                     Buscar por pedido
+                                </Button>
+                            </Form>
+                            <Form className="inline-form">
+                                <Form.Group controlId="nombre">
+                                    <Form.Label className="agregar">Buscar cotización por Nombre de cliente:</Form.Label>
+                                    <Form.Control
+                                        className="agregar"
+                                        type="text"
+                                        name="nombre"
+                                        placeholder="Ingrese nombre del cliente"
+                                        onKeyPress={handleKeyPressNombreCliente}
+                                        value={input.nombre}
+                                        onChange={handleInputChange}
+                                    />
+                                </Form.Group>
+                                <Button className="boton" onClick={buscarNombreCliente}>
+                                    Buscar por nombre
                                 </Button>
                             </Form>
                             <Form className="inline-form">
@@ -215,8 +263,8 @@ function ListCotizacionComponent() {
                                 {CotizacionEntity.map((cotizacion) => (
                                     <tr key={cotizacion.idCotizacion}>
                                         <td> {cotizacion.pedido} </td>
-                                        <td> {cotizacion.rutCliente} </td>
                                         <td> {busquedaCliente(cotizacion.rutCliente).nombre} </td>
+                                        <td> {cotizacion.rutCliente} </td>
                                         <td> {formatFecha(cotizacion.fecha)} </td>
                                         <td> {cotizacion.estado} </td>
                                         <td style={{ textAlign: "center", verticalAlign: "middle", width: "1%" }}>
@@ -231,6 +279,11 @@ function ListCotizacionComponent() {
                                 ))}
                             </tbody>
                         </table>
+                        {filtered && (
+                            <Button className="boton-atras" onClick={mostrarTodasCotizaciones}>
+                                Atrás
+                            </Button>
+                        )}
                     </div>
                 </div>
             </NavStyle>
@@ -393,7 +446,18 @@ const NavStyle = styled.nav`
         border: 1px solid black;
     }
 
-    /* Fuente de la letra*/
+    /* Boton "Atrás" */
+    .boton-atras {
+        margin-top: 20px;
+        background-color: #d2712b;
+        color: white;
+        font-size: 16px;
+        border-radius: 30px;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Fuente de la letra */
 
     td,
     th,
@@ -404,3 +468,4 @@ const NavStyle = styled.nav`
         font-family: "Pacifico", serif;
     }
 `;
+
