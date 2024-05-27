@@ -10,7 +10,6 @@ import cotizaciones from "../../images/cotizacion.png";
 import HeaderComponents from "../Headers/HeaderComponents";
 import CotizacionService from "../../services/CotizacionService";
 import ClienteService from "../../services/ClienteService";
-import OrdenesDeCompraClienteService from "../../services/OrdenesDeCompraClienteService";
 import ProductoService from "../../services/ProductoService";
 
 function CotizacionComponent() {
@@ -34,6 +33,13 @@ function CotizacionComponent() {
     };
     const [input, setInput] = useState(initialState);
 
+    const [CotizacionEntity, setCotizacionEntity] = useState(null);
+    useEffect(() => {
+        CotizacionService.getCotizacionesById(datos.idCotizacion).then((res) => {
+            setCotizacionEntity(res.data);
+        });
+    }, [datos.idCotizacion]);
+
     const [ClienteEntity, setClienteEntity] = useState([]);
     useEffect(() => {
         ClienteService.getClientes().then((res) => {
@@ -41,41 +47,12 @@ function CotizacionComponent() {
         });
     }, []);
 
-    const [ListProductos, setListProductos] = useState([]);
+    const [ProductoEntity, setProductoEntity] = useState([]);
     useEffect(() => {
-        if (input.rutCliente) {
-            obtenerProductosPorCliente(input.rutCliente);
-        }
-    }, [input.rutCliente]);
-
-    const obtenerProductosPorCliente = (rutCliente) => {
-        // Obtener la orden de compra del cliente
-        OrdenesDeCompraClienteService.getOCByCliente(rutCliente)
-            .then((res) => {
-                // Verificar si se encontró la orden de compra
-                if (res.data.length > 0) {
-                    // Obtener el ID de la orden de compra encontrada
-                    const idOrdenCompra = res.data[0].id; // Suponiendo que solo hay una orden de compra por cliente
-                    // Utilizar el ID de la orden de compra para obtener la lista de productos asociada
-                    ProductoService.getListByOCCliente(idOrdenCompra)
-                        .then((res) => {
-                            // Manejar la respuesta
-                            console.log("Lista de productos:", res.data);
-                        })
-                        .catch((error) => {
-                            // Manejar errores
-                            console.error("Error al obtener la lista de productos:", error);
-                        });
-                } else {
-                    // No se encontró ninguna orden de compra para el cliente
-                    console.log("No se encontró ninguna orden de compra para el cliente:", rutCliente);
-                }
-            })
-            .catch((error) => {
-                // Manejar errores
-                console.error("Error al obtener la orden de compra:", error);
-            });
-    };
+        ProductoService.getListByCotizacion(datos.idCotizacion).then((res) => {
+            setProductoEntity(res.data);
+        });
+    }, [datos.idCotizacion]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -282,54 +259,55 @@ function CotizacionComponent() {
                 </div>
             </div>
             <div className="container-2">
-                <div align="center" className="container-3">
-                    <h1><b> Cliente</b></h1>
+                <div align="center" className="container-2">
+                    <h1><b> Cotizacion</b></h1>
                     <table border="1" className="content-table">
                         <thead>
                             <tr>
+                                <th>ID Cotizacion</th>
+                                <th>Pedido</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
                                 <th>Rut Cliente</th>
-                                <th>Nombre Cliente</th>
-                                <th>Email</th>
-                                <th>Telefono</th>
-                                <th>Empresa</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {ClienteEntity.filter(cliente => cliente.rut === datos.rutCliente).map((Cliente) => (
-                                <tr key={Cliente.rut}>
-                                    <td>{Cliente.rut}</td>
-                                    <td>{Cliente.nombre}</td>
-                                    <td>{Cliente.email}</td>
-                                    <td>{Cliente.telefono}</td>
-                                    <td>{Cliente.empresa}</td>
-                                    <td style={{ textAlign: "center", verticalAlign: "middle", width: "1%" }}></td>
+                            {CotizacionEntity && (
+                                <tr>
+                                    <td>{CotizacionEntity.idCotizacion}</td>
+                                    <td>{CotizacionEntity.pedido}</td>
+                                    <td>{formatFecha(CotizacionEntity.fecha)}</td>
+                                    <td>{CotizacionEntity.estado}</td>
+                                    <td>{CotizacionEntity.rutCliente}</td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>
                 <div align="center" className="container-3">
-                    <h1><b> Lista de Productos</b></h1>
+                    <h1><b> Lista de productos</b></h1>
                     <table border="1" className="content-table">
                         <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>Tipo</th>
-                                <th>Nombre</th>
-                                <th>Valor</th>
-                                <th>Cantidad</th>
-                                <th>Valor Final</th>
-                            </tr>
+                        <tr>
+                            <th>id Producto #</th>
+                            <th>id OC Cliente</th>
+                            <th>id Producto</th>
+                            <th>id OC proveedor</th>
+                            <th>Cantidad</th>
+                            <th>Valor pago</th>
+                            <th>id Cotizacion</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {ListProductos.map((producto) => (
-                                <tr key={producto.id}>
-                                    <td>{producto.id}</td>
-                                    <td>{producto.tipo}</td>
-                                    <td>{producto.nombre}</td>
-                                    <td>{producto.valor}</td>
-                                    <td>{producto.cantidad}</td>
-                                    <td>{producto.valorFinal}</td>
+                            {ProductoEntity.map((ListaProductosCotizacion) => (
+                                <tr key={ListaProductosCotizacion.id}>
+                                <td> #{ListaProductosCotizacion.id} </td>
+                                <td> {ListaProductosCotizacion.id_OC_cliente} </td>
+                                <td> {ListaProductosCotizacion.id_producto} </td>
+                                <td> {ListaProductosCotizacion.id_OC_proveedor} </td>
+                                <td> {ListaProductosCotizacion.cantidad} </td>
+                                <td> {ListaProductosCotizacion.valor_pago} </td>
+                                <td> {ListaProductosCotizacion.id_cotizacion} </td>
                                     <td style={{ textAlign: "center", verticalAlign: "middle", width: "1%" }}></td>
                                 </tr>
                             ))}
@@ -507,7 +485,6 @@ font-h3,
 .editar {
     background-color: #39beab;
     color: black;
-}
 
 .aceptar {
     background-color: #00a768;
