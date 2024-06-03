@@ -12,6 +12,9 @@ import OrdenesDeCompraProveedorService from "../../services/OrdenesDeCompraProve
 
 function ProveedorComponents() {
     const formatFecha = (fecha) => {
+        if(fecha===null){
+            return "-";
+        }
         const [year, month, day] = fecha.split("-");
         return `${day}-${month}-${year}`;
     };

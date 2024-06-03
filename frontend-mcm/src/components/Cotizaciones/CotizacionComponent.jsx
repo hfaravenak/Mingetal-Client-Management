@@ -13,6 +13,9 @@ import ProductoService from "../../services/ProductoService";
 
 function CotizacionComponent() {
     const formatFecha = (fecha) => {
+        if(fecha===null){
+            return "-";
+        }
         const [year, month, day] = fecha.split("-");
         return `${day}-${month}-${year}`;
     };

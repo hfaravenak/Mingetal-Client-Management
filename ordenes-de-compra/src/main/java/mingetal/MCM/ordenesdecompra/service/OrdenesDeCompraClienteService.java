@@ -1,24 +1,15 @@
 package mingetal.MCM.ordenesdecompra.service;
 
-import javassist.expr.NewArray;
-import mingetal.MCM.ordenesdecompra.entity.ListaProductosEntity;
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraClienteEntity;
-import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.ordenesdecompra.model.ClienteEntity;
-import mingetal.MCM.ordenesdecompra.model.ProductosEntity;
-import mingetal.MCM.ordenesdecompra.model.ProveedorEntity;
 import mingetal.MCM.ordenesdecompra.repository.OrdenesDeCompraClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

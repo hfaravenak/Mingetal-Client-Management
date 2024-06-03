@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import HeaderComponents from "../../Headers/HeaderComponents";
 import ProveedorService from "../../../services/ProveedorService";
 import OrdenesDeCompraProveedorService from "../../../services/OrdenesDeCompraProveedorService";
+import productoService from "../../../services/ProductoService";
 
 function OCProveedorCrearComponents() {
     const obtenerFechaHoy = () => {
@@ -103,10 +104,9 @@ function OCProveedorCrearComponents() {
         }).then((result) => {
             if (result.isConfirmed) {
                 ProveedorService.getProveedorByNombreTextual(input.nombre).then((res) => {
-                    console.log(res.data)
                     if (res.data === null || res.data === "") {
                         Swal.fire({
-                            title: "Cliente no encontrado",
+                            title: "Proveedor no encontrado",
                             timer: 2000,
                             icon: "warning",
                             timerProgressBar: true,
@@ -125,8 +125,21 @@ function OCProveedorCrearComponents() {
                             estado_pago: input.estado_pago,
                             factura: input.numero_factura,
                         };
-                        OrdenesDeCompraProveedorService.createOCProveedor(newOC);
+                        OrdenesDeCompraProveedorService.createOCProveedor(newOC).then((res2)=>{
+                            ListProducto.map((productos) => {
+                                productoService.getProductosByNombreTextual(productos.nombre).then((res3) => {
+                                    let newListP = {
+                                        id_OC_proveedor: res2.data.id,
+                                        id_producto: res3.data.id,
+                                        cantidad: productos.cantidad,
+                                        valor_pago: res3.data.valor_final*parseInt(productos.cantidad),
+                                    }
+                                    OrdenesDeCompraProveedorService.createOCListProveedor(newListP);
+                                });
+                            });
+                        });
 
+                        
                         Swal.fire({
                             title: "Enviado",
                             timer: 2000,

@@ -1,7 +1,9 @@
 package mingetal.MCM.productos.service;
 
 import mingetal.MCM.productos.entity.ProductosEntity;
-import mingetal.MCM.productos.model.ListaProductosEntity;
+import mingetal.MCM.productos.model.ListaProductosCotizacionEntity;
+import mingetal.MCM.productos.model.ListaProductosOCClienteEntity;
+import mingetal.MCM.productos.model.ListaProductosOCProveedorEntity;
 import mingetal.MCM.productos.repository.ProductosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -65,49 +67,66 @@ public class ProductosService {
         return productosRepository.findByNombre(nombre);
     }
     public List<ProductosEntity> findByOCCliente(int id){
-        List<ListaProductosEntity> response = restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/productos/cliente/"+id,
+        List<ListaProductosOCClienteEntity> response = restTemplate.exchange(
+                "http://localhost:8080/ordenes_de_compra/cliente/productos/"+id,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<ListaProductosEntity>>() {}
+                new ParameterizedTypeReference<List<ListaProductosOCClienteEntity>>() {}
         ).getBody();
-
-        return getProductosEntities(response);
-    }
-    public List<ProductosEntity> findByOCProveedor(int id){
-        List<ListaProductosEntity> response = restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/productos/proveedor/"+id,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<ListaProductosEntity>>() {}
-        ).getBody();
-
-        return getProductosEntities(response);
-    }
-    public List<ProductosEntity> findByCotizacion(int id){
-        List<ListaProductosEntity> response = restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/productos/cotizacion/"+id,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<ListaProductosEntity>>() {}
-        ).getBody();
-
-        return getProductosEntities(response);
-    }
-
-    private List<ProductosEntity> getProductosEntities(List<ListaProductosEntity> response) {
         if(response == null){
             return new ArrayList<>();
         }
 
         List<ProductosEntity> productosEntities = new ArrayList<>();
 
-        for(ListaProductosEntity listaProductosEntity: response){
-            productosEntities.add(findById(listaProductosEntity.getId_producto()));
+        for(ListaProductosOCClienteEntity listaProductosOCClienteEntity : response){
+            productosEntities.add(findById(listaProductosOCClienteEntity.getId_producto()));
         }
 
         return productosEntities;
     }
+    public List<ProductosEntity> findByOCProveedor(int id){
+        List<ListaProductosOCProveedorEntity> response = restTemplate.exchange(
+                "http://localhost:8080/ordenes_de_compra/proveedor/productos/"+id,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ListaProductosOCProveedorEntity>>() {}
+        ).getBody();
+
+        if(response == null){
+            return new ArrayList<>();
+        }
+
+        List<ProductosEntity> productosEntities = new ArrayList<>();
+
+        for(ListaProductosOCProveedorEntity listaProductosOCProveedorEntity : response){
+            productosEntities.add(findById(listaProductosOCProveedorEntity.getId_producto()));
+        }
+
+        return productosEntities;
+    }
+    public List<ProductosEntity> findByCotizacion(int id){
+        System.out.println("id: "+id);
+        List<ListaProductosCotizacionEntity> response = restTemplate.exchange(
+                "http://localhost:8080/cliente/cotizacion/productos/"+id,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ListaProductosCotizacionEntity>>() {}
+        ).getBody();
+
+        if(response == null){
+            return new ArrayList<>();
+        }
+
+        List<ProductosEntity> productosEntities = new ArrayList<>();
+
+        for(ListaProductosCotizacionEntity listaProductosCotizacionEntity : response){
+            productosEntities.add(findById(listaProductosCotizacionEntity.getId_producto()));
+        }
+
+        return productosEntities;
+    }
+
 
     //-------------------- Eliminar --------------------
 

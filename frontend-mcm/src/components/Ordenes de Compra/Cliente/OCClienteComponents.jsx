@@ -14,6 +14,9 @@ import ProductoService from "../../../services/ProductoService";
 
 function OCClienteComponents() {
     const formatFecha = (fecha) => {
+        if(fecha===null){
+            return "-";
+        }
         const [year, month, day] = fecha.split("-");
         return `${day}-${month}-${year}`;
     };

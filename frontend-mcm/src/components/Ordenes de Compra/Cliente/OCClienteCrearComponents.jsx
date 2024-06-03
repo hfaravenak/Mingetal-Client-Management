@@ -9,6 +9,7 @@ import HeaderComponents from "../../Headers/HeaderComponents";
 import ClienteService from "../../../services/ClienteService";
 import ProveedorService from "../../../services/ProveedorService";
 import OrdenesDeCompraClienteService from "../../../services/OrdenesDeCompraClienteService";
+import productoService from "../../../services/ProductoService";
 
 function OCClienteCrearComponents() {
     const obtenerFechaHoy = () => {
@@ -115,7 +116,6 @@ function OCClienteCrearComponents() {
         }).then((result) => {
             if (result.isConfirmed) {
                 ClienteService.getClienteByNombreTextual(input.nombre).then((res) => {
-                    console.log(res.data)
                     if (res.data === null || res.data === "") {
                         Swal.fire({
                             title: "Cliente no encontrado",
@@ -143,7 +143,19 @@ function OCClienteCrearComponents() {
                             numero_factura: input.numero_factura,
                             estado_factura: input.estado_factura,
                         };
-                        OrdenesDeCompraClienteService.createOCCliente(newOC);
+                        OrdenesDeCompraClienteService.createOCCliente(newOC).then((res2)=>{
+                            ListProducto.map((productos) => {
+                                productoService.getProductosByNombreTextual(productos.nombre).then((res3) => {
+                                    let newListP = {
+                                        id_OC_cliente: res2.data.id,
+                                        id_producto: res3.data.id,
+                                        cantidad: productos.cantidad,
+                                        valor_pago: res3.data.valor_final*parseInt(productos.cantidad),
+                                    }
+                                    OrdenesDeCompraClienteService.createOCListProveedor(newListP);
+                                });
+                            });
+                        });
 
                         Swal.fire({
                             title: "Enviado",

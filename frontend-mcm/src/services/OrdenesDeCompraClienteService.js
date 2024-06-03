@@ -7,6 +7,9 @@ class OrdenesDeCompraClienteService {
     createOCCliente(newOC){
         return axios.post(OC_API_URL, newOC);
     }
+    createOCListProveedor(newListP){
+        return axios.post(OC_API_URL+"productos/", newListP);
+    }   
 
     getOCCliente(){
         return axios.get(OC_API_URL);

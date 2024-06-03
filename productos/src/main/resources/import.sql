@@ -69,7 +69,7 @@ insert into Productos (tipo, nombre, valor, valor_final, cantidad) values ('Ston
 insert into Productos (tipo, nombre, valor, valor_final, cantidad) values ('Wood', 'Plum Duo Emergency Eyewash pH Neutralizing', 39398, 98900, 16);
 insert into Productos (tipo, nombre, valor, valor_final, cantidad) values ('Granite', 'Loma Lux Psoriasis', 39225, 72106, 12);
 insert into Productos (tipo, nombre, valor, valor_final, cantidad) values ('Glass', 'Lorazepam', 33328, 77245, 12);
-insert into Productos (tipo, nombre, valor, valor_final, cantidad) values ('Wood', 'Oxygen', 23706, 79185, 4);
+insert into Productos (tipo, nombre, valor, valor_final, cantidad) values ('Wood', 'Oxygen 2.0', 23706, 79185, 4);
 insert into Productos (tipo, nombre, valor, valor_final, cantidad) values ('Plexiglass', 'Sleep Aid', 43082, 84803, 2);
 insert into Productos (tipo, nombre, valor, valor_final, cantidad) values ('Brass', 'Intervene Makeup SPF 15 Soft Toffee', 30741, 72609, 7);
 insert into Productos (tipo, nombre, valor, valor_final, cantidad) values ('Aluminum', 'NWC 21 NATURAL PREMIUM BB CREAM', 28030, 70966, 5);

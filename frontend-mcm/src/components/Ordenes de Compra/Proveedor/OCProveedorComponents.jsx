@@ -14,6 +14,9 @@ import editar from "../../../images/editar.png";
 
 function OCProveedorComponents() {
     const formatFecha = (fecha) => {
+        if(fecha===null){
+            return "-";
+        }
         const [year, month, day] = fecha.split("-");
         return `${day}-${month}-${year}`;
     };

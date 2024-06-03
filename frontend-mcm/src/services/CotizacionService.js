@@ -7,6 +7,10 @@ class CotizacionService {
     createCotizacion(cotizacion){
         return axios.post(COTIZACION_API_URL+"guardar-cotizacion", cotizacion);
     }
+    createListProductos(newListP){
+        console.log(newListP)
+        return axios.post(COTIZACION_API_URL+"productos/", newListP);
+    }
 
     getCotizaciones(){
         return axios.get(COTIZACION_API_URL);

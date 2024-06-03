@@ -1,14 +1,10 @@
 package mingetal.MCM.productos;
 
 import mingetal.MCM.productos.entity.ProductosEntity;
-import mingetal.MCM.productos.model.ListaProductosEntity;
 import mingetal.MCM.productos.service.ProductosService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
