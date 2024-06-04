@@ -91,7 +91,8 @@ function ProductoComponents() {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                ProductoService.deleteProducto(datos.id).then(() => {
+                let id = datos.id
+                ProductoService.deleteProducto(id).then(() => {
                     Swal.fire({
                         title: "Eliminando...",
                         text: "Por favor espera",
