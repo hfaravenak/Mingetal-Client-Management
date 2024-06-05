@@ -118,4 +118,43 @@ public class OrdenesDeCompraProveedorService {
         }
         return null;
     }
+
+    // ------------------ ESTADÍSTICAS ------------------
+
+    // Función para obtener todos los productos comprados por año
+    // Entrega en orden:
+    // id del producto
+    // cantidad de productos comprados por año
+    // Año de compra
+    public List<Object[]> getPurchasesByYear(){
+        return ordenesDeCompraProveedorRepository.findCompraProductosPorAnio();
+    }
+
+    // Función para obtener todos los productos comprados por año y mes
+    // Entrega en orden:
+    // id del producto
+    // cantidad de productos comprados por año
+    // Mes de la venta
+    // Año de compra
+    public List<Object[]> getPurchasesByYearAndMonth(){
+        return ordenesDeCompraProveedorRepository.findCompraProductosPorAnioYMes();
+    }
+
+    // Función para obtener todas las compras totales por año
+    // Entrega en orden:
+    // cantidad de productos comprados por año
+    // Año de compra
+    public List<Object[]> getAllPurchasesByYear(){
+        return ordenesDeCompraProveedorRepository.findComprasTotalesPorAnio();
+    }
+
+    // Función para obtener todas las compras totales por año mes
+    // Entrega en orden:
+    // cantidad de productos comprados por año
+    // mes
+    // Año de compra
+    public List<Object[]> getAllPurchasesByYearAndMont(){
+        return ordenesDeCompraProveedorRepository.findComprasTotalesPorAnioYMes();
+    }
+
 }

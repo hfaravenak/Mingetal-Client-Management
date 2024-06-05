@@ -3,6 +3,7 @@ package mingetal.MCM.ordenesdecompra.controller;
 
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraClienteEntity;
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
+import mingetal.MCM.ordenesdecompra.repository.OrdenesDeCompraClienteRepository;
 import mingetal.MCM.ordenesdecompra.service.OrdenesDeCompraClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -60,5 +61,35 @@ public class OrdenesDeCompraClienteController {
     public ResponseEntity<OrdenesDeCompraClienteEntity> updateOCCliente(@RequestBody OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity){
         OrdenesDeCompraClienteEntity newOrdenesDeCompraClienteEntity = ordenesDeCompraClienteService.updateOCCliente(ordenesDeCompraClienteEntity);
         return ResponseEntity.ok(newOrdenesDeCompraClienteEntity);
+    }
+
+    @GetMapping("/productsbyyear")
+    public ResponseEntity<List<Object[]>> getProductsByYear(){
+        List<Object[]> peryear = ordenesDeCompraClienteService.getProductByYear();
+        return ResponseEntity.ok(peryear);
+    }
+
+    @GetMapping("/productsbyyearandmonth")
+    public ResponseEntity<List<Object[]>> getProductsByYearAndMonth(){
+        List<Object[]> peryear = ordenesDeCompraClienteService.getProductByYearAndMonth();
+        return ResponseEntity.ok(peryear);
+    }
+
+    @GetMapping("/salesbyyear")
+    public ResponseEntity<List<Object[]>> getSalesByYear(){
+        List<Object[]> peryear = ordenesDeCompraClienteService.getSalesByYear();
+        return ResponseEntity.ok(peryear);
+    }
+
+    @GetMapping("/salesbyyearandmonth")
+    public ResponseEntity<List<Object[]>> getSalesByYearAndMonth(){
+        List<Object[]> peryear = ordenesDeCompraClienteService.getSalesByYearAndMonth();
+        return ResponseEntity.ok(peryear);
+    }
+
+    @GetMapping("/clientsbyyear")
+    public ResponseEntity<List<Object[]>> getClientsByYear(){
+        List<Object[]> peryear = ordenesDeCompraClienteService.getClientsByYear();
+        return ResponseEntity.ok(peryear);
     }
 }

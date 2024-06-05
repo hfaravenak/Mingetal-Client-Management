@@ -63,4 +63,29 @@ public class OrdenesDeCompraProveedorController {
         OrdenesDeCompraProveedorEntity newOrdenesDeCompraProveedorEntity = ordenesDeCompraProveedorService.update(ordenesDeCompraProveedorEntity);
         return ResponseEntity.ok(newOrdenesDeCompraProveedorEntity);
     }
+
+
+    @GetMapping("/purchasesbyyear")
+    public ResponseEntity<List<Object[]>> getProductsByYear(){
+        List<Object[]> peryear = ordenesDeCompraProveedorService.getPurchasesByYear();
+        return ResponseEntity.ok(peryear);
+    }
+
+    @GetMapping("/purchasesbyyearandmonth")
+    public ResponseEntity<List<Object[]>> getProductsByYearAndMonth(){
+        List<Object[]> peryear = ordenesDeCompraProveedorService.getPurchasesByYearAndMonth();
+        return ResponseEntity.ok(peryear);
+    }
+
+    @GetMapping("/allpurchasesbyyear")
+    public ResponseEntity<List<Object[]>> getSalesByYear(){
+        List<Object[]> peryear = ordenesDeCompraProveedorService.getAllPurchasesByYear();
+        return ResponseEntity.ok(peryear);
+    }
+
+    @GetMapping("/alpurchasesbyyearandmonth")
+    public ResponseEntity<List<Object[]>> getSalesByYearAndMonth(){
+        List<Object[]> peryear = ordenesDeCompraProveedorService.getAllPurchasesByYearAndMont();
+        return ResponseEntity.ok(peryear);
+    }
 }

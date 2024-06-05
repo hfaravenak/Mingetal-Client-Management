@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrdenesDeCompraClienteService {
@@ -108,4 +109,52 @@ public class OrdenesDeCompraClienteService {
         }
         return null;
     }
+
+    // -------------------- ESTADÍSTICAS ----------------------
+
+    // Función para obtener todos los productos por año
+    // Entrega en orden:
+    // id del producto
+    // cantidad de productos vendidos por año
+    // Año de venta
+    public List<Object[]> getProductByYear(){
+        return ordenesDeCompraClienteRepository.findVentaProductosPorAnio();
+    }
+
+    // Función para obtener todos los productos por año y mes
+    // Entrega en orden:
+    // id del producto
+    // cantidad de productos vendidos por año
+    // Mes de la venta
+    // Año de venta
+    public List<Object[]> getProductByYearAndMonth(){
+        return ordenesDeCompraClienteRepository.findVentaProductosPorAnioYMes();
+    }
+
+    // Función para obtener todas las ventas por año
+    // Entrega en orden:
+    // cantidad de productos vendidos por año
+    // Año de venta
+    public List<Object[]> getSalesByYear(){
+        return ordenesDeCompraClienteRepository.findVentasTotalesPorAnio();
+    }
+
+    // Función para obtener todas las ventas por año y mes
+    // Entrega en orden:
+    // cantidad de productos vendidos por año
+    // mes
+    // Año de venta
+    public List<Object[]> getSalesByYearAndMonth(){
+        return ordenesDeCompraClienteRepository.findVentasTotalesPorAnioYMes();
+    }
+
+    // Función para obtener todas las ventas por año de cada cliente
+    // Entrega en orden:
+    // Rut del cliente
+    // cantidad de productos comprados por el cliente en el año
+    // Año de venta
+    public List<Object[]> getClientsByYear(){
+        return ordenesDeCompraClienteRepository.clientList();
+    }
+
 }
