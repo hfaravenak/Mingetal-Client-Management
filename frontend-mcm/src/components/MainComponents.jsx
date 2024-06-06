@@ -33,6 +33,9 @@ function MainComponents() {
     const handleClickProveedores = () => {
         navigate("/proveedores")
     };
+    const handleClickVentas = () => {
+        navigate("/ventas")
+    };
 
 
     return (
@@ -57,10 +60,9 @@ function MainComponents() {
                         <img id="ordenes_compra" src={ordenesCompra} alt="ordenesCompra" />
                         <h2>Ordenes de compra</h2>
                     </div>
-                    <div className="card" onClick={nathing}>
+                    <div className="card" onClick={handleClickVentas}>
                         <img id="ventas" src={ventas} alt="ventas" />
                         <h2>Ventas</h2>
-                        <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
                     <div className="card" onClick={nathing}>
                         <img id="estadistica" src={estadistica} alt="estadistica" />

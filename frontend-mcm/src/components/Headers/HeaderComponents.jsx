@@ -28,7 +28,13 @@ function HeaderComponents() {
                                 <a className="dropdown-item" href="/proveedores/crear">Crear Proveedor</a>
                             </div>
                         </div>
-                        <a className="btn" href="/">Ventas</a>
+                        <div className="dropdown">
+                            <a className="btn" href="/ventas">Ventas</a>
+                            <div className="dropdown-menu">
+                                <a className="dropdown-item" href="/ventas/generales">Ventas Generales</a>
+                                <a className="dropdown-item" href="/ventas/productos">Ventas Productos</a>
+                            </div>
+                        </div>
                         <div className="dropdown">
                             <a className="btn" href="/oc">Ordenes de Compra</a>
                             <div className="dropdown-menu">

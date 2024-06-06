@@ -30,6 +30,11 @@ import ListProductosComponent from "./components/Productos/ListProductosComponen
 import ProductoComponent from "./components/Productos/ProductoComponents";
 import ProductoCrearComponent from "./components/Productos/ProductoCrearComponents";
 
+import MainVentasComponents from "./components/Ventas/MainVentasComponents";
+import VentasGeneralesComponents from "./components/Ventas/VentasGeneralesComponents";
+import VentasProductosComponents from "./components/Ventas/VentasProductosComponents";
+
+
 function App() {
   return (
       <div>
@@ -61,7 +66,11 @@ function App() {
 
                   <Route path="/productos" element={<ListProductosComponent/>} />
                   <Route path="/productos/mas-info/:producto" element={<ProductoComponent/>} />
-                  <Route path="/productos/crear" element={<ProductoCrearComponent/>} />   
+                  <Route path="/productos/crear" element={<ProductoCrearComponent/>} /> 
+
+                  <Route path="/ventas" element={<MainVentasComponents/>} />  
+                  <Route path="/ventas/generales" element={<VentasGeneralesComponents/>} />  
+                  <Route path="/ventas/productos" element={<VentasProductosComponents/>} />  
               </Routes>
           </Router>
       </div>
