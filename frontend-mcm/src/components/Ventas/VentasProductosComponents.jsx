@@ -1,26 +1,130 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+//import Button from "react-bootstrap/Button";
+//import Form from "react-bootstrap/Form";
 
 
-import editar from "../../images/editar.png";
+//import editar from "../../images/editar.png";
 
 import HeaderComponents from "../Headers/HeaderComponents";
-import OrdenesDeCompraClienteService from "../../services/OrdenesDeCompraClienteService";
+import VentasService from "../../services/VentasService";
+import ProductoService from "../../services/ProductoService";
 
 function VentasProductosComponents () {
 
+    
+    
+    const [datosOrganizados, setDatosOrganizados] = useState([]);
+    const [mostrarCard, setMostrarCard] = useState(true);
+    const [ventasEntity, setventasEntity] = useState([]);
+    const [yearEntity, setYearEntity] = useState(0);
+    const [productoEntity, setProductoEntity] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const productosRespuesta = await ProductoService.getProductos();
+            const productos = productosRespuesta.data;
+            const ventasRespuesta = await VentasService.getProductsByYear();
+            const ventas = ventasRespuesta.data;
+
+            setProductoEntity(productos);
+            organizarDatos(ventas, productos);
+        };
+
+        fetchData();
+    }, []);
+
+    const organizarDatos = (ventas, productos) => {
+        // Crear un objeto para mapear año y productos vendidos
+        let datosPorAnio = {};
+
+        ventas.forEach(venta => {
+            const [idProducto, cantidad, anio] = venta;
+            if (!datosPorAnio[anio]) {
+                datosPorAnio[anio] = Array(productos.length).fill(0);
+            }
+            const indexProducto = productos.findIndex(p => p.id === idProducto);
+            datosPorAnio[anio][indexProducto] += cantidad;
+        });
+
+        // Convertir el objeto a una matriz para su uso en la vista
+        const matrizDatos = Object.entries(datosPorAnio).map(([anio, cantidades]) => {
+            return [parseInt(anio), ...cantidades];
+        });
+
+        setDatosOrganizados(matrizDatos);
+    };
+
+    const handleClickVerYear =(venta) => {
+        
+        console.log("Año:", venta[0]);        
+        
+        const yearAux = venta[1];
+
+        console.log(yearAux);
+        setYearEntity(yearAux);
+
+        updateVentas(yearAux); // Función que maneja la actualización
+    }
+    const updateVentas = (mainYear) =>{
+        
+        
+        
+        setMostrarCard(false);
+
+    };
+    
     return(
         <div>
-                <NavStyle>
-                <HeaderComponents /> 
-                <h2>ventas productos</h2>
-                </NavStyle>
+            <NavStyle>
+            <HeaderComponents />
+            <div className="container">
+                <div className="container-1">
+                    <div className="inline-forms-container">
+                        
+                    </div>
+                    <div className="btn-inf">
+
+                    </div>
+                </div>
+                <div align="center" className="container-2">
+                    <h1>
+                        <b>Ventas producto</b>
+                    </h1>
+                        <table border="1" className="content-table">
+                            <thead>
+                                <tr>
+                                    <th>Año</th>
+                                    {productoEntity.map((p, index) => <th key={index}>{p.nombre}</th>)}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {datosOrganizados.map((fila, index) => (
+                                    <tr key={index}>
+
+
+                                        <td onClick={() => handleClickVerYear(fila)} style={{ cursor: 'pointer' }}>
+                                        {fila[0]}
+                                        </td>
+                                        {fila.slice(1).map((cantidad, index) => (
+                                            <td key={index}>{cantidad}</td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    
+                </div>
+            </div>
+            </NavStyle>
         </div>
     )
+    
+    
+  
 };
+
+
 
 export default VentasProductosComponents;
 
@@ -167,3 +271,5 @@ const NavStyle = styled.nav`
         font-family: "Pacifico", serif;
     }
 `;
+
+    

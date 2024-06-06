@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+//import Button from "react-bootstrap/Button";
+//import Form from "react-bootstrap/Form";
 
 
-import editar from "../../images/editar.png";
+//import editar from "../../images/editar.png";
 
 import HeaderComponents from "../Headers/HeaderComponents";
 import VentasService from "../../services/VentasService";
 
 function VentasGeneralesComponents () {
 
-    const formatFecha = (fecha) => {
-        if(fecha===null){
-            return "-";
-        }
-        const [year, month, day] = fecha.split("-");
-        return `${day}-${month}-${year}`;
-    };
-    const navigate = useNavigate();
+    
+    //const navigate = useNavigate();
 
     const initialState = {
         id: "",
@@ -64,7 +58,7 @@ function VentasGeneralesComponents () {
                 console.log("mes: " + mes)
                 console.log("año: " + year)
                 console.log("año analizado: " + mainYear)
-                if(year == mainYear){
+                if(year === mainYear){
                     console.log("Años iguales")
                     ventasTemp[mes - 1] += monto; // Suma el monto al mes correspondiente (mes - 1 porque el array es base 0)
                     console.log("Entonces el mes "+meses[mes - 1]+" acumula "+monto+" pesos" )
