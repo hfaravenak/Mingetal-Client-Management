@@ -89,28 +89,45 @@ function VentasGeneralesComponents () {
     if(mostrarCard){
         return(
             <div>
+                <NavStyle>
                 <HeaderComponents />
-                <h2>Ventas generales</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Monto Total de Ventas</th>
-                            <th>Año</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {ventasEntity.map((venta, index) => (
-                            <tr key={index}>
-                                
-                                <td>{venta[0]}</td> {/* Monto total de ventas */}
-                                <td onClick={() => handleClickVerYear(venta)} style={{ cursor: 'pointer' }}>
-                                {venta[1]}
-                                </td>
+                <div className="container">
+                    <div className="container-1">
+                        <div className="inline-forms-container">
+                           
+                        </div>
+                        <div className="btn-inf">
 
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </div>
+                    </div>
+                    <div align="center" className="container-2">
+                        <h1>
+                            <b>Ventas generales</b>
+                        </h1>
+                            <table border="1" className="content-table">
+                                <thead>
+                                    <tr>
+                                        <th>Monto Total de Ventas</th>
+                                        <th>Año</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {ventasEntity.map((venta, index) => (
+                                        <tr key={index}>
+                                            
+                                            <td>{venta[0]}</td> {/* Monto total de ventas */}
+                                            <td onClick={() => handleClickVerYear(venta)} style={{ cursor: 'pointer' }}>
+                                            {venta[1]}
+                                            </td>
+
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        
+                    </div>
+                </div>
+                </NavStyle>
             </div>
         )
     }else{
@@ -118,30 +135,47 @@ function VentasGeneralesComponents () {
             <div>
                  <NavStyle>
                 <HeaderComponents />
-                <h2>Ventas generales por mes</h2>
-                <table>
-                <thead>
-                    <tr>
-                        <th>Año</th>
-                        {meses.map(mes => <th key={mes}>{mes}</th>)}
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                    <tr>
-                        <th>{yearEntity}</th>
-                        {ventasEntity.map((venta, index) => (
-                            <td key={index}>{venta}</td>
-                        ))}
-                        <td>{ventasEntity.reduce((sum, current) => sum + current, 0)}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div className="container">
+                    <div className="container-1">
+                        <div className="inline-forms-container">
+                           
+                        </div>
+                        <div className="btn-inf">
+
+                        </div>
+                    </div>
+                    <div align="center" className="container-2">
+                        <h1>
+                            <b>Ventas generales por mes</b>
+                        </h1>
+                        <table  border="1" className="content-table">
+                            <thead>
+                                <tr>
+                                    <th>Año</th>
+                                    {meses.map(mes => <th key={mes}>{mes}</th>)}
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                <tr>
+                                    <th>{yearEntity}</th>
+                                    {ventasEntity.map((venta, index) => (
+                                        <td key={index}>{venta}</td>
+                                    ))}
+                                    <td>{ventasEntity.reduce((sum, current) => sum + current, 0)}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        
+                    </div>
+                </div>
                 </NavStyle>
             </div>
         )
     }
 };
+
+
 
 export default VentasGeneralesComponents;
 
