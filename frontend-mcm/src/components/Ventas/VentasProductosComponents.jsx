@@ -37,7 +37,7 @@ function VentasProductosComponents () {
     const organizarDatos = (ventas, productos) => {
         // Crear un objeto para mapear año y productos vendidos
         let datosPorAnio = {};
-
+        
         ventas.forEach(venta => {
             const [idProducto, cantidad, anio] = venta;
             if (!datosPorAnio[anio]) {
@@ -59,7 +59,7 @@ function VentasProductosComponents () {
         
         console.log("Año:", venta[0]);        
         
-        const yearAux = venta[1];
+        const yearAux = venta[0];
 
         console.log(yearAux);
         setYearEntity(yearAux);
@@ -68,57 +68,166 @@ function VentasProductosComponents () {
     }
     const updateVentas = (mainYear) =>{
         
+        //get de ventas x mes x año
+        VentasService.getProductsByYearAndMonth().then((res) => {
+            const ventas = res.data;
+            
+            ProductoService.getProductos().then((res_2) => {
+                setProductoEntity(res_2.data);
+            })
+           
+
+            console.log(ventas);
+
+            console.log(productoEntity);
+             // Crear un objeto para mapear año y productos vendidos 
+            let datosPorMesYear = {};
+            
+            ventas.forEach(venta => {
+                const [id_producto, cantidad, mes, anio] = venta;
+                console.log("######");
+                if(anio === mainYear){
+                    console.log("A")
+                    if (!datosPorMesYear[mes]) {
+                        console.log("B")
+                        datosPorMesYear[mes] = Array(productoEntity.length).fill(0);
+                    }
+                    const indexProducto = productoEntity.findIndex(p => p.id === id_producto);
+                    datosPorMesYear[mes][indexProducto] += cantidad;
+                }
+            });
+            console.log("--------------------------------------------------")
+            console.log(datosPorMesYear);
+           /* // Convertir el objeto a una matriz para su uso en la vista
+            const matrizDatos = Object.entries(datosPorAnio).map(([anio, cantidades]) => {
+                return [parseInt(anio), ...cantidades];
+            });
+            */
+            setventasEntity(datosPorMesYear);   
+            console.log(datosPorMesYear);
+        });
+
+                     
+            //console.log('Datos de ventas:', ventasTemp);
+
+        //filtrar datos por año
+
+        //ordenar datos -> mostrar en tabla
         
         
         setMostrarCard(false);
 
     };
     
-    return(
-        <div>
-            <NavStyle>
-            <HeaderComponents />
-            <div className="container">
-                <div className="container-1">
-                    <div className="inline-forms-container">
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+
+    if(mostrarCard){
+
+        return(
+            <div>
+                <NavStyle>
+                <HeaderComponents />
+                <div className="container">
+                    <div className="container-1">
+                        <div className="inline-forms-container">
+                            
+                        </div>
+                        <div className="btn-inf">
+    
+                        </div>
+                    </div>
+                    <div align="center" className="container-2">
+                        <h1>
+                            <b>Ventas producto</b>
+                        </h1>
+                            <table border="1" className="content-table">
+                                <thead>
+                                    <tr>
+                                        <th>Año</th>
+                                        {productoEntity.map((p, index) => <th key={index}>{p.nombre}</th>)}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {datosOrganizados.map((fila, index) => (
+                                        <tr key={index}>
+    
+    
+                                            <td onClick={() => handleClickVerYear(fila)} style={{ cursor: 'pointer' }}>
+                                            {fila[0]}
+                                            </td>
+                                            {fila.slice(1).map((cantidad, index) => (
+                                                <td key={index}>{cantidad}</td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         
                     </div>
-                    <div className="btn-inf">
-
+                </div>
+                </NavStyle>
+            </div>
+        )
+    }else{
+        return(
+            <div>
+                <NavStyle>
+                <HeaderComponents />
+                <div className="container">
+                    <div className="container-1">
+                        <div className="inline-forms-container">
+                            
+                        </div>
+                        <div className="btn-inf">
+    
+                        </div>
+                    </div>
+                    <div align="center" className="container-2">
+                        <h1>
+                            <b>Ventas producto {yearEntity}</b>
+                        </h1>
+                        
+                    <table border="1" className="content-table">
+                        <thead>
+                            <tr>
+                                <th>Meses</th>
+                                {productoEntity.map((p, index) => (
+                                    <th key={index}>{p.nombre}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {meses.map((mes, indexMes) => (
+                                <tr key={indexMes}>
+                                    <td>{mes}</td>
+                                    {productoEntity.map((producto, indexProd) => (
+                                        <td key={indexProd}>
+                                            {/* Asumiendo que datosPorMesYear es una matriz con datos por mes y producto */}
+                                            {ventasEntity[mes] && ventasEntity[mes][indexProd]}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                            <tr>
+                                <th>Total</th>
+                                {productoEntity.map((producto, indexProd) => {
+                                    // Calcula el total por producto
+                                    const total = meses.reduce((acc, mes) => {
+                                        return acc + (ventasEntity[mes] ? ventasEntity[mes][indexProd] : 0);
+                                    }, 0);
+                                    return <td key={indexProd}>{total}</td>;
+                                })}
+                            </tr>
+                        </tbody>
+                    </table>
+                        
                     </div>
                 </div>
-                <div align="center" className="container-2">
-                    <h1>
-                        <b>Ventas producto</b>
-                    </h1>
-                        <table border="1" className="content-table">
-                            <thead>
-                                <tr>
-                                    <th>Año</th>
-                                    {productoEntity.map((p, index) => <th key={index}>{p.nombre}</th>)}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {datosOrganizados.map((fila, index) => (
-                                    <tr key={index}>
-
-
-                                        <td onClick={() => handleClickVerYear(fila)} style={{ cursor: 'pointer' }}>
-                                        {fila[0]}
-                                        </td>
-                                        {fila.slice(1).map((cantidad, index) => (
-                                            <td key={index}>{cantidad}</td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    
-                </div>
+                </NavStyle>
             </div>
-            </NavStyle>
-        </div>
-    )
+        )
+    }
     
     
   
