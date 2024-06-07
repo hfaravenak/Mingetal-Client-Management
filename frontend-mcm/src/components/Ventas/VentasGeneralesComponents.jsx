@@ -86,14 +86,6 @@ function VentasGeneralesComponents () {
                 <NavStyle>
                 <HeaderComponents />
                 <div className="container">
-                    <div className="container-1">
-                        <div className="inline-forms-container">
-                           
-                        </div>
-                        <div className="btn-inf">
-
-                        </div>
-                    </div>
                     <div align="center" className="container-2">
                         <h1>
                             <b>Ventas generales</b>
@@ -130,14 +122,6 @@ function VentasGeneralesComponents () {
                  <NavStyle>
                 <HeaderComponents />
                 <div className="container">
-                    <div className="container-1">
-                        <div className="inline-forms-container">
-                           
-                        </div>
-                        <div className="btn-inf">
-
-                        </div>
-                    </div>
                     <div align="center" className="container-2">
                         <h1>
                             <b>Ventas generales por mes</b>

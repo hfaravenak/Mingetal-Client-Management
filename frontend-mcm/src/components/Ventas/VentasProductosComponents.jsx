@@ -51,92 +51,63 @@ function VentasProductosComponents () {
         const matrizDatos = Object.entries(datosPorAnio).map(([anio, cantidades]) => {
             return [parseInt(anio), ...cantidades];
         });
-
         setDatosOrganizados(matrizDatos);
     };
 
-    const handleClickVerYear =(venta) => {
-        
-        console.log("Año:", venta[0]);        
+    const handleClickVerYear =(venta) => {   
         
         const yearAux = venta[0];
-
-        console.log(yearAux);
         setYearEntity(yearAux);
 
         updateVentas(yearAux); // Función que maneja la actualización
     }
     const updateVentas = (mainYear) =>{
-        
-        //get de ventas x mes x año
         VentasService.getProductsByYearAndMonth().then((res) => {
-            const ventas = res.data;
-            
-            ProductoService.getProductos().then((res_2) => {
-                setProductoEntity(res_2.data);
-            })
-           
-
-            console.log(ventas);
-
-            console.log(productoEntity);
-             // Crear un objeto para mapear año y productos vendidos 
-            let datosPorMesYear = {};
-            
-            ventas.forEach(venta => {
-                const [id_producto, cantidad, mes, anio] = venta;
-                console.log("######");
-                if(anio === mainYear){
-                    console.log("A")
-                    if (!datosPorMesYear[mes]) {
-                        console.log("B")
-                        datosPorMesYear[mes] = Array(productoEntity.length).fill(0);
-                    }
-                    const indexProducto = productoEntity.findIndex(p => p.id === id_producto);
-                    datosPorMesYear[mes][indexProducto] += cantidad;
+            let datosPorMesYear = [[],[],[],[],[],[],[],[],[],[],[],[]];
+            datosPorMesYear[0] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[1] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[2] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[3] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[4] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[5] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[6] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[7] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[8] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[9] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[10] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[11] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[12] = Array(productoEntity.length).fill(0);
+            res.data.forEach(venta => {
+                if(venta[3] === mainYear){
+                    // venta[0]: id_producto
+                    // venta[1]: cantidad
+                    // venta[2]: mes
+                    // venta[3]: anio
+                    datosPorMesYear[venta[2]][venta[0]] += venta[1];
                 }
             });
-            console.log("--------------------------------------------------")
-            console.log(datosPorMesYear);
-           /* // Convertir el objeto a una matriz para su uso en la vista
-            const matrizDatos = Object.entries(datosPorAnio).map(([anio, cantidades]) => {
-                return [parseInt(anio), ...cantidades];
-            });
-            */
+            console.log(datosPorMesYear)
             setventasEntity(datosPorMesYear);   
-            console.log(datosPorMesYear);
         });
-
-                     
-            //console.log('Datos de ventas:', ventasTemp);
-
-        //filtrar datos por año
-
-        //ordenar datos -> mostrar en tabla
-        
-        
         setMostrarCard(false);
 
+    };
+
+    const calcularTotalPorProducto = () => {
+        return ventasEntity.reduce((totales, mes) => {
+            return totales.map((total, index) => total + mes[index]);
+        }, Array(productoEntity.length).fill(0));
     };
     
     const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 
     if(mostrarCard){
-
         return(
             <div>
                 <NavStyle>
                 <HeaderComponents />
                 <div className="container">
-                    <div className="container-1">
-                        <div className="inline-forms-container">
-                            
-                        </div>
-                        <div className="btn-inf">
-    
-                        </div>
-                    </div>
                     <div align="center" className="container-2">
                         <h1>
                             <b>Ventas producto</b>
@@ -170,19 +141,12 @@ function VentasProductosComponents () {
             </div>
         )
     }else{
+        const totalPorProducto = calcularTotalPorProducto();
         return(
             <div>
                 <NavStyle>
                 <HeaderComponents />
                 <div className="container">
-                    <div className="container-1">
-                        <div className="inline-forms-container">
-                            
-                        </div>
-                        <div className="btn-inf">
-    
-                        </div>
-                    </div>
                     <div align="center" className="container-2">
                         <h1>
                             <b>Ventas producto {yearEntity}</b>
@@ -198,28 +162,21 @@ function VentasProductosComponents () {
                             </tr>
                         </thead>
                         <tbody>
-                            {meses.map((mes, indexMes) => (
-                                <tr key={indexMes}>
-                                    <td>{mes}</td>
-                                    {productoEntity.map((producto, indexProd) => (
-                                        <td key={indexProd}>
-                                            {/* Asumiendo que datosPorMesYear es una matriz con datos por mes y producto */}
-                                            {ventasEntity[mes] && ventasEntity[mes][indexProd]}
-                                        </td>
+                                {meses.map((mes, indexMes) => (
+                                    <tr key={indexMes}>
+                                        <td>{mes}</td>
+                                        {ventasEntity[indexMes].map((cantidad, indexProd) => (
+                                            <td key={indexProd}>{cantidad}</td>
+                                        ))}
+                                    </tr>
+                                ))}
+                                <tr>
+                                    <td>Total</td>
+                                    {totalPorProducto.map((total, index) => (
+                                        <td key={index}>{total}</td>
                                     ))}
                                 </tr>
-                            ))}
-                            <tr>
-                                <th>Total</th>
-                                {productoEntity.map((producto, indexProd) => {
-                                    // Calcula el total por producto
-                                    const total = meses.reduce((acc, mes) => {
-                                        return acc + (ventasEntity[mes] ? ventasEntity[mes][indexProd] : 0);
-                                    }, 0);
-                                    return <td key={indexProd}>{total}</td>;
-                                })}
-                            </tr>
-                        </tbody>
+                            </tbody>
                     </table>
                         
                     </div>
