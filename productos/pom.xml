@@ -15,6 +15,14 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+		<sonar.exclusions>
+			src/main/java/mingetal/MCM/productos/config/*,
+			src/main/java/mingetal/MCM/productos/controller/*,
+			src/main/java/mingetal/MCM/productos/entity/*,
+			src/main/java/mingetal/MCM/productos/model/*,
+			src/main/java/mingetal/MCM/productos/repository/*,
+			src/main/java/mingetal/MCM/productos/ProductosApplication.java
+		</sonar.exclusions>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 	</properties>
 	<dependencies>

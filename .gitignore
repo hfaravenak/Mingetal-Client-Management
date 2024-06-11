@@ -1,2 +1,8 @@
 
 .idea/
+
+# Ignorar SonarQube
+/sonarqube-10.5.1.90531
+
+#Ignorar Token de SonarQube
+Token_SonarQube.txt
