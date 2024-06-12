@@ -37,6 +37,12 @@ public class OrdenesDeCompraClienteService {
         ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
         return ordenesDeCompraClienteEntities;
     }
+
+    public List<OrdenesDeCompraClienteEntity> findPagadoEntregado(){
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findPagadoEntregado();
+        ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
+        return ordenesDeCompraClienteEntities;
+    }
     public OrdenesDeCompraClienteEntity findById(int id){
         return ordenesDeCompraClienteRepository.findById(id);
     }

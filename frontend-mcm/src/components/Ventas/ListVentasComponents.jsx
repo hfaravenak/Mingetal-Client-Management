@@ -24,7 +24,7 @@ function ListVentasComponents() {
     const [expandedMonths, setExpandedMonths] = useState({});
 
     useEffect(() => {
-        OrdenesDeCompraClienteService.getOCCliente().then((res) => {
+        OrdenesDeCompraClienteService.getOCClientePagadoEntregado().then((res) => {
             setOCClienteEntity(res.data);
         });
         ClienteService.getClientes().then((res) => {
@@ -154,7 +154,7 @@ function ListVentasComponents() {
                                                                     </tr>
                                                                     {expandedRows[OC.id] && (
                                                                         <tr>
-                                                                            <td colSpan="4">
+                                                                            <td colSpan="5">
                                                                                 <table
                                                                                     border="1"
                                                                                     className="content-table2"

@@ -17,6 +17,8 @@ public interface OrdenesDeCompraClienteRepository extends JpaRepository<OrdenesD
 
     @Query("select e from OrdenesDeCompraClienteEntity e where e.id_cliente = :id_cliente")
     List<OrdenesDeCompraClienteEntity> findByIdCliente(@Param("id_cliente") String id_cliente);
+    @Query("select e from OrdenesDeCompraClienteEntity e where e.estado_entrega = 'Entregado' and e.estado_pago='Pagado'")
+    List<OrdenesDeCompraClienteEntity> findPagadoEntregado();
 
     // Query para venta productos por año
     @Query("SELECT l.id_producto, SUM(l.cantidad) AS cantidadTotal, YEAR(occ.fecha_pago) AS anio " +
