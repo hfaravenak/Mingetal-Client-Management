@@ -1,5 +1,6 @@
 package mingetal.MCM.ordenesdecompra;
 
+import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraClienteEntity;
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.ordenesdecompra.service.OrdenesDeCompraProveedorService;
 import org.junit.jupiter.api.Test;
@@ -53,6 +54,40 @@ public class OrdenesDeCompraProveedorServiceTest {
     }
 
     //-------------------- findAll --------------------
+
+    @Test
+    void findAllTest() {
+        OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity1 = new OrdenesDeCompraProveedorEntity(
+                -2,
+                "No Pagado",
+                LocalDate.parse("2024-05-25"),
+                LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                500,
+                "Entregado"
+        );
+        OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity2 = new OrdenesDeCompraProveedorEntity(
+                -2,
+                "No Pagado",
+                LocalDate.parse("2024-05-25"),
+                LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
+                "b55c22114",
+                500,
+                "Entregado"
+        );
+
+        ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity1);
+        ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity2);
+
+        assertFalse(ordenesDeCompraProveedorService.findAll().isEmpty());
+        assertTrue(ordenesDeCompraProveedorService.findAll().contains(ordenesDeCompraProveedorEntity1));
+        assertTrue(ordenesDeCompraProveedorService.findAll().contains(ordenesDeCompraProveedorEntity2));
+
+        ordenesDeCompraProveedorService.delete(ordenesDeCompraProveedorEntity1.getId());
+        ordenesDeCompraProveedorService.delete(ordenesDeCompraProveedorEntity2.getId());
+    }
 
     //-------------------- findById --------------------
 
@@ -133,5 +168,66 @@ public class OrdenesDeCompraProveedorServiceTest {
 
     //-------------------- update --------------------
 
+    @Test
+    void updateOCClienteTestTrue(){
+        OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = new OrdenesDeCompraProveedorEntity(
+                -2,
+                "No Pagado",
+                LocalDate.parse("2024-05-25"),
+                LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                500,
+                "Entregado"
+        );
+        ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
 
+        ordenesDeCompraProveedorEntity.setEstado_entrega("Pagado");
+        ordenesDeCompraProveedorEntity.setValor_pago(20000);
+
+        assertEquals(ordenesDeCompraProveedorEntity, ordenesDeCompraProveedorService.update(ordenesDeCompraProveedorEntity));
+        assertEquals(ordenesDeCompraProveedorEntity, ordenesDeCompraProveedorService.findById(ordenesDeCompraProveedorEntity.getId()));
+
+        ordenesDeCompraProveedorService.delete(ordenesDeCompraProveedorEntity.getId());
+    }
+    @Test
+    void updateOCClienteTestFalse(){
+        OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity = new OrdenesDeCompraProveedorEntity(
+                -2,
+                "No Pagado",
+                LocalDate.parse("2024-05-25"),
+                LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                500,
+                "Entregado"
+        );
+        ordenesDeCompraProveedorService.save(ordenesDeCompraProveedorEntity);
+
+        OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity2 = new OrdenesDeCompraProveedorEntity(
+                -2,
+                "Pagado",
+                LocalDate.parse("2024-05-25"),
+                LocalDate.parse("2024-05-30"),
+                LocalDate.parse("2024-05-10"),
+                "b55c2214",
+                4500,
+                "Entregado"
+        );
+
+        assertNull(ordenesDeCompraProveedorService.update(ordenesDeCompraProveedorEntity2));
+
+        ordenesDeCompraProveedorService.delete(ordenesDeCompraProveedorEntity.getId());
+    }
+
+    //-------------------- getPurchasesByYear --------------------
+
+
+    //-------------------- getPurchasesByYearAndMonth --------------------
+
+
+    //-------------------- getAllPurchasesByYear --------------------
+
+
+    //-------------------- getAllPurchasesByYearAndMont --------------------
 }

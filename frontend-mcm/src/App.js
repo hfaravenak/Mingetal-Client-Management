@@ -22,17 +22,19 @@ import ListOCProveedorComponents from "./components/Ordenes de Compra/Proveedor/
 import OCProveedorComponents from "./components/Ordenes de Compra/Proveedor/OCProveedorComponents";
 import OCProveedorCrearComponents from "./components/Ordenes de Compra/Proveedor/OCProveedorCrearComponents";
 
-import ListCotizacionComponent from "./components/Cotizaciones/ListCotizacionComponent";
-import CotizacionComponent from "./components/Cotizaciones/CotizacionComponent";
-import CotizacionCrearComponent from "./components/Cotizaciones/CotizacionCrearComponent";
+import ListCotizacionComponents from "./components/Cotizaciones/ListCotizacionComponents";
+import CotizacionComponents from "./components/Cotizaciones/CotizacionComponents";
+import CotizacionCrearComponents from "./components/Cotizaciones/CotizacionCrearComponents";
 
-import ListProductosComponent from "./components/Productos/ListProductosComponents";
-import ProductoComponent from "./components/Productos/ProductoComponents";
-import ProductoCrearComponent from "./components/Productos/ProductoCrearComponents";
+import ListProductosComponents from "./components/Productos/ListProductosComponents";
+import ProductoComponents from "./components/Productos/ProductoComponents";
+import ProductoCrearComponents from "./components/Productos/ProductoCrearComponents";
 
-import MainVentasComponents from "./components/Ventas/MainVentasComponents";
-import VentasGeneralesComponents from "./components/Ventas/VentasGeneralesComponents";
-import VentasProductosComponents from "./components/Ventas/VentasProductosComponents";
+import MainEstadisticaComponents from "./components/Estadisticas/MainEstadisticaComponents";
+import EstadisticaGeneralesComponents from "./components/Estadisticas/EstadisticaGeneralesComponents";
+import EstadisticaProductosComponents from "./components/Estadisticas/EstadisticaProductosComponents";
+
+import ListVentasComponents from "./components/Ventas/ListVentasComponents";
 
 
 function App() {
@@ -60,17 +62,19 @@ function App() {
                   <Route path="/oc/proveedor/mas info/:oc_proveedor" element={<OCProveedorComponents/>} />
                   <Route path="/oc/proveedor/crear" element={<OCProveedorCrearComponents/>} />
 
-                  <Route path="/cotizaciones" element={<ListCotizacionComponent/>} />
-                  <Route path="/info-cotizacion/:cotizacion" element={<CotizacionComponent/>} />
-                  <Route path="/crear-cotizacion" element={<CotizacionCrearComponent/>} />
+                  <Route path="/cotizaciones" element={<ListCotizacionComponents/>} />
+                  <Route path="/info-cotizacion/:cotizacion" element={<CotizacionComponents/>} />
+                  <Route path="/crear-cotizacion" element={<CotizacionCrearComponents/>} />
 
-                  <Route path="/productos" element={<ListProductosComponent/>} />
-                  <Route path="/productos/mas-info/:producto" element={<ProductoComponent/>} />
-                  <Route path="/productos/crear" element={<ProductoCrearComponent/>} /> 
+                  <Route path="/productos" element={<ListProductosComponents/>} />
+                  <Route path="/productos/mas-info/:producto" element={<ProductoComponents/>} />
+                  <Route path="/productos/crear" element={<ProductoCrearComponents/>} /> 
 
-                  <Route path="/ventas" element={<MainVentasComponents/>} />  
-                  <Route path="/ventas/generales" element={<VentasGeneralesComponents/>} />  
-                  <Route path="/ventas/productos" element={<VentasProductosComponents/>} />  
+                  <Route path="/estadistica" element={<MainEstadisticaComponents/>} />  
+                  <Route path="/estadistica/generales" element={<EstadisticaGeneralesComponents/>} />  
+                  <Route path="/estadistica/productos" element={<EstadisticaProductosComponents/>} />  
+
+                  <Route path="/ventas" element={<ListVentasComponents/>} />  
               </Routes>
           </Router>
       </div>

@@ -621,6 +621,7 @@ public class ProveedorServiceTests {
         proveedorService.delete(proveedorEntity2.getId_proveedor());
     }
 
+
     //-------------------- findByNombreTextual --------------------
 
     @Test

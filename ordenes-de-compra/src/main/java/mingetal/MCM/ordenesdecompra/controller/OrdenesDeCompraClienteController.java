@@ -2,15 +2,11 @@ package mingetal.MCM.ordenesdecompra.controller;
 
 
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraClienteEntity;
-import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
-import mingetal.MCM.ordenesdecompra.repository.OrdenesDeCompraClienteRepository;
 import mingetal.MCM.ordenesdecompra.service.OrdenesDeCompraClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -53,13 +49,13 @@ public class OrdenesDeCompraClienteController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<OrdenesDeCompraClienteEntity> deleteOCClienteById(@PathVariable("id") int id){
-        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = ordenesDeCompraClienteService.deleteOCCliente(id);
+        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = ordenesDeCompraClienteService.delete(id);
         return ResponseEntity.ok(ordenesDeCompraClienteEntity);
     }
 
     @PutMapping("/update")
     public ResponseEntity<OrdenesDeCompraClienteEntity> updateOCCliente(@RequestBody OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity){
-        OrdenesDeCompraClienteEntity newOrdenesDeCompraClienteEntity = ordenesDeCompraClienteService.updateOCCliente(ordenesDeCompraClienteEntity);
+        OrdenesDeCompraClienteEntity newOrdenesDeCompraClienteEntity = ordenesDeCompraClienteService.update(ordenesDeCompraClienteEntity);
         return ResponseEntity.ok(newOrdenesDeCompraClienteEntity);
     }
 

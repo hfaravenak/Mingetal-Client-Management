@@ -15,11 +15,6 @@ public class ClienteService {
 
     //-------------------- Guardado --------------------
 
-    /*
-    *
-    *
-    *
-    * */
     public ClienteEntity save(ClienteEntity clienteEntity) {
         if(findByRut(clienteEntity.getRut())==null){
             String[] palabras = clienteEntity.getNombre().split("\\s+");

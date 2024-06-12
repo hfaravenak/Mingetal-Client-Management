@@ -23,6 +23,11 @@ public class ListaProductosOCClienteController {
         return ResponseEntity.ok(listaProductosOCClienteService.save(listaProductosOCClienteEntities));
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<ListaProductosOCClienteEntity>> getListProductos(){
+        return ResponseEntity.ok(listaProductosOCClienteService.findAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<List<ListaProductosOCClienteEntity>> getListProductosByIdOCCliente(@PathVariable("id") int id){
         return ResponseEntity.ok(listaProductosOCClienteService.findByIdOCCliente(id));

@@ -119,7 +119,7 @@ public class OrdenesDeCompraProveedorService {
         return null;
     }
 
-    // ------------------ ESTADÍSTICAS ------------------
+    // ------------------ Estadística ------------------
 
     // Función para obtener todos los productos comprados por año
     // Entrega en orden:

@@ -72,10 +72,10 @@ public class ContactoServiceTests {
         contactoService.delete(contacto2.getRut());
     }
 
-    //-------------------- findContactoById --------------------
+    //-------------------- findByRut --------------------
 
     @Test
-    void findContactByIdTestTrue(){
+    void findContactByRutTestTrue(){
         ContactoEntity contactoEntity = new ContactoEntity(
                 "20158268-k",
                 "User 1",
@@ -90,11 +90,11 @@ public class ContactoServiceTests {
         contactoService.delete(contactoEntity.getRut());
     }
     @Test
-    void findContactByIdTestFalse(){
+    void findContactByRutTestFalse(){
         assertNull(contactoService.findByRut("-1"));
     }
 
-    //-------------------- findContactoByNombre --------------------
+    //-------------------- findByNombre --------------------
 
     @Test
     void findContactByNombreTestTrue(){
@@ -145,7 +145,7 @@ public class ContactoServiceTests {
         assertTrue(contactoService.findByNombre("NoExisteEsteUsuario").isEmpty());
     }
 
-    //-------------------- findContactoByNombreTextual --------------------
+    //-------------------- findByNombreTextual --------------------
 
     @Test
     void findContactByNombreTextualTestTrue(){

@@ -2,20 +2,20 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import HeaderComponents from "./../Headers/HeaderComponents";
+import HeaderComponents from "../Headers/HeaderComponents";
 import ventas_generales from "../../images/ventas_generales.png"
 import ventas_productos from "../../images/ventas_producto.png"
 
-function MainVentasComponents() {
+function MainEstadisticaComponents() {
 
     const navigate = useNavigate();
 
     const handleClickVentasGenerales = () => {
-        navigate("/ventas/generales");
+        navigate("/estadistica/generales");
     };
 
     const handleClickVentasProducto = () => {
-        navigate("/ventas/productos");
+        navigate("/estadistica/productos");
     };
     return (
         <div>
@@ -36,7 +36,7 @@ function MainVentasComponents() {
     );
 }
 
-export default MainVentasComponents;
+export default MainEstadisticaComponents;
 
 
 const NavStyle = styled.nav`

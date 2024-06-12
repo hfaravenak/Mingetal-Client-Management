@@ -29,6 +29,10 @@ public class ListaProductosOCClienteService {
         return null;
     }
 
+    public List<ListaProductosOCClienteEntity> findAll(){
+        return listaProductosOCClienteRepository.findAll();
+    }
+
     public ListaProductosOCClienteEntity findById(int id){
         return listaProductosOCClienteRepository.findById(id);
     }
