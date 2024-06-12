@@ -20,7 +20,8 @@
 			src/main/java/mingetal/MCM/cliente/controllers/*,
 			src/main/java/mingetal/MCM/cliente/entities/*,
 			src/main/java/mingetal/MCM/cliente/model/*,
-			src/main/java/mingetal/MCM/cliente/repositories/*
+			src/main/java/mingetal/MCM/cliente/repositories/*,
+			src/main/java/mingetal/MCM/cliente/ClienteApplication.java
 		</sonar.exclusions>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 	</properties>
