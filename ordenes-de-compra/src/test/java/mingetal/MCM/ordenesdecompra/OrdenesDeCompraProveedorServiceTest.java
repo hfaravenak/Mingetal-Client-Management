@@ -54,6 +54,11 @@ public class OrdenesDeCompraProveedorServiceTest {
     }
 
     //-------------------- findAll --------------------
+    @Test
+    void findAllOCProveedorTestTrue(){
+        List<OrdenesDeCompraProveedorEntity> allOCProveedor = ordenesDeCompraProveedorService.findAll();
+        assertNotNull(allOCProveedor);
+    }
 
     @Test
     void findAllTest() {
@@ -115,6 +120,7 @@ public class OrdenesDeCompraProveedorServiceTest {
     }
 
     //-------------------- findByNameProveedor --------------------
+
 
     //-------------------- findByRubro --------------------
 

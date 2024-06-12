@@ -82,6 +82,12 @@ public class OrdenesDeCompraClienteController {
         return ResponseEntity.ok(peryear);
     }
 
+    @GetMapping("/similarpreviousmonths")
+    public ResponseEntity<List<Object[]>> getSimilarPreviousMonths(){
+        List<Object[]> simil = ordenesDeCompraClienteService.similarPreviusMonths();
+        return ResponseEntity.ok(simil);
+    }
+
     @GetMapping("/salesbyyearandmonth")
     public ResponseEntity<List<Object[]>> getSalesByYearAndMonth(){
         List<Object[]> peryear = ordenesDeCompraClienteService.getSalesByYearAndMonth();

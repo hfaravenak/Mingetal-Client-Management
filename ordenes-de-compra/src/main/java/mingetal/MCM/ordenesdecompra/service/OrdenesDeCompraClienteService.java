@@ -138,7 +138,8 @@ public class OrdenesDeCompraClienteService {
 
     // Función para obtener todas las ventas por año
     // Entrega en orden:
-    // cantidad de productos vendidos por año
+    // Monto vendido por año
+    // cantidad de ventas por año
     // Año de venta
     public List<Object[]> getSalesByYear(){
         return ordenesDeCompraClienteRepository.findVentasTotalesPorAnio();
@@ -146,7 +147,8 @@ public class OrdenesDeCompraClienteService {
 
     // Función para obtener todas las ventas por año y mes
     // Entrega en orden:
-    // cantidad de productos vendidos por año
+    // monto vendido por mes de cada año
+    // cantidad de ventas por mes de cada año
     // mes
     // Año de venta
     public List<Object[]> getSalesByYearAndMonth(){
@@ -160,6 +162,16 @@ public class OrdenesDeCompraClienteService {
     // Año de venta
     public List<Object[]> getClientsByYear(){
         return ordenesDeCompraClienteRepository.clientList();
+    }
+
+    // Función para hacer la comparación entre similes de meses anteriores
+    // Entrega en orden:
+    // Monto de ventas
+    // Ventas totales
+    // Mes
+    // Año
+    public List<Object[]> similarPreviusMonths(){
+        return ordenesDeCompraClienteRepository.comparacionMesesIgualesAnteriores();
     }
 
 }
