@@ -7,67 +7,109 @@ import OrdenesDeCompraClienteService from "../../services/OrdenesDeCompraCliente
 import ProductoService from "../../services/ProductoService";
 
 function ListVentasComponents() {
+    const formatFecha = (fecha) => {
+        if(fecha===null){
+            return "-";
+        }
+        const [year, month, day] = fecha.split("-");
+        return `${day}-${month}-${year}`;
+    };
+
+
     const [OCClienteEntity, setOCClienteEntity] = useState([]);
     const [ClienteEntity, setClienteEntity] = useState([]);
     const [ProductosEntity, setProductosEntity] = useState([]);
     const [ListOCProductosEntity, setListOCProductosEntity] = useState([]);
+    const [expandedYears, setExpandedYears] = useState({});
+    const [expandedMonths, setExpandedMonths] = useState({});
+
     useEffect(() => {
-        OrdenesDeCompraClienteService.getOCCliente().then((res)=>{
+        OrdenesDeCompraClienteService.getOCCliente().then((res) => {
             setOCClienteEntity(res.data);
-        })
+        });
         ClienteService.getClientes().then((res) => {
             setClienteEntity(res.data);
         });
-        ProductoService.getProductos().then((res)=>{
-            setProductosEntity(res.data)
-        })
-        OrdenesDeCompraClienteService.getOCListProductosCliente().then((res)=>{
-            setListOCProductosEntity(res.data);
-        })
-    }, []);
-    const busquedaCliente = (rut) => {
-        let variable = "";
-        ClienteEntity.forEach((cliente) => {
-            if (cliente.rut === rut) {
-                variable = cliente;
-            }
+        ProductoService.getProductos().then((res) => {
+            setProductosEntity(res.data);
         });
-        return variable;
-    };
-    const busquedaProductos = (id) => {
-        let variable=[];
-        ListOCProductosEntity.map((LOC)=>{
-            if(LOC.id_OC_cliente===id){
-                ProductosEntity.map((producto)=>{
-                    if(LOC.id_producto===producto.id){
-                        variable.push(producto)
-                    }
-                })
-            }
-        })
-        return variable;
-    };
-    const ganancia = (valor_neto, id) => {
-        let valorProductos = 0;
-        ListOCProductosEntity.map((LOC)=>{
-            if(LOC.id_OC_cliente===id){
-                ProductosEntity.map((producto)=>{
-                    if(LOC.id_producto===producto.id){
-                        valorProductos+=producto.valor
-                    }
-                })
-            }
-        })
-        return valor_neto-valorProductos;
+        OrdenesDeCompraClienteService.getOCListProductosCliente().then((res) => {
+            setListOCProductosEntity(res.data);
+        });
+    }, []);
+
+    const busquedaCliente = (rut) => {
+        return ClienteEntity.find((cliente) => cliente.rut === rut) || {};
     };
 
+    const busquedaProductos = (id) => {
+        return ListOCProductosEntity.filter((LOC) => LOC.id_OC_cliente === id).map((LOC) =>
+            ProductosEntity.find((producto) => producto.id === LOC.id_producto)
+        );
+    };
+
+    const ganancia = (valor_neto, id) => {
+        const valorProductos = ListOCProductosEntity.filter((LOC) => LOC.id_OC_cliente === id).reduce((acc, LOC) => {
+            const producto = ProductosEntity.find((producto) => producto.id === LOC.id_producto);
+            return acc + (producto ? producto.valor : 0);
+        }, 0);
+        return valor_neto - valorProductos;
+    };
+
+    const handleYearClick = (year) => {
+        setExpandedYears((prevExpandedYears) => ({
+            ...prevExpandedYears,
+            [year]: !prevExpandedYears[year],
+        }));
+    };
+
+    const handleMonthClick = (year, month) => {
+        setExpandedMonths((prevExpandedMonths) => ({
+            ...prevExpandedMonths,
+            [`${year}-${month}`]: !prevExpandedMonths[`${year}-${month}`],
+        }));
+    };
     const [expandedRows, setExpandedRows] = useState({});
+
     const handleRowClick = (id) => {
         setExpandedRows((prevExpandedRows) => ({
             ...prevExpandedRows,
             [id]: !prevExpandedRows[id],
         }));
     };
+
+    const groupByYearAndMonth = (data) => {
+        return data.reduce((acc, item) => {
+            const date = new Date(item.fecha_solicitud);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1; // Month is zero-based
+            if (!acc[year]) {
+                acc[year] = {};
+            }
+            if (!acc[year][month]) {
+                acc[year][month] = [];
+            }
+            acc[year][month].push(item);
+            return acc;
+        }, {});
+    };
+
+    const groupedData = groupByYearAndMonth(OCClienteEntity);
+    const meses = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+    ];
+
     return (
         <div>
             <NavStyle>
@@ -77,50 +119,89 @@ function ListVentasComponents() {
                         <h1>
                             <b>Historial de Ventas</b>
                         </h1>
-                        <table border="1" className="content-table">
-                            <thead>
-                                <tr>
-                                    <th>Empresa</th>
-                                    <th>Venta Neta</th>
-                                    <th>Ganancia</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {OCClienteEntity.map((OC) => (
-                                    <React.Fragment key={OC.id}>
-                                        <tr onClick={() => handleRowClick(OC.id)}>
-                                            <td> {busquedaCliente(OC.id_cliente).nombre} </td>
-                                            <td> {OC.valor_pago} </td>
-                                            <td> {ganancia(OC.valor_pago, OC.id)} </td>
-                                        </tr>
-                                        {expandedRows[OC.id] && (
-                                            <tr>
-                                                <td colSpan="5">
-                                                    <table border="1" className="content-table2">
+                        {Object.keys(groupedData).map((year) => (
+                            <div key={year} className="year-border">
+                                <h2 onClick={() => handleYearClick(year)}>
+                                    {expandedYears[year] ? "-" : "+"} {year}
+                                </h2>
+                                {expandedYears[year] && (
+                                    <div>
+                                        {Object.keys(groupedData[year]).map((month) => (
+                                            <div key={month} className="month-border">
+                                                <h3 onClick={() => handleMonthClick(year, month)}>
+                                                    {expandedMonths[`${year}-${month}`] ? "-" : "+"} {meses[month]}
+                                                </h3>
+                                                {expandedMonths[`${year}-${month}`] && (
+                                                    <table border="1" className="content-table">
                                                         <thead>
                                                             <tr>
-                                                                <th>Nombre</th>
-                                                                <th>Valor</th>
-                                                                <th>Valor Final</th>
+                                                                <th></th>
+                                                                <th>Empresa</th>
+                                                                <th>Venta Neta</th>
+                                                                <th>Ganancia</th>
+                                                                <th>Fecha</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {busquedaProductos(OC.id).map((producto)=>(
-                                                                <tr>
-                                                                    <th>{producto.nombre}</th>
-                                                                    <th>{producto.valor}</th>
-                                                                    <th>{producto.valor_final}</th>
-                                                                </tr>
+                                                            {groupedData[year][month].map((OC) => (
+                                                                <React.Fragment key={OC.id}>
+                                                                    <tr onClick={() => handleRowClick(OC.id)}>
+                                                                        <td>{expandedRows[OC.id]?'-':'+'}</td>
+                                                                        <td>{busquedaCliente(OC.id_cliente).nombre}</td>
+                                                                        <td>{OC.valor_pago}</td>
+                                                                        <td>{ganancia(OC.valor_pago, OC.id)}</td>
+                                                                        <td>{formatFecha(OC.fecha_solicitud)}</td>
+                                                                    </tr>
+                                                                    {expandedRows[OC.id] && (
+                                                                        <tr>
+                                                                            <td colSpan="4">
+                                                                                <table
+                                                                                    border="1"
+                                                                                    className="content-table2"
+                                                                                >
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>Nombre</th>
+                                                                                            <th>Valor</th>
+                                                                                            <th>Valor Final</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        {busquedaProductos(OC.id).map(
+                                                                                            (producto) => (
+                                                                                                <tr key={producto.id}>
+                                                                                                    <td>
+                                                                                                        {
+                                                                                                            producto.nombre
+                                                                                                        }
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        {producto.valor}
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        {
+                                                                                                            producto.valor_final
+                                                                                                        }
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            )
+                                                                                        )}
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    )}
+                                                                </React.Fragment>
                                                             ))}
                                                         </tbody>
                                                     </table>
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                            </tbody>
-                        </table>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </NavStyle>
@@ -167,6 +248,7 @@ const NavStyle = styled.nav`
         margin-left: 1;
         font-size: 0.9em;
         min-width: 1000px;
+        max-width: 1000px;
         border-radius: 5px 5px 0 0;
         overflow: hidden;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -217,6 +299,22 @@ const NavStyle = styled.nav`
     th:hover,
     td:hover {
         cursor: default;
+    }
+    
+    .year-border h2{
+        background-color: #6199f9;
+        padding: 10px;
+        margin: 1%;
+        border: 1px solid black;
+        border-radius: 40px;
+    }
+    .month-border h3{
+        background-color: #61c9f9;
+        padding: 10px;
+        margin: 1%;
+        border: 1px solid black;
+        border-radius: 40px;
+        width: 90%;
     }
 
     /* Formulario de filtro */
