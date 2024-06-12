@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 //import Button from "react-bootstrap/Button";
 //import Form from "react-bootstrap/Form";
@@ -9,77 +9,99 @@ import styled from "styled-components";
 
 import HeaderComponents from "../Headers/HeaderComponents";
 import VentasService from "../../services/VentasService";
+import ProductoService from "../../services/ProductoService";
 
-function VentasGeneralesComponents () {
-
-    
-    //const navigate = useNavigate();
-
-    const initialState = {
-        id: "",
-        nombre: "",
-        empresa: "",
-    };
-    const [input, setInput] = useState(initialState);
+function EstadisticaProductosComponents () {
 
     
+    
+    const [datosOrganizados, setDatosOrganizados] = useState([]);
     const [mostrarCard, setMostrarCard] = useState(true);
     const [ventasEntity, setventasEntity] = useState([]);
-    const [yearEntity, setYearEntity] = useState(0)
+    const [yearEntity, setYearEntity] = useState(0);
+    const [productoEntity, setProductoEntity] = useState([]);
     useEffect(() => {
-        VentasService.getVentasByYear().then((res) => {
-            setventasEntity(res.data);
-            console.log('Datos de ventas:', res.data); // Esto mostrará los datos obtenidos en la consola
-        }).catch((error) => {
-            console.error('Error al obtener los datos:', error);
-        });
-    }, []);
-    
-    const handleClickVerYear =(venta) => {
-        
-        console.log("Monto seleccionado:", venta[0], "Año:", venta[1]);        
-        
-        const yearAux = venta[1];
+        const fetchData = async () => {
+            const productosRespuesta = await ProductoService.getProductos();
+            const productos = productosRespuesta.data;
+            const ventasRespuesta = await VentasService.getProductsByYear();
+            const ventas = ventasRespuesta.data;
 
-        console.log(yearAux);
+            setProductoEntity(productos);
+            organizarDatos(ventas, productos);
+        };
+
+        fetchData();
+    }, []);
+
+    const organizarDatos = (ventas, productos) => {
+        // Crear un objeto para mapear año y productos vendidos
+        let datosPorAnio = {};
+        
+        ventas.forEach(venta => {
+            const [idProducto, cantidad, anio] = venta;
+            if (!datosPorAnio[anio]) {
+                datosPorAnio[anio] = Array(productos.length).fill(0);
+            }
+            const indexProducto = productos.findIndex(p => p.id === idProducto);
+            datosPorAnio[anio][indexProducto] += cantidad;
+        });
+
+        // Convertir el objeto a una matriz para su uso en la vista
+        const matrizDatos = Object.entries(datosPorAnio).map(([anio, cantidades]) => {
+            return [parseInt(anio), ...cantidades];
+        });
+        setDatosOrganizados(matrizDatos);
+    };
+
+    const handleClickVerYear =(venta) => {   
+        
+        const yearAux = venta[0];
         setYearEntity(yearAux);
 
         updateVentas(yearAux); // Función que maneja la actualización
     }
     const updateVentas = (mainYear) =>{
-        
-        VentasService.getVentasByMonth().then((res) => {
-            const data = res.data;
-            const ventasTemp = Array(12).fill(0);
-
-            data.forEach(venta => {
-                const [monto, mes, year] = venta;
-                
-                console.log("mes: " + mes)
-                console.log("año: " + year)
-                console.log("año analizado: " + mainYear)
-                if(year === mainYear){
-                    console.log("Años iguales")
-                    ventasTemp[mes - 1] += monto; // Suma el monto al mes correspondiente (mes - 1 porque el array es base 0)
-                    console.log("Entonces el mes "+meses[mes - 1]+" acumula "+monto+" pesos" )
-                }
-                else{
-                    
-                    console.log("Años distintos. No se acumula nada en el mes " + meses[mes - 1]);
+        VentasService.getProductsByYearAndMonth().then((res) => {
+            let datosPorMesYear = [[],[],[],[],[],[],[],[],[],[],[],[]];
+            datosPorMesYear[0] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[1] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[2] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[3] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[4] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[5] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[6] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[7] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[8] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[9] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[10] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[11] = Array(productoEntity.length).fill(0);
+            datosPorMesYear[12] = Array(productoEntity.length).fill(0);
+            res.data.forEach(venta => {
+                if(venta[3] === mainYear){
+                    // venta[0]: id_producto
+                    // venta[1]: cantidad
+                    // venta[2]: mes
+                    // venta[3]: anio
+                    datosPorMesYear[venta[2]][venta[0]] += venta[1];
                 }
             });
-
-            setventasEntity(ventasTemp);            
-            console.log('Datos de ventas:', ventasTemp);
+            console.log(datosPorMesYear)
+            setventasEntity(datosPorMesYear);   
         });
-        
         setMostrarCard(false);
 
     };
 
+    const calcularTotalPorProducto = () => {
+        return ventasEntity.reduce((totales, mes) => {
+            return totales.map((total, index) => total + mes[index]);
+        }, Array(productoEntity.length).fill(0));
+    };
+    
     const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
-    
+
     if(mostrarCard){
         return(
             <div>
@@ -88,24 +110,26 @@ function VentasGeneralesComponents () {
                 <div className="container">
                     <div align="center" className="container-2">
                         <h1>
-                            <b>Ventas generales</b>
+                            <b>Ventas producto</b>
                         </h1>
                             <table border="1" className="content-table">
                                 <thead>
                                     <tr>
-                                        <th>Monto Total de Ventas</th>
                                         <th>Año</th>
+                                        {productoEntity.map((p, index) => <th key={index}>{p.nombre}</th>)}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {ventasEntity.map((venta, index) => (
+                                    {datosOrganizados.map((fila, index) => (
                                         <tr key={index}>
-                                            
-                                            <td>{venta[0]}</td> {/* Monto total de ventas */}
-                                            <td onClick={() => handleClickVerYear(venta)} style={{ cursor: 'pointer' }}>
-                                            {venta[1]}
+    
+    
+                                            <td onClick={() => handleClickVerYear(fila)} style={{ cursor: 'pointer' }}>
+                                            {fila[0]}
                                             </td>
-
+                                            {fila.slice(1).map((cantidad, index) => (
+                                                <td key={index}>{cantidad}</td>
+                                            ))}
                                         </tr>
                                     ))}
                                 </tbody>
@@ -117,33 +141,43 @@ function VentasGeneralesComponents () {
             </div>
         )
     }else{
+        const totalPorProducto = calcularTotalPorProducto();
         return(
             <div>
-                 <NavStyle>
+                <NavStyle>
                 <HeaderComponents />
                 <div className="container">
                     <div align="center" className="container-2">
                         <h1>
-                            <b>Ventas generales por mes</b>
+                            <b>Ventas producto {yearEntity}</b>
                         </h1>
-                        <table  border="1" className="content-table">
-                            <thead>
+                        
+                    <table border="1" className="content-table">
+                        <thead>
+                            <tr>
+                                <th>Meses</th>
+                                {productoEntity.map((p, index) => (
+                                    <th key={index}>{p.nombre}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {meses.map((mes, indexMes) => (
+                                    <tr key={indexMes}>
+                                        <td>{mes}</td>
+                                        {ventasEntity[indexMes].map((cantidad, indexProd) => (
+                                            <td key={indexProd}>{cantidad}</td>
+                                        ))}
+                                    </tr>
+                                ))}
                                 <tr>
-                                    <th>Año</th>
-                                    {meses.map(mes => <th key={mes}>{mes}</th>)}
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                                <tbody>
-                                <tr>
-                                    <th>{yearEntity}</th>
-                                    {ventasEntity.map((venta, index) => (
-                                        <td key={index}>{venta}</td>
+                                    <td>Total</td>
+                                    {totalPorProducto.map((total, index) => (
+                                        <td key={index}>{total}</td>
                                     ))}
-                                    <td>{ventasEntity.reduce((sum, current) => sum + current, 0)}</td>
                                 </tr>
-                                </tbody>
-                            </table>
+                            </tbody>
+                    </table>
                         
                     </div>
                 </div>
@@ -151,11 +185,14 @@ function VentasGeneralesComponents () {
             </div>
         )
     }
+    
+    
+  
 };
 
 
 
-export default VentasGeneralesComponents;
+export default EstadisticaProductosComponents;
 
 const NavStyle = styled.nav`
     /* Separación de las partes */
@@ -300,3 +337,5 @@ const NavStyle = styled.nav`
         font-family: "Pacifico", serif;
     }
 `;
+
+    

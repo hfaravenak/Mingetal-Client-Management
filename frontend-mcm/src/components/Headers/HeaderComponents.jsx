@@ -30,10 +30,6 @@ function HeaderComponents() {
                         </div>
                         <div className="dropdown">
                             <a className="btn" href="/ventas">Ventas</a>
-                            <div className="dropdown-menu">
-                                <a className="dropdown-item" href="/ventas/generales">Ventas Generales</a>
-                                <a className="dropdown-item" href="/ventas/productos">Ventas Productos</a>
-                            </div>
                         </div>
                         <div className="dropdown">
                             <a className="btn" href="/oc">Ordenes de Compra</a>
@@ -44,11 +40,7 @@ function HeaderComponents() {
                         </div>
                     </div>
                     <div className="header_der">
-
                         <a className="btn" href="/">Usuario</a>
-
-                        <a className="btn" href="#">Usuario</a>
-
                     </div>
                 </header>
             </NavStyle>

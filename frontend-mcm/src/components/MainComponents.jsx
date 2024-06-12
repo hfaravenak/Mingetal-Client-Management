@@ -36,6 +36,9 @@ function MainComponents() {
     const handleClickVentas = () => {
         navigate("/ventas")
     };
+    const handleClickEstadisticas = () => {
+        navigate("/estadistica")
+    };
 
 
     return (
@@ -64,10 +67,9 @@ function MainComponents() {
                         <img id="ventas" src={ventas} alt="ventas" />
                         <h2>Ventas</h2>
                     </div>
-                    <div className="card" onClick={nathing}>
+                    <div className="card" onClick={handleClickEstadisticas}>
                         <img id="estadistica" src={estadistica} alt="estadistica" />
                         <h2>Estadistica</h2>
-                        <h2 style={{ color: 'gray' }}>- Proximamente - </h2>
                     </div>
                     <div className="card" onClick={handleClickCotizacion}>
                         <img id="cotizacion" src={cotizacion} alt="cotizacion" />

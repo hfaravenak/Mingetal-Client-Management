@@ -14,6 +14,9 @@ class OrdenesDeCompraClienteService {
     getOCCliente(){
         return axios.get(OC_API_URL);
     }
+    getOCListProductosCliente(){
+        return axios.get(OC_API_URL+"productos/");
+    }
     getOCClienteById(id){
         if(id===""){
             return this.getOCCliente()
