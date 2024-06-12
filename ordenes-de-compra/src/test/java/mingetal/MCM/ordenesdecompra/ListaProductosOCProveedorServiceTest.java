@@ -16,6 +16,8 @@ public class ListaProductosOCProveedorServiceTest {
     @Autowired
     private ListaProductosOCProveedorService listaProductosOCProveedorService;
 
+    //-------------------- save --------------------
+
     @Test
     void guardarListProductosTestTrue(){
         ListaProductosOCProveedorEntity listaProductosOCProveedorEntity = new ListaProductosOCProveedorEntity(
@@ -24,12 +26,10 @@ public class ListaProductosOCProveedorServiceTest {
                 5,
                 300
         );
-        List<ListaProductosOCProveedorEntity> listaProductosEntities = new ArrayList<>();
-        listaProductosEntities.add(listaProductosOCProveedorEntity);
 
-        List<ListaProductosOCProveedorEntity> listaProductosEntities1 = listaProductosOCProveedorService.save(listaProductosEntities);
-        assertEquals(1, listaProductosEntities1.size());
-        assertEquals(listaProductosOCProveedorEntity, listaProductosEntities1.get(0));
+        assertNotNull(listaProductosOCProveedorService.save(listaProductosOCProveedorEntity));
+        assertEquals(listaProductosOCProveedorEntity, listaProductosOCProveedorService.findById(listaProductosOCProveedorEntity.getId()));
+
         listaProductosOCProveedorService.delete(listaProductosOCProveedorEntity.getId());
     }
     @Test
@@ -40,31 +40,13 @@ public class ListaProductosOCProveedorServiceTest {
                 5,
                 300
         );
-        List<ListaProductosOCProveedorEntity> listaProductosEntities = new ArrayList<>();
-        listaProductosEntities.add(listaProductosOCProveedorEntity);
-        listaProductosOCProveedorService.save(listaProductosEntities);
-        assertTrue(listaProductosOCProveedorService.save(listaProductosEntities).isEmpty());
+        listaProductosOCProveedorService.save(listaProductosOCProveedorEntity);
+        assertNull(listaProductosOCProveedorService.save(listaProductosOCProveedorEntity));
+
         listaProductosOCProveedorService.delete(listaProductosOCProveedorEntity.getId());
     }
 
-    @Test
-    void deleteListProductosTestTrue(){
-        ListaProductosOCProveedorEntity listaProductosOCProveedorEntity = new ListaProductosOCProveedorEntity(
-                -2,
-                -1,
-                5,
-                300
-        );
-        List<ListaProductosOCProveedorEntity> listaProductosEntities = new ArrayList<>();
-        listaProductosEntities.add(listaProductosOCProveedorEntity);
-        listaProductosOCProveedorService.save(listaProductosEntities);
-        assertEquals(listaProductosOCProveedorEntity, listaProductosOCProveedorService.delete(listaProductosOCProveedorEntity.getId()));
-        assertNull(listaProductosOCProveedorService.findById(listaProductosOCProveedorEntity.getId()));
-    }
-    @Test
-    void deleteListProductosTestFalse(){
-        assertNull(listaProductosOCProveedorService.delete(101));
-    }
+    //-------------------- findById --------------------
 
     @Test
     void findByIdTestTrue(){
@@ -74,18 +56,19 @@ public class ListaProductosOCProveedorServiceTest {
                 5,
                 300
         );
-        List<ListaProductosOCProveedorEntity> listaProductosEntities = new ArrayList<>();
-        listaProductosEntities.add(listaProductosOCProveedorEntity);
-        listaProductosOCProveedorService.save(listaProductosEntities);
+        listaProductosOCProveedorService.save(listaProductosOCProveedorEntity);
 
         ListaProductosOCProveedorEntity listaProductosOCProveedorEntityGetId = listaProductosOCProveedorService.findById(listaProductosOCProveedorEntity.getId());
         assertEquals(listaProductosOCProveedorEntityGetId.getId(), listaProductosOCProveedorEntity.getId());
+
         listaProductosOCProveedorService.delete(listaProductosOCProveedorEntity.getId());
     }
     @Test
     void findByIdTestFalse(){
-        assertNull(listaProductosOCProveedorService.findById(101));
+        assertNull(listaProductosOCProveedorService.findById(-1));
     }
+
+    //-------------------- findByIdOCProveedor --------------------
 
     @Test
     void findByIdProveedorTestTrue(){
@@ -95,9 +78,7 @@ public class ListaProductosOCProveedorServiceTest {
                 5,
                 300
         );
-        List<ListaProductosOCProveedorEntity> listaProductosEntities = new ArrayList<>();
-        listaProductosEntities.add(listaProductosOCProveedorEntity);
-        listaProductosOCProveedorService.save(listaProductosEntities);
+        listaProductosOCProveedorService.save(listaProductosOCProveedorEntity);
 
         assertFalse(listaProductosOCProveedorService.findByIdOCProveedor(listaProductosOCProveedorEntity.getId_OC_proveedor()).isEmpty());
 
@@ -108,4 +89,23 @@ public class ListaProductosOCProveedorServiceTest {
         assertTrue(listaProductosOCProveedorService.findByIdOCProveedor(-2).isEmpty());
     }
 
+    //-------------------- delete --------------------
+
+    @Test
+    void deleteListProductosTestTrue(){
+        ListaProductosOCProveedorEntity listaProductosOCProveedorEntity = new ListaProductosOCProveedorEntity(
+                -2,
+                -1,
+                5,
+                300
+        );
+        listaProductosOCProveedorService.save(listaProductosOCProveedorEntity);
+
+        assertEquals(listaProductosOCProveedorEntity, listaProductosOCProveedorService.delete(listaProductosOCProveedorEntity.getId()));
+        assertNull(listaProductosOCProveedorService.findById(listaProductosOCProveedorEntity.getId()));
+    }
+    @Test
+    void deleteListProductosTestFalse(){
+        assertNull(listaProductosOCProveedorService.delete(-1));
+    }
 }

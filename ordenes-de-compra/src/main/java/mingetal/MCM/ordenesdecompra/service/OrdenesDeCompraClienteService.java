@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class OrdenesDeCompraClienteService {
@@ -92,7 +91,7 @@ public class OrdenesDeCompraClienteService {
 
     //-------------------- Eliminar --------------------
 
-    public OrdenesDeCompraClienteEntity deleteOCCliente(int id){
+    public OrdenesDeCompraClienteEntity delete(int id){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = findById(id);
         if(ordenesDeCompraClienteEntity==null){
             return null;
@@ -103,14 +102,14 @@ public class OrdenesDeCompraClienteService {
 
     //-------------------- Editar --------------------
 
-    public OrdenesDeCompraClienteEntity updateOCCliente(OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity){
-        if(ordenesDeCompraClienteEntity!=null){
+    public OrdenesDeCompraClienteEntity update(OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity){
+        if(ordenesDeCompraClienteEntity!=null && findById(ordenesDeCompraClienteEntity.getId())!=null){
             return ordenesDeCompraClienteRepository.save(ordenesDeCompraClienteEntity);
         }
         return null;
     }
 
-    // -------------------- ESTADÍSTICAS ----------------------
+    // -------------------- Estadística --------------------
 
     // Función para obtener todos los productos por año
     // Entrega en orden:

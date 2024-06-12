@@ -127,7 +127,6 @@ public class ProductosService {
         return productosEntities;
     }
 
-
     //-------------------- Eliminar --------------------
 
     public ProductosEntity delete(int id){
