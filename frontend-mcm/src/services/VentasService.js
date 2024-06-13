@@ -20,6 +20,9 @@ class VentasService{
     getProductsByYearAndMonth(){
         return axios.get(VENTAS_GENERALES_API_URL + "productsbyyearandmonth");
     }
+    getSimilVentasAnteriores(){
+        return axios.get(VENTAS_GENERALES_API_URL + "similarpreviousmonths");
+    }
 }
 const ventasService = new VentasService();
 export default ventasService;

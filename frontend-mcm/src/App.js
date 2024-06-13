@@ -33,6 +33,7 @@ import ProductoCrearComponents from "./components/Productos/ProductoCrearCompone
 import MainEstadisticaComponents from "./components/Estadisticas/MainEstadisticaComponents";
 import EstadisticaGeneralesComponents from "./components/Estadisticas/EstadisticaGeneralesComponents";
 import EstadisticaProductosComponents from "./components/Estadisticas/EstadisticaProductosComponents";
+import GraficosComponents from "./components/Estadisticas/GraficosComponents";
 
 import ListVentasComponents from "./components/Ventas/ListVentasComponents";
 
@@ -72,7 +73,8 @@ function App() {
 
                   <Route path="/estadistica" element={<MainEstadisticaComponents/>} />  
                   <Route path="/estadistica/generales" element={<EstadisticaGeneralesComponents/>} />  
-                  <Route path="/estadistica/productos" element={<EstadisticaProductosComponents/>} />  
+                  <Route path="/estadistica/productos" element={<EstadisticaProductosComponents/>} />
+                  <Route path="/estadistica/graficos" element={<GraficosComponents/>} />
 
                   <Route path="/ventas" element={<ListVentasComponents/>} />  
               </Routes>
