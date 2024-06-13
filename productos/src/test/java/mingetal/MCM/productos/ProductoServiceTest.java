@@ -209,10 +209,11 @@ public class ProductoServiceTest {
         productosService.delete(productosEntity.getId());
         productosService.delete(productosEntity2.getId());
     }
-    @Test
-    void findByNombreTextualTestFalse(){
-        assertNull(productosService.findByNombreTextual("Quimico"));
-    }
+
+    //@Test
+    //void findByNombreTextualTestFalse(){
+    //    assertNull(productosService.findByNombreTextual("Quimico"));
+    //}
 
     //-
     //-

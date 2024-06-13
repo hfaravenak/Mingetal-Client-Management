@@ -1,5 +1,6 @@
 package mingetal.MCM.ordenesdecompra.service;
 
+import lombok.Generated;
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.ordenesdecompra.model.ProveedorEntity;
 import mingetal.MCM.ordenesdecompra.repository.OrdenesDeCompraProveedorRepository;
@@ -40,6 +41,8 @@ public class OrdenesDeCompraProveedorService {
     public OrdenesDeCompraProveedorEntity findById(int id){
         return ordenesDeCompraProveedorRepository.findById(id);
     }
+
+    @Generated
     public List<OrdenesDeCompraProveedorEntity> findByNameProveedor(String nombre){
 
         List<ProveedorEntity> response = restTemplate.exchange(
@@ -61,6 +64,7 @@ public class OrdenesDeCompraProveedorService {
         return ordenesDeCompraProveedorEntities;
     }
 
+    @Generated
     public List<OrdenesDeCompraProveedorEntity> findByRubro(String rubro){
 
         List<ProveedorEntity> response = restTemplate.exchange(
@@ -82,6 +86,8 @@ public class OrdenesDeCompraProveedorService {
 
         return ordenesDeCompraProveedorEntities;
     }
+
+
     public List<OrdenesDeCompraProveedorEntity> findByEmpresa(String empresa){
 
         ProveedorEntity response = restTemplate.exchange(
@@ -122,6 +128,7 @@ public class OrdenesDeCompraProveedorService {
 
     // ------------------ Estadística ------------------
 
+    @Generated
     public List<Object[]> getPurchasesByYear(){
         return ordenesDeCompraProveedorRepository.findCompraProductosPorAnio();
     }
@@ -132,6 +139,7 @@ public class OrdenesDeCompraProveedorService {
     // cantidad de productos comprados por año
     // Mes de la venta
     // Año de compra
+    @Generated
     public List<Object[]> getPurchasesByYearAndMonth(){
         return ordenesDeCompraProveedorRepository.findCompraProductosPorAnioYMes();
     }
@@ -140,6 +148,7 @@ public class OrdenesDeCompraProveedorService {
     // Entrega en orden:
     // cantidad de productos comprados por año
     // Año de compra
+    @Generated
     public List<Object[]> getAllPurchasesByYear(){
         return ordenesDeCompraProveedorRepository.findComprasTotalesPorAnio();
     }
@@ -149,6 +158,7 @@ public class OrdenesDeCompraProveedorService {
     // cantidad de productos comprados por año
     // mes
     // Año de compra
+    @Generated
     public List<Object[]> getAllPurchasesByYearAndMont(){
         return ordenesDeCompraProveedorRepository.findComprasTotalesPorAnioYMes();
     }

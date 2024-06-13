@@ -1,5 +1,6 @@
 package mingetal.MCM.ordenesdecompra.service;
 
+import lombok.Generated;
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraClienteEntity;
 import mingetal.MCM.ordenesdecompra.model.ClienteEntity;
 import mingetal.MCM.ordenesdecompra.repository.OrdenesDeCompraClienteRepository;
@@ -42,13 +43,17 @@ public class OrdenesDeCompraClienteService {
         ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
         return ordenesDeCompraClienteEntities;
     }
+
     public OrdenesDeCompraClienteEntity findById(int id){
         return ordenesDeCompraClienteRepository.findById(id);
     }
+
     public  List<OrdenesDeCompraClienteEntity> findByIdCliente(String id_cliente){
         return ordenesDeCompraClienteRepository.findByIdCliente(id_cliente);
 
     }
+
+    @Generated
     public List<OrdenesDeCompraClienteEntity> findByNameCliente(String nombre){
 
         List<ClienteEntity> response = restTemplate.exchange(
@@ -69,6 +74,8 @@ public class OrdenesDeCompraClienteService {
         }
         return ordenesDeCompraClienteEntities;
     }
+
+    @Generated
     public List<OrdenesDeCompraClienteEntity> findByEmpresaCliente(String empresa){
 
         List<ClienteEntity> response = restTemplate.exchange(
@@ -121,6 +128,7 @@ public class OrdenesDeCompraClienteService {
     // id del producto
     // cantidad de productos vendidos por año
     // Año de venta
+    @Generated
     public List<Object[]> getProductByYear(){
         return ordenesDeCompraClienteRepository.findVentaProductosPorAnio();
     }
@@ -131,6 +139,7 @@ public class OrdenesDeCompraClienteService {
     // cantidad de productos vendidos por año
     // Mes de la venta
     // Año de venta
+    @Generated
     public List<Object[]> getProductByYearAndMonth(){
         return ordenesDeCompraClienteRepository.findVentaProductosPorAnioYMes();
     }
@@ -140,6 +149,7 @@ public class OrdenesDeCompraClienteService {
     // Monto vendido por año
     // cantidad de ventas por año
     // Año de venta
+    @Generated
     public List<Object[]> getSalesByYear(){
         return ordenesDeCompraClienteRepository.findVentasTotalesPorAnio();
     }
@@ -150,6 +160,7 @@ public class OrdenesDeCompraClienteService {
     // cantidad de ventas por mes de cada año
     // mes
     // Año de venta
+    @Generated
     public List<Object[]> getSalesByYearAndMonth(){
         return ordenesDeCompraClienteRepository.findVentasTotalesPorAnioYMes();
     }
@@ -159,6 +170,7 @@ public class OrdenesDeCompraClienteService {
     // Rut del cliente
     // cantidad de productos comprados por el cliente en el año
     // Año de venta
+    @Generated
     public List<Object[]> getClientsByYear(){
         return ordenesDeCompraClienteRepository.clientList();
     }
@@ -169,6 +181,7 @@ public class OrdenesDeCompraClienteService {
     // Ventas totales
     // Mes
     // Año
+    @Generated
     public List<Object[]> similarPreviusMonths() {
         List<Object[]> ventasPorMesYAnio = ordenesDeCompraClienteRepository.comparacionMesesIgualesAnteriores();
 

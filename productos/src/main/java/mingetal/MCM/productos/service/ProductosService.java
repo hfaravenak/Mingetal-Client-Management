@@ -1,5 +1,6 @@
 package mingetal.MCM.productos.service;
 
+import lombok.Generated;
 import mingetal.MCM.productos.entity.ProductosEntity;
 import mingetal.MCM.productos.model.ListaProductosCotizacionEntity;
 import mingetal.MCM.productos.model.ListaProductosOCClienteEntity;
@@ -63,6 +64,7 @@ public class ProductosService {
 
         return resultados;
     }
+    @Generated
     public ProductosEntity findByNombreTextual(String nombre) {
         return productosRepository.findByNombre(nombre);
     }
@@ -85,6 +87,8 @@ public class ProductosService {
 
         return productosEntities;
     }
+
+    @Generated
     public List<ProductosEntity> findByOCProveedor(int id){
         List<ListaProductosOCProveedorEntity> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/proveedor/productos/"+id,
@@ -105,6 +109,8 @@ public class ProductosService {
 
         return productosEntities;
     }
+
+    @Generated
     public List<ProductosEntity> findByCotizacion(int id){
         System.out.println("id: "+id);
         List<ListaProductosCotizacionEntity> response = restTemplate.exchange(

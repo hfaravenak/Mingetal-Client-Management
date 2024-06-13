@@ -30,9 +30,11 @@ public class ContactoService {
     public List<ContactoEntity> findAll() {
         return contactoRepository.findAll();
     }
+
     public ContactoEntity findByRut(String rut) {
         return contactoRepository.findById(rut);
     }
+
     public List<ContactoEntity> findByNombre(String nombre) {
         List<ContactoEntity> contactoEntities = findAll();
         List<ContactoEntity> resultados = new ArrayList<>();
