@@ -26,6 +26,11 @@ public class OrdenesDeCompraClienteController {
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities=ordenesDeCompraClienteService.findAll();
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);
     }
+    @GetMapping("/pagado/entregado/")
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOCClientePagadoEntregado(){
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities=ordenesDeCompraClienteService.findPagadoEntregado();
+        return ResponseEntity.ok(ordenesDeCompraClienteEntities);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<OrdenesDeCompraClienteEntity> getOCClienteById(@PathVariable("id") int id){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findById(id);
@@ -75,6 +80,12 @@ public class OrdenesDeCompraClienteController {
     public ResponseEntity<List<Object[]>> getSalesByYear(){
         List<Object[]> peryear = ordenesDeCompraClienteService.getSalesByYear();
         return ResponseEntity.ok(peryear);
+    }
+
+    @GetMapping("/similarpreviousmonths")
+    public ResponseEntity<List<Object[]>> getSimilarPreviousMonths(){
+        List<Object[]> simil = ordenesDeCompraClienteService.similarPreviusMonths();
+        return ResponseEntity.ok(simil);
     }
 
     @GetMapping("/salesbyyearandmonth")

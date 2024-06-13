@@ -26,7 +26,6 @@ function EstadisticaProductosComponents () {
             const productos = productosRespuesta.data;
             const ventasRespuesta = await VentasService.getProductsByYear();
             const ventas = ventasRespuesta.data;
-
             setProductoEntity(productos);
             organizarDatos(ventas, productos);
         };
@@ -165,9 +164,9 @@ function EstadisticaProductosComponents () {
                                 {meses.map((mes, indexMes) => (
                                     <tr key={indexMes}>
                                         <td>{mes}</td>
-                                        {ventasEntity[indexMes].map((cantidad, indexProd) => (
-                                            <td key={indexProd}>{cantidad}</td>
-                                        ))}
+                                        {ventasEntity[indexMes] && ventasEntity[indexMes].map((cantidad, indexProd) => (
+                                                <td key={indexProd}>{cantidad}</td>
+                                            ))}
                                     </tr>
                                 ))}
                                 <tr>
@@ -185,9 +184,6 @@ function EstadisticaProductosComponents () {
             </div>
         )
     }
-    
-    
-  
 };
 
 

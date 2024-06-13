@@ -9,9 +9,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OrdenesDeCompraClienteService {
@@ -34,6 +33,12 @@ public class OrdenesDeCompraClienteService {
 
     public List<OrdenesDeCompraClienteEntity> findAll(){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findAll();
+        ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
+        return ordenesDeCompraClienteEntities;
+    }
+
+    public List<OrdenesDeCompraClienteEntity> findPagadoEntregado(){
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findPagadoEntregado();
         ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
         return ordenesDeCompraClienteEntities;
     }
@@ -132,7 +137,8 @@ public class OrdenesDeCompraClienteService {
 
     // Función para obtener todas las ventas por año
     // Entrega en orden:
-    // cantidad de productos vendidos por año
+    // Monto vendido por año
+    // cantidad de ventas por año
     // Año de venta
     public List<Object[]> getSalesByYear(){
         return ordenesDeCompraClienteRepository.findVentasTotalesPorAnio();
@@ -140,7 +146,8 @@ public class OrdenesDeCompraClienteService {
 
     // Función para obtener todas las ventas por año y mes
     // Entrega en orden:
-    // cantidad de productos vendidos por año
+    // monto vendido por mes de cada año
+    // cantidad de ventas por mes de cada año
     // mes
     // Año de venta
     public List<Object[]> getSalesByYearAndMonth(){
@@ -156,4 +163,55 @@ public class OrdenesDeCompraClienteService {
         return ordenesDeCompraClienteRepository.clientList();
     }
 
+    // Función para hacer la comparación entre similes de meses anteriores
+    // Entrega en orden:
+    // Monto de ventas
+    // Ventas totales
+    // Mes
+    // Año
+    public List<Object[]> similarPreviusMonths() {
+        List<Object[]> ventasPorMesYAnio = ordenesDeCompraClienteRepository.comparacionMesesIgualesAnteriores();
+
+        // Extraer los años únicos y ordenarlos en orden descendente
+        Set<Integer> aniosUnicos = ventasPorMesYAnio.stream()
+                .map(row -> (Integer) row[3]) // Índice 3 corresponde a 'anio'
+                .collect(Collectors.toCollection(TreeSet::new)).descendingSet();
+
+        // Tomar los últimos 3 años (los más recientes)
+        List<Integer> ultimosTresAnios = aniosUnicos.stream().limit(3).collect(Collectors.toList());
+
+        // Crear una lista con todos los meses para los últimos tres años
+        List<Object[]> todosMeses = new ArrayList<>();
+        for (Integer anio : ultimosTresAnios) {
+            for (int mes = 1; mes <= 12; mes++) {
+                todosMeses.add(new Object[]{0, 0, mes, anio});
+            }
+        }
+
+        // Filtrar los datos para incluir solo los últimos 3 años
+        List<Object[]> datosFiltrados = ventasPorMesYAnio.stream()
+                .filter(row -> ultimosTresAnios.contains(row[3])) // Índice 3 corresponde a 'anio'
+                .collect(Collectors.toList());
+
+        // Crear un mapa para facilitar la actualización de los meses con datos
+        Map<String, Object[]> mapaMeses = todosMeses.stream()
+                .collect(Collectors.toMap(
+                        row -> row[2] + "-" + row[3], // Llave: "mes-año"
+                        row -> row
+                ));
+
+        // Actualizar los meses con los datos reales
+        for (Object[] row : datosFiltrados) {
+            String clave = row[2] + "-" + row[3];
+            mapaMeses.put(clave, row);
+        }
+
+        // Ordenar y colectar los resultados finales agrupados por mes
+        List<Object[]> resultadoFinal = mapaMeses.values().stream()
+                .sorted(Comparator.comparing((Object[] row) -> (Integer) row[2]).reversed()
+                        .thenComparing((Object[] row) -> (Integer) row[3]).reversed())
+                .collect(Collectors.toList());
+
+        return resultadoFinal;
+    }
 }

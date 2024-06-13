@@ -60,6 +60,7 @@ public class OrdenesDeCompraProveedorService {
         }
         return ordenesDeCompraProveedorEntities;
     }
+
     public List<OrdenesDeCompraProveedorEntity> findByRubro(String rubro){
 
         List<ProveedorEntity> response = restTemplate.exchange(
@@ -121,11 +122,6 @@ public class OrdenesDeCompraProveedorService {
 
     // ------------------ Estadística ------------------
 
-    // Función para obtener todos los productos comprados por año
-    // Entrega en orden:
-    // id del producto
-    // cantidad de productos comprados por año
-    // Año de compra
     public List<Object[]> getPurchasesByYear(){
         return ordenesDeCompraProveedorRepository.findCompraProductosPorAnio();
     }
@@ -156,5 +152,7 @@ public class OrdenesDeCompraProveedorService {
     public List<Object[]> getAllPurchasesByYearAndMont(){
         return ordenesDeCompraProveedorRepository.findComprasTotalesPorAnioYMes();
     }
+
+
 
 }
