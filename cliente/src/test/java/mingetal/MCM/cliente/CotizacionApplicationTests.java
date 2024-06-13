@@ -19,7 +19,19 @@ public class CotizacionApplicationTests {
     //-------------------- save --------------------
 
     @Test
-    void saveTest() {
+    void saveTestTrue() {
+        CotizacionEntity cotizacion = new CotizacionEntity(
+                "PedidoX",
+                LocalDate.parse("2000-12-24"),
+                "Enviado",
+                "12345678-9"
+        );
+        assertNotNull(cotizacionService.save(cotizacion));
+        assertEquals(cotizacion, cotizacionService.findById(cotizacion.getIdCotizacion()));
+        cotizacionService.delete(cotizacion.getIdCotizacion());
+    }
+    @Test
+    void saveTestFalse() {
         CotizacionEntity cotizacion = new CotizacionEntity(
                 "PedidoX",
                 LocalDate.parse("2000-12-24"),
@@ -27,12 +39,9 @@ public class CotizacionApplicationTests {
                 "12345678-9"
         );
 
-        CotizacionEntity cotizacionEntity = cotizacionService.save(cotizacion);
-        assertNotNull(cotizacionEntity);
-
-        CotizacionEntity cotizacionGuardada = cotizacionService.findById(cotizacion.getIdCotizacion());
-        assertNotNull(cotizacionGuardada);
-        cotizacionService.delete(cotizacionGuardada.getIdCotizacion());
+        cotizacionService.save(cotizacion);
+        assertNull(cotizacionService.save(cotizacion));
+        cotizacionService.delete(cotizacion.getIdCotizacion());
     }
 
     //-------------------- findAll --------------------

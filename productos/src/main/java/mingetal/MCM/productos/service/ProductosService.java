@@ -68,6 +68,7 @@ public class ProductosService {
     public ProductosEntity findByNombreTextual(String nombre) {
         return productosRepository.findByNombre(nombre);
     }
+    @Generated
     public List<ProductosEntity> findByOCCliente(int id){
         List<ListaProductosOCClienteEntity> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/cliente/productos/"+id,
@@ -87,7 +88,6 @@ public class ProductosService {
 
         return productosEntities;
     }
-
     @Generated
     public List<ProductosEntity> findByOCProveedor(int id){
         List<ListaProductosOCProveedorEntity> response = restTemplate.exchange(
@@ -109,7 +109,6 @@ public class ProductosService {
 
         return productosEntities;
     }
-
     @Generated
     public List<ProductosEntity> findByCotizacion(int id){
         System.out.println("id: "+id);
@@ -152,18 +151,6 @@ public class ProductosService {
             return null;
         }
         return productosRepository.save(productosEntity);
-    }
-
-    public List<ProductosEntity> updateCantidadProductos(List<List<Integer>> productosEntities){
-        List<ProductosEntity> productosEntities1 = new ArrayList<>();
-        for(List<Integer> productos:productosEntities){
-            ProductosEntity productosEntity = findById(productos.get(0));
-            if(productosEntity!=null){
-                productosEntity.setCantidad(productosEntity.getCantidad()-productos.get(1));
-                productosEntities1.add(update(productosEntity));
-            }
-        }
-        return productosEntities1;
     }
 
 }

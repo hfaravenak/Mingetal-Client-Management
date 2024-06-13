@@ -87,7 +87,7 @@ public class OrdenesDeCompraProveedorService {
         return ordenesDeCompraProveedorEntities;
     }
 
-
+    @Generated
     public List<OrdenesDeCompraProveedorEntity> findByEmpresa(String empresa){
 
         ProveedorEntity response = restTemplate.exchange(
@@ -120,7 +120,7 @@ public class OrdenesDeCompraProveedorService {
     //-------------------- Editar --------------------
 
     public OrdenesDeCompraProveedorEntity update(OrdenesDeCompraProveedorEntity ordenesDeCompraProveedorEntity){
-        if(ordenesDeCompraProveedorEntity!=null){
+        if(ordenesDeCompraProveedorEntity!=null && findById(ordenesDeCompraProveedorEntity.getId())!=null){
             return ordenesDeCompraProveedorRepository.save(ordenesDeCompraProveedorEntity);
         }
         return null;

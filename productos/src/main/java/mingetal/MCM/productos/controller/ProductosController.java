@@ -58,8 +58,4 @@ public class ProductosController {
     public ResponseEntity<ProductosEntity> updateProducto(@RequestBody ProductosEntity productosEntity){
         return ResponseEntity.ok(productosService.update(productosEntity));
     }
-    @PutMapping("/update/cantidadProductos")
-    public ResponseEntity<List<ProductosEntity>> updateCantidadProductos(@RequestBody List<List<Integer>> productosEntities){
-        return ResponseEntity.ok(productosService.updateCantidadProductos(productosEntities));
-    }
 }

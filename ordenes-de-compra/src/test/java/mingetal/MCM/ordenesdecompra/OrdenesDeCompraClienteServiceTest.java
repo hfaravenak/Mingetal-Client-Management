@@ -112,6 +112,99 @@ public class OrdenesDeCompraClienteServiceTest {
         ordenesDeCompraClienteService.delete(ordenesDeCompraClienteEntity2.getId());
     }
 
+    //-------------------- findAll --------------------
+
+    @Test
+    void findPagadoEntregadoTestTrue() {
+        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity1 = new OrdenesDeCompraClienteEntity(
+                "-1",
+                "No Emitida",
+                "Pagado",
+                100000,
+                LocalDate.parse("2024-05-25"),
+                LocalDate.parse("2024-05-02"),
+                "Entregado",
+                "Efectivo",
+                LocalDate.parse("2024-05-02"),
+                30,
+                "15888226",
+                "12255",
+                "SoyYoUnaPrueba",
+                LocalDate.parse("2024-06-25")
+        );
+        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity2 = new OrdenesDeCompraClienteEntity(
+                "-2",
+                "No Emitida",
+                "Pagado",
+                100000,
+                LocalDate.parse("2024-05-25"),
+                LocalDate.parse("2024-05-02"),
+                "Entregado",
+                "Efectivo",
+                LocalDate.parse("2024-05-02"),
+                30,
+                "15888226",
+                "12255",
+                "SoyYoUnaPrueba",
+                LocalDate.parse("2024-06-25")
+        );
+
+        ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity1);
+        ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity2);
+
+        assertFalse(ordenesDeCompraClienteService.findPagadoEntregado().isEmpty());
+        assertTrue(ordenesDeCompraClienteService.findPagadoEntregado().contains(ordenesDeCompraClienteEntity1));
+        assertTrue(ordenesDeCompraClienteService.findPagadoEntregado().contains(ordenesDeCompraClienteEntity2));
+
+        ordenesDeCompraClienteService.delete(ordenesDeCompraClienteEntity1.getId());
+        ordenesDeCompraClienteService.delete(ordenesDeCompraClienteEntity2.getId());
+    }
+
+    @Test
+    void findPagadoEntregadoTestFalse() {
+        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity1 = new OrdenesDeCompraClienteEntity(
+                "-1",
+                "No Emitida",
+                "No Pagado",
+                100000,
+                LocalDate.parse("2024-05-25"),
+                LocalDate.parse("2024-05-02"),
+                "No Entregado",
+                "Efectivo",
+                LocalDate.parse("2024-05-02"),
+                30,
+                "15888226",
+                "12255",
+                "SoyYoUnaPrueba",
+                LocalDate.parse("2024-06-25")
+        );
+        OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity2 = new OrdenesDeCompraClienteEntity(
+                "-2",
+                "No Emitida",
+                "No Pagado",
+                100000,
+                LocalDate.parse("2024-05-25"),
+                LocalDate.parse("2024-05-02"),
+                "No Entregado",
+                "Efectivo",
+                LocalDate.parse("2024-05-02"),
+                30,
+                "15888226",
+                "12255",
+                "SoyYoUnaPrueba",
+                LocalDate.parse("2024-06-25")
+        );
+
+        ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity1);
+        ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity2);
+
+        assertFalse(ordenesDeCompraClienteService.findPagadoEntregado().contains(ordenesDeCompraClienteEntity1));
+        assertFalse(ordenesDeCompraClienteService.findPagadoEntregado().contains(ordenesDeCompraClienteEntity2));
+
+        ordenesDeCompraClienteService.delete(ordenesDeCompraClienteEntity1.getId());
+        ordenesDeCompraClienteService.delete(ordenesDeCompraClienteEntity2.getId());
+    }
+
     //-------------------- findById --------------------
 
     @Test

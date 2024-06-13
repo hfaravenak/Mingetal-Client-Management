@@ -220,7 +220,6 @@ public class OrdenesDeCompraProveedorServiceTest {
                 4500,
                 "Entregado"
         );
-
         assertNull(ordenesDeCompraProveedorService.update(ordenesDeCompraProveedorEntity2));
 
         ordenesDeCompraProveedorService.delete(ordenesDeCompraProveedorEntity.getId());
