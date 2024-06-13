@@ -94,7 +94,9 @@ function ListVentasComponents() {
         }, {});
     };
 
+    
     const groupedData = groupByYearAndMonth(OCClienteEntity);
+    
     const meses = [
         "Enero",
         "Febrero",
@@ -119,14 +121,14 @@ function ListVentasComponents() {
                         <h1>
                             <b>Historial de Ventas</b>
                         </h1>
-                        {Object.keys(groupedData).map((year) => (
+                        {Object.keys(groupedData).reverse().map((year) => (
                             <div key={year} className="year-border">
                                 <h2 onClick={() => handleYearClick(year)}>
                                     {expandedYears[year] ? "-" : "+"} {year}
                                 </h2>
                                 {expandedYears[year] && (
                                     <div>
-                                        {Object.keys(groupedData[year]).map((month) => (
+                                        {Object.keys(groupedData[year]).reverse().map((month) => (
                                             <div key={month} className="month-border">
                                                 <h3 onClick={() => handleMonthClick(year, month)}>
                                                     {expandedMonths[`${year}-${month}`] ? "-" : "+"} {meses[month]}
