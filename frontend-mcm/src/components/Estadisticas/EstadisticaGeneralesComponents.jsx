@@ -25,6 +25,7 @@ function EstadisticaGeneralesComponents () {
     
     const [mostrarCard, setMostrarCard] = useState(true);
     const [ventasEntity, setventasEntity] = useState([]);
+    const [cantidadEntity, setCantidadEntity] = useState([]);
     const [yearEntity, setYearEntity] = useState(0)
     useEffect(() => {
         VentasService.getVentasByYear().then((res) => {
@@ -37,9 +38,9 @@ function EstadisticaGeneralesComponents () {
     
     const handleClickVerYear =(venta) => {
         
-        console.log("Monto seleccionado:", venta[0], "Año:", venta[1]);        
+        console.log("Monto seleccionado:", venta[0], "Año:", venta[2]);        
         
-        const yearAux = venta[1];
+        const yearAux = venta[2];
 
         console.log(yearAux);
         setYearEntity(yearAux);
@@ -50,24 +51,36 @@ function EstadisticaGeneralesComponents () {
         
         VentasService.getVentasByMonth().then((res) => {
             const data = res.data;
+            const cantidadTemp = Array(12).fill(0);
             const ventasTemp = Array(12).fill(0);
+            console.log("#####################################")
+            console.log(data)
+            console.log("#####################################")
 
+            // monto vendido por mes de cada año
+            // cantidad de ventas por mes de cada año
+            // mes
+            // Año de venta
             data.forEach(venta => {
-                const [monto, mes, year] = venta;
+                const [monto, cantidad, mes, year] = venta;
                 
                 console.log("mes: " + mes)
                 console.log("año: " + year)
                 console.log("año analizado: " + mainYear)
                 if(year === mainYear){
                     console.log("Años iguales")
-                    ventasTemp[mes - 1] += monto; // Suma el monto al mes correspondiente (mes - 1 porque el array es base 0)
-                    console.log("Entonces el mes "+meses[mes - 1]+" acumula "+monto+" pesos" )
+                    cantidadTemp[mes - 1] += cantidad; // Suma el monto al mes correspondiente (mes - 1 porque el array es base 0)
+                    ventasTemp[mes-1] += monto;
+                    console.log("Entonces el mes "+meses[mes - 1]+" acumula "+cantidad)
                 }
                 else{
                     
                     console.log("Años distintos. No se acumula nada en el mes " + meses[mes - 1]);
                 }
             });
+
+            setCantidadEntity(cantidadTemp);            
+            console.log('Datos de cantidad:', cantidadTemp);
 
             setventasEntity(ventasTemp);            
             console.log('Datos de ventas:', ventasTemp);
@@ -94,6 +107,7 @@ function EstadisticaGeneralesComponents () {
                                 <thead>
                                     <tr>
                                         <th>Monto Total de Ventas</th>
+                                        <th>Cantidad de ventas</th>
                                         <th>Año</th>
                                     </tr>
                                 </thead>
@@ -101,9 +115,10 @@ function EstadisticaGeneralesComponents () {
                                     {ventasEntity.map((venta, index) => (
                                         <tr key={index}>
                                             
-                                            <td>{venta[0]}</td> {/* Monto total de ventas */}
+                                            <td>${venta[0]}</td> {/* Monto total de ventas */}
+                                            <td>{venta[1]}</td>
                                             <td onClick={() => handleClickVerYear(venta)} style={{ cursor: 'pointer' }}>
-                                            {venta[1]}
+                                            {venta[2]}
                                             </td>
 
                                         </tr>
@@ -124,7 +139,7 @@ function EstadisticaGeneralesComponents () {
                 <div className="container">
                     <div align="center" className="container-2">
                         <h1>
-                            <b>Ventas generales por mes</b>
+                            <b>Cantidad de ventas por mes || {yearEntity}</b>
                         </h1>
                         <table  border="1" className="content-table">
                             <thead>
@@ -137,11 +152,33 @@ function EstadisticaGeneralesComponents () {
                                 <tbody>
                                 <tr>
                                     <th>{yearEntity}</th>
-                                    {ventasEntity.map((venta, index) => (
+                                    {cantidadEntity.map((venta, index) => (
                                         <td key={index}>{venta}</td>
                                     ))}
-                                    <td>{ventasEntity.reduce((sum, current) => sum + current, 0)}</td>
+                                    <td>{cantidadEntity.reduce((sum, current) => sum + current, 0)}</td>
                                 </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h1>
+                                <b>Ventas por mes || {yearEntity}</b>
+                            </h1>
+                            <table border="1" className="content-table">
+                                <thead>
+                                    <tr>
+                                        <th>Año</th>
+                                        {meses.map(mes => <th key={mes}>{mes}</th>)}
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>{yearEntity}</th>
+                                        {ventasEntity.map((venta, index) => (
+                                            <td key={index}>${venta}</td>
+                                        ))}
+                                        <td>${ventasEntity.reduce((sum, current) => sum + current, 0)}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         
