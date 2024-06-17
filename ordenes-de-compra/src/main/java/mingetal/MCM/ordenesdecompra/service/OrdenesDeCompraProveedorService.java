@@ -146,7 +146,8 @@ public class OrdenesDeCompraProveedorService {
 
     // Función para obtener todas las compras totales por año
     // Entrega en orden:
-    // cantidad de productos comprados por año
+    // Monto total de compras
+    // Cantidad de compras
     // Año de compra
     @Generated
     public List<Object[]> getAllPurchasesByYear(){
@@ -155,7 +156,8 @@ public class OrdenesDeCompraProveedorService {
 
     // Función para obtener todas las compras totales por año mes
     // Entrega en orden:
-    // cantidad de productos comprados por año
+    // Monto total de compras
+    // Cantidad de compras
     // mes
     // Año de compra
     @Generated
