@@ -152,9 +152,9 @@ public class OrdenesDeCompraClienteServiceTest {
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity1);
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity2);
 
-        assertFalse(ordenesDeCompraClienteService.findPagadoEntregado().isEmpty());
-        assertTrue(ordenesDeCompraClienteService.findPagadoEntregado().contains(ordenesDeCompraClienteEntity1));
-        assertTrue(ordenesDeCompraClienteService.findPagadoEntregado().contains(ordenesDeCompraClienteEntity2));
+        assertFalse(ordenesDeCompraClienteService.findPagado().isEmpty());
+        assertTrue(ordenesDeCompraClienteService.findPagado().contains(ordenesDeCompraClienteEntity1));
+        assertTrue(ordenesDeCompraClienteService.findPagado().contains(ordenesDeCompraClienteEntity2));
 
         ordenesDeCompraClienteService.delete(ordenesDeCompraClienteEntity1.getId());
         ordenesDeCompraClienteService.delete(ordenesDeCompraClienteEntity2.getId());
@@ -198,8 +198,8 @@ public class OrdenesDeCompraClienteServiceTest {
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity1);
         ordenesDeCompraClienteService.save(ordenesDeCompraClienteEntity2);
 
-        assertFalse(ordenesDeCompraClienteService.findPagadoEntregado().contains(ordenesDeCompraClienteEntity1));
-        assertFalse(ordenesDeCompraClienteService.findPagadoEntregado().contains(ordenesDeCompraClienteEntity2));
+        assertFalse(ordenesDeCompraClienteService.findPagado().contains(ordenesDeCompraClienteEntity1));
+        assertFalse(ordenesDeCompraClienteService.findPagado().contains(ordenesDeCompraClienteEntity2));
 
         ordenesDeCompraClienteService.delete(ordenesDeCompraClienteEntity1.getId());
         ordenesDeCompraClienteService.delete(ordenesDeCompraClienteEntity2.getId());

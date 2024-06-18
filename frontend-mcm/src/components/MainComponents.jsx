@@ -11,6 +11,7 @@ import estadistica from "../images/estadistica.png"
 import cotizacion from "../images/cotizacion.png"
 
 import HeaderComponents from "./Headers/HeaderComponents";
+import AlertaPagoComponents from "./Alertas/AlertaPagoComponents"
 
 function MainComponents() {
     const navigate = useNavigate();
@@ -20,9 +21,6 @@ function MainComponents() {
 
     const handleClickOC = () => {
         navigate("/oc");
-    };
-    const nathing = () => {
-        navigate("/");
     };
     const handleClickCotizacion = () => {
         navigate("/cotizaciones");
@@ -45,7 +43,7 @@ function MainComponents() {
         <div>
             <NavStyle>
                 <HeaderComponents></HeaderComponents>
-                <div className="general">
+                <AlertaPagoComponents></AlertaPagoComponents>
                 <div className="container_main">
                     <div className="card" onClick={handleClickClientes}>
                         <img id="clientes" src={clientes} alt="clientes" />
@@ -75,7 +73,6 @@ function MainComponents() {
                         <img id="cotizacion" src={cotizacion} alt="cotizacion" />
                         <h2>Cotizaciones</h2>
                     </div>
-                </div>
                 </div>
             </NavStyle>
         </div>

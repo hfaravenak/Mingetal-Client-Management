@@ -26,9 +26,14 @@ public class OrdenesDeCompraClienteController {
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities=ordenesDeCompraClienteService.findAll();
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);
     }
-    @GetMapping("/pagado/entregado/")
-    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOCClientePagadoEntregado(){
-        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities=ordenesDeCompraClienteService.findPagadoEntregado();
+    @GetMapping("/pagado/")
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOCClientePagado(){
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities=ordenesDeCompraClienteService.findPagado();
+        return ResponseEntity.ok(ordenesDeCompraClienteEntities);
+    }
+    @GetMapping("/no_pagado/")
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOCClienteNoPagado(){
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities=ordenesDeCompraClienteService.findNoPagados();
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);
     }
     @GetMapping("/{id}")

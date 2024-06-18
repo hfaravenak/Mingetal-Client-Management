@@ -24,7 +24,7 @@ function ListVentasComponents() {
     const [expandedMonths, setExpandedMonths] = useState({});
 
     useEffect(() => {
-        OrdenesDeCompraClienteService.getOCClientePagadoEntregado().then((res) => {
+        OrdenesDeCompraClienteService.getOCClientePagado().then((res) => {
             setOCClienteEntity(res.data);
         });
         ClienteService.getClientes().then((res) => {

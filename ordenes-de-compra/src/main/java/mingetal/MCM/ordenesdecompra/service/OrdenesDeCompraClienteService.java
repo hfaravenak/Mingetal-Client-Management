@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,8 +39,8 @@ public class OrdenesDeCompraClienteService {
         return ordenesDeCompraClienteEntities;
     }
 
-    public List<OrdenesDeCompraClienteEntity> findPagadoEntregado(){
-        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findPagadoEntregado();
+    public List<OrdenesDeCompraClienteEntity> findPagado(){
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findPagado();
         ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
         return ordenesDeCompraClienteEntities;
     }
@@ -99,6 +100,36 @@ public class OrdenesDeCompraClienteService {
 
 
         return ordenesDeCompraClienteEntities;
+    }
+
+    public List<OrdenesDeCompraClienteEntity> findNoPagados(){
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findNoPagado();
+        ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_pago, Comparator.nullsFirst(Comparator.naturalOrder())));
+
+        LocalDate current = LocalDate.now();
+        List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntitiesPorFecha = new ArrayList<>();
+        for(OrdenesDeCompraClienteEntity oc: ordenesDeCompraClienteEntities){
+            if(oc.getFecha_pago().getYear()<current.getYear()){
+                ordenesDeCompraClienteEntitiesPorFecha.add(oc);
+            }
+            else if(oc.getFecha_pago().getYear()==current.getYear()){
+                if(oc.getFecha_pago().getMonthValue()<current.getMonthValue()){
+                    ordenesDeCompraClienteEntitiesPorFecha.add(oc);
+                }
+                else if(oc.getFecha_pago().getMonthValue()==current.getMonthValue()){
+                    if(oc.getFecha_pago().getDayOfMonth()<current.getDayOfMonth()){
+                        ordenesDeCompraClienteEntitiesPorFecha.add(oc);
+                    }
+                    else{
+                        if(oc.getFecha_pago().getDayOfMonth()-current.getDayOfMonth()<15){
+                            ordenesDeCompraClienteEntitiesPorFecha.add(oc);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ordenesDeCompraClienteEntitiesPorFecha;
     }
 
     //-------------------- Eliminar --------------------
