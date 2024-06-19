@@ -31,38 +31,51 @@ function AlertaPagoComponents() {
     };
 
     const diferencia = (oc) => {
-        const dia = new Date().getDate();
-        const mes = new Date().getMonth() + 1;
-        const anio = new Date().getFullYear();
-
-        const [year, month, day] = oc.fecha_pago.split("-");
-        console.log(day, month, year)
-        if (year < anio) {
-            console.log("1y");
+        const fechaInicial = new Date();
+        const fechaFinal = new Date(oc.fecha_pago);
+        
+        // Obtener la diferencia en milisegundos
+        const diferenciaMilisegundos = fechaFinal - fechaInicial;
+        
+        // Convertir la diferencia a días
+        const milisegundosPorDia = 1000 * 60 * 60 * 24;
+        const diferenciaDias = diferenciaMilisegundos / milisegundosPorDia;
+        
+        const diferencia = Math.floor(diferenciaDias);
+        if (diferencia<= 0) {
             return 0;
         }
-        if (month < mes) {
-            console.log("1m");
-            return 0;
+        else if (diferencia<=5) {
+            return 1;
         }
-        if (day < dia) {
-            console.log("1d");
-            return 0;
+        else if (diferencia<=10) {
+            return 2;
         }
-        else{
-            if (day - dia < 5) {
-                console.log("1d");
-                return 1;
-            } else if (day - dia < 10) {
-                console.log("2d");
-                return 2;
-            } else if (day - dia < 15) {
-                console.log("3d");
-                return 3;
-            }
+        else if(diferencia<=15){
+            return 3;
         }
     }
+    const diferenciaValor = (oc) => {
+        const fechaInicial = new Date();
+        const fechaFinal = new Date(oc.fecha_pago);
+        
+        // Obtener la diferencia en milisegundos
+        const diferenciaMilisegundos = fechaFinal - fechaInicial;
+        
+        // Convertir la diferencia a días
+        const milisegundosPorDia = 1000 * 60 * 60 * 24;
+        const diferenciaDias = diferenciaMilisegundos / milisegundosPorDia;
+        
+        return Math.floor(diferenciaDias);
+    }
 
+    const [expandedId, setExpandedId] = useState({});
+    const handleIdClick = (id) => {
+        setExpandedId((prevExpandedId) => ({
+            ...prevExpandedId,
+            [id]: !prevExpandedId[id],
+        }));
+    };
     return (
         <div>
             <NavStyle>
@@ -77,12 +90,20 @@ function AlertaPagoComponents() {
                     {OCClienteEntity.length > 0 ? (
                         OCClienteEntity.map((oc) => (
                             <SwiperSlide key={oc.id}>
-                                <div className='alerta' style={
+                                <div onClick={() => handleIdClick(oc.id_cliente)} className='alerta' style={
                                     diferencia(oc) === 0 ? { background: "#920000", border: "2px solid #5E0005", color: "#FFE6D9" } :
                                     diferencia(oc) === 1 ? { background: "#E24747", border: "2px solid #840024", color: "#FFE4DE" } :
                                     diferencia(oc) === 2 ? { background: "#E28247", border: "2px solid #AC3141", color: "#54433A" } :
                                     { background: "#FFC848", border: "2px solid #AC3141", color: "#4E4637" }}>
-                                    <div>El cliente <b>{busquedaCliente(oc.id_cliente)}</b> debe pagar la orden de compra <b>{oc.id}</b> </div>
+                                    <div> {expandedId[oc.id_cliente] ? "-" : "+"} El cliente <b>{busquedaCliente(oc.id_cliente)}</b> debe pagar la orden de compra <b>{oc.id}</b> </div>
+                                    {expandedId[oc.id_cliente]&&(
+                                        <div className="expandible">
+                                            {diferenciaValor(oc)<0?`Tiene un atraso de ${diferenciaValor(oc)*-1} días en el pago`:
+                                            diferenciaValor(oc)>0?`Le quedan ${diferenciaValor(oc)} días para pagar`:
+                                            "Debe pagar hoy"}
+                                            
+                                        </div>
+                                    )}
                                 </div>
                             </SwiperSlide>
                         ))
@@ -100,17 +121,27 @@ export default AlertaPagoComponents;
 
 const NavStyle = styled.nav`
 .alerta{
-    display: flex;
+    display: grid
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     padding: 20px;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin-top: 1%;
+    margin-bottom: 30px;
     margin-left: 4%;
     margin-right: 4%;
-    font-size: 30px;}
+    font-size: 30px;
+    border-radius: 30px;    
+}
     
+.alerta .expandible{
+    background-color: #f0f0f0;
+    border: 2px solid black;
+    color: black;
+    padding: 1%;
+    margin: 1% 1% 0px 1%;
+    border-radius: 30px;
+}
 .swiper-button-next,
   .swiper-button-prev {
     color: #0059AA; // Cambia este color según tus necesidades
