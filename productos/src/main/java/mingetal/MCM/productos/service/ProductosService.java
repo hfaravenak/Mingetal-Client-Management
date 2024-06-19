@@ -132,6 +132,10 @@ public class ProductosService {
         return productosEntities;
     }
 
+    public List<ProductosEntity> findPocosProductos(){
+        return productosRepository.findPocoProductos();
+    }
+
     //-------------------- Eliminar --------------------
 
     public ProductosEntity delete(int id){

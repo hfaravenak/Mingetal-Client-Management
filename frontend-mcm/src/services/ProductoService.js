@@ -39,6 +39,9 @@ class ProductoService{
         console.log("id: "+id)
         return axios.get(PRODUCTOS_API_URL+"cotizacion/"+id);
     }
+    getPocoProductos(){
+        return axios.get(PRODUCTOS_API_URL+"pocos_productos/");
+    }
 
     updateProducto(producto){
         return axios.put(PRODUCTOS_API_URL +"update", producto);

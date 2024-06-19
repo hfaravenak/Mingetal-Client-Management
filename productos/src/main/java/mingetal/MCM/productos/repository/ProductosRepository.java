@@ -19,4 +19,7 @@ public interface ProductosRepository extends JpaRepository<ProductosEntity, Stri
 
     @Query("select e from ProductosEntity e where e.nombre = :nombre")
     ProductosEntity findByNombre(@Param("nombre") String nombre);
+
+    @Query("select e from ProductosEntity e where e.cantidad <= 5")
+    List<ProductosEntity> findPocoProductos();
 }

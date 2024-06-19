@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -9,9 +9,11 @@ import ordenesCompra from "../images/ordenesCompra.png"
 import ventas from "../images/ventas.png"
 import estadistica from "../images/estadistica.png"
 import cotizacion from "../images/cotizacion.png"
+import alerta from "../images/alerta.png"
 
 import HeaderComponents from "./Headers/HeaderComponents";
 import AlertaPagoComponents from "./Alertas/AlertaPagoComponents"
+import productoService from "../services/ProductoService";
 
 function MainComponents() {
     const navigate = useNavigate();
@@ -38,6 +40,27 @@ function MainComponents() {
         navigate("/estadistica")
     };
 
+    const [ProductosEntity, setProductosEntity] = useState([]);
+    useEffect(() => {
+        productoService.getPocoProductos().then((res) => {
+            setProductosEntity(res.data);
+        });
+    }, []);
+
+    const productosVacios = () => {
+        let salida = 2;
+        if(ProductosEntity.length !== 0){
+            salida = 1;
+        }
+        ProductosEntity.map((producto)=>{
+            console.log(producto.cantidad)
+            if(producto.cantidad===0){
+                console.log("si hay")
+                salida = 0;
+            }
+        })
+        return salida;
+    }
 
     return (
         <div>
@@ -46,31 +69,38 @@ function MainComponents() {
                 <AlertaPagoComponents></AlertaPagoComponents>
                 <div className="container_main">
                     <div className="card" onClick={handleClickClientes}>
-                        <img id="clientes" src={clientes} alt="clientes" />
+                        <img id="clientes" src={clientes} alt="clientes" className="img-card"/>
                         <h2>Clientes</h2>
                     </div>
                     <div className="card" onClick={handleClickProveedores}>
-                        <img id="proveedores" src={proveedores} alt="proveedores" />
+                        <img id="proveedores" src={proveedores} alt="proveedores" className="img-card"/>
                         <h2>Proveedores</h2>
                     </div>
                     <div className="card" onClick={handleClickProductos}>
-                        <img id="inventario" src={inventario} alt="inventario" />
-                        <h2>Inventario</h2>
+                        <img id="inventario" src={inventario} alt="inventario" className="img-card"/>
+                        <div className="card-info">
+                            {productosVacios()===0?
+                            (<img id="alerta" src={alerta} alt="alerta" className="alerta-icon" style={{background:"red"}}/>):
+                            productosVacios()===1?
+                            (<img id="alerta" src={alerta} alt="alerta" className="alerta-icon" style={{background:"orange"}}/>):
+                            <div/>}
+                            <h2>Inventario</h2>
+                        </div>
                     </div>
                     <div className="card" onClick={handleClickOC}>
-                        <img id="ordenes_compra" src={ordenesCompra} alt="ordenesCompra" />
+                        <img id="ordenes_compra" src={ordenesCompra} alt="ordenesCompra" className="img-card"/>
                         <h2>Ordenes de compra</h2>
                     </div>
                     <div className="card" onClick={handleClickVentas}>
-                        <img id="ventas" src={ventas} alt="ventas" />
+                        <img id="ventas" src={ventas} alt="ventas" className="img-card"/>
                         <h2>Ventas</h2>
                     </div>
                     <div className="card" onClick={handleClickEstadisticas}>
-                        <img id="estadistica" src={estadistica} alt="estadistica" />
+                        <img id="estadistica" src={estadistica} alt="estadistica" className="img-card"/>
                         <h2>Estadistica</h2>
                     </div>
                     <div className="card" onClick={handleClickCotizacion}>
-                        <img id="cotizacion" src={cotizacion} alt="cotizacion" />
+                        <img id="cotizacion" src={cotizacion} alt="cotizacion" className="img-card"/>
                         <h2>Cotizaciones</h2>
                     </div>
                 </div>
@@ -108,7 +138,7 @@ const NavStyle = styled.nav`
     transition: transform .5s ease;
 
 }
-.card img {
+.img-card {
     width: 50%;
     height: 50%;
     object-fit: cover;
@@ -126,5 +156,18 @@ const NavStyle = styled.nav`
 .card:hover {
     transform: scale(1.1);
     cursor: pointer;
+}
+
+.card-info {
+    display: flex;
+    align-items: center;
+}
+
+.alerta-icon {
+width: 20px;
+height: 20px;
+border: 1px solid black;
+border-radius: 100%;
+padding: 2px;
 }
 `

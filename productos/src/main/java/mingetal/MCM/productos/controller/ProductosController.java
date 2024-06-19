@@ -48,6 +48,10 @@ public class ProductosController {
     public ResponseEntity<List<ProductosEntity>>getProductosByCotizacion(@PathVariable("id") int id){
         return ResponseEntity.ok(productosService.findByCotizacion(id));
     }
+    @GetMapping("/pocos_productos/")
+    public ResponseEntity<List<ProductosEntity>>getPocoProductos(){
+        return ResponseEntity.ok(productosService.findPocosProductos());
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ProductosEntity> deleteProductoById(@PathVariable("id") int id){
