@@ -3,15 +3,23 @@ package mingetal.MCM.cliente.services;
 import mingetal.MCM.cliente.entities.ClienteEntity;
 import mingetal.MCM.cliente.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpMethod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
     @Autowired
     ClienteRepository clienteRepository;
+    @Autowired
+    private RestTemplate restTemplate;
 
     //-------------------- Guardado --------------------
 
@@ -80,5 +88,30 @@ public class ClienteService {
             return null;
         }
         return clienteRepository.save(clienteEntity);
+    }
+
+
+
+    public List<List<Object>> getRankingCliente() {
+        // Llamar al microservicio de órdenes de compra para obtener el ranking
+        List<List<Object>> ranking = restTemplate.exchange(
+                "http://localhost:8080/ordenes_de_compra/cliente/clientsbyyear",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<List<Object>>>() {}
+        ).getBody();
+        if (ranking == null) {
+            return new ArrayList<>();
+        }
+        for (List<Object> entry : ranking) {
+            String rut = (String) entry.get(0);
+            ClienteEntity cliente = clienteRepository.findByRut(rut);
+            entry.add(cliente.getNombre());
+            entry.add(cliente.getEmpresa());
+            entry.add(cliente.getEmail());
+            entry.add(cliente.getTelefono());
+
+        }
+        return ranking;
     }
 }

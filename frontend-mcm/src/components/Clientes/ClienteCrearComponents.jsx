@@ -111,7 +111,7 @@ function ClienteCrearComponents() {
                             <Form.Control type="text" name="correo" value={input.correo} onChange={handleInputChange} />
                         </Form.Group>
                         <Button className="boton" onClick={ingresarEstudiante}>
-                            Registrar Proveedor
+                            Registrar Cliente
                         </Button>
                     </Form>
                 </div>

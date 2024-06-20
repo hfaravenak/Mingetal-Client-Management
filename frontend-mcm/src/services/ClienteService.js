@@ -45,6 +45,10 @@ class ClienteService {
         return axios.delete(CLIENTE_API_URL + "delete/"+rut);
     }
 
+    getRankingCliente(){
+        return axios.get(CLIENTE_API_URL+"ranking/");
+    }
+
     
 }
 

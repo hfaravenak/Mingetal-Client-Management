@@ -60,4 +60,11 @@ public class ClienteController {
         return ResponseEntity.ok(clienteEntity1);
     }
 
+    @GetMapping("/ranking")
+    public ResponseEntity<List<List<Object>>> getRanking(){
+        List<List<Object>> ranking  = clienteService.getRankingCliente();
+        System.out.println(ranking);
+        return ResponseEntity.ok(ranking);
+    }
+
 }

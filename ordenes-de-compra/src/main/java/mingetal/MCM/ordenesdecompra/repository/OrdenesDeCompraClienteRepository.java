@@ -67,11 +67,12 @@ public interface OrdenesDeCompraClienteRepository extends JpaRepository<OrdenesD
 
 
     // Query para cliente con más compras por año
-    @Query("SELECT occ.id_cliente, SUM(l.cantidad) AS cant_compra_cliente, YEAR(occ.fecha_pago) AS anio " +
+    @Query("SELECT occ.id_cliente, SUM(occ.valor_pago) AS monto_ventas, COUNT(occ.id) AS ventas_totales," +
+            " YEAR(occ.fecha_pago) AS anio " +
             "FROM ListaProductosOCClienteEntity l, OrdenesDeCompraClienteEntity occ " +
-            "WHERE occ.estado_pago = 'Pagado' " +
+            "WHERE occ.estado_pago = 'Pagado' AND YEAR(occ.fecha_pago) = YEAR(CURRENT_DATE)" +
             "GROUP BY occ.id_cliente, YEAR(occ.fecha_pago) " +
-            "ORDER BY YEAR(occ.fecha_pago) DESC, cant_compra_cliente DESC")
+            "ORDER BY ventas_totales DESC, monto_ventas DESC")
     List<Object[]> clientList();
 
 }

@@ -11,6 +11,10 @@ class OrdenesDeCompraClienteService {
         return axios.post(OC_API_URL+"productos/", newListP);
     }   
 
+    getRankingCliente(){
+        return axios.get(OC_API_URL+"clientsbyyear");
+    }
+
     getOCCliente(){
         return axios.get(OC_API_URL);
     }

@@ -102,6 +102,7 @@ public class OrdenesDeCompraClienteController {
     @GetMapping("/clientsbyyear")
     public ResponseEntity<List<Object[]>> getClientsByYear(){
         List<Object[]> peryear = ordenesDeCompraClienteService.getClientsByYear();
+        System.out.println();
         return ResponseEntity.ok(peryear);
     }
 }
