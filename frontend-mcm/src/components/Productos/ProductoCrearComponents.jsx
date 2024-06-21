@@ -18,12 +18,17 @@ function ProductoCrearComponents() {
         valor: 0,
         valor_final: 0,
         cantidad: 0,
+        imagen: null,
     };
     const [input, setInput] = useState(initialState);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setInput({ ...input, [name]: value });
+    };
+
+    const handleImageChange = (event) => {
+        setInput({ ...input, imagen: event.target.files[0] });
     };
 
     //-- agregar producto + alarmas + confirmación
@@ -38,26 +43,38 @@ function ProductoCrearComponents() {
             denyButtonColor: "rgb(190, 54, 54)",
         }).then((result) => {
             if (result.isConfirmed) {
-                let newProducto = {
-                    tipo: input.tipo,
-                    nombre: input.nombre,
-                    valor: input.valor,
-                    valor_final: input.valor_final,
-                    cantidad: input.cantidad,
-                };
-                ProductoService.crearProducto(newProducto);
-                Swal.fire({
-                    title: "Enviado",
-                    timer: 2000,
-                    icon: "success",
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    },
-                    willClose: () => {
-                        navigate("/productos");
-                    },
+                const formData = new FormData();
+                formData.append("tipo", input.tipo);
+                formData.append("nombre", input.nombre);
+                formData.append("valor", input.valor);
+                formData.append("valor_final", input.valor_final);
+                formData.append("cantidad", input.cantidad);
+                if (input.imagen) {
+                    formData.append("imagen", input.imagen);
+                }
+                ProductoService.crearProducto(formData)
+                .then(() => {
+                    Swal.fire({
+                        title: "Enviado",
+                        timer: 2000,
+                        icon: "success",
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        },
+                        willClose: () => {
+                            navigate("/productos");
+                        },
+                    });
+                })
+                .catch((error) => {
+                    Swal.fire({
+                        title: "Error",
+                        text: error.message,
+                        icon: "error",
+                    });
                 });
+                
             }
         });
     };
@@ -125,6 +142,16 @@ function ProductoCrearComponents() {
                                 min="0"
                                 value={input.cantidad}
                                 onChange={handleInputChange}
+                            />
+                        </Form.Group>
+
+                        <Form.Group controlId="imagen">
+                            <Form.Label className="agregar">Imagen:</Form.Label>
+                            <Form.Control
+                                className="agregar"
+                                type="file"
+                                accept="image/jpeg, image/png"
+                                onChange={handleImageChange}
                             />
                         </Form.Group>
 

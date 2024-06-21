@@ -22,6 +22,8 @@ function ProductoComponents() {
         valor: 0,
         valor_final: 0,
         cantidad: 0,
+        imagen: null,
+        tipo_imagen: ""
     };
     const [input, setInput] = useState(initialState);
 
@@ -39,6 +41,8 @@ function ProductoComponents() {
             valor: datos.valor,
             valor_final: datos.valor_final,
             cantidad: datos.cantidad,
+            imagen: datos.imagen,
+            tipo_imagen: datos.tipo_imagen,
         });
         setMostrarCard(true);
     };
@@ -201,7 +205,7 @@ function ProductoComponents() {
                         <div className="container-1">
                             <div className="card">
                                 <div className="contenedor-img">
-                                    <img id="productos" src={productos} alt="productos" />
+                                    <img id="productos" src={`data:image/jpeg;base64,${datos.imagen}`} alt="productos" />
                                 </div>
                                 <div className="contenedor-informacion">
                                     <h2>

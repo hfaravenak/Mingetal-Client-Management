@@ -22,7 +22,7 @@ function ListProductosComponents() {
     useEffect(() => {
         ProductoService.getProductos().then((res) => {
             setProductoEntity(res.data);
-        });
+        }); 
     }, []);
 
     const handleInputChange = (event) => {
@@ -58,6 +58,7 @@ function ListProductosComponents() {
     };
 
     const ChangeViendoProducto = (todoElDato) => {
+        console.log("##############")
         const datos = {
             id: todoElDato.id,
             tipo: todoElDato.tipo,
@@ -65,8 +66,12 @@ function ListProductosComponents() {
             valor: todoElDato.valor,
             valor_final: todoElDato.valor_final,
             cantidad: todoElDato.cantidad,
+            imagen: todoElDato.imagen,
+            tipo_imagen: todoElDato.tipo_imagen
+            
         };
         const datosComoTexto = JSON.stringify(datos);
+        console.log(datosComoTexto);
         navigate(`/productos/mas-info/${encodeURIComponent(datosComoTexto)}`);
     };
     return (

@@ -26,11 +26,19 @@ public class ProductosEntity {
     private int valor_final;
     private int cantidad;
 
-    public ProductosEntity(String tipo, String nombre, int valor, int valor_final, int cantidad) {
+    @Lob
+    private byte[] imagen;
+
+    @Size(max=10, message = "El tamaño máximo del campo tipoImagen es 10")
+    private String tipoImagen;
+
+    public ProductosEntity(String tipo, String nombre, int valor, int valor_final, int cantidad, byte[] imagen, String tipoImagen) {
         this.tipo = tipo;
         this.nombre = nombre;
         this.valor = valor;
         this.valor_final = valor_final;
         this.cantidad = cantidad;
+        this.imagen = imagen;
+        this.tipoImagen = tipoImagen;
     }
 }

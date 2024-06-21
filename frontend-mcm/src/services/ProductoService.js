@@ -5,7 +5,11 @@ const PRODUCTOS_API_URL = "http://localhost:8080/productos/";
 class ProductoService{
 
     crearProducto(producto){
-        return axios.post(PRODUCTOS_API_URL, producto);
+        return axios.post(PRODUCTOS_API_URL, producto, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
     }
 
     getProductos(){
