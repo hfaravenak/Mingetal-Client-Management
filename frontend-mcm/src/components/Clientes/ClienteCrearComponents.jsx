@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
-
 import HeaderComponents from "../Headers/HeaderComponents";
 import ClienteService from "../../services/ClienteService";
 
@@ -19,14 +18,73 @@ function ClienteCrearComponents() {
         correo: "",
     };
     const [input, setInput] = useState(initialState);
+    const [errors, setErrors] = useState({});
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setInput({ ...input, [name]: value });
     };
 
-    const ingresarEstudiante = () => {
-        Swal.fire({
+    const validateForm = () => {
+        const errors = {};
+
+        const rutPattern = /^[0-9]{1,3}(\.[0-9]{3}){2}-[0-9kK]$/;
+        if (!input.rut.match(rutPattern)) {
+            errors.rut = "El RUT no es válido. Ejemplo: 12.345.678-9";
+        }
+        if (input.nombre.trim().length === 0) {
+            errors.nombre = "El nombre no puede estar vacío.";
+        }
+        if (input.empresa.trim().length === 0) {
+            errors.empresa = "La empresa no puede estar vacía.";
+        }
+        const telefonoPattern = /^\+569[0-9]{8}(\s?[0-9]{1,4})?$/;
+        if (!input.telefono.match(telefonoPattern)) {
+            errors.telefono = "El teléfono no es válido. Ejemplo: +569 1234 5678";
+        }
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!input.correo.match(emailPattern)) {
+            errors.correo = "El correo no es válido.";
+        }
+
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (validateForm()) {
+            try {
+                await ingresarCliente();
+            } catch (error) {
+                if (error.response && error.response.status === 400) {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ya existe un cliente registrado con este RUT.",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al registrar el cliente.",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                }
+            }
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: "Por favor, corrija los errores en el formulario.",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        }
+    };
+
+    const ingresarCliente = async () => {
+        const result = await Swal.fire({
             title: "¿Desea registrar al Cliente?",
             icon: "question",
             showDenyButton: true,
@@ -34,18 +92,21 @@ function ClienteCrearComponents() {
             confirmButtonColor: "rgb(68, 194, 68)",
             denyButtonText: "Cancelar",
             denyButtonColor: "rgb(190, 54, 54)",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                let newCliente = {
-                    rut: input.rut,
-                    nombre: input.nombre,
-                    empresa: input.empresa,
-                    email: input.correo,
-                    telefono: input.telefono,
-                };
-                ClienteService.createCliente(newCliente);
+        });
+
+        if (result.isConfirmed) {
+            let newCliente = {
+                rut: input.rut,
+                nombre: input.nombre,
+                empresa: input.empresa,
+                email: input.correo,
+                telefono: input.telefono,
+            };
+
+            try {
+                await ClienteService.createCliente(newCliente);
                 Swal.fire({
-                    title: "Enviado",
+                    title: "Cliente registrado",
                     timer: 2000,
                     icon: "success",
                     timerProgressBar: true,
@@ -56,16 +117,18 @@ function ClienteCrearComponents() {
                         navigate("/clientes");
                     },
                 });
+            } catch (error) {
+                throw error;
             }
-        });
+        }
     };
 
     return (
         <div className="general">
-            <HeaderComponents></HeaderComponents>
+            <HeaderComponents />
             <NavStyle>
                 <div className="container-create">
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="rut">
                             <Form.Label>Rut:</Form.Label>
                             <Form.Control 
@@ -73,7 +136,10 @@ function ClienteCrearComponents() {
                                 name="rut" 
                                 value={input.rut} 
                                 onChange={handleInputChange} 
+                                placeholder="12.345.678-9"
+                                required 
                             />
+                            {errors.rut && <span className="text-danger">{errors.rut}</span>}
                         </Form.Group>
 
                         <Form.Group controlId="nombre">
@@ -83,7 +149,10 @@ function ClienteCrearComponents() {
                                 name="nombre" 
                                 value={input.nombre} 
                                 onChange={handleInputChange} 
+                                placeholder="Juan Perez"
+                                required 
                             />
+                            {errors.nombre && <span className="text-danger">{errors.nombre}</span>}
                         </Form.Group>
 
                         <Form.Group controlId="empresa">
@@ -93,7 +162,10 @@ function ClienteCrearComponents() {
                                 name="empresa"
                                 value={input.empresa}
                                 onChange={handleInputChange}
+                                placeholder="EmpresaX"
+                                required 
                             />
+                            {errors.empresa && <span className="text-danger">{errors.empresa}</span>}
                         </Form.Group>
 
                         <Form.Group controlId="telefono">
@@ -103,14 +175,25 @@ function ClienteCrearComponents() {
                                 name="telefono"
                                 value={input.telefono}
                                 onChange={handleInputChange}
+                                placeholder="+569 1234 5678"
+                                required 
                             />
+                            {errors.telefono && <span className="text-danger">{errors.telefono}</span>}
                         </Form.Group>
 
                         <Form.Group controlId="correo">
                             <Form.Label>Correo:</Form.Label>
-                            <Form.Control type="text" name="correo" value={input.correo} onChange={handleInputChange} />
+                            <Form.Control 
+                                type="email" 
+                                name="correo" 
+                                value={input.correo} 
+                                onChange={handleInputChange} 
+                                placeholder="correfake@gmail.com"
+                                required 
+                            />
+                            {errors.correo && <span className="text-danger">{errors.correo}</span>}
                         </Form.Group>
-                        <Button className="boton" onClick={ingresarEstudiante}>
+                        <Button className="boton" type="submit">
                             Registrar Cliente
                         </Button>
                     </Form>
@@ -119,6 +202,7 @@ function ClienteCrearComponents() {
         </div>
     );
 }
+
 export default ClienteCrearComponents;
 
 const NavStyle = styled.nav`
@@ -133,13 +217,17 @@ const NavStyle = styled.nav`
         max-width: 500px;
         margin: 0 auto;
     }
+
     label {
         display: block;
         margin-bottom: 10px;
         margin-left: 15px;
         margin-top: 10px;
+        font-size: 18px; /* Incrementa el tamaño de la letra */
+        font-weight: bold; /* Hace la letra negrita */
     }
-    input[type="text"] {
+
+    input[type="text"], input[type="email"] {
         background-color: rgb(201, 201, 201);
         width: 100%;
         padding: 10px;
@@ -147,6 +235,7 @@ const NavStyle = styled.nav`
         border-radius: 30px;
         border: 1px solid #ccc;
     }
+
     button {
         color: #fff;
         margin-left: 5px;
@@ -157,7 +246,13 @@ const NavStyle = styled.nav`
         border: none;
         cursor: pointer;
     }
+
     .boton {
         background-color: #d2712b;
+    }
+
+    .text-danger {
+        color: red;
+        margin-left: 15px;
     }
 `;

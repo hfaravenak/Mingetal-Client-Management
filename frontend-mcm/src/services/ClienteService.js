@@ -18,6 +18,7 @@ class ClienteService {
         }
         return axios.get(CLIENTE_API_URL + "rut/" + rut);
     }
+    
     getClienteByNombre(nombre){
         if(nombre===""){
             return this.getClientes();

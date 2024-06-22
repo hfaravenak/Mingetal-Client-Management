@@ -3,6 +3,7 @@ package mingetal.MCM.cliente.controllers;
 import mingetal.MCM.cliente.entities.ClienteEntity;
 import mingetal.MCM.cliente.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,15 @@ public class ClienteController {
 
     @PostMapping("")
     public ResponseEntity<ClienteEntity> saveCliente(@RequestBody ClienteEntity clienteEntity) {
-        clienteService.save(clienteEntity);
-        return ResponseEntity.ok(clienteEntity);
+        try {
+            clienteService.save(clienteEntity);
+            return ResponseEntity.ok(clienteEntity);
+        } catch (RuntimeException e) {
+            if (e.getMessage().equals("Ya existe un cliente registrado con este RUT.")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @GetMapping("/")

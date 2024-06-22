@@ -24,18 +24,19 @@ public class ClienteService {
     //-------------------- Guardado --------------------
 
     public ClienteEntity save(ClienteEntity clienteEntity) {
-        if(findByRut(clienteEntity.getRut())==null){
-            String[] palabras = clienteEntity.getNombre().split("\\s+");
-            StringBuilder sb = new StringBuilder();
-
-            for (String palabra : palabras) {
-                // Convertir la primera letra de la palabra a mayúscula y agregar el resto de la palabra
-                sb.append(Character.toUpperCase(palabra.charAt(0))).append(palabra.substring(1)).append(" ");
-            }
-            clienteEntity.setNombre(sb.toString().trim());
-            return clienteRepository.save(clienteEntity);
+        ClienteEntity existingCliente = findByRut(clienteEntity.getRut());
+        if (existingCliente != null) {
+            throw new RuntimeException("Ya existe un cliente registrado con este RUT.");
         }
-        return null;
+
+        // Procesar el nombre
+        String[] palabras = clienteEntity.getNombre().split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (String palabra : palabras) {
+            sb.append(Character.toUpperCase(palabra.charAt(0))).append(palabra.substring(1)).append(" ");
+        }
+        clienteEntity.setNombre(sb.toString().trim());
+        return clienteRepository.save(clienteEntity);
     }
 
     //-------------------- Buscar --------------------
