@@ -39,6 +39,10 @@ class OrdenesDeCompraProveedorService {
         return axios.get(OC_API_URL+"empresa/"+empresa);
     }
 
+    getPurchasesByYearAndMonth(){
+        return axios.get(OC_API_URL+ "alpurchasesbyyearandmonth");
+    }
+
     deleteOCProveedor(id){
         return axios.delete(OC_API_URL+"delete/"+id);
     }

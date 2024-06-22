@@ -3,41 +3,48 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import HeaderComponents from "../Headers/HeaderComponents";
-import ventas_generales from "../../images/ventas_generales.png"
-import ventas_productos from "../../images/ventas_producto.png"
 import estadistica from "../../images/estadistica.png"
 
 function MainEstadisticaComponents() {
 
     const navigate = useNavigate();
 
-    const handleClickVentasGenerales = () => {
-        navigate("/estadistica/generales");
+    const handleClickBarChart = () => {
+        navigate("/estadistica/barchart");
     };
 
-    const handleClickVentasProducto = () => {
-        navigate("/estadistica/productos");
+    const handleClickGraficoVentas = () => {
+        navigate("/estadistica/ventas-chart");
     };
 
-    const handleClickGraficos = () => {
-        navigate("/estadistica/main-graficos");
+    const handleClickGraficoClientes = () => {
+        navigate("/estadistica/ooc-clientes-chart");
     };
+
+    const handleClickGraficoProveedores = () => {
+        navigate("/estadistica/ooc-proveedores-chart");
+    };
+
     return (
         <div>
             <NavStyle>
                 <HeaderComponents></HeaderComponents>
                 <div className="container_main">
-                    <div className="card" onClick={handleClickVentasGenerales}>
-                        <img id="ventas_generales" src={ventas_generales} alt="ventas_generales" />
-                        <h2>Ventas Generales</h2>
+                    <div className="card" onClick={handleClickBarChart}>
+                        <img id="estadistica" src={estadistica} alt="BarChart" />
+                        <h2>Comparación de Ventas por mes y su símil de años anteriores</h2>
                     </div>
-                    <div className="card" onClick={handleClickVentasProducto}>
-                        <img id="ventas_productos" src={ventas_productos} alt="ventas_productos" />
-                        <h2>Ventas Productos</h2>
+                    <div className="card" onClick={handleClickGraficoVentas}>
+                        <img id="estadistica" src={estadistica} alt="Historico" />
+                        <h2>Histórico Ventas</h2>
                     </div>
-                    <div className="card" onClick={handleClickGraficos}>
-                        <img id="estadistica" src={estadistica} alt="graficos" />
-                        <h2>Gráficos</h2>
+                    <div className="card" onClick={handleClickGraficoClientes}>
+                        <img id="estadistica" src={estadistica} alt="Estatisticas-cliente" />
+                        <h2>Estadísticas de Órdenes de compra de Clientes</h2>
+                    </div>
+                    <div className="card" onClick={handleClickGraficoProveedores}>
+                        <img id="estadistica" src={estadistica} alt="Estatisticas-proveedor" />
+                        <h2>Estadísticas de Órdenes de compra de Proveedores</h2>
                     </div>
                 </div>
             </NavStyle>

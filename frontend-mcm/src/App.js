@@ -33,7 +33,11 @@ import ProductoCrearComponents from "./components/Productos/ProductoCrearCompone
 import MainEstadisticaComponents from "./components/Estadisticas/MainEstadisticaComponents";
 import EstadisticaGeneralesComponents from "./components/Estadisticas/EstadisticaGeneralesComponents";
 import EstadisticaProductosComponents from "./components/Estadisticas/EstadisticaProductosComponents";
-import GraficosComponents from "./components/Estadisticas/GraficosComponents";
+import MainGraficosComponents from "./components/Estadisticas/MainGraficosComponents";
+import BarChartComponents from "./components/Estadisticas/BarChartComponents";
+import GraficoVentasComponents from "./components/Estadisticas/GraficoVentasComponents";
+import GraficoOOCClientesComponents from "./components/Estadisticas/GraficoOOCClientesComponents";
+import GraficoOOCProveedoresComponents from "./components/Estadisticas/GraficoOOCProveedoresComponents";
 
 import ListVentasComponents from "./components/Ventas/ListVentasComponents";
 
@@ -74,7 +78,13 @@ function App() {
                   <Route path="/estadistica" element={<MainEstadisticaComponents/>} />  
                   <Route path="/estadistica/generales" element={<EstadisticaGeneralesComponents/>} />  
                   <Route path="/estadistica/productos" element={<EstadisticaProductosComponents/>} />
-                  <Route path="/estadistica/graficos" element={<GraficosComponents/>} />
+                  <Route path="/estadistica/main-graficos" element={<MainGraficosComponents/>} />
+                  <Route path="/estadistica/barchart" element={<BarChartComponents/>} />
+                  <Route path="/estadistica/ventas-chart" element={<GraficoVentasComponents/>} />
+                  <Route path="/estadistica/ooc-clientes-chart" element={<GraficoOOCClientesComponents/>} />
+                  <Route path="/estadistica/ooc-proveedores-chart" element={<GraficoOOCProveedoresComponents/>} />
+                  
+
 
                   <Route path="/ventas" element={<ListVentasComponents/>} />  
               </Routes>

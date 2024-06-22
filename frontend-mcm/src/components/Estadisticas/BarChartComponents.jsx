@@ -8,7 +8,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 // Register the components with ChartJS
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const GraficosComponent = () => {
+const BarChartComponents = () => {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: []
@@ -118,7 +118,7 @@ const GraficosComponent = () => {
   );
 };
 
-export default GraficosComponent;
+export default BarChartComponents;
 
 const NavStyle = styled.nav`
     .container_main {
