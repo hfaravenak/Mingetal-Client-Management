@@ -1,11 +1,10 @@
 package mingetal.MCM.cliente.services;
 
 import mingetal.MCM.cliente.entities.ListaProductosCotizacionEntity;
-import mingetal.MCM.cliente.repositories.ListaProductosCotizacionRepository;
 import mingetal.MCM.cliente.model.ProductosEntity;
+import mingetal.MCM.cliente.repositories.ListaProductosCotizacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -33,9 +32,16 @@ public class ListaProductosCotizacionService {
     }
 
     public List<ListaProductosCotizacionEntity> findByIdCotizacion(int id_OC_proveedor){
-        System.out.println("id: "+id_OC_proveedor);
-        System.out.println(listaProductosCotizacionRepository.findByIdCotizacion(id_OC_proveedor));
         return listaProductosCotizacionRepository.findByIdCotizacion(id_OC_proveedor);
+    }
+
+    public ProductosEntity findProductoByIdProducto(int id_producto){
+        return restTemplate.exchange(
+                "http://localhost:8080/productos/"+id_producto,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ProductosEntity>() {}
+        ).getBody();
     }
 
     public ListaProductosCotizacionEntity delete(int id){

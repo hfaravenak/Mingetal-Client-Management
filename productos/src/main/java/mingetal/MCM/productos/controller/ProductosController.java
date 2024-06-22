@@ -56,6 +56,10 @@ public class ProductosController {
     public ResponseEntity<List<ProductosEntity>> getAll(){
         return ResponseEntity.ok(productosService.findAll());
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductosEntity> getById(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(productosService.findById(id));
+    }
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity<List<ProductosEntity>> getProductoByTipo(@PathVariable("tipo") String tipo){
         return ResponseEntity.ok(productosService.findByTipo(tipo));

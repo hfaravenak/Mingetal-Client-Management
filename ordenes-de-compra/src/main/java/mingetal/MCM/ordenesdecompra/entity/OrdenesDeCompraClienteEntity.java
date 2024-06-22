@@ -33,6 +33,14 @@ public class OrdenesDeCompraClienteEntity {
         private String estado_entrega; //Entregado | No Entregado
         @Size(max=14, message = "El tamaño máximo del campo modo_pago es 14")
         private String modo_pago; //Transferencia, Efectivo, Cheque
+        //
+        //
+        //
+        // fecha_inicio_pago -> Será eliminado
+        // tiempo_de_pago -> Será cambiado por una fecha en el cual será el máximo para pagar
+        //
+        //
+        //
         private LocalDate fecha_inicio_pago; // yyyy-mm-dd
         private int tiempo_de_pago;
         @Size(max=30, message = "El tamaño máximo del campo empresa_despacho es 30")

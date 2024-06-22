@@ -41,6 +41,15 @@ public class ListaProductosOCClienteService {
         return  listaProductosOCClienteRepository.findByIdCliente(id_OC_cliente);
     }
 
+    public ProductosEntity findProductoByIdProducto(int id_producto){
+        return restTemplate.exchange(
+                "http://localhost:8080/productos/"+id_producto,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ProductosEntity>() {}
+        ).getBody();
+    }
+
     public ListaProductosOCClienteEntity delete(int id){
         ListaProductosOCClienteEntity listaProductosOCClienteEntity = findById(id);
         if(listaProductosOCClienteEntity ==null){

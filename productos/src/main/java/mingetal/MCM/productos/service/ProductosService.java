@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -43,7 +44,9 @@ public class ProductosService {
     //-------------------- Buscar --------------------
 
     public List<ProductosEntity> findAll(){
-        return productosRepository.findAll();
+        List<ProductosEntity> productos = productosRepository.findAll();
+        productos.sort(Comparator.comparing(ProductosEntity::getTipo, Comparator.nullsFirst(Comparator.naturalOrder())));
+        return productos;
     }
     public ProductosEntity findById(int id){
         return productosRepository.findById(id);
