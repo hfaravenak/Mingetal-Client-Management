@@ -9,65 +9,71 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BarChartComponents = () => {
-  const [chartData, setChartData] = useState({
+  const [chartDataMonto, setChartDataMonto] = useState({
     labels: [],
     datasets: []
   });
 
-  const [anioSeleccionado, setAnioSeleccionado] = useState(2024)
+  const [chartDataVentas, setChartDataVentas] = useState({
+    labels: [],
+    datasets: []
+  });
 
   useEffect(() => {
-    const fetchData = async (anio) => {
+    const fetchData = async () => {
       try {
         const response = await VentasService.getSimilVentasAnteriores();
         const rawdata = response.data;
-        const data = rawdata.filter(item => item[item.length - 1] === anio)
 
-        if (data && data.length > 0) {
-          // Preparar estructuras para almacenar datos
-          let montosVentas = [];
-          let ventasTotales = [];
-          let labels = [];
+        if (rawdata && rawdata.length > 0) {
+          const uniqueYears = [...new Set(rawdata.map(item => item[3]))].sort((a, b) => a - b);
+          const yearDataMonto = uniqueYears.reduce((acc, year) => {
+            acc[year] = Array(12).fill(0);
+            return acc;
+          }, {});
+          const yearDataVentas = uniqueYears.reduce((acc, year) => {
+            acc[year] = Array(12).fill(0);
+            return acc;
+          }, {});
 
           // Agrupar datos por Mes y Año
-          const groupedData = {};
-          data.forEach(item => {
-            const mes = item[2];
+          rawdata.forEach(item => {
+            const monto = item[0];
+            const ventas = item[1];
+            const mes = item[2] - 1; // Los meses están en rango 1-12, necesitamos 0-11 para indexar
             const año = item[3];
-            const key = `${mes}-${año}`;
-            if (!groupedData[key]) {
-              groupedData[key] = {
-                montosVentas: 0,
-                ventasTotales: 0
-              };
+
+            if (yearDataMonto[año]) {
+              yearDataMonto[año][mes] = monto;
             }
-            groupedData[key].montosVentas += item[0];
-            groupedData[key].ventasTotales += item[1];
+            if (yearDataVentas[año]) {
+              yearDataVentas[año][mes] = ventas;
+            }
           });
 
-          // Crear arrays para el gráfico
-          Object.keys(groupedData).forEach(key => {
-            const [mes, año] = key.split("-");
-            labels.push(`${mes}-${año}`);
-            montosVentas.push(groupedData[key].montosVentas);
-            ventasTotales.push(groupedData[key].ventasTotales);
-          });
+          // datasets de mes a mes
+          const colors = ["rgba(255, 99, 132, 0.6)", "rgba(75, 192, 192, 0.6)", "rgba(54, 162, 235, 0.6)"];
+          const datasetsMonto = uniqueYears.map((year, index) => ({
+            label: `${year}`,
+            data: yearDataMonto[year],
+            backgroundColor: colors[index % colors.length]
+          }));
+          const datasetsVentas = uniqueYears.map((year, index) => ({
+            label: `${year}`,
+            data: yearDataVentas[year],
+            backgroundColor: colors[index % colors.length]
+          }));
 
-          // Actualizar el estado del gráfico
-          setChartData({
+          const labels = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+          // Actualizo estado del grfico
+          setChartDataMonto({
             labels: labels,
-            datasets: [
-              {
-                label: "Monto de ventas",
-                data: montosVentas,
-                backgroundColor: "rgba(54, 162, 235, 0.6)"
-              },
-              {
-                label: "Ventas totales",
-                data: ventasTotales,
-                backgroundColor: "rgba(255, 99, 132, 0.6)"
-              }
-            ]
+            datasets: datasetsMonto
+          });
+          setChartDataVentas({
+            labels: labels,
+            datasets: datasetsVentas
           });
         }
       } catch (error) {
@@ -75,39 +81,58 @@ const BarChartComponents = () => {
       }
     };
 
-    fetchData(anioSeleccionado);
-  }, [anioSeleccionado]);
+    fetchData();
+  }, []);
 
   return (
     <div>
       <NavStyle>
         <HeaderComponents />
         <div className="container_main">
-            <select value={anioSeleccionado} onChange={(e)=>setAnioSeleccionado(parseInt(e.target.value))}>
-                <option value={2022}>2022</option>
-                <option value={2023}>2023</option>
-                <option value={2024}>2024</option>
-            </select>
-          <h2>Comparación de Ventas por mes y su símil de años anteriores</h2>
+          <h2>Comparación de Montos de Ventas por mes y su símil de años anteriores</h2>
           <div className="chart-container">
             <Bar
-              data={chartData}
+              data={chartDataMonto}
               options={{
                 scales: {
-                  xAxes: [{
-                    ticks: {
-                      autoSkip: false, // Evita que las etiquetas se omitan si hay muchas
-                      maxRotation: 90, // Rotación máxima de las etiquetas
-                      minRotation: 45 // Rotación mínima de las etiquetas
-                    },
-                    scaleLabel: {
+                  x: {
+                    stacked: false,
+                    title: {
                       display: true,
-                      labelString: 'Mes y Año' // Etiqueta del eje X
+                      text: 'Mes'
                     }
-                  }],
-                  yAxes: [{
-                    stacked: true // Para apilar las barras en el eje Y
-                  }]
+                  },
+                  y: {
+                    stacked: false,
+                    title: {
+                      display: true,
+                      text: 'Monto de ventas'
+                    }
+                  }
+                }
+              }}
+            />
+          </div>
+          <h2>Comparación de Ventas Totales por mes y su símil de años anteriores</h2>
+          <div className="chart-container">
+            <Bar
+              data={chartDataVentas}
+              options={{
+                scales: {
+                  x: {
+                    stacked: false,
+                    title: {
+                      display: true,
+                      text: 'Mes'
+                    }
+                  },
+                  y: {
+                    stacked: false,
+                    title: {
+                      display: true,
+                      text: 'Ventas totales'
+                    }
+                  }
                 }
               }}
             />
@@ -121,19 +146,19 @@ const BarChartComponents = () => {
 export default BarChartComponents;
 
 const NavStyle = styled.nav`
-    .container_main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        margin: 2%;
-        padding: 2%;
-        border: 2px solid #D5D5D5;
-        background-color: #f0f0f0;
-    }
+  .container_main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 2%;
+    padding: 2%;
+    border: 2px solid #D5D5D5;
+    background-color: #f0f0f0;
+  }
 
-    .chart-container {
-        width: 80%; /* Ajusta el ancho según tus necesidades */
-        margin-top: 20px;
-    }
+  .chart-container {
+    width: 80%; /* Ajusta el ancho según tus necesidades */
+    margin-top: 20px;
+  }
 `;
