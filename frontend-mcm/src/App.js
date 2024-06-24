@@ -36,7 +36,6 @@ import EstadisticaProductosComponents from "./components/Estadisticas/Estadistic
 import MainGraficosComponents from "./components/Estadisticas/MainGraficosComponents";
 import BarChartComponents from "./components/Estadisticas/BarChartComponents";
 import GraficoVentasComponents from "./components/Estadisticas/GraficoVentasComponents";
-import GraficoOOCClientesComponents from "./components/Estadisticas/GraficoOOCClientesComponents";
 import GraficoOOCProveedoresComponents from "./components/Estadisticas/GraficoOOCProveedoresComponents";
 
 import ListVentasComponents from "./components/Ventas/ListVentasComponents";
@@ -81,7 +80,6 @@ function App() {
                   <Route path="/estadistica/main-graficos" element={<MainGraficosComponents/>} />
                   <Route path="/estadistica/barchart" element={<BarChartComponents/>} />
                   <Route path="/estadistica/ventas-chart" element={<GraficoVentasComponents/>} />
-                  <Route path="/estadistica/ooc-clientes-chart" element={<GraficoOOCClientesComponents/>} />
                   <Route path="/estadistica/ooc-proveedores-chart" element={<GraficoOOCProveedoresComponents/>} />
                   
 

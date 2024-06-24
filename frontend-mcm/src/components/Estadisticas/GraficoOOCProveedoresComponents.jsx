@@ -5,6 +5,8 @@ import 'chart.js/auto'; // Necesario para que funcione con la versión 3 de char
 import HeaderComponents from "../Headers/HeaderComponents";
 import ordenesDeCompraProveedorService from "../../services/OrdenesDeCompraProveedorService";
 
+const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
 function GraficoOOCProveedoresComponents() {
     const [comprasData, setComprasData] = useState([]);
 
@@ -26,14 +28,14 @@ function GraficoOOCProveedoresComponents() {
             };
         }
 
-        const labels = comprasData.map(data => `${data[3]}-${data[2]}`); // Año-Mes
+        const labels = comprasData.map(data => `${data[3]}-${monthNames[data[2] - 1]}`); // Año-Mes con abreviatura
         const montos = comprasData.map(data => data[0]); // Monto total de compras
 
         return {
             labels: labels,
             datasets: [
                 {
-                    label: 'Monto Total de Compras a proveedores por Mes',
+                    label: 'Monto Total de Compras a Proveedores por Mes',
                     data: montos,
                     fill: false,
                     backgroundColor: 'rgba(75,192,192,0.4)',
@@ -52,7 +54,7 @@ function GraficoOOCProveedoresComponents() {
             };
         }
 
-        const labels = comprasData.map(data => `${data[3]}-${data[2]}`); // Año-Mes
+        const labels = comprasData.map(data => `${data[3]}-${monthNames[data[2] - 1]}`); // Año-Mes con abreviatura
         const cantidades = comprasData.map(data => data[1]); // Cantidad de compras
 
         return {
@@ -92,7 +94,7 @@ function GraficoOOCProveedoresComponents() {
             <NavStyle>
                 <HeaderComponents />
                 <div className="container_main">
-                <h2>Estadísticas OOCC de Proveedores</h2>
+                    <h2>Estadísticas OOCC de Proveedores</h2>
                     <div className="charts">
                         <div className="chart">
                             <Line data={prepareMontosChartData()} options={options} />
@@ -112,25 +114,25 @@ export default GraficoOOCProveedoresComponents;
 const NavStyle = styled.nav`
 .container_main {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     margin: 2%;
     padding: 2%;
     border: 2px solid #D5D5D5;
     background-color: #f0f0f0;
     width: 80%;
 }
-
 .charts {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
 }
-
 .chart {
-    flex: 1;
-    margin: 0 10px;
+    width: 90%;
+    max-width: 800px;
+    margin: 20px 0;
 }
 `;

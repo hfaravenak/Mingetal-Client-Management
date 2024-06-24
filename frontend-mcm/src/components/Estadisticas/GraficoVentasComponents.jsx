@@ -6,6 +6,8 @@ import 'chart.js/auto'; // Necesario para que funcione con la versión 3 de char
 import HeaderComponents from "../Headers/HeaderComponents";
 import ventasService from "../../services/VentasService";
 
+const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
 function GraficoVentasComponents() {
     const [ventasData, setVentasData] = useState([]);
 
@@ -25,7 +27,8 @@ function GraficoVentasComponents() {
             };
         }
 
-        const labels = ventasData.map(data => `${data[3]}-${data[2]}`); // Año-Mes
+        const labels = ventasData.map(data => `${data[3]}-${monthNames[data[2] - 1]}`); // Año-Mes con abreviatura
+
         const montos = ventasData.map(data => data[0]); // Monto vendido por mes
 
         return {
@@ -50,7 +53,8 @@ function GraficoVentasComponents() {
             };
         }
 
-        const labels = ventasData.map(data => `${data[3]}-${data[2]}`); // Año-Mes
+        const labels = ventasData.map(data => `${data[3]}-${monthNames[data[2] - 1]}`); // Año-Mes con abreviatura
+
         const cantidades = ventasData.map(data => data[1]); // Cantidad de ventas por mes
 
         return {
@@ -111,7 +115,6 @@ const NavStyle = styled.nav`
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
     margin: 2%;
     padding: 2%;
     border: 2px solid #D5D5D5;
@@ -120,12 +123,14 @@ const NavStyle = styled.nav`
 }
 .charts {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
 }
 .chart {
-    flex: 1;
-    margin: 0 10px;
+    width: 90%;
+    max-width: 800px;
+    margin: 20px 0;
 }
 `;

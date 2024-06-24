@@ -17,10 +17,6 @@ function MainEstadisticaComponents() {
         navigate("/estadistica/ventas-chart");
     };
 
-    const handleClickGraficoClientes = () => {
-        navigate("/estadistica/ooc-clientes-chart");
-    };
-
     const handleClickGraficoProveedores = () => {
         navigate("/estadistica/ooc-proveedores-chart");
     };
@@ -37,10 +33,6 @@ function MainEstadisticaComponents() {
                     <div className="card" onClick={handleClickGraficoVentas}>
                         <img id="estadistica" src={estadistica} alt="Historico" />
                         <h2>Histórico Ventas</h2>
-                    </div>
-                    <div className="card" onClick={handleClickGraficoClientes}>
-                        <img id="estadistica" src={estadistica} alt="Estatisticas-cliente" />
-                        <h2>Estadísticas de Órdenes de compra de Clientes</h2>
                     </div>
                     <div className="card" onClick={handleClickGraficoProveedores}>
                         <img id="estadistica" src={estadistica} alt="Estatisticas-proveedor" />
