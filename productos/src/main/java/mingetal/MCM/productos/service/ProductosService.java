@@ -11,10 +11,14 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.io.IOException;
+import java.util.Optional;
+
 
 @Service
 public class ProductosService {
@@ -26,7 +30,8 @@ public class ProductosService {
 
     //-------------------- Guardado --------------------
 
-    public ProductosEntity save(ProductosEntity productosEntity){
+    @Transactional
+    public ProductosEntity save(ProductosEntity productosEntity) {
         String[] palabras = productosEntity.getNombre().split("\\s+");
         StringBuilder sb = new StringBuilder();
 
@@ -35,7 +40,7 @@ public class ProductosService {
             sb.append(Character.toUpperCase(palabra.charAt(0))).append(palabra.substring(1)).append(" ");
         }
         productosEntity.setNombre(sb.toString().trim());
-        if(findByNombreTextual(productosEntity.getNombre())==null){
+        if (findByNombreTextual(productosEntity.getNombre()) == null) {
             return productosRepository.save(productosEntity);
         }
         return null;
@@ -43,17 +48,20 @@ public class ProductosService {
 
     //-------------------- Buscar --------------------
 
-    public List<ProductosEntity> findAll(){
-        List<ProductosEntity> productos = productosRepository.findAll();
-        productos.sort(Comparator.comparing(ProductosEntity::getTipo, Comparator.nullsFirst(Comparator.naturalOrder())));
-        return productos;
+    @Transactional(readOnly = true)
+    public List<ProductosEntity> findAll() {
+        return productosRepository.findAll();
     }
-    public ProductosEntity findById(int id){
+
+    @Transactional(readOnly = true)
+    public ProductosEntity findById(int id) {
         return productosRepository.findById(id);
     }
-    public List<ProductosEntity> findByTipo(String tipo){
+    @Transactional(readOnly = true)
+    public List<ProductosEntity> findByTipo(String tipo) {
         return productosRepository.findByTipo(tipo);
     }
+    @Transactional(readOnly = true)
     public List<ProductosEntity> findByNombre(String nombre) {
         List<ProductosEntity> productoEntities = findAll();
         List<ProductosEntity> resultados = new ArrayList<>();
@@ -62,89 +70,96 @@ public class ProductosService {
                 resultados.add(nombreDeLista);
             }
         }
-
         resultados.sort((p1, p2) -> p1.getNombre().compareTo(p2.getNombre()));
-
         return resultados;
     }
     @Generated
+    @Transactional(readOnly = true)
     public ProductosEntity findByNombreTextual(String nombre) {
         return productosRepository.findByNombre(nombre);
     }
     @Generated
-    public List<ProductosEntity> findByOCCliente(int id){
+    @Transactional(readOnly = true)
+    public List<ProductosEntity> findByOCCliente(int id) {
         List<ListaProductosOCClienteEntity> response = restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/cliente/productos/"+id,
+                "http://localhost:8080/ordenes_de_compra/cliente/productos/" + id,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<ListaProductosOCClienteEntity>>() {}
+                new ParameterizedTypeReference<List<ListaProductosOCClienteEntity>>() {
+                }
         ).getBody();
-        if(response == null){
+        if (response == null) {
             return new ArrayList<>();
         }
 
         List<ProductosEntity> productosEntities = new ArrayList<>();
 
-        for(ListaProductosOCClienteEntity listaProductosOCClienteEntity : response){
+        for (ListaProductosOCClienteEntity listaProductosOCClienteEntity : response) {
             productosEntities.add(findById(listaProductosOCClienteEntity.getId_producto()));
         }
 
         return productosEntities;
     }
     @Generated
-    public List<ProductosEntity> findByOCProveedor(int id){
+    @Transactional(readOnly = true)
+    public List<ProductosEntity> findByOCProveedor(int id) {
         List<ListaProductosOCProveedorEntity> response = restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/proveedor/productos/"+id,
+                "http://localhost:8080/ordenes_de_compra/proveedor/productos/" + id,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<ListaProductosOCProveedorEntity>>() {}
+                new ParameterizedTypeReference<List<ListaProductosOCProveedorEntity>>() {
+                }
         ).getBody();
 
-        if(response == null){
+        if (response == null) {
             return new ArrayList<>();
         }
 
         List<ProductosEntity> productosEntities = new ArrayList<>();
 
-        for(ListaProductosOCProveedorEntity listaProductosOCProveedorEntity : response){
+        for (ListaProductosOCProveedorEntity listaProductosOCProveedorEntity : response) {
             productosEntities.add(findById(listaProductosOCProveedorEntity.getId_producto()));
         }
 
         return productosEntities;
     }
+
     @Generated
-    public List<ProductosEntity> findByCotizacion(int id){
-        System.out.println("id: "+id);
+    @Transactional(readOnly = true)
+    public List<ProductosEntity> findByCotizacion(int id) {
+        System.out.println("id: " + id);
         List<ListaProductosCotizacionEntity> response = restTemplate.exchange(
-                "http://localhost:8080/cliente/cotizacion/productos/"+id,
+                "http://localhost:8080/cliente/cotizacion/productos/" + id,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<ListaProductosCotizacionEntity>>() {}
+                new ParameterizedTypeReference<List<ListaProductosCotizacionEntity>>() {
+                }
         ).getBody();
 
-        if(response == null){
+        if (response == null) {
             return new ArrayList<>();
         }
 
         List<ProductosEntity> productosEntities = new ArrayList<>();
 
-        for(ListaProductosCotizacionEntity listaProductosCotizacionEntity : response){
+        for (ListaProductosCotizacionEntity listaProductosCotizacionEntity : response) {
             productosEntities.add(findById(listaProductosCotizacionEntity.getId_producto()));
         }
 
         return productosEntities;
     }
 
-    public List<ProductosEntity> findPocosProductos(){
+    @Transactional(readOnly = true)
+    public List<ProductosEntity> findPocosProductos() {
         return productosRepository.findPocoProductos();
     }
 
     //-------------------- Eliminar --------------------
 
-    public ProductosEntity delete(int id){
+    @Transactional
+    public ProductosEntity delete(int id) {
         ProductosEntity productosEntity = findById(id);
-        if(productosEntity==null){
-            //throw new IllegalArgumentException("El producto con ID " + id + " no existe.");
+        if (productosEntity == null) {
             return null;
         }
         productosRepository.delete(productosEntity);
@@ -153,11 +168,13 @@ public class ProductosService {
 
     //-------------------- Editar --------------------
 
-    public ProductosEntity update(ProductosEntity productosEntity) {
-        if(findById(productosEntity.getId())==null){
+    @Transactional
+    public ProductosEntity update(ProductosEntity producto) {
+        System.out.println("update service: " + producto);
+        if (findById(producto.getId()) == null) {
             return null;
         }
-        return productosRepository.save(productosEntity);
+        return productosRepository.save(producto);
     }
 
 }

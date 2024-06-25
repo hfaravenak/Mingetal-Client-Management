@@ -7,7 +7,6 @@ import Swal from "sweetalert2";
 
 import HeaderComponents from "../Headers/HeaderComponents";
 
-import productos from "../../images/producto.png";
 import ProductoService from "../../services/ProductoService";
 
 function ProductoComponents() {
@@ -25,11 +24,26 @@ function ProductoComponents() {
         imagen: null,
         tipo_imagen: ""
     };
-    const [input, setInput] = useState(initialState);
+    const [input, setInput] = useState(initialState);    
+    const [previewImage, setPreviewImage] = useState(null);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setInput({ ...input, [name]: value });
+    };
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        setInput({ ...input, imagen: file });
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setPreviewImage(null);
+        }
     };
 
     const [mostrarCard, setMostrarCard] = useState(false);
@@ -48,6 +62,7 @@ function ProductoComponents() {
     };
 
     const handleGuardarProducto = () => {
+        
         Swal.fire({
             title: "¿Seguro de modificar este producto?",
             icon: "question",
@@ -58,17 +73,40 @@ function ProductoComponents() {
             denyButtonColor: "rgb(190, 54, 54)",
         }).then((result) => {
             if (result.isConfirmed) {
-                let updateProducto = {
-                    id: datos.id,
-                    tipo: input.tipo,
-                    nombre: input.nombre,
-                    valor: input.valor,
-                    valor_final: input.valor_final,
-                    cantidad: input.cantidad,
-                };
-                ProductoService.updateProducto(updateProducto);
-                navigate(`/productos/mas-info/${encodeURIComponent(JSON.stringify(updateProducto))}`);
-                setMostrarCard(false);
+                const formData = new FormData();
+                formData.append("id", datos.id)
+                formData.append("tipo", input.tipo);
+                formData.append("nombre", input.nombre);
+                formData.append("valor", input.valor);
+                formData.append("valor_final", input.valor_final);
+                formData.append("cantidad", input.cantidad);
+                if (input.imagen) {
+                    formData.append("imagen", input.imagen);
+                }
+                console.log("FormData:", Object.fromEntries(formData.entries()));
+                ProductoService.updateProducto(formData)
+                .then(() => {
+                    Swal.fire({
+                        title: "Enviado",
+                        timer: 2000,
+                        icon: "success",
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        },
+                        willClose: () => {
+                            navigate("/productos");
+                        },
+                    });
+                })
+                .catch((error) => {
+                    Swal.fire({
+                        title: "Error",
+                        text: error.message,
+                        icon: "error",
+                    });
+                });
+                
             }
         });
     };
@@ -125,25 +163,27 @@ function ProductoComponents() {
                         <div className="container-1">
                             <div className="card">
                                 <div className="contenedor-img">
-                                    <img id="productos" src={productos} alt="productos" />
+                                    <img id="productos" src={`data:image/jpeg;base64,${datos.imagen}`} alt="productos" />
                                 </div>
                                 <div className="contenedor-informacion">
                                     <Form>
-                                        <Form.Group controlId="nombre">
+                                        <Form.Group controlId="nombre">                                            
+                                            <Form.Label className="font-h2">Nombre:</Form.Label>
                                             <Form.Control
                                                 value={input.nombre}
                                                 onChange={handleInputChange}
-                                                className="font-h3 no-border"
+                                                className="font-h2-control no-border"
                                                 type="text"
                                                 name="nombre"
                                                 placeholder="Nombre producto"
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="tipo">
+                                        <Form.Group controlId="tipo">                                            
+                                            <Form.Label className="font-h2">Tipo:</Form.Label>
                                             <Form.Control
                                                 value={input.tipo}
                                                 onChange={handleInputChange}
-                                                className="font-h3 no-border"
+                                                className="font-h2-control no-border"
                                                 type="text"
                                                 name="tipo"
                                                 placeholder="Tipo del Producto"
@@ -182,6 +222,22 @@ function ProductoComponents() {
                                                 placeholder="Cantidad del Producto"
                                             />
                                         </Form.Group>
+                                        <Form.Group controlId="imagen">
+                                            <Form.Label className="agregar">Imagen:</Form.Label>
+                                            <Form.Control
+                                                className="font-h2-control no-border"
+                                                type="file"
+                                                accept="image/jpeg, image/png"
+                                                onChange={handleImageChange}
+                                            />
+                                        </Form.Group>
+
+                                        {previewImage && (
+                                            <div className="image-preview">
+                                                <img src={previewImage} alt="Vista previa" />
+                                            </div>
+                                        )}
+                                        
                                     </Form>
                                 </div>
                             </div>
@@ -244,64 +300,19 @@ const NavStyle = styled.nav`
         border: 2px solid #d5d5d5;
         background-color: #f0f0f0;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         gap: 20px;
         height: 100%;
     }
+
     .container-1 {
-        height: 80%;
-        background-color: #f0f0f0;
-        width: 20%;
-        flex-shrink: 0; /* Hace que el contenedor no se encoja */
-        overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
-        padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
-    }
-    .container-2 {
-        background-color: #f0f0f0;
-        flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
-        overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
-        padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
-        max-height: calc(0px + 74.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
-    }
-
-    /* Todo la parte de la tabla */
-
-    .content-table {
-        border-collapse: collapse;
-        margin-left: 1;
-        font-size: 0.9em;
-        min-width: 100px;
-        border-radius: 5px 5px 0 0;
-        overflow: hidden;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    }
-    .content-table thead tr {
-        background-color: #d2712b;
-        color: #ffffff;
-        text-align: left;
-        font-weight: bold;
-    }
-    .content-table th,
-    .content-table td {
-        padding: 12px 15px;
-    }
-
-    .content-table td {
-        font-size: 18px;
-    }
-
-    .content-table tbody tr {
-        border-bottom: 1px solid #dddddd;
-    }
-    .content-table tbody tr:nth-of-type(even) {
-        background-color: #f3f3f3;
-    }
-    .content-table tbody tr:last-of-type {
-        border-bottom: 2px solid #009879;
-    }
-    .content-table tbody tr.active-row {
-        font-weight: bold;
-        color: #009879;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
     }
 
     td img {
@@ -321,20 +332,35 @@ const NavStyle = styled.nav`
     /* Por el lado de la información del producto*/
 
     .card {
-        border: 1px solid black;
+        border: 2px solid black; /* Asegurarse de que los bordes sean visibles */
         border-radius: 10px;
         background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 600px;
+        padding: 20px; /* Añadir padding para una mejor presentación */
     }
+
     .card .contenedor-img {
         background-color: #f0f0f0;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%; /* Asegurarse de que la imagen ocupe todo el ancho disponible */
+        padding: 10px;
     }
+
+    .card .contenedor-img img {
+        width: 40%; /* Ajustar el tamaño de la imagen */
+        object-fit: contain; /* Asegurar que la imagen mantenga su proporción */
+    }
+
     .card .contenedor-informacion {
         background-color: white;
-        height: 100%;
+        width: 100%; /* Asegurarse de que la información ocupe todo el ancho disponible */
     }
 
     .card .contenedor-informacion h3,
@@ -370,12 +396,16 @@ const NavStyle = styled.nav`
         box-shadow: none;
     }
 
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
     .editar,
     .eliminar,
     .cancelar,
     .aceptar {
-        margin-left: 5px;
-        margin-top: 10px;
         padding: 10px 20px;
         font-size: 16px;
         border-radius: 30px;

@@ -27,7 +27,7 @@ public class ProductoServiceTest {
                 "prueba",
                 30000,
                 50000,
-                5);
+                5,null,null);
 
         assertNotNull(productosService.save(productosEntity));
         assertEquals(productosEntity, productosService.findById(productosEntity.getId()));
@@ -41,7 +41,7 @@ public class ProductoServiceTest {
                 "prueba",
                 30000,
                 50000,
-                5);
+                5,null,null);
 
         productosService.save(productosEntity);
         assertNull(productosService.save(productosEntity));
@@ -58,13 +58,13 @@ public class ProductoServiceTest {
                 "prueba",
                 30000,
                 50000,
-                5);
+                5,null,null);
         ProductosEntity productosEntity2 = new ProductosEntity(
                 "Quimico2",
                 "prueba2",
                 30000,
                 50000,
-                5);
+                5,null,null);
 
         productosService.save(productosEntity);
         productosService.save(productosEntity2);
@@ -84,7 +84,7 @@ public class ProductoServiceTest {
                 "prueba",
                 30000,
                 50000,
-                5);
+                5,null,null);
         productosService.save(productosEntity);
 
         assertEquals(productosEntity, productosService.findById(productosEntity.getId()));
@@ -105,7 +105,7 @@ public class ProductoServiceTest {
                 "prueba",
                 30000,
                 50000,
-                5);
+                5,null,null);
         productosService.save(productosEntity);
         List<ProductosEntity> productosEntities = productosService.findByTipo("Quimico");
 
@@ -128,7 +128,7 @@ public class ProductoServiceTest {
                 "Prueba",
                 30000,
                 50000,
-                5);
+                5,null,null);
         productosService.save(productosEntity);
 
         List<ProductosEntity> productosEntities = productosService.findByNombre("Prueba");
@@ -145,14 +145,14 @@ public class ProductoServiceTest {
                 "Prueba1",
                 30000,
                 50000,
-                5);
+                5,null,null);
         productosService.save(productosEntity);
         ProductosEntity productosEntity2 = new ProductosEntity(
                 "Quimico2",
                 "Prueba2",
                 30000,
                 50000,
-                5);
+                5,null,null);
         productosService.save(productosEntity2);
 
         List<ProductosEntity> productosEntities = productosService.findByNombre("Prueba");
@@ -178,7 +178,7 @@ public class ProductoServiceTest {
                 "Prueba",
                 30000,
                 50000,
-                5);
+                5,null,null);
         productosService.save(productosEntity);
 
         assertEquals(productosEntity, productosService.findByNombreTextual("Prueba"));
@@ -192,14 +192,14 @@ public class ProductoServiceTest {
                 "Prueba1",
                 30000,
                 50000,
-                5);
+                5,null,null);
         productosService.save(productosEntity);
         ProductosEntity productosEntity2 = new ProductosEntity(
                 "Quimico2",
                 "Prueba2",
                 30000,
                 50000,
-                5);
+                5,null,null);
         productosService.save(productosEntity2);
 
         assertNull(productosService.findByNombreTextual("Prueba"));
@@ -264,7 +264,7 @@ public class ProductoServiceTest {
                 "prueba1",
                 30000,
                 50000,
-                5);
+                5,null,null);
         productosService.save(productosEntity);
 
         assertEquals(productosEntity, productosService.delete(productosEntity.getId()));
@@ -284,7 +284,7 @@ public class ProductoServiceTest {
                 "prueba1",
                 30000,
                 50000,
-                5);
+                5,null,null);
         productosService.save(productosEntity);
 
         productosEntity.setTipo("New Tipo");
@@ -306,7 +306,7 @@ public class ProductoServiceTest {
                 "prueba1",
                 30000,
                 50000,
-                5);
+                5,null,null);
         assertNull(productosService.update(productosEntity));
     }
 }

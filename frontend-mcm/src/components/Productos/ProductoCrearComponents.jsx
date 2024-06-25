@@ -1,3 +1,6 @@
+
+
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -19,8 +22,10 @@ function ProductoCrearComponents() {
         valor_final: 0,
         cantidad: 0,
         imagen: null,
+        tipo_imagen: "",
     };
     const [input, setInput] = useState(initialState);
+    const [previewImage, setPreviewImage] = useState(null);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -28,7 +33,17 @@ function ProductoCrearComponents() {
     };
 
     const handleImageChange = (event) => {
-        setInput({ ...input, imagen: event.target.files[0] });
+        const file = event.target.files[0];
+        setInput({ ...input, imagen: file });
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setPreviewImage(null);
+        }
     };
 
     //-- agregar producto + alarmas + confirmación
@@ -154,6 +169,12 @@ function ProductoCrearComponents() {
                                 onChange={handleImageChange}
                             />
                         </Form.Group>
+
+                        {previewImage && (
+                            <div className="image-preview">
+                                <img src={previewImage} alt="Vista previa" />
+                            </div>
+                        )}
 
                         <Button className="boton" onClick={ingresarProducto}>
                             Ingresar Producto

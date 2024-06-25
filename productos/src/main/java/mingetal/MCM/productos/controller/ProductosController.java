@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -44,6 +45,7 @@ public class ProductosController {
                     return ResponseEntity.badRequest().body(null);
                 }
                 producto.setImagen(imagen.getBytes());
+                System.out.println("bytes: "+ imagen.getBytes());
                 producto.setTipoImagen(tipoImagen);
             }
             return ResponseEntity.ok(productosService.save(producto));
@@ -55,10 +57,6 @@ public class ProductosController {
     @GetMapping("/")
     public ResponseEntity<List<ProductosEntity>> getAll(){
         return ResponseEntity.ok(productosService.findAll());
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductosEntity> getById(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(productosService.findById(id));
     }
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity<List<ProductosEntity>> getProductoByTipo(@PathVariable("tipo") String tipo){
@@ -94,8 +92,73 @@ public class ProductosController {
         return ResponseEntity.ok(productosService.delete(id));
     }
 
-    @PutMapping("/update")
+    /*@PutMapping("/update")
     public ResponseEntity<ProductosEntity> updateProducto(@RequestBody ProductosEntity productosEntity){
         return ResponseEntity.ok(productosService.update(productosEntity));
+    }*/
+
+    @PutMapping("/update")
+    public ResponseEntity<ProductosEntity> updateProducto(
+            @RequestParam("id") int id,
+            @RequestParam("tipo") String tipo,
+            @RequestParam("nombre") String nombre,
+            @RequestParam("valor") int valor,
+            @RequestParam("valor_final") int valorFinal,
+            @RequestParam("cantidad") int cantidad,
+            @RequestParam(value = "imagen", required = false) MultipartFile imagen){
+        System.out.println("##################################################################");
+        try {
+
+            System.out.println("id: " + id);
+            ProductosEntity productoExistente = productosService.findById(id);
+            System.out.println("producto a editar: " + productoExistente);
+            if (productoExistente == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            System.out.println(imagen.getBytes());
+            System.out.println(imagen.getContentType());
+
+
+            productoExistente.setTipo(tipo);
+            productoExistente.setNombre(nombre);
+            productoExistente.setValor(valor);
+            productoExistente.setValor_final(valorFinal);
+            productoExistente.setCantidad(cantidad);
+
+            System.out.println("-------------------------------");
+            if (imagen != null && !imagen.isEmpty()) {
+                System.out.println("++++++++++++++++++++++++++++");
+                String tipoImagen = imagen.getContentType();
+                if (!"image/jpeg".equals(tipoImagen) && !"image/png".equals(tipoImagen)) {
+                    System.out.println("ooooooooooooooooooooooooooooooooooooooooo");
+                    return ResponseEntity.badRequest().body(null);
+                }
+                productoExistente.setImagen(imagen.getBytes());
+                productoExistente.setTipoImagen(tipoImagen);
+                System.out.println("imagen: " + imagen.getBytes());
+                System.out.println("tipo imagen: " + imagen.getContentType());
+            }
+
+            System.out.println("Tipo: " + tipo);
+            System.out.println("Nombre: " + nombre);
+            System.out.println("Valor: " + valor);
+            System.out.println("Valor Final: " + valorFinal);
+            System.out.println("Cantidad: " + cantidad);
+            System.out.println("imagen: " + imagen.getBytes());
+            System.out.println("tipo imagen: " + imagen.getContentType());
+
+
+
+            ProductosEntity updatedProducto = productosService.update(productoExistente);
+            if (updatedProducto == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+            return ResponseEntity.ok(updatedProducto);
+        } catch (IOException e) {
+            System.out.println("EEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRROOOORRRRRRRRRRRRRRRRRRRR");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
     }
 }

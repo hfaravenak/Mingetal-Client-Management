@@ -51,6 +51,13 @@ class ProductoService{
         return axios.put(PRODUCTOS_API_URL +"update", producto);
   
     }
+    updateProducto(producto){
+        return axios.put(PRODUCTOS_API_URL+"update", producto, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+    }
 }
 const productoService = new ProductoService();
 export default productoService;
