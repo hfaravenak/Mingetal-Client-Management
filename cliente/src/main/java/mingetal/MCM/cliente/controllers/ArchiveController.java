@@ -1,8 +1,6 @@
 package mingetal.MCM.cliente.controllers;
 
-import mingetal.MCM.cliente.entities.ClienteEntity;
 import mingetal.MCM.cliente.services.ArchiveService;
-import mingetal.MCM.cliente.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -12,10 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.List;
 
 @RestController
-@RequestMapping("/cliente/archive/")
+@RequestMapping("/cliente/archive")
 public class ArchiveController {
     @Autowired
     private ArchiveService archiveService;

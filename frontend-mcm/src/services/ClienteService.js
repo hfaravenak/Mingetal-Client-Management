@@ -49,7 +49,6 @@ class ClienteService {
     getRankingCliente(){
         return axios.get(CLIENTE_API_URL+"ranking/");
     }
-
     
 }
 

@@ -20,7 +20,7 @@ public class ArchiveService {
     @Autowired
     ContactoService contactoService;
 
-    public ByteArrayInputStream generateExcelCliente() throws IOException {
+    public ByteArrayInputStream generateExcelProveedor() throws IOException {
         String[] columns = {"ID", "Rubro", "Empresa",
                 "RUT", "Nombre", "Correo", "Telefono Celular", "Telefono Fijo",
                 "RUT", "Nombre", "Correo", "Telefono Celular", "Telefono Fijo",

@@ -23,9 +23,24 @@ public class ArchiveController {
     public ResponseEntity<InputStreamResource> downloadExcel() throws IOException {
         // Aquí obtén la lista de entidades desde tu base de datos o cualquier otra fuente
 
-        ByteArrayInputStream in = archiveService.generateExcelCliente();
+        ByteArrayInputStream in = archiveService.generateExcelOC();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=Ordenes de Compra.xlsx");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(in));
+    }
+
+    @GetMapping("/download/excel/ventas")
+    public ResponseEntity<InputStreamResource> downloadExcelVentas() throws IOException {
+        // Aquí obtén la lista de entidades desde tu base de datos o cualquier otra fuente
+
+        ByteArrayInputStream in = archiveService.generateExcelVentas();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=Ventas.xlsx");
 
         return ResponseEntity
                 .ok()

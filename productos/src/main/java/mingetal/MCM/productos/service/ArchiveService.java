@@ -17,7 +17,7 @@ public class ArchiveService {
     @Autowired
     ProductosService productosService;
 
-    public ByteArrayInputStream generateExcelCliente() throws IOException {
+    public ByteArrayInputStream generateExcelProductos() throws IOException {
         String[] columns = {"ID", "Tipo", "Nombre", "Valor", "Valor Final", "Cantidad"};
 
         List<ProductosEntity> entities = productosService.findAll();

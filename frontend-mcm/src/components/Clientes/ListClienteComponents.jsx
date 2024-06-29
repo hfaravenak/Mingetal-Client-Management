@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-
+import axios from 'axios';
 
 import editar from "../../images/editar.png";
+import excel from "../../images/excel.png";
 
 import HeaderComponents from "../Headers/HeaderComponents";
 import ClienteService from "../../services/ClienteService";
-import OrdenesDeCompraClienteService from "../../services/OrdenesDeCompraClienteService";
 
 function ListClienteComponents() {
     const navigate = useNavigate();
@@ -111,6 +111,23 @@ function ListClienteComponents() {
         setRankingCard(true);
     };
 
+    const descargarExcel = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/cliente/archive/download/excel', {
+                responseType: 'blob', // importante para manejar el blob de la respuesta
+            });
+
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Cliente.xlsx'); // nombre del archivo
+            document.body.appendChild(link);
+            link.click();
+        } catch (error) {
+            console.error('Error al descargar el archivo', error);
+        }
+    };
+
     if (rankingCard) {
         return (
             <div>
@@ -176,16 +193,23 @@ function ListClienteComponents() {
                                     Generar ranking de clientes
                                 </Button>
                             </div>
-                            <div className="btn-inf">
-                                <Button className="boton" onClick={crearCliente}>
-                                    Ingresar Cliente
-                                </Button>
-                            </div>
                         </div>
                         <div align="center" className="container-2">
-                            <h1>
-                                <b> Listado de Cliente</b>
-                            </h1>
+                            <div className="TituloSuperior">
+                                <h1>
+                                    <b> Listado de Cliente</b>
+                                </h1>
+                                <div className="Derecha">
+                                    <img id="excel" src={excel} alt="excel" className="img-card" onClick={descargarExcel}/>
+                                </div>
+                                <div className="Derecha">
+                                    <div className="btn-inf">
+                                        <Button className="boton" onClick={crearCliente}>
+                                            Ingresar Cliente
+                                        </Button>
+                                    </div>  
+                                </div>
+                            </div>
                             <table border="1" className="content-table">
                                 <thead>
                                     <tr>
@@ -231,8 +255,6 @@ function ListClienteComponents() {
                         <div className="container-1">
                             <div className="inline-forms-container">
                                 <Form className="inline-form">
-
-
                                 </Form>
                                 <Form className="inline-form">
                                 </Form>
@@ -244,11 +266,6 @@ function ListClienteComponents() {
                                     Volver a lista de clientes
                                 </Button>
                             </div>
-                            <div className="btn-inf">
-                            <Button className="boton" onClick={crearCliente}>
-                                Ingresar Cliente
-                            </Button>
-                        </div>
                         </div>
                         <div align="center" className="container-2">
                             <h1>
@@ -324,6 +341,28 @@ const NavStyle = styled.nav`
     }
 
     /* Parte de la tabla */
+
+    .TituloSuperior {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        white-space: nowrap;
+        position: relative;
+    }
+
+    .TituloSuperior .Derecha {
+        position: absolute;
+        right: 0;
+    }
+
+    .TituloSuperior .Derecha .btn-inf .boton{
+        margin-top: 0;
+    }
+
+    .TituloSuperior .Derecha .img-card{
+        width: 5%;
+        height: 5%;
+    }
 
     .content-table {
         border-collapse: collapse;

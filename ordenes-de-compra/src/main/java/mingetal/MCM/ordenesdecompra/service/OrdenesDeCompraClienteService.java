@@ -41,7 +41,7 @@ public class OrdenesDeCompraClienteService {
 
     public List<OrdenesDeCompraClienteEntity> findPagado(){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findPagado();
-        ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
+        ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.reverseOrder())));
         return ordenesDeCompraClienteEntities;
     }
 

@@ -24,7 +24,7 @@ public class ArchiveController {
     public ResponseEntity<InputStreamResource> downloadExcel() throws IOException {
         // Aquí obtén la lista de entidades desde tu base de datos o cualquier otra fuente
 
-        ByteArrayInputStream in = archiveService.generateExcelCliente();
+        ByteArrayInputStream in = archiveService.generateExcelProveedor();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=Proveedor.xlsx");
 
