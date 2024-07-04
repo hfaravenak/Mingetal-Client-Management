@@ -1,0 +1,21 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  application:
+    name: Login
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  datasource:
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/login
+    username: postgres
+    password: Simon_789
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8081
