@@ -119,7 +119,7 @@ const NavStyle = styled.nav`
     padding: 2%;
     border: 2px solid #D5D5D5;
     background-color: #f0f0f0;
-    width: 80%;
+    width: auto;
 }
 .charts {
     display: flex;
