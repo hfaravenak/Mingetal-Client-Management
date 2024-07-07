@@ -42,7 +42,7 @@ spring:
           uri: lb://ordenes-de-compra
           predicates:
             - Path=/ordenes_de_compra/**
-        - id: login
+        - id: Login
           uri: lb://Login
           predicates:
             - Path=/Login/**
