@@ -7,11 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/login")
 public class LoginController {
     @Autowired
     UsuarioService usuarioService;
+
+    @GetMapping("/")
+    public ResponseEntity<List<UsuarioEntity>> getUsuarios() {
+        List<UsuarioEntity> usuarioEntities = usuarioService.getUsuarios();
+        return ResponseEntity.ok(usuarioEntities);
+    }
+
 
     @PostMapping
     public ResponseEntity<UsuarioEntity> login(@RequestBody UsuarioEntity usuarioEntity) {

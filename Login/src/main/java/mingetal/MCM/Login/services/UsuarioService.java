@@ -6,10 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    public List<UsuarioEntity> getUsuarios() {
+        List<UsuarioEntity> usuarioEntities =  usuarioRepository.findAll();
+        return usuarioEntities;
+    }
 
     public UsuarioEntity login(String correo, String password) throws Exception {
         UsuarioEntity usuario = new UsuarioEntity();
