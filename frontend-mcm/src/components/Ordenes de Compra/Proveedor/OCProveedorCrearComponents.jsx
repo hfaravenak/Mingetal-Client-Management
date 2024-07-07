@@ -11,397 +11,346 @@ import OrdenesDeCompraProveedorService from "../../../services/OrdenesDeCompraPr
 import productoService from "../../../services/ProductoService";
 
 function OCProveedorCrearComponents() {
-    const obtenerFechaHoy = () => {
-        const hoy = new Date();
-        const dia = String(hoy.getDate()).padStart(2, "0");
-        const mes = String(hoy.getMonth() + 1).padStart(2, "0");
-        const año = hoy.getFullYear();
-        return `${año}-${mes}-${dia}`; // Formato yyyy-mm-dd para ser compatible con el tipo de input date
-    };
-    const navigate = useNavigate();
+   const obtenerFechaHoy = () => {
+      const hoy = new Date();
+      const dia = String(hoy.getDate()).padStart(2, "0");
+      const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+      const año = hoy.getFullYear();
+      return `${año}-${mes}-${dia}`; // Formato yyyy-mm-dd para ser compatible con el tipo de input date
+   };
+   const navigate = useNavigate();
 
-    const initialState = {
-        nombre: "",
-        fecha_solicitud: obtenerFechaHoy(),
-        fecha_entrega: obtenerFechaHoy(),
-        estado_entrega: "No Entregado",
+   const initialState = {
+      nombre: "",
+      fecha_solicitud: obtenerFechaHoy(),
+      fecha_entrega: obtenerFechaHoy(),
+      estado_entrega: "No Entregado",
 
-        valor_pago: "",
-        fecha_pago: "",
-        estado_pago: "No Pagado",
+      valor_pago: "",
+      fecha_pago: "",
+      estado_pago: "No Pagado",
 
-        numero_factura: "",
-    };
-    const [input, setInput] = useState(initialState);
-    useEffect(() => {
-        OrdenesDeCompraProveedorService.getOCProveedor().then((res) => {
-            setID(res.data.length + 1);
-        });
-    }, []);
+      numero_factura: "",
+   };
+   const [input, setInput] = useState(initialState);
+   useEffect(() => {
+      OrdenesDeCompraProveedorService.getOCProveedor().then((res) => {
+         setID(res.data.length + 1);
+      });
+   }, []);
 
-    const [id, setID] = useState();
-    
-    const [ListProducto, setListProducto] = useState([{ nombre: "", cantidad: "" }]);
-    const handleInputChange = (event, index = null) => {
-        const { name, value } = event.target;
+   const [id, setID] = useState();
 
-        if (index !== null) {
-            const newListProducto = [...ListProducto];
-            newListProducto[index][name] = value;
-            setListProducto(newListProducto);
-        } else {
-            setInput({ ...input, [name]: value });
-        }
-    };
-    const handleAddRow = () => {
-        setListProducto([...ListProducto, { nombre: "", cantidad: "" }]);
-    };
-    const handleMinusRow = () => {
-        if (ListProducto.length > 1) {
-            setListProducto(ListProducto.slice(0, -1));
-        }
-    };
+   const [ListProducto, setListProducto] = useState([{ nombre: "", cantidad: "" }]);
+   const handleInputChange = (event, index = null) => {
+      const { name, value } = event.target;
 
-    const validateForm = () => {
-        const requiredFields = ["nombre", "valor_pago", "numero_factura"];
-        for (let field of requiredFields) {
-            if (!input[field]) {
-                return false;
-            }
-        }
-        for (let producto of ListProducto) {
-            if (!producto.nombre || !producto.cantidad) {
-                return false;
-            }
-        }
-        return true;
-    };
+      if (index !== null) {
+         const newListProducto = [...ListProducto];
+         newListProducto[index][name] = value;
+         setListProducto(newListProducto);
+      } else {
+         setInput({ ...input, [name]: value });
+      }
+   };
+   const handleAddRow = () => {
+      setListProducto([...ListProducto, { nombre: "", cantidad: "" }]);
+   };
+   const handleMinusRow = () => {
+      if (ListProducto.length > 1) {
+         setListProducto(ListProducto.slice(0, -1));
+      }
+   };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (validateForm()) {
-            ingresarOCProveedor();
-        } else {
-            Swal.fire({
-                title: "Error",
-                text: "Por favor, complete todos los campos requeridos.",
-                icon: "error",
-                confirmButtonText: "OK",
+   const validateForm = () => {
+      const requiredFields = ["nombre", "valor_pago", "numero_factura"];
+      for (let field of requiredFields) {
+         if (!input[field]) {
+            return false;
+         }
+      }
+      for (let producto of ListProducto) {
+         if (!producto.nombre || !producto.cantidad) {
+            return false;
+         }
+      }
+      return true;
+   };
+
+   const handleSubmit = (event) => {
+      event.preventDefault();
+      if (validateForm()) {
+         ingresarOCProveedor();
+      } else {
+         Swal.fire({
+            title: "Error",
+            text: "Por favor, complete todos los campos requeridos.",
+            icon: "error",
+            confirmButtonText: "OK",
+         });
+      }
+   };
+
+   const ingresarOCProveedor = () => {
+      Swal.fire({
+         title: "¿Desea registrar esta orden de compra?",
+         text: "Luego podrá modificar los valores, pero no todos. Recomiendo revisar el contenido de este",
+         icon: "question",
+         showDenyButton: true,
+         confirmButtonText: "Confirmar",
+         confirmButtonColor: "rgb(68, 194, 68)",
+         denyButtonText: "Cancelar",
+         denyButtonColor: "rgb(190, 54, 54)",
+      }).then((result) => {
+         if (result.isConfirmed) {
+            ProveedorService.getProveedorByNombreTextual(input.nombre).then((res) => {
+               if (res.data === null || res.data === "") {
+                  Swal.fire({
+                     title: "Proveedor no encontrado",
+                     timer: 2000,
+                     icon: "warning",
+                     timerProgressBar: true,
+                     didOpen: () => {
+                        Swal.showLoading();
+                     },
+                  });
+               } else {
+                  let newOC = {
+                     id_proveedor: res.data.id_proveedor,
+                     fecha_solicitud: input.fecha_solicitud,
+                     fecha_entrega: input.fecha_entrega,
+                     estado_entrega: input.estado_entrega,
+                     valor_pago: input.valor_pago,
+                     fecha_pago: input.fecha_pago,
+                     estado_pago: input.estado_pago,
+                     factura: input.numero_factura,
+                  };
+                  OrdenesDeCompraProveedorService.createOCProveedor(newOC).then((res2) => {
+                     ListProducto.map((productos) => {
+                        productoService.getProductosByNombreTextual(productos.nombre).then((res3) => {
+                           let newListP = {
+                              id_OC_proveedor: res2.data.id,
+                              id_producto: res3.data.id,
+                              cantidad: productos.cantidad,
+                              valor_pago: res3.data.valor_final * parseInt(productos.cantidad),
+                           };
+                           OrdenesDeCompraProveedorService.createOCListProveedor(newListP);
+                        });
+                        return null;
+                     });
+                  });
+
+                  Swal.fire({
+                     title: "Enviado",
+                     timer: 2000,
+                     icon: "success",
+                     timerProgressBar: true,
+                     didOpen: () => {
+                        Swal.showLoading();
+                     },
+                     willClose: () => {
+                        navigate("/oc/proveedor");
+                     },
+                  });
+               }
             });
-        }
-    };
+         }
+      });
+   };
 
-    const ingresarOCProveedor = () => {
-        Swal.fire({
-            title: "¿Desea registrar esta orden de compra?",
-            text: "Luego podrá modificar los valores, pero no todos. Recomiendo revisar el contenido de este",
-            icon: "question",
-            showDenyButton: true,
-            confirmButtonText: "Confirmar",
-            confirmButtonColor: "rgb(68, 194, 68)",
-            denyButtonText: "Cancelar",
-            denyButtonColor: "rgb(190, 54, 54)",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                ProveedorService.getProveedorByNombreTextual(input.nombre).then((res) => {
-                    if (res.data === null || res.data === "") {
-                        Swal.fire({
-                            title: "Proveedor no encontrado",
-                            timer: 2000,
-                            icon: "warning",
-                            timerProgressBar: true,
-                            didOpen: () => {
-                                Swal.showLoading();
-                            },
-                        });
-                    } else {
-                        let newOC = {
-                            id_proveedor: res.data.id_proveedor,
-                            fecha_solicitud: input.fecha_solicitud,
-                            fecha_entrega: input.fecha_entrega,
-                            estado_entrega: input.estado_entrega,
-                            valor_pago: input.valor_pago,
-                            fecha_pago: input.fecha_pago,
-                            estado_pago: input.estado_pago,
-                            factura: input.numero_factura,
-                        };
-                        OrdenesDeCompraProveedorService.createOCProveedor(newOC).then((res2)=>{
-                            ListProducto.map((productos) => {
-                                productoService.getProductosByNombreTextual(productos.nombre).then((res3) => {
-                                    let newListP = {
-                                        id_OC_proveedor: res2.data.id,
-                                        id_producto: res3.data.id,
-                                        cantidad: productos.cantidad,
-                                        valor_pago: res3.data.valor_final*parseInt(productos.cantidad),
-                                    }
-                                    OrdenesDeCompraProveedorService.createOCListProveedor(newListP);
-                                });
-                            });
-                        });
+   const [isTableVisibleOC, setisTableVisibleOC] = useState(false);
+   const [isTableVisiblePago, setisTableVisiblePago] = useState(false);
+   const [isTableVisibleFactura, setisTableVisibleFactura] = useState(false);
+   const [isTableVisibleListaProducto, setisTableVisibleListaProducto] = useState(false);
 
-                        
-                        Swal.fire({
-                            title: "Enviado",
-                            timer: 2000,
-                            icon: "success",
-                            timerProgressBar: true,
-                            didOpen: () => {
-                                Swal.showLoading();
-                            },
-                            willClose: () => {
-                                navigate("/oc/proveedor");
-                            },
-                        });
-                    }
-                });
-            }
-        });
-    };
-    
+   const toggleTableVisibilityOC = () => {
+      setisTableVisibleOC(!isTableVisibleOC);
+   };
+   const toggleTableVisibilityPago = () => {
+      setisTableVisiblePago(!isTableVisiblePago);
+   };
+   const toggleTableVisibilityFactura = () => {
+      setisTableVisibleFactura(!isTableVisibleFactura);
+   };
+   const toggleTableVisibilityListaProducto = () => {
+      setisTableVisibleListaProducto(!isTableVisibleListaProducto);
+   };
 
-    const [isTableVisibleOC, setisTableVisibleOC] = useState(false);
-    const [isTableVisiblePago, setisTableVisiblePago] = useState(false);
-    const [isTableVisibleFactura, setisTableVisibleFactura] = useState(false);
-    const [isTableVisibleListaProducto, setisTableVisibleListaProducto] = useState(false);
-
-    const toggleTableVisibilityOC = () => {
-        setisTableVisibleOC(!isTableVisibleOC);
-    };
-    const toggleTableVisibilityPago = () => {
-        setisTableVisiblePago(!isTableVisiblePago);
-    };
-    const toggleTableVisibilityFactura = () => {
-        setisTableVisibleFactura(!isTableVisibleFactura);
-    };
-    const toggleTableVisibilityListaProducto = () => {
-        setisTableVisibleListaProducto(!isTableVisibleListaProducto);
-    };
-
-    return (
-        <div>
-            <NavStyle>
-                <HeaderComponents></HeaderComponents>
-                <div className="container">
-                    <h1 style={{ marginLeft: "1%" }}>
-                        <b>N° O/C: {id}</b>
-                    </h1>
-                    <Form onSubmit={handleSubmit}>
-                        <div className="container-2">
-                            <h1 onClick={toggleTableVisibilityOC} style={{ cursor: "pointer" }}>
-                                <b> Ordenes de Compra</b>
-                                <span style={{ marginLeft: "10px" }}>{isTableVisibleOC ? "−" : "+"}</span>
-                            </h1>
-                            {isTableVisibleOC && (
-                                <table border="1" className="content-table">
-                                    <thead>
-                                        <tr>
-                                            <th>* Nombre</th>
-                                            <th>Fecha de la Solicitud</th>
-                                            <th>Fecha de la Entrega</th>
-                                            <th>Estado de la Entrega</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <Form.Group controlId="nombre">
-                                                    <Form.Control
-                                                        style={{ width: "100%" }}
-                                                        className="font-h2 no-border"
-                                                        type="text"
-                                                        value={input.nombre}
-                                                        onChange={handleInputChange}
-                                                        name="nombre"
-                                                    />
-                                                </Form.Group>
-                                            </td>
-                                            <td>
-                                                <Form.Group controlId="fecha_solicitud">
-                                                    <Form.Control
-                                                        style={{ width: "100%" }}
-                                                        className="font-h2 no-border"
-                                                        type="date"
-                                                        value={input.fecha_solicitud}
-                                                        onChange={handleInputChange}
-                                                        name="fecha_solicitud"
-                                                    />
-                                                </Form.Group>
-                                            </td>
-                                            <td>
-                                                <Form.Group controlId="fecha_entrega">
-                                                    <Form.Control
-                                                        style={{ width: "100%" }}
-                                                        className="font-h2 no-border"
-                                                        type="date"
-                                                        value={input.fecha_entrega}
-                                                        onChange={handleInputChange}
-                                                        name="fecha_entrega"
-                                                    />
-                                                </Form.Group>
-                                            </td>
-                                            <td>
-                                                <Form.Group controlId="estado_entrega">
-                                                    <Form.Select
-                                                        style={{ width: "100%" }}
-                                                        value={input.estado_entrega}
-                                                        onChange={handleInputChange}
-                                                        className="font-h2 no-border"
-                                                        name="estado_entrega"
-                                                    >
-                                                        <option value="No Entregado">No Entregado</option>
-                                                        <option value="Entregado">Entregado</option>
-                                                    </Form.Select>
-                                                </Form.Group>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            )}
-                            <h1 onClick={toggleTableVisibilityPago} style={{ cursor: "pointer" }}>
-                                <b> Pago</b>
-                                <span style={{ marginLeft: "10px" }}>{isTableVisiblePago ? "−" : "+"}</span>
-                            </h1>
-                            {isTableVisiblePago && (
-                                <table border="1" className="content-table">
-                                    <thead>
-                                        <tr>
-                                            <th>* Valor del Pago</th>
-                                            <th>Estado del Pago</th>
-                                            <th>Fecha del Pago</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <Form.Group controlId="valor_pago">
-                                                    <Form.Control
-                                                        className="agregar"
-                                                        type="number"
-                                                        value={input.valor_pago}
-                                                        onChange={handleInputChange}
-                                                        name="valor_pago"
-                                                        required
-                                                    />
-                                                </Form.Group>
-                                            </td>
-                                            <td>
-                                                <Form.Group controlId="estado_pago">
-                                                    <Form.Select
-                                                        style={{ width: "100%" }}
-                                                        value={input.estado_pago}
-                                                        onChange={handleInputChange}
-                                                        className="font-h2 no-border"
-                                                        name="estado_pago"
-                                                    >
-                                                        <option value="No Entregado">No Pagado</option>
-                                                        <option value="Entregado">Pagado</option>
-                                                    </Form.Select>
-                                                </Form.Group>
-                                            </td>
-                                            <td>
-                                                <Form.Group controlId="fecha_pago">
-                                                    <Form.Control
-                                                        style={{ width: "100%" }}
-                                                        value={input.fecha_pago}
-                                                        onChange={handleInputChange}
-                                                        className="font-h2 no-border"
-                                                        type="date"
-                                                        name="fecha_pago"
-                                                    />
-                                                </Form.Group>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            )}
-                            <h1 onClick={toggleTableVisibilityFactura} style={{ cursor: "pointer" }}>
-                                <b> Factura</b>
-                                <span style={{ marginLeft: "10px" }}>{isTableVisibleFactura ? "−" : "+"}</span>
-                            </h1>
-                            {isTableVisibleFactura && (
-                                <table border="1" className="content-table">
-                                    <thead>
-                                        <tr>
-                                            <th>*Numero de la Factura</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <Form.Group controlId="numero_factura">
-                                                    <Form.Control
-                                                        className="agregar"
-                                                        type="number"
-                                                        name="numero_factura"
-                                                        value={input.numero_factura}
-                                                        onChange={handleInputChange}
-                                                        required
-                                                    />
-                                                </Form.Group>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            )}
-                            <h1 onClick={toggleTableVisibilityListaProducto} style={{ cursor: "pointer" }}>
-                                <b> Lista de Productos</b>
-                                <span style={{ marginLeft: "10px" }}>{isTableVisibleListaProducto ? "−" : "+"}</span>
-                            </h1>
-                            {isTableVisibleListaProducto && (
-                                <div>
-                                    <table border="1" className="content-table">
-                                        <thead>
-                                            <tr>
-                                                <th>* Nombre</th>
-                                                <th>* Cantidad</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {ListProducto.map((row, index) => (
-                                                <tr key={index}>
-                                                    <td>
-                                                        <Form.Group controlId={`nombre-${index}`}>
-                                                            <Form.Control
-                                                                type="text"
-                                                                value={row.nombre}
-                                                                onChange={(event) => handleInputChange(event, index)}
-                                                                name="nombre"
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        <Form.Group controlId={`cantidad-${index}`}>
-                                                            <Form.Control
-                                                                type="number"
-                                                                value={row.cantidad}
-                                                                onChange={(event) => handleInputChange(event, index)}
-                                                                name="cantidad"
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                    <Button className="Aumentar" onClick={handleAddRow}>
-                                        +
-                                    </Button>
-                                    <Button className="Disminuir" onClick={handleMinusRow}>
-                                        -
-                                    </Button>
-                                </div>
-                            )}
+   return (
+      <div>
+         <NavStyle>
+            <HeaderComponents></HeaderComponents>
+            <div className="container">
+               <h1 style={{ marginLeft: "1%" }}>
+                  <b>N° O/C: {id}</b>
+               </h1>
+               <Form onSubmit={handleSubmit}>
+                  <div className="container-2">
+                     <h1 onClick={toggleTableVisibilityOC} style={{ cursor: "pointer" }}>
+                        <b> Ordenes de Compra</b>
+                        <span style={{ marginLeft: "10px" }}>{isTableVisibleOC ? "−" : "+"}</span>
+                     </h1>
+                     {isTableVisibleOC && (
+                        <table border="1" className="content-table">
+                           <thead>
+                              <tr>
+                                 <th>* Nombre</th>
+                                 <th>Fecha de la Solicitud</th>
+                                 <th>Fecha de la Entrega</th>
+                                 <th>Estado de la Entrega</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <Form.Group controlId="nombre">
+                                       <Form.Control style={{ width: "100%" }} className="font-h2 no-border" type="text" value={input.nombre} onChange={handleInputChange} name="nombre" />
+                                    </Form.Group>
+                                 </td>
+                                 <td>
+                                    <Form.Group controlId="fecha_solicitud">
+                                       <Form.Control
+                                          style={{ width: "100%" }}
+                                          className="font-h2 no-border"
+                                          type="date"
+                                          value={input.fecha_solicitud}
+                                          onChange={handleInputChange}
+                                          name="fecha_solicitud"
+                                       />
+                                    </Form.Group>
+                                 </td>
+                                 <td>
+                                    <Form.Group controlId="fecha_entrega">
+                                       <Form.Control
+                                          style={{ width: "100%" }}
+                                          className="font-h2 no-border"
+                                          type="date"
+                                          value={input.fecha_entrega}
+                                          onChange={handleInputChange}
+                                          name="fecha_entrega"
+                                       />
+                                    </Form.Group>
+                                 </td>
+                                 <td>
+                                    <Form.Group controlId="estado_entrega">
+                                       <Form.Select style={{ width: "100%" }} value={input.estado_entrega} onChange={handleInputChange} className="font-h2 no-border" name="estado_entrega">
+                                          <option value="No Entregado">No Entregado</option>
+                                          <option value="Entregado">Entregado</option>
+                                       </Form.Select>
+                                    </Form.Group>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     )}
+                     <h1 onClick={toggleTableVisibilityPago} style={{ cursor: "pointer" }}>
+                        <b> Pago</b>
+                        <span style={{ marginLeft: "10px" }}>{isTableVisiblePago ? "−" : "+"}</span>
+                     </h1>
+                     {isTableVisiblePago && (
+                        <table border="1" className="content-table">
+                           <thead>
+                              <tr>
+                                 <th>* Valor del Pago</th>
+                                 <th>Estado del Pago</th>
+                                 <th>Fecha del Pago</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <Form.Group controlId="valor_pago">
+                                       <Form.Control className="agregar" type="number" value={input.valor_pago} onChange={handleInputChange} name="valor_pago" required />
+                                    </Form.Group>
+                                 </td>
+                                 <td>
+                                    <Form.Group controlId="estado_pago">
+                                       <Form.Select style={{ width: "100%" }} value={input.estado_pago} onChange={handleInputChange} className="font-h2 no-border" name="estado_pago">
+                                          <option value="No Entregado">No Pagado</option>
+                                          <option value="Entregado">Pagado</option>
+                                       </Form.Select>
+                                    </Form.Group>
+                                 </td>
+                                 <td>
+                                    <Form.Group controlId="fecha_pago">
+                                       <Form.Control style={{ width: "100%" }} value={input.fecha_pago} onChange={handleInputChange} className="font-h2 no-border" type="date" name="fecha_pago" />
+                                    </Form.Group>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     )}
+                     <h1 onClick={toggleTableVisibilityFactura} style={{ cursor: "pointer" }}>
+                        <b> Factura</b>
+                        <span style={{ marginLeft: "10px" }}>{isTableVisibleFactura ? "−" : "+"}</span>
+                     </h1>
+                     {isTableVisibleFactura && (
+                        <table border="1" className="content-table">
+                           <thead>
+                              <tr>
+                                 <th>*Numero de la Factura</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <Form.Group controlId="numero_factura">
+                                       <Form.Control className="agregar" type="number" name="numero_factura" value={input.numero_factura} onChange={handleInputChange} required />
+                                    </Form.Group>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     )}
+                     <h1 onClick={toggleTableVisibilityListaProducto} style={{ cursor: "pointer" }}>
+                        <b> Lista de Productos</b>
+                        <span style={{ marginLeft: "10px" }}>{isTableVisibleListaProducto ? "−" : "+"}</span>
+                     </h1>
+                     {isTableVisibleListaProducto && (
+                        <div>
+                           <table border="1" className="content-table">
+                              <thead>
+                                 <tr>
+                                    <th>* Nombre</th>
+                                    <th>* Cantidad</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 {ListProducto.map((row, index) => (
+                                    <tr key={index}>
+                                       <td>
+                                          <Form.Group controlId={`nombre-${index}`}>
+                                             <Form.Control type="text" value={row.nombre} onChange={(event) => handleInputChange(event, index)} name="nombre" />
+                                          </Form.Group>
+                                       </td>
+                                       <td>
+                                          <Form.Group controlId={`cantidad-${index}`}>
+                                             <Form.Control type="number" value={row.cantidad} onChange={(event) => handleInputChange(event, index)} name="cantidad" />
+                                          </Form.Group>
+                                       </td>
+                                    </tr>
+                                 ))}
+                              </tbody>
+                           </table>
+                           <Button className="Aumentar" onClick={handleAddRow}>
+                              +
+                           </Button>
+                           <Button className="Disminuir" onClick={handleMinusRow}>
+                              -
+                           </Button>
                         </div>
-                        <div className="button-container">
-                            <Button className="boton" type="submit">
-                                Registrar OC Proveedor
-                            </Button>
-                        </div>
-                    </Form>
-                </div>
-            </NavStyle>
-        </div>
-    );
+                     )}
+                  </div>
+                  <div className="button-container">
+                     <Button className="boton" type="submit">
+                        Registrar OC Proveedor
+                     </Button>
+                  </div>
+               </Form>
+            </div>
+         </NavStyle>
+      </div>
+   );
 }
 export default OCProveedorCrearComponents;
 
@@ -525,4 +474,3 @@ td, th, h1, Label, Control, Button{
     font-family: 'Pacifico',serif;
 }
 `;
-

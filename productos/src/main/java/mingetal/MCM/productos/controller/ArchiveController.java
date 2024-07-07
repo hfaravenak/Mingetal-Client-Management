@@ -34,5 +34,4 @@ public class ArchiveController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(new InputStreamResource(in));
     }
-
 }

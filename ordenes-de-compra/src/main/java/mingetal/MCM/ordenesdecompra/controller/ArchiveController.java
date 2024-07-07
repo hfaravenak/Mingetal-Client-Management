@@ -49,4 +49,33 @@ public class ArchiveController {
                 .body(new InputStreamResource(in));
     }
 
+    @GetMapping("/download/excel/estadistica")
+    public ResponseEntity<InputStreamResource> downloadExcelEstadistica() throws IOException {
+        // Aquí obtén la lista de entidades desde tu base de datos o cualquier otra fuente
+
+        ByteArrayInputStream in = archiveService.generateExcelEstadistica();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=Estadisticas.xlsx");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(in));
+    }
+
+    @GetMapping("/download/excel/productos/estadistica")
+    public ResponseEntity<InputStreamResource> downloadExcelProductosEstadistica() throws IOException {
+        // Aquí obtén la lista de entidades desde tu base de datos o cualquier otra fuente
+
+        ByteArrayInputStream in = archiveService.generateExcelProductosEstadisticas();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=Estadistica Productos.xlsx");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(in));
+    }
 }

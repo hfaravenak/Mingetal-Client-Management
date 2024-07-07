@@ -1,6 +1,7 @@
 package mingetal.MCM.productos.service;
 
 
+import lombok.Generated;
 import mingetal.MCM.productos.entity.ProductosEntity;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -17,6 +18,7 @@ public class ArchiveService {
     @Autowired
     ProductosService productosService;
 
+    @Generated
     public ByteArrayInputStream generateExcelProductos() throws IOException {
         String[] columns = {"ID", "Tipo", "Nombre", "Valor", "Valor Final", "Cantidad"};
 

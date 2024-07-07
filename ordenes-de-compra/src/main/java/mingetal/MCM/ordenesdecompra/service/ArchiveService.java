@@ -8,17 +8,20 @@ import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.ordenesdecompra.model.ClienteEntity;
 import mingetal.MCM.ordenesdecompra.model.ProductosEntity;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.xmlbeans.xml.stream.Space;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ArchiveService {
@@ -227,6 +230,247 @@ public class ArchiveService {
 
 
             return new ByteArrayInputStream(out.toByteArray());
+        }
+    }
+
+    @Generated
+    public ByteArrayInputStream generateExcelEstadistica() throws IOException {
+        String[] columns = {"", "Año", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", "Total"};
+
+        List<Object[]> VentarMonth = ordenesDeCompraClienteService.getSalesByYearAndMonth();
+
+        Map<Integer, Map<Integer, List<Integer>>> datosOrganizados = new TreeMap<>(Collections.reverseOrder());
+
+        for (Object[] elemento : VentarMonth) {
+            int valor = ((Number) elemento[0]).intValue();
+            int cantidad = ((Number) elemento[1]).intValue();
+            int mes = ((Number) elemento[2]).intValue();
+            int anio = ((Number) elemento[3]).intValue();
+
+            // Si el año no está en el mapa, agregarlo con 12 meses iniciados en 0
+            datosOrganizados.putIfAbsent(anio, new HashMap<>());
+            for (int i = 1; i <= 12; i++) {
+                datosOrganizados.get(anio).putIfAbsent(i, Arrays.asList(0, 0));
+            }
+
+            // Registrar el valor y la cantidad en el mes correspondiente
+            datosOrganizados.get(anio).put(mes, Arrays.asList(valor, cantidad));
+        }
+
+        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            Sheet sheet = workbook.createSheet("Estadistica");
+
+            CellStyle headerStyle = workbook.createCellStyle();
+            headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            CellStyle dataStyle = workbook.createCellStyle();
+            dataStyle.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
+            dataStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            CellStyle SpaceStyle = workbook.createCellStyle();
+            SpaceStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+            SpaceStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            // Cabecera
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < columns.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(columns[i]);
+                cell.setCellStyle(headerStyle);
+            }
+
+            // Datos
+            int rowNum = 1;
+            for (Map.Entry<Integer, Map<Integer, List<Integer>>> anioEntry : datosOrganizados.entrySet()) {
+                Row row = sheet.createRow(rowNum++);
+                int anio = anioEntry.getKey();
+                int pos = 0;
+
+                Cell cell = row.createCell(pos++);
+                cell.setCellValue("Cantidades");
+                cell.setCellStyle(headerStyle);
+
+                cell = row.createCell(pos++);
+                cell.setCellValue(anio);
+                cell.setCellStyle(dataStyle);
+
+                int cantTotal = 0;
+                for (Map.Entry<Integer, List<Integer>> mesEntry : anioEntry.getValue().entrySet()) {
+                    Integer valor = mesEntry.getValue().get(1);
+                    cell = row.createCell(pos++);
+                    cell.setCellValue(valor);
+                    cell.setCellStyle(dataStyle);
+                    cantTotal += valor;
+                }
+                cell = row.createCell(pos);
+                cell.setCellValue(cantTotal);
+                cell.setCellStyle(dataStyle);
+
+                row = sheet.createRow(rowNum++);
+                pos = 0;
+
+                cell = row.createCell(pos++);
+                cell.setCellValue("Valores");
+                cell.setCellStyle(headerStyle);
+
+                cell = row.createCell(pos++);
+                cell.setCellValue(anio);
+                cell.setCellStyle(dataStyle);
+
+                int valorTotal = 0;
+                for (Map.Entry<Integer, List<Integer>> mesEntry : anioEntry.getValue().entrySet()) {
+                    Integer valor = mesEntry.getValue().get(0);
+                    cell = row.createCell(pos++);
+                    cell.setCellValue(valor);
+                    cell.setCellStyle(dataStyle);
+                    valorTotal += valor;
+                }
+                cell = row.createCell(pos);
+                cell.setCellValue(valorTotal);
+                cell.setCellStyle(dataStyle);
+
+                pos=0;
+                row = sheet.createRow(rowNum++);
+                for(int i=0;i<=14;i++){
+                    cell = row.createCell(pos++);
+                    cell.setCellStyle(SpaceStyle);
+                }
+            }
+
+            for (int i = 0; i < columns.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            workbook.write(out);
+
+            return new ByteArrayInputStream(out.toByteArray());
+        }
+    }
+
+    @Generated
+    public ByteArrayInputStream generateExcelProductosEstadisticas() throws IOException {
+        String[] columns = {"Producto", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", "Total"};
+
+        List<ProductosEntity> productos = restTemplate.exchange(
+                "http://localhost:8080/productos/",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ProductosEntity>>() {}
+        ).getBody();
+
+        assert productos != null;
+
+        List<Object[]> ventaProductos = ordenesDeCompraClienteService.getProductByYearAndMonth();
+
+        Set<Integer> idsUnicos = new HashSet<>();
+        for (ProductosEntity producto : productos) {
+            idsUnicos.add(producto.getId());
+        }
+
+        // Recopilar todos los años y meses únicos presentes en los datos
+        // Mapa para almacenar las ventas organizadas por año, mes e ID de producto
+        Map<Integer, Map<Integer, Map<Integer, Integer>>> datosOrganizados = new TreeMap<>(Collections.reverseOrder());
+
+        // Recorrer las ventas y organizarlas por año, mes e ID de producto
+        for (Object[] elemento : ventaProductos) {
+            int id = ((Number) elemento[0]).intValue();
+            int cantidad = ((Number) elemento[1]).intValue();
+            int mes = ((Number) elemento[2]).intValue();
+            int anio = ((Number) elemento[3]).intValue();
+
+            // Asegurar que el ID esté presente en el conjunto de IDs únicos
+            if (idsUnicos.contains(id)) {
+                datosOrganizados.putIfAbsent(anio, new HashMap<>());
+                datosOrganizados.get(anio).putIfAbsent(id, new HashMap<>());
+                datosOrganizados.get(anio).get(id).put(mes, cantidad);
+            }
+        }
+
+        // Asegurar que cada ID tenga entradas para todos los años y meses con valores iniciales de 0
+        for (int anio : datosOrganizados.keySet()) {
+            for (int id : idsUnicos) {
+                datosOrganizados.get(anio).putIfAbsent(id, new HashMap<>());
+                for (int mes = 1; mes <= 12; mes++) {
+                    datosOrganizados.get(anio).get(id).putIfAbsent(mes, 0);
+                }
+            }
+        }
+
+        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            for (Map.Entry<Integer, Map<Integer, Map<Integer, Integer>>> anioEntry : datosOrganizados.entrySet()) {
+                int anio = anioEntry.getKey();
+                Sheet sheet = workbook.createSheet(String.valueOf(anio));
+
+                CellStyle headerStyle = workbook.createCellStyle();
+                headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+                headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+                CellStyle nameStyle = workbook.createCellStyle();
+                nameStyle.setFillForegroundColor(IndexedColors.ROYAL_BLUE.getIndex());
+                nameStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+                CellStyle dataStyle = workbook.createCellStyle();
+                dataStyle.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
+                dataStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+                CellStyle SpaceStyle = workbook.createCellStyle();
+                SpaceStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+                SpaceStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+                Font totalFont = workbook.createFont();
+                totalFont.setColor(IndexedColors.WHITE.getIndex());
+                SpaceStyle.setFont(totalFont);
+                // Cabecera
+                Row headerRow = sheet.createRow(0);
+                for (int i = 0; i < columns.length; i++) {
+                    Cell cell = headerRow.createCell(i);
+                    cell.setCellValue(columns[i]);
+                    cell.setCellStyle(headerStyle);
+                }
+                int[] total = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                int rowNum = 1;
+                for (Map.Entry<Integer, Map<Integer, Integer>> idEntry : anioEntry.getValue().entrySet()) {
+                    int id = idEntry.getKey();
+                    Row row = sheet.createRow(rowNum++);
+                    Cell cell = row.createCell(0);
+                    cell.setCellValue(productos.get(id-1).getNombre());
+                    cell.setCellStyle(nameStyle);
+                    int totalProducto = 0;
+                    for (Map.Entry<Integer, Integer> mesEntry : idEntry.getValue().entrySet()){
+                        int mes = mesEntry.getKey();
+                        int cantidad = mesEntry.getValue();
+                        totalProducto+=cantidad;
+                        total[mes-1] += cantidad;
+                        cell = row.createCell(mes);
+                        cell.setCellValue(cantidad);
+                        cell.setCellStyle(dataStyle);
+                    }
+                    cell = row.createCell(13);
+                    cell.setCellValue(totalProducto);
+                    cell.setCellStyle(SpaceStyle);
+                }
+
+                int num = 0;
+                Row row = sheet.createRow(rowNum);
+                Cell cell = row.createCell(num++);
+                cell.setCellStyle(SpaceStyle);
+                for(int valor: total){
+                    cell = row.createCell(num++);
+                    cell.setCellValue(valor);
+                    cell.setCellStyle(SpaceStyle);
+                }
+
+                for (int i = 0; i < columns.length; i++) {
+                    sheet.autoSizeColumn(i);
+                }
+            }
+
+            workbook.write(out);
+
+
+            return new ByteArrayInputStream(out.toByteArray());
+
         }
     }
 }

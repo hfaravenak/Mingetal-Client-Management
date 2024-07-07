@@ -48,15 +48,16 @@ function ListVentasComponents() {
       return ListOCProductosEntity.filter((LOC) => LOC.id_OC_cliente === id).map((LOC) => ProductosEntity.find((producto) => producto.id === LOC.id_producto));
    };
    function obtenerCantidad(idOCCliente, idProducto) {
-    let cantidad = 0;
-    ListOCProductosEntity.map((LOC)=>{
-      if(LOC.id_OC_cliente===idOCCliente){
-        if(LOC.id_producto===idProducto){
-          cantidad = LOC.cantidad;
-        }
-      }
-    })
-    return cantidad;
+      let cantidad = 0;
+      ListOCProductosEntity.map((LOC) => {
+         if (LOC.id_OC_cliente === idOCCliente) {
+            if (LOC.id_producto === idProducto) {
+               cantidad = LOC.cantidad;
+            }
+         }
+         return null;
+      });
+      return cantidad;
    }
 
    const ganancia = (valor_neto, id) => {

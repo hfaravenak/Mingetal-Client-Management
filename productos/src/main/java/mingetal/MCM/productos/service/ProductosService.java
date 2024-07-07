@@ -50,7 +50,9 @@ public class ProductosService {
 
     @Transactional(readOnly = true)
     public List<ProductosEntity> findAll() {
-        return productosRepository.findAll();
+        List<ProductosEntity> productosEntities = productosRepository.findAll();
+        productosEntities.sort((p1, p2) -> p1.getNombre().compareTo(p2.getNombre()));
+        return productosEntities;
     }
 
     @Transactional(readOnly = true)
@@ -59,7 +61,9 @@ public class ProductosService {
     }
     @Transactional(readOnly = true)
     public List<ProductosEntity> findByTipo(String tipo) {
-        return productosRepository.findByTipo(tipo);
+        List<ProductosEntity> productosEntities = productosRepository.findByTipo(tipo);
+        productosEntities.sort((p1, p2) -> p1.getNombre().compareTo(p2.getNombre()));
+        return productosEntities;
     }
     @Transactional(readOnly = true)
     public List<ProductosEntity> findByNombre(String nombre) {
