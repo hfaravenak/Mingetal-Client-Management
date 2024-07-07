@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -17,5 +15,12 @@ import javax.validation.constraints.NotNull;
 public class UsuarioEntity {
     @Id
     @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String nombres;
+    private String password;
+    private String correo;
+    private int intentos;
+    private boolean bloqueado;
+
 }
