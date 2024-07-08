@@ -45,4 +45,4 @@ spring:
         - id: Login
           uri: lb://Login
           predicates:
-            - Path=/Login/**
+            - Path=/user/**
