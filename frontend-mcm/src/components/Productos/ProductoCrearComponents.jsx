@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 
+import atras from "../../images/atras.png";
 import HeaderComponents from "../Headers/HeaderComponents";
 
 import ProductoService from "../../services/ProductoService";
@@ -90,6 +91,10 @@ function ProductoCrearComponents() {
       });
    };
 
+   const regresar = () => {
+      navigate(`/productos`);
+   };
+
    //---
 
    return (
@@ -97,6 +102,7 @@ function ProductoCrearComponents() {
          <HeaderComponents></HeaderComponents>
          <NavStyle>
             <div className="container-create">
+               <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
                <Form>
                   <Form.Group controlId="tipo">
                      <Form.Label className="agregar">Tipo:</Form.Label>
@@ -123,14 +129,14 @@ function ProductoCrearComponents() {
                      <Form.Control className="agregar" type="number" name="cantidad" min="0" value={input.cantidad} onChange={handleInputChange} />
                   </Form.Group>
 
-                  <Form.Group controlId="imagen">
+                  <Form.Group className="file-custom" controlId="imagen">
                      <Form.Label className="agregar">Imagen:</Form.Label>
                      <Form.Control className="agregar" type="file" accept="image/jpeg, image/png" onChange={handleImageChange} />
                   </Form.Group>
 
                   {previewImage && (
                      <div className="image-preview">
-                        <img src={previewImage} alt="Vista previa" />
+                        <img style={{width:"80%"}} src={previewImage} alt="Vista previa" />
                      </div>
                   )}
 
@@ -149,7 +155,7 @@ export default ProductoCrearComponents;
 const NavStyle = styled.nav`
    .container-create {
       margin: 2%;
-      padding: 2%;
+      padding: 1%;
       border: 2px solid #d5d5d5;
       background-color: #f0f0f0;
    }
@@ -158,13 +164,19 @@ const NavStyle = styled.nav`
       max-width: 500px;
       margin: 0 auto;
    }
+
    label {
       display: block;
       margin-bottom: 10px;
       margin-left: 15px;
       margin-top: 10px;
+      font-size: 18px; /* Incrementa el tamaño de la letra */
+      font-weight: bold; /* Hace la letra negrita */
    }
-   input[type="text"] {
+
+   input[type="text"],
+   input[type="email"],
+   input[type="number"] {
       background-color: rgb(201, 201, 201);
       width: 100%;
       padding: 10px;
@@ -172,6 +184,18 @@ const NavStyle = styled.nav`
       border-radius: 30px;
       border: 1px solid #ccc;
    }
+
+   /* Para WebKit (Chrome, Safari, Edge) */
+   input[type="number"]::-webkit-outer-spin-button,
+   input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+   }
+   /* Para Firefox */
+   input[type="number"] {
+      -moz-appearance: textfield;
+   }
+
    button {
       color: #fff;
       margin-left: 5px;
@@ -182,7 +206,30 @@ const NavStyle = styled.nav`
       border: none;
       cursor: pointer;
    }
+
    .boton {
       background-color: #d2712b;
+   }
+
+   .text-danger {
+      color: red;
+      margin-left: 15px;
+   }
+
+   .file-custom input{
+      display: none;
+   }
+
+   .file-custom label{
+      margin-top: 3%;
+      display: block;
+      padding: 8px 21px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #eee;
+      cursor: pointer;
+   }
+   .img-back:hover{
+      cursor: pointer;
    }
 `;

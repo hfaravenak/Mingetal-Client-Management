@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
+import atras from "../../images/atras.png";
 import HeaderComponents from "./../Headers/HeaderComponents";
 import clientes from "../../images/cliente.png";
 import proveedores from "../../images/proveedores.png";
@@ -15,10 +15,18 @@ function MainOCComponents() {
    const handleClickProveedores = () => {
       navigate("/oc/proveedor");
    };
+
+   const regresar = () => {
+      navigate(`/`);
+   };
+
    return (
       <div>
+         <HeaderComponents></HeaderComponents>
          <NavStyle>
-            <HeaderComponents></HeaderComponents>
+            <div className="container-create">
+               <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
+            </div>
             <div className="container_main">
                <div className="card" onClick={handleClickClientes}>
                   <img id="client" src={clientes} alt="client" />
@@ -37,14 +45,30 @@ function MainOCComponents() {
 export default MainOCComponents;
 
 const NavStyle = styled.nav`
+   .container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+   .img-back:hover {
+      cursor: pointer;
+   }
+      
    .container_main {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
       margin: 2%;
+      margin-top: 0;
       padding: 2%;
+      padding-top: 0;
       border: 2px solid #d5d5d5;
+      border-top: 0;
       background-color: #f0f0f0;
    }
    .card {

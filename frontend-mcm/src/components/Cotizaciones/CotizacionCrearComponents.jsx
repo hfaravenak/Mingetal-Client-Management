@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 
+import atras from "../../images/atras.png";
+
 import HeaderComponents from "../Headers/HeaderComponents";
 import CotizacionService from "../../services/CotizacionService";
 import ClienteService from "../../services/ClienteService";
@@ -145,15 +147,20 @@ function CotizacionCrearComponent() {
          }
       });
    };
-
+   const regresar = () => {
+      navigate(`/cotizaciones`);
+   };
    return (
       <div className="general">
          <HeaderComponents></HeaderComponents>
          <NavStyle>
+         <div className="container-create">
+               <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
+            </div>
             <div className="container">
-               <h1 style={{ marginLeft: "1%" }}>
+               <div style={{ marginLeft: "1%", fontFamily:"Pacifico, serif", fontSize:"25px" }}>
                   <b>N° Cotizacion: {id}</b>
-               </h1>
+               </div>
                <Form onSubmit={handleSubmit}>
                   <div className="container-2">
                      <h1>
@@ -246,122 +253,147 @@ function CotizacionCrearComponent() {
 export default CotizacionCrearComponent;
 
 const NavStyle = styled.nav`
-}
+   .container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+   .img-back:hover {
+      cursor: pointer;
+   }
 
-.container{
-    margin: 2%;
-    border: 2px solid #D5D5D5;
-    background-color: #F0F0F0;
-    gap: 20px;
-    height: 100%;
-}
-.container-2{
-    
-    background-color: #F0F0F0;
-    flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
-    overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
-    padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
-    max-height: calc(0px + 55.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
-}
+   .container {
+      margin: 2%;
+      margin-top: 0;
+      border: 2px solid #d5d5d5;
+      border-top: 0;
+      background-color: #f0f0f0;
+      gap: 20px;
+      height: 100%;
+      padding-top: 20px;
+   }
+   .container-2 {
+      background-color: #f0f0f0;
+      flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
+      overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
+      padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+      padding-top: 0;
+      max-height: calc(0px + 55.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
+   }
 
-/* Tabla */
+   /* Tabla */
 
-.content-table{
-    border-collapse: collapse;
-    margin-left: 1;
-    font-size: 0.9em;
-    min-width: 100px;
-    border-radius: 5px 5px 0 0;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-.content-table thead tr{
-    background-color: #D2712B;
-    color: #ffffff;
-    text-align: left;
-    font-weight: bold;
-}
-.content-table th, .content-table td{
-    padding: 12px 15px;
-}
+   .content-table {
+      border-collapse: collapse;
+      margin-left: 1;
+      font-size: 0.9em;
+      min-width: 100px;
+      border-radius: 5px 5px 0 0;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+   }
+   .content-table thead tr {
+      background-color: #d2712b;
+      color: #ffffff;
+      text-align: left;
+      font-weight: bold;
+   }
+   .content-table th,
+   .content-table td {
+      padding: 12px 15px;
+   }
 
-.content-table td{
-    font-size: 18px;
-}
+   .content-table td {
+      font-size: 18px;
+   }
 
-.content-table tbody tr{
-    border-bottom: 1px solid #dddddd;
-}
-.content-table tbody tr:nth-of-type(even){
-    background-color: #f3f3f3;
-}
-.content-table tbody tr:last-of-type{
-    border-bottom: 2px solid #009879;
-}
-.content-table tbody tr.active-row{
-    font-weight: bold;
-    color: #009879;
-}
+   .content-table tbody tr {
+      border-bottom: 1px solid #dddddd;
+   }
+   .content-table tbody tr:nth-of-type(even) {
+      background-color: #f3f3f3;
+   }
+   .content-table tbody tr:last-of-type {
+      border-bottom: 2px solid #009879;
+   }
+   .content-table tbody tr.active-row {
+      font-weight: bold;
+      color: #009879;
+   }
 
-h1 {
-    text-align: left;
-}
-label {
-    display: block;
-    margin-bottom: 10px;
-    margin-left: 15px;
-    margin-top: 10px;
-}
-input[type="text"], input[type="date"], input[type="number"], option, select{
-    background-color: rgb(201, 201, 201);
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 30px;
-    border: 1px solid #ccc;
-    box-sizing: border-box; /* Asegura que los inputs tengan el mismo ancho */
-}
+   h1 {
+      text-align: left;
+   }
+   label {
+      display: block;
+      margin-bottom: 10px;
+      margin-left: 15px;
+      margin-top: 10px;
+   }
+   input[type="text"],
+   input[type="date"],
+   input[type="number"],
+   option,
+   select {
+      background-color: rgb(201, 201, 201);
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 30px;
+      border: 1px solid #ccc;
+      box-sizing: border-box; /* Asegura que los inputs tengan el mismo ancho */
+   }
 
-/* Para WebKit (Chrome, Safari, Edge) */
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-/* Para Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
-}
+   /* Para WebKit (Chrome, Safari, Edge) */
+   input[type="number"]::-webkit-outer-spin-button,
+   input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+   }
+   /* Para Firefox */
+   input[type="number"] {
+      -moz-appearance: textfield;
+   }
 
-.Aumentar, .Disminuir{
-    padding: 10px;
-    background-color: #D2712B;
-    margin-left: 1%;
-    width:30px;
-}
+   .Aumentar,
+   .Disminuir {
+      padding: 10px;
+      background-color: #d2712b;
+      margin-left: 1%;
+      width: 30px;
+   }
 
-button{
-    color: #fff;
-    margin-left: 5px;
-    margin-top: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 30px;
-    border: none;
-    cursor: pointer;
-}
-.boton{
-    background-color: #D2712B;
-    margin: 2%;
-}
+   button {
+      color: #fff;
+      margin-left: 5px;
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+   }
+   .boton {
+      background-color: #d2712b;
+      margin: 2%;
+   }
 
-.button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
+   .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+   }
 
-td, th, h1, Label, Control, Button{
-    font-family: 'Pacifico',serif;
-}
+   td,
+   th,
+   h1,
+   Label,
+   Control,
+   Button {
+      font-family: "Pacifico", serif;
+   }
 `;

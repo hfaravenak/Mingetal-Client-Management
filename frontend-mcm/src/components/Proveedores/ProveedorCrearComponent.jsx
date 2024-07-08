@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 
+import atras from "../../images/atras.png";
+
 import HeaderComponents from "../Headers/HeaderComponents";
 import ProveedorService from "../../services/ProveedorService";
 import ContactoService from "../../services/ContactoService";
@@ -170,10 +172,17 @@ function ProveedorCrearComponent() {
       setisTableVisibleContacto3(!isTableVisibleContacto3);
    };
 
+   const regresar = () => {
+      navigate(`/proveedores`);
+   };
+
    return (
       <div className="general">
          <HeaderComponents></HeaderComponents>
          <NavStyle>
+            <div className="container-create">
+               <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
+            </div>
             <div className="container">
                <Form onSubmit={handleSubmit}>
                   <div className="container-2">
@@ -465,9 +474,24 @@ function ProveedorCrearComponent() {
 export default ProveedorCrearComponent;
 
 const NavStyle = styled.nav`
+   .container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+   .img-back:hover {
+      cursor: pointer;
+   }
+
    .container {
       margin: 2%;
+      margin-top: 0;
       border: 2px solid #d5d5d5;
+      border-top: 0;
       background-color: #f0f0f0;
       gap: 20px;
       height: 100%;

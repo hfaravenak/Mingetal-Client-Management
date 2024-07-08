@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 
+import atras from "../../../images/atras.png";
+
 import HeaderComponents from "../../Headers/HeaderComponents";
 import ProveedorService from "../../../services/ProveedorService";
 import OrdenesDeCompraProveedorService from "../../../services/OrdenesDeCompraProveedorService";
@@ -176,14 +178,21 @@ function OCProveedorCrearComponents() {
       setisTableVisibleListaProducto(!isTableVisibleListaProducto);
    };
 
+   const regresar = () => {
+      navigate(`/oc/proveedor`);
+   }
+
    return (
       <div>
          <NavStyle>
             <HeaderComponents></HeaderComponents>
+            <div className="container-create">
+                  <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{width:"35px"}}/>
+               </div>
             <div className="container">
-               <h1 style={{ marginLeft: "1%" }}>
+               <div style={{ marginLeft: "1%", fontFamily:"Pacifico, serif", fontSize:"25px" }}>
                   <b>N° O/C: {id}</b>
-               </h1>
+               </div>
                <Form onSubmit={handleSubmit}>
                   <div className="container-2">
                      <h1 onClick={toggleTableVisibilityOC} style={{ cursor: "pointer" }}>
@@ -357,9 +366,26 @@ export default OCProveedorCrearComponents;
 const NavStyle = styled.nav`
 }
 
+.container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+
+   .img-back:hover{
+      cursor: pointer;
+   }
+
 .container{
     margin: 2%;
+    margin-top:0;
+    padding-top: 20px;
     border: 2px solid #D5D5D5;
+    border-top: 0;
     background-color: #F0F0F0;
     gap: 20px;
     height: 100%;
@@ -370,6 +396,7 @@ const NavStyle = styled.nav`
     flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
     overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
     padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+    padding-top: 0;
     max-height: calc(0px + 55.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
 }
 

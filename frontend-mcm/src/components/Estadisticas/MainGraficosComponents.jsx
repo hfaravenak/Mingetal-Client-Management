@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import HeaderComponents from "../Headers/HeaderComponents";
 import estadistica from "../../images/estadistica.png";
+import atras from "../../images/atras.png";
 
 function MainEstadisticaComponents() {
    const navigate = useNavigate();
@@ -20,10 +21,17 @@ function MainEstadisticaComponents() {
       navigate("/estadistica/ooc-proveedores-chart");
    };
 
+   const regresar = () => {
+      navigate(`/estadistica`);
+   };
+
    return (
       <div>
          <NavStyle>
             <HeaderComponents></HeaderComponents>
+            <div className="container-create">
+               <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
+            </div>
             <div className="container_main">
                <div className="card" onClick={handleClickBarChart}>
                   <img id="estadistica" src={estadistica} alt="BarChart" />
@@ -46,14 +54,30 @@ function MainEstadisticaComponents() {
 export default MainEstadisticaComponents;
 
 const NavStyle = styled.nav`
+   .container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+   .img-back:hover {
+      cursor: pointer;
+   }
+
    .container_main {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
       margin: 2%;
+      margin-top: 0;
       padding: 2%;
+      padding-top: 0;
       border: 2px solid #d5d5d5;
+      border-top: 0;
       background-color: #f0f0f0;
    }
    .card {

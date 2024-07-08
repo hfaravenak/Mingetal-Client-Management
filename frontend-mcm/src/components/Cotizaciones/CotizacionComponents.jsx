@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 
 import clientes from "../../images/cliente.png";
+import atras from "../../images/atras.png";
 
 import HeaderComponents from "../Headers/HeaderComponents";
 import CotizacionService from "../../services/CotizacionService";
@@ -143,11 +144,18 @@ function CotizacionComponent() {
       setMostrarCard(false);
    };
 
+   const regresar = () => {
+      navigate(`/cotizaciones`);
+   };
+
    if (mostrarCard) {
       return (
          <div>
             <NavStyle>
                <HeaderComponents></HeaderComponents>
+               <div className="container-create">
+                  <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
+               </div>
                <div className="container">
                   <div className="container-1">
                      <div className="card">
@@ -250,6 +258,9 @@ function CotizacionComponent() {
          <div>
             <NavStyle>
                <HeaderComponents></HeaderComponents>
+               <div className="container-create">
+                  <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
+               </div>
                <div className="container">
                   <div className="container-1">
                      <div className="card">
@@ -330,9 +341,23 @@ export default CotizacionComponent;
 const NavStyle = styled.nav`
    /* Separacion de las partes */
 
+   .container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+   .img-back:hover {
+      cursor: pointer;
+   }
    .container {
       margin: 2%;
+      margin-top: 0;
       border: 2px solid #d5d5d5;
+      border-top: 0;
       background-color: #f0f0f0;
       display: flex;
       flex-direction: row;
@@ -346,12 +371,14 @@ const NavStyle = styled.nav`
       flex-shrink: 0; /* Hace que el contenedor no se encoja */
       overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
       padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+      padding-top: 1%;
    }
    .container-2 {
       background-color: #f0f0f0;
       flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
       overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
       padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+      padding-top: 0;
       max-height: calc(0px + 74.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
    }
 

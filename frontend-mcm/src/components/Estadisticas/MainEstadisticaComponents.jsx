@@ -6,6 +6,7 @@ import HeaderComponents from "../Headers/HeaderComponents";
 import ventas_generales from "../../images/ventas_generales.png";
 import ventas_productos from "../../images/ventas_producto.png";
 import estadistica from "../../images/estadistica.png";
+import atras from "../../images/atras.png";
 
 function MainEstadisticaComponents() {
    const navigate = useNavigate();
@@ -21,10 +22,17 @@ function MainEstadisticaComponents() {
    const handleClickGraficos = () => {
       navigate("/estadistica/main-graficos");
    };
+
+   const regresar = () => {
+      navigate(`/`);
+   };
    return (
       <div>
          <NavStyle>
             <HeaderComponents></HeaderComponents>
+            <div className="container-create">
+               <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
+            </div>
             <div className="container_main">
                <div className="card" onClick={handleClickVentasGenerales}>
                   <img id="ventas_generales" src={ventas_generales} alt="ventas_generales" />
@@ -47,14 +55,30 @@ function MainEstadisticaComponents() {
 export default MainEstadisticaComponents;
 
 const NavStyle = styled.nav`
+   .container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+   .img-back:hover {
+      cursor: pointer;
+   }
+
    .container_main {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
       margin: 2%;
+      margin-top: 0;
       padding: 2%;
+      padding-top: 0;
       border: 2px solid #d5d5d5;
+      border-top: 0;
       background-color: #f0f0f0;
    }
    .card {

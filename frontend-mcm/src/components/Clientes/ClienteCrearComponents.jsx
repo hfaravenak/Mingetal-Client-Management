@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 import HeaderComponents from "../Headers/HeaderComponents";
 import ClienteService from "../../services/ClienteService";
+import atras from "../../images/atras.png";
 
 function ClienteCrearComponents() {
    const navigate = useNavigate();
@@ -123,11 +124,16 @@ function ClienteCrearComponents() {
       }
    };
 
+   const regresar = () => {
+      navigate(`/clientes`);
+   }
+
    return (
       <div className="general">
          <HeaderComponents />
          <NavStyle>
             <div className="container-create">
+            <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{width:"35px"}}/>
                <Form onSubmit={handleSubmit}>
                   <Form.Group controlId="rut">
                      <Form.Label>Rut:</Form.Label>
@@ -173,7 +179,7 @@ export default ClienteCrearComponents;
 const NavStyle = styled.nav`
    .container-create {
       margin: 2%;
-      padding: 2%;
+      padding: 1%;
       border: 2px solid #d5d5d5;
       background-color: #f0f0f0;
    }
@@ -220,5 +226,8 @@ const NavStyle = styled.nav`
    .text-danger {
       color: red;
       margin-left: 15px;
+   }
+   .img-back:hover{
+      cursor: pointer;
    }
 `;

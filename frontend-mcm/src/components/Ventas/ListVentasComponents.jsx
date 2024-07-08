@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
 import excel from "../../images/excel.png";
+import atras from "../../images/atras.png";
 
 import HeaderComponents from "../Headers/HeaderComponents";
 import ClienteService from "../../services/ClienteService";
@@ -10,6 +12,8 @@ import OrdenesDeCompraClienteService from "../../services/OrdenesDeCompraCliente
 import ProductoService from "../../services/ProductoService";
 
 function ListVentasComponents() {
+   const navigate = useNavigate();
+   
    const formatFecha = (fecha) => {
       if (fecha === null) {
          return "-";
@@ -127,10 +131,17 @@ function ListVentasComponents() {
       }
    };
 
+   const regresar = () => {
+      navigate(`/`);
+   };
+
    return (
       <div>
          <NavStyle>
             <HeaderComponents />
+            <div className="container-create">
+               <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
+            </div>
             <div className="container">
                <div align="center" className="container-2">
                   <div className="TituloSuperior">
@@ -227,9 +238,21 @@ export default ListVentasComponents;
 const NavStyle = styled.nav`
    /* Separación de las partes */
 
+   .container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+
    .container {
       margin: 2%;
+      margin-top: 0;
       border: 2px solid #d5d5d5;
+      border-top: 0;
       background-color: #f0f0f0;
       display: flex;
       flex-direction: row;
@@ -242,6 +265,7 @@ const NavStyle = styled.nav`
       flex-shrink: 0; /* Hace que el contenedor no se encoja */
       overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
       padding: 5%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+      padding-top: 1%;
       display: flex;
       flex-direction: column;
       height: 58.9vh;
@@ -251,6 +275,7 @@ const NavStyle = styled.nav`
       flex-grow: 1; /* El lado derecho es flexible y ocupará todo el espacio restante */
       overflow-y: auto; /* Aparecerá una barra de desplazamiento vertical si el contenido es demasiado largo */
       padding: 1%; /* Espacio interno para evitar que el contenido se pegue a los bordes */
+      padding-top: 0;
       max-height: calc(0px + 74.3vh); /* Asegura que el contenedor no exceda la altura de la ventana */
    }
 

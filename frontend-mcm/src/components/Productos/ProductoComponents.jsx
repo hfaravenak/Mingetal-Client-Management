@@ -5,8 +5,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 
-import HeaderComponents from "../Headers/HeaderComponents";
+import atras from "../../images/atras.png";
 
+import HeaderComponents from "../Headers/HeaderComponents";
 import ProductoService from "../../services/ProductoService";
 
 function ProductoComponents() {
@@ -151,11 +152,18 @@ function ProductoComponents() {
       setMostrarCard(false);
    };
 
+   const regresar = () => {
+      navigate(`/productos`);
+   }
+
    if (mostrarCard) {
       return (
          <div>
+            <HeaderComponents />
             <NavStyle>
-               <HeaderComponents />
+               <div className="container-create">
+                  <img id="atras" src={atras} alt="atras" className="img-card" onClick={regresar} style={{width:"35px"}}/>
+               </div>
                <div className="container">
                   <div className="container-1">
                      <div className="card">
@@ -225,8 +233,11 @@ function ProductoComponents() {
    } else {
       return (
          <div>
+            <HeaderComponents />
             <NavStyle>
-               <HeaderComponents />
+               <div className="container-create">
+                  <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{width:"35px"}}/>
+               </div>
                <div className="container">
                   <div className="container-1">
                      <div className="card">
@@ -265,9 +276,21 @@ export default ProductoComponents;
 const NavStyle = styled.nav`
    /* Separacion de las partes */
 
+   .container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+
    .container {
       margin: 2%;
+      margin-top: 0;
       border: 2px solid #d5d5d5;
+      border-top: 0;
       background-color: #f0f0f0;
       display: flex;
       flex-direction: column;
@@ -418,5 +441,8 @@ const NavStyle = styled.nav`
    .font-h3,
    .font-h2-control {
       font-family: "Pacifico", serif;
+   }
+   .img-back:hover{
+      cursor: pointer;
    }
 `;

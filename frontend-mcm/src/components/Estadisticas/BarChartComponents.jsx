@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
 import VentasService from "../../services/VentasService";
 import styled from "styled-components";
 import HeaderComponents from "../Headers/HeaderComponents";
+import atras from "../../images/atras.png";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 
 // Register the components with ChartJS
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BarChartComponents = () => {
+   const navigate = useNavigate();
    const [chartDataMonto, setChartDataMonto] = useState({
       labels: [],
       datasets: [],
@@ -84,10 +87,17 @@ const BarChartComponents = () => {
       fetchData();
    }, []);
 
+   const regresar = () => {
+      navigate(`/estadistica/main-graficos`);
+   };
+
    return (
       <div>
          <NavStyle>
             <HeaderComponents />
+            <div className="container-create">
+               <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
+            </div>
             <div className="container_main">
                <h2>Comparación de Montos de Ventas por mes y su símil de años anteriores</h2>
                <div className="chart-container">
@@ -146,14 +156,29 @@ const BarChartComponents = () => {
 export default BarChartComponents;
 
 const NavStyle = styled.nav`
+   .container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+   .img-back:hover {
+      cursor: pointer;
+   }
    .container_main {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
       margin: 2%;
+      margin-top: 0;
       padding: 2%;
+      padding-top: 0;
       border: 2px solid #d5d5d5;
+      border-top: 0;
       background-color: #f0f0f0;
    }
 

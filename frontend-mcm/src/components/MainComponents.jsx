@@ -63,8 +63,8 @@ function MainComponents() {
 
    return (
       <div>
+         <HeaderComponents></HeaderComponents>
          <NavStyle>
-            <HeaderComponents></HeaderComponents>
             <AlertaPagoComponents></AlertaPagoComponents>
             <div className="container_main">
                <div className="card" onClick={handleClickClientes}>

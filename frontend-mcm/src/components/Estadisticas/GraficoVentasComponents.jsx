@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto"; // Necesario para que funcione con la versión 3 de chart.js
 import HeaderComponents from "../Headers/HeaderComponents";
 import ventasService from "../../services/VentasService";
+import atras from "../../images/atras.png";
 
 const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
 function GraficoVentasComponents() {
+   const navigate = useNavigate();
    const [ventasData, setVentasData] = useState([]);
 
    useEffect(() => {
@@ -89,11 +92,16 @@ function GraficoVentasComponents() {
          ],
       },
    };
-
+   const regresar = () => {
+      navigate(`/estadistica/main-graficos`);
+   };
    return (
       <div>
          <NavStyle>
             <HeaderComponents />
+            <div className="container-create">
+               <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
+            </div>
             <div className="container_main">
                <h2>Ventas Históricas</h2>
                <div className="charts">
@@ -113,15 +121,30 @@ function GraficoVentasComponents() {
 export default GraficoVentasComponents;
 
 const NavStyle = styled.nav`
+   .container-create {
+      margin: 2%;
+      margin-bottom: 0;
+      padding: 1%;
+      padding-bottom: 0;
+      border: 2px solid #d5d5d5;
+      border-bottom: 0;
+      background-color: #f0f0f0;
+   }
+   .img-back:hover {
+      cursor: pointer;
+   }
    .container_main {
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
       margin: 2%;
+      margin-top: 0;
       padding: 2%;
+      padding-top: 0;
       border: 2px solid #d5d5d5;
+      border-top: 0;
       background-color: #f0f0f0;
-      width: auto;
    }
    .charts {
       display: flex;
