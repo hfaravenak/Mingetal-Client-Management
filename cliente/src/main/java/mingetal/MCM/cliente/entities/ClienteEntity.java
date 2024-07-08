@@ -33,7 +33,7 @@ public class ClienteEntity {
     @ApiModelProperty(notes = "Correo del cliente", example = "correfake@gmail.com", required = true)
     private String email;
 
-    @Size(max=13, message = "El tamaño máximo del campo telefono es 13")
+    @Size(max=16, message = "El tamaño máximo del campo telefono es 16")
     @ApiModelProperty(notes = "Telefono celular del cliente", example = "+56912345678", required = true)
     private String telefono;
 

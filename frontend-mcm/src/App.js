@@ -7,6 +7,7 @@ import MainComponents from "./components/MainComponents";
 import ListClienteComponents from "./components/Clientes/ListClienteComponents";
 import ClienteComponents from "./components/Clientes/ClienteComponents"
 import ClienteCrearComponents from "./components/Clientes/ClienteCrearComponents"
+import CargaMasivaClientesComponents from "./components/Clientes/CargaMasivaClientesComponents"
 
 import ListProveedorComponents from "./components/Proveedores/ListProveedorComponents";
 import ProveedorComponents from "./components/Proveedores/ProveedorComponents";
@@ -51,6 +52,7 @@ function App() {
                   <Route path="/clientes" element={<ListClienteComponents/>} />
                   <Route path="/clientes/mas info/:cliente" element={<ClienteComponents/>} />
                   <Route path="/clientes/crear" element={<ClienteCrearComponents/>} />
+                  <Route path="/clientes/cargaMasivaClientes" element={<CargaMasivaClientesComponents/>} />
 
                   <Route path="/proveedores" element={<ListProveedorComponents/>} />
                   <Route path="/proveedores/mas info/:proveedor" element={<ProveedorComponents/>} />

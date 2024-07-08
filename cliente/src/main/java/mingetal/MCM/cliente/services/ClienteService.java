@@ -2,12 +2,16 @@ package mingetal.MCM.cliente.services;
 
 import mingetal.MCM.cliente.entities.ClienteEntity;
 import mingetal.MCM.cliente.repositories.ClienteRepository;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -114,5 +118,44 @@ public class ClienteService {
 
         }
         return ranking;
+    }
+
+    //-------------------- Carga masiva -----------------------
+    public List<ClienteEntity> readExcelFile(MultipartFile file) {
+        List<ClienteEntity> clientes = new ArrayList<>();
+        try {
+            Workbook workbook = new XSSFWorkbook(file.getInputStream());
+            Sheet sheet = workbook.getSheetAt(0);
+            boolean skipHeader = true;
+            for (Row row : sheet) {
+                if (skipHeader) {
+                    skipHeader = false; // Saltar la cabecera del archivo
+                    continue;
+                }
+                ClienteEntity cliente = new ClienteEntity();
+                cliente.setRut(row.getCell(0).getStringCellValue());
+                cliente.setNombre(row.getCell(1).getStringCellValue());
+                cliente.setEmail(row.getCell(2).getStringCellValue());
+                cliente.setTelefono(row.getCell(3).getStringCellValue());
+                cliente.setEmpresa(row.getCell(4).getStringCellValue());
+                clientes.add(cliente);
+            }
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return clientes;
+    }
+
+    public void saveAll(List<ClienteEntity> clientes) {
+        for (ClienteEntity cliente : clientes) {
+            try {
+                clienteRepository.save(cliente);
+            } catch (Exception e) {
+                System.err.println("Error al guardar el cliente: " + cliente.getRut());
+                e.printStackTrace();
+                // Puedes decidir continuar con el siguiente cliente o manejar de otra forma
+            }
+        }
     }
 }

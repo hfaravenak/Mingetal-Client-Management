@@ -49,6 +49,15 @@ class ClienteService {
     getRankingCliente(){
         return axios.get(CLIENTE_API_URL+"ranking/");
     }
+
+    uploadFile(formData) {
+        const uploadUrl = CLIENTE_API_URL + "upload"; // Asegúrate de cambiar "upload" por el endpoint correcto del backend
+        return axios.post(uploadUrl, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data' // Esto es opcional, axios lo establecerá automáticamente
+            }
+        });
+    }
     
 }
 

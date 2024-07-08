@@ -86,6 +86,10 @@ function ListClienteComponents() {
       navigate("crear");
    };
 
+   const handleCargaMasiva = () => {
+      navigate("cargaMasivaClientes")
+   };
+
    const ChangeViendoCliente = (todoElDato) => {
       const datos = {
          rut: todoElDato.rut,
@@ -197,16 +201,19 @@ function ListClienteComponents() {
                   </div>
                   <div align="center" className="container-2">
                      <div className="TituloSuperior">
-                        <h1>
-                           <b> Listado de Cliente</b>
-                        </h1>
-                        <div className="Derecha">
+                        <div className="Izquierda">
                            <img id="excel" src={excel} alt="excel" className="img-card" onClick={descargarExcel} />
                         </div>
+                        <h1>
+                           <b> Listado de Cliente</b>
+                        </h1>                        
                         <div className="Derecha">
                            <div className="btn-inf">
                               <Button className="boton" onClick={crearCliente}>
                                  Ingresar Cliente
+                              </Button>
+                              <Button className="boton" onClick={handleCargaMasiva}>
+                                 Carga Masiva de Datos
                               </Button>
                            </div>
                         </div>
@@ -368,7 +375,17 @@ const NavStyle = styled.nav`
       margin-top: 0;
    }
 
-   .TituloSuperior .Derecha .img-card {
+
+   .TituloSuperior .Izquierda {
+      position: absolute;
+      left: 0;
+   }
+
+   .TituloSuperior .Izquierda .btn-inf .boton {
+      margin-top: 0;
+   }
+
+   .TituloSuperior .Izquierda .img-card {
       width: 5%;
       height: 5%;
    }
