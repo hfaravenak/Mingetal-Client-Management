@@ -6,6 +6,11 @@ import mingetal.MCM.productos.model.ListaProductosCotizacionEntity;
 import mingetal.MCM.productos.model.ListaProductosOCClienteEntity;
 import mingetal.MCM.productos.model.ListaProductosOCProveedorEntity;
 import mingetal.MCM.productos.repository.ProductosRepository;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -179,6 +184,81 @@ public class ProductosService {
             return null;
         }
         return productosRepository.save(producto);
+    }
+
+    //-------------------- Carga masiva -----------------------
+    public List<ProductosEntity> readExcelFile(MultipartFile file) {
+        List<ProductosEntity> productos = new ArrayList<>();
+        try {
+            Workbook workbook = new XSSFWorkbook(file.getInputStream());
+            Sheet sheet = workbook.getSheetAt(0);
+            boolean skipHeader = true;
+            for (Row row : sheet) {
+                if (skipHeader) {
+                    skipHeader = false; // Saltar la cabecera del archivo
+                    continue;
+                }
+
+                System.out.println("........................");
+                System.out.println(row.getCell(0));
+                System.out.println(row.getCell(1));
+                System.out.println(row.getCell(2));
+                System.out.println(row.getCell(3));
+                System.out.println(row.getCell(4));
+                System.out.println("........................");
+                ProductosEntity producto = new ProductosEntity();
+                if (row.getCell(0) != null) {
+                    producto.setTipo(row.getCell(0).getStringCellValue());
+                }
+
+                if (row.getCell(1) != null) {
+                    producto.setNombre(row.getCell(1).getStringCellValue());
+                }
+
+                if (row.getCell(2) != null) {
+                    if (row.getCell(2).getCellType() == CellType.NUMERIC) {
+                        producto.setValor((int) row.getCell(2).getNumericCellValue());
+                    } else if (row.getCell(2).getCellType() == CellType.STRING) {
+                        producto.setValor(Integer.parseInt(row.getCell(2).getStringCellValue()));
+                    }
+                }
+
+                if (row.getCell(3) != null) {
+                    if (row.getCell(3).getCellType() == CellType.NUMERIC) {
+                        producto.setValor_final((int) row.getCell(3).getNumericCellValue());
+                    } else if (row.getCell(3).getCellType() == CellType.STRING) {
+                        producto.setValor_final(Integer.parseInt(row.getCell(3).getStringCellValue()));
+                    }
+                }
+
+                if (row.getCell(4) != null) {
+                    if (row.getCell(4).getCellType() == CellType.NUMERIC) {
+                        producto.setCantidad((int) row.getCell(4).getNumericCellValue());
+                    } else if (row.getCell(4).getCellType() == CellType.STRING) {
+                        producto.setCantidad(Integer.parseInt(row.getCell(4).getStringCellValue()));
+                    }
+                }
+                producto.setImagen(null);
+                producto.setTipoImagen(null);
+                productos.add(producto);
+            }
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return productos;
+    }
+
+    public void saveAll(List<ProductosEntity> productos) {
+        for (ProductosEntity producto : productos) {
+            try {
+                productosRepository.save(producto);
+            } catch (Exception e) {
+                System.err.println("Error al guardar el producto: " + producto.getNombre() );
+                e.printStackTrace();
+                // Puedes decidir continuar con el siguiente cliente o manejar de otra forma
+            }
+        }
     }
 
 }

@@ -58,6 +58,14 @@ class ProductoService{
             },
         });
     }
+    uploadFile(formData) {
+        const uploadUrl = PRODUCTOS_API_URL + "upload"; // Asegúrate de cambiar "upload" por el endpoint correcto del backend
+        return axios.post(uploadUrl, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data' // Esto es opcional, axios lo establecerá automáticamente
+            }
+        });
+    }
 }
 const productoService = new ProductoService();
 export default productoService;

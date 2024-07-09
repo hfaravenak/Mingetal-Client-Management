@@ -12,6 +12,7 @@ import CargaMasivaClientesComponents from "./components/Clientes/CargaMasivaClie
 import ListProveedorComponents from "./components/Proveedores/ListProveedorComponents";
 import ProveedorComponents from "./components/Proveedores/ProveedorComponents";
 import ProveedorCrearComponent from "./components/Proveedores/ProveedorCrearComponent";
+import CargaMasivaProductosComponents from "./components/Productos/CargaMasivaProductosComponents";
 
 import MainOCComponents from "./components/Ordenes de Compra/MainOCComponents";
 
@@ -74,7 +75,8 @@ function App() {
 
                   <Route path="/productos" element={<ListProductosComponents/>} />
                   <Route path="/productos/mas-info/:producto" element={<ProductoComponents/>} />
-                  <Route path="/productos/crear" element={<ProductoCrearComponents/>} /> 
+                  <Route path="/productos/crear" element={<ProductoCrearComponents/>} />                   
+                  <Route path="/productos/cargaMasivaProductos" element={<CargaMasivaProductosComponents/>} />
 
                   <Route path="/estadistica" element={<MainEstadisticaComponents/>} />  
                   <Route path="/estadistica/generales" element={<EstadisticaGeneralesComponents/>} />  

@@ -54,6 +54,28 @@ public class ProductosController {
         }
     }
 
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Por favor seleccione un archivo para cargar.");
+        }
+
+        try {
+            // Lógica para manejar el archivo, por ejemplo, guardarlo en el servidor
+            // clienteService.saveFile(file);
+            System.out.println("#####################");
+            List<ProductosEntity> productos = productosService.readExcelFile(file);
+            System.out.println(productos);
+            System.out.println("**********************");
+            productosService.saveAll(productos);
+            System.out.println("----------------------");
+            return ResponseEntity.ok("Archivo cargado exitosamente: " + file.getOriginalFilename());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo cargar el archivo: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<ProductosEntity>> getAll(){
         return ResponseEntity.ok(productosService.findAll());

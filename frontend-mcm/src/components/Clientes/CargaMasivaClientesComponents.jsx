@@ -9,7 +9,7 @@ import ClienteService from "../../services/ClienteService";
 import atras from "../../images/atras.png";
 import imagen from "../../images/MC_clientes.png";
 
-function ClienteCrearComponents() {
+function CargaMasivaClientes() {
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
 
@@ -62,7 +62,7 @@ function ClienteCrearComponents() {
   );
 }
 
-export default ClienteCrearComponents;
+export default CargaMasivaClientes;
 
 const Container = styled.div`
   position: relative;

@@ -96,6 +96,10 @@ function ListProductosComponents() {
       navigate(`/`);
    };
 
+   const handleCargaMasiva = () => {
+      navigate("cargaMasivaProductos")
+   };
+
    return (
       <div>
          <HeaderComponents />
@@ -138,6 +142,9 @@ function ListProductosComponents() {
                         <div className="btn-inf">
                            <Button className="boton" onClick={crearProducto}>
                               Ingresar Producto
+                           </Button>
+                           <Button className="boton" onClick={handleCargaMasiva}>
+                                 Carga Masiva de Datos
                            </Button>
                         </div>
                      </div>
