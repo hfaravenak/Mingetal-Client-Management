@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.Lob;
+import javax.validation.constraints.Size;
 import java.io.IOException;
 import java.util.List;
 
@@ -137,9 +139,6 @@ public class ProductosController {
             if (productoExistente == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-            System.out.println(imagen.getBytes());
-            System.out.println(imagen.getContentType());
-
 
             productoExistente.setTipo(tipo);
             productoExistente.setNombre(nombre);
@@ -149,6 +148,10 @@ public class ProductosController {
 
             System.out.println("-------------------------------");
             if (imagen != null && !imagen.isEmpty()) {
+
+                System.out.println(imagen.getBytes());
+                System.out.println(imagen.getContentType());
+
                 System.out.println("++++++++++++++++++++++++++++");
                 String tipoImagen = imagen.getContentType();
                 if (!"image/jpeg".equals(tipoImagen) && !"image/png".equals(tipoImagen)) {
@@ -157,17 +160,29 @@ public class ProductosController {
                 }
                 productoExistente.setImagen(imagen.getBytes());
                 productoExistente.setTipoImagen(tipoImagen);
+
+                System.out.println("Tipo: " + tipo);
+                System.out.println("Nombre: " + nombre);
+                System.out.println("Valor: " + valor);
+                System.out.println("Valor Final: " + valorFinal);
+                System.out.println("Cantidad: " + cantidad);
                 System.out.println("imagen: " + imagen.getBytes());
                 System.out.println("tipo imagen: " + imagen.getContentType());
+            } else{
+                byte[] imagenAux = productoExistente.getImagen();
+                String tipoImagenAux = productoExistente.getTipoImagen();
+
+                productoExistente.setImagen(imagenAux);
+                productoExistente.setTipoImagen(tipoImagenAux);
+
+                System.out.println("Tipo: " + tipo);
+                System.out.println("Nombre: " + nombre);
+                System.out.println("Valor: " + valor);
+                System.out.println("Valor Final: " + valorFinal);
+                System.out.println("Cantidad: " + cantidad);
             }
 
-            System.out.println("Tipo: " + tipo);
-            System.out.println("Nombre: " + nombre);
-            System.out.println("Valor: " + valor);
-            System.out.println("Valor Final: " + valorFinal);
-            System.out.println("Cantidad: " + cantidad);
-            System.out.println("imagen: " + imagen.getBytes());
-            System.out.println("tipo imagen: " + imagen.getContentType());
+
 
 
 

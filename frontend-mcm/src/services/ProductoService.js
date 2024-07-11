@@ -46,11 +46,6 @@ class ProductoService{
     getPocoProductos(){
         return axios.get(PRODUCTOS_API_URL+"pocos_productos/");
     }
-
-    updateProducto(producto){
-        return axios.put(PRODUCTOS_API_URL +"update", producto);
-  
-    }
     updateProducto(producto){
         return axios.put(PRODUCTOS_API_URL+"update", producto, {
             headers: {
