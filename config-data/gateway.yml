@@ -16,6 +16,8 @@ spring:
       discovery:
         locator:
           enabled: true
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       globalcors:
         cors-configurations:
           '[/**]':
@@ -28,26 +30,18 @@ spring:
           uri: lb://productos
           predicates:
             - Path=/productos/**
-          filters:
-            - AuthenticationFilter
         - id: proveedor
           uri: lb://proveedor
           predicates:
             - Path=/proveedor/**
-          filters:
-            - AuthenticationFilter
         - id: cliente
           uri: lb://cliente
           predicates:
             - Path=/cliente/**
-          filters:
-            - AuthenticationFilter
         - id: ordenes-de-compra
           uri: lb://ordenes-de-compra
           predicates:
             - Path=/ordenes_de_compra/**
-          filters:
-            - AuthenticationFilter
         - id: Login
           uri: lb://Login
           predicates:
