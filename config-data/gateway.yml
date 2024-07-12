@@ -30,18 +30,26 @@ spring:
           uri: lb://productos
           predicates:
             - Path=/productos/**
+          filters:
+            - JwtAuthenticationFilter
         - id: proveedor
           uri: lb://proveedor
           predicates:
             - Path=/proveedor/**
+          filters:
+            - JwtAuthenticationFilter
         - id: cliente
           uri: lb://cliente
           predicates:
             - Path=/cliente/**
+          filters:
+            - JwtAuthenticationFilter
         - id: ordenes-de-compra
           uri: lb://ordenes-de-compra
           predicates:
             - Path=/ordenes_de_compra/**
+          filters:
+            - JwtAuthenticationFilter
         - id: Login
           uri: lb://Login
           predicates:
