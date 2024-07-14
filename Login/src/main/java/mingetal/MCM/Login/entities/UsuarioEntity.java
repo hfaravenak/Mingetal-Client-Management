@@ -20,7 +20,6 @@ public class UsuarioEntity {
     private String nombres;
     private String password;
     private String correo;
-    private int intentos;
     private boolean bloqueado;
 
 }

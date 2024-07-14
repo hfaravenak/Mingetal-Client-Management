@@ -98,7 +98,7 @@ function MainComponents() {
                </div>
                <div className="card" onClick={handleClickEstadisticas}>
                   <img id="estadistica" src={estadistica} alt="estadistica" className="img-card" />
-                  <h2>Estadistica</h2>
+                  <h2>Estadísticas</h2>
                </div>
                <div className="card" onClick={handleClickCotizacion}>
                   <img id="cotizacion" src={cotizacion} alt="cotizacion" className="img-card" />
