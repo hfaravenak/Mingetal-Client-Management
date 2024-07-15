@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { FaExclamationCircle } from "react-icons/fa"; // Icono de alerta
+import { useAuth } from "../../services/AuthProvider";
 
 import HeaderLoginComponents from "../Headers/HeaderLoginComponents";
 
@@ -13,26 +14,27 @@ function LoginComponents() {
    const [error, setError] = useState("");
    const navigate = useNavigate();
    const [isIconExpanded, setIsIconExpanded] = useState(false);
+   const { setToken } = useAuth(); // Obtener setToken desde el contexto de autenticación
 
-   const handleLogin = async (e) => {
-      e.preventDefault();
-      try {
-         const response = await axios.post("http://localhost:8080/user/token", {
-            correo: email,
-            password: password,
-         });
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:8080/user/token", {
+        correo: email,
+        password: password,
+      });
 
-         const token = response.data; // Obtengo token del servicio token (login)
-         localStorage.setItem("token", token); // Lo guardo el token en el localStorage
+      const token = response.data;
+      setToken(token); // Actualizar el token en el contexto de autenticación
 
-         // Redirijo al usuario a otra pagina como por ejemplo:
-         navigate("/main");
-      } catch (error) {
-         setError("Usuario o contraseña incorrectos.");
-         setIsIconExpanded(true); // Expande el icono de alerta
-         setTimeout(() => setIsIconExpanded(false), 500); // Vuelve al tamaño normal después de 500ms
-      }
-   };
+      // Redirigir al usuario a otra página
+      navigate("/main");
+    } catch (error) {
+      setError("Usuario o contraseña incorrectos.");
+      setIsIconExpanded(true);
+      setTimeout(() => setIsIconExpanded(false), 500);
+    }
+  };
 
    return (
       <div>
