@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import LoginComponents from "./components/Authentication/LoginComponents";
 
@@ -44,59 +44,15 @@ import GraficoOOCProveedoresComponents from "./components/Graficos/GraficoOOCPro
 import BarChartComponents from "./components/Graficos/BarChartComponents";
 
 import ListVentasComponents from "./components/Ventas/ListVentasComponents";
+import AuthProvider from "./services/AuthProvider";
+import Routes from "./components/Routes";
 
 
 function App() {
   return (
-      <div>
-          <Router>
-              <Routes>
-                  <Route path="/" element={<LoginComponents/>} />
-
-                  <Route path="/main" element={<MainComponents/>} />
-
-                  <Route path="/clientes" element={<ListClienteComponents/>} />
-                  <Route path="/clientes/mas info/:cliente" element={<ClienteComponents/>} />
-                  <Route path="/clientes/crear" element={<ClienteCrearComponents/>} />
-                  <Route path="/clientes/cargaMasivaClientes" element={<CargaMasivaClientesComponents/>} />
-
-                  <Route path="/proveedores" element={<ListProveedorComponents/>} />
-                  <Route path="/proveedores/mas info/:proveedor" element={<ProveedorComponents/>} />
-                  <Route path="/proveedores/crear" element={<ProveedorCrearComponent/>} />
-
-                  <Route path="/oc" element={<MainOCComponents/>} />
-
-                  <Route path="/oc/cliente" element={<ListOCClienteComponents/>} />
-                  <Route path="/oc/cliente/mas info/:oc_cliente" element={<OCClienteComponents/>} />
-                  <Route path="/oc/cliente/crear" element={<OCClienteCrearComponents/>} />
-
-                  <Route path="/oc/proveedor" element={<ListOCProveedorComponents/>} />
-                  <Route path="/oc/proveedor/mas info/:oc_proveedor" element={<OCProveedorComponents/>} />
-                  <Route path="/oc/proveedor/crear" element={<OCProveedorCrearComponents/>} />
-
-                  <Route path="/cotizaciones" element={<ListCotizacionComponents/>} />
-                  <Route path="/info-cotizacion/:cotizacion" element={<CotizacionComponents/>} />
-                  <Route path="/crear-cotizacion" element={<CotizacionCrearComponents/>} />
-
-                  <Route path="/productos" element={<ListProductosComponents/>} />
-                  <Route path="/productos/mas-info/:producto" element={<ProductoComponents/>} />
-                  <Route path="/productos/crear" element={<ProductoCrearComponents/>} />                   
-
-                  <Route path="/estadistica" element={<MainEstadisticaComponents/>} />  
-                  <Route path="/estadistica/generales" element={<EstadisticaGeneralesComponents/>} />  
-                  <Route path="/estadistica/productos" element={<EstadisticaProductosComponents/>} />
-
-                  <Route path="/grafico" element={<MainGraficosComponents/>} />
-                  <Route path="/grafico/ventas-chart" element={<GraficoVentasComponents/>} />
-                  <Route path="/grafico/ooc-proveedores-chart" element={<GraficoOOCProveedoresComponents/>} />
-                  <Route path="/grafico/barchart" element={<BarChartComponents/>} />
-                  
-
-
-                  <Route path="/ventas" element={<ListVentasComponents/>} />  
-              </Routes>
-          </Router>
-      </div>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
   );
 }
 
