@@ -13,6 +13,7 @@ function EstadisticaGeneralesComponents() {
    
    const [mostrarCard, setMostrarCard] = useState(true);
    const [ventasEntity, setventasEntity] = useState([]);
+   const [ventasSecundariaEntity, setventasSecundariaEntity] = useState([]);
    const [cantidadEntity, setCantidadEntity] = useState([]);
    const [yearEntity, setYearEntity] = useState(0);
    useEffect(() => {
@@ -51,7 +52,7 @@ function EstadisticaGeneralesComponents() {
 
          setCantidadEntity(cantidadTemp);
 
-         setventasEntity(ventasTemp);
+         setventasSecundariaEntity(ventasTemp);
       });
 
       setMostrarCard(false);
@@ -77,6 +78,9 @@ function EstadisticaGeneralesComponents() {
    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
    const regresar = () => {
       navigate(`/estadistica`);
+   }
+   const regresarCard = () => {
+      setMostrarCard(true);
    }
    if (mostrarCard) {
       return (
@@ -128,7 +132,7 @@ function EstadisticaGeneralesComponents() {
             <NavStyle>
                <HeaderComponents />
                <div className="container-create">
-                  <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{width:"35px"}}/>
+                  <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresarCard} style={{width:"35px"}}/>
                </div>
                <div className="container">
                   <div align="center" className="container-2">
@@ -178,10 +182,10 @@ function EstadisticaGeneralesComponents() {
                         <tbody>
                            <tr>
                               <th>{yearEntity}</th>
-                              {ventasEntity.map((venta, index) => (
+                              {ventasSecundariaEntity.map((venta, index) => (
                                  <td key={index}>${venta}</td>
                               ))}
-                              <td>${ventasEntity.reduce((sum, current) => sum + current, 0)}</td>
+                              <td>${ventasSecundariaEntity.reduce((sum, current) => sum + current, 0)}</td>
                            </tr>
                         </tbody>
                      </table>

@@ -168,7 +168,7 @@ function ListCotizacionComponent() {
    };
 
    const regresar = () => {
-      navigate(`/`);
+      navigate(`/main`);
    };
 
    return (

@@ -135,7 +135,7 @@ function ListClienteComponents() {
    };
 
    const regresar = () => {
-      navigate(`/`);
+      navigate(`/main`);
    }
 
    if (rankingCard) {

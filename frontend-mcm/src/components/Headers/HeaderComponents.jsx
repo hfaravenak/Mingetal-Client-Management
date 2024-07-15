@@ -6,7 +6,7 @@ import styled from "styled-components";
 function HeaderComponents() {
    const navigate = useNavigate();
    const handleClick = () => {
-      navigate("/");
+      navigate("/main");
    };
    return (
       <div>

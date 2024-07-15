@@ -17,7 +17,7 @@ function MainOCComponents() {
    };
 
    const regresar = () => {
-      navigate(`/`);
+      navigate(`/main`);
    };
 
    return (

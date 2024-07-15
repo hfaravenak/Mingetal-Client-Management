@@ -24,7 +24,7 @@ function MainEstadisticaComponents() {
    };
 
    const regresar = () => {
-      navigate(`/`);
+      navigate(`/main`);
    };
    return (
       <div>

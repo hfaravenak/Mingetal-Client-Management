@@ -116,6 +116,9 @@ function EstadisticaProductosComponents() {
    const regresar = () => {
       navigate(`/estadistica`);
    }
+   const regresarCard = () => {
+      setMostrarCard(true);
+   }
 
    if (mostrarCard) {
       return (
@@ -170,7 +173,7 @@ function EstadisticaProductosComponents() {
             <NavStyle>
                <HeaderComponents />
                <div className="container-create">
-                  <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{width:"35px"}}/>
+                  <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresarCard} style={{width:"35px"}}/>
                </div>
                <div className="container">
                   <div align="center" className="container-2">

@@ -132,7 +132,7 @@ function ListVentasComponents() {
    };
 
    const regresar = () => {
-      navigate(`/`);
+      navigate(`/main`);
    };
 
    return (

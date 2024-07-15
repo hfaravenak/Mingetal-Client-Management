@@ -141,7 +141,7 @@ function ListProveedorComponents() {
    };
 
    const regresar = () => {
-      navigate(`/`);
+      navigate(`/main`);
    }
 
    return (
