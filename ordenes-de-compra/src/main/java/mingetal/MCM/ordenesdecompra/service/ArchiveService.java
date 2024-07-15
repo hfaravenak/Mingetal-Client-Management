@@ -104,6 +104,32 @@ public class ArchiveService {
         List<ListaProductosOCProveedorEntity> entities4 = listaProductosOCProveedorService.findAll();
 
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            CellStyle headerStyle = workbook.createCellStyle();
+            headerStyle.setFillForegroundColor(IndexedColors.BLACK.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            Font headerFont = workbook.createFont();
+            headerFont.setColor(IndexedColors.WHITE.getIndex());
+            headerStyle.setFont(headerFont);
+
+            Font totalFont = workbook.createFont();
+            totalFont.setColor(IndexedColors.WHITE.getIndex());
+
+            CellStyle blueStyle = workbook.createCellStyle();
+            blueStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+            blueStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            blueStyle.setFont(totalFont);
+
+            CellStyle greenStyle = workbook.createCellStyle();
+            greenStyle.setFillForegroundColor(IndexedColors.DARK_GREEN.getIndex());
+            greenStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            greenStyle.setFont(totalFont);
+
+            CellStyle redStyle = workbook.createCellStyle();
+            redStyle.setFillForegroundColor(IndexedColors.DARK_RED.getIndex());
+            redStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            redStyle.setFont(totalFont);
+
             Sheet sheet = workbook.createSheet("Cliente");
 
             // Cabecera
@@ -111,6 +137,7 @@ public class ArchiveService {
             for (int i = 0; i < columns.length; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(columns[i]);
+                cell.setCellStyle(headerStyle);
             }
 
             // Datos
@@ -120,7 +147,14 @@ public class ArchiveService {
                 row.createCell(0).setCellValue(entity.getId());
                 row.createCell(1).setCellValue(entity.getId_cliente());
                 row.createCell(2).setCellValue(entity.getFecha_solicitud().toString());
-                row.createCell(3).setCellValue(entity.getEstado_pago());
+                Cell cell = row.createCell(3);
+                cell.setCellValue(entity.getEstado_pago());
+                if(entity.getEstado_pago().equals("Pagado")){
+                    cell.setCellStyle(greenStyle);
+                }
+                else{
+                    cell.setCellStyle(redStyle);
+                }
                 row.createCell(4).setCellValue(entity.getValor_pago());
                 row.createCell(5).setCellValue(entity.getFecha_pago().toString());
                 row.createCell(6).setCellValue(entity.getModo_pago());
@@ -128,9 +162,23 @@ public class ArchiveService {
                 row.createCell(8).setCellValue(entity.getTiempo_de_pago());
                 row.createCell(9).setCellValue(entity.getNumero_cheque());
                 row.createCell(10).setCellValue(entity.getFecha_entrega().toString());
-                row.createCell(11).setCellValue(entity.getEstado_entrega());
+                cell = row.createCell(11);
+                cell.setCellValue(entity.getEstado_entrega());
+                if(entity.getEstado_entrega().equals("Entregado")){
+                    cell.setCellStyle(greenStyle);
+                }
+                else{
+                    cell.setCellStyle(redStyle);
+                }
                 row.createCell(12).setCellValue(entity.getNumero_factura());
-                row.createCell(13).setCellValue(entity.getEstado_factura());
+                cell = row.createCell(13);
+                cell.setCellValue(entity.getEstado_factura());
+                if(entity.getEstado_factura().equals("Emitida")){
+                    cell.setCellStyle(greenStyle);
+                }
+                else{
+                    cell.setCellStyle(redStyle);
+                }
                 row.createCell(14).setCellValue(entity.getEmpresa_despacho());
                 List<ListaProductosOCClienteEntity> listaProductosClientesEntities = listaProductosOCClienteService.findByIdOCCliente(entity.getId());
                 row.createCell(15).setCellValue(listarProductosOCClientes(listaProductosClientesEntities));
@@ -147,6 +195,7 @@ public class ArchiveService {
             for (int i = 0; i < columns2.length; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(columns2[i]);
+                cell.setCellStyle(headerStyle);
             }
 
             // Datos
@@ -156,11 +205,25 @@ public class ArchiveService {
                 row.createCell(0).setCellValue(entity.getId());
                 row.createCell(1).setCellValue(entity.getId_proveedor());
                 row.createCell(2).setCellValue(entity.getFecha_solicitud().toString());
-                row.createCell(3).setCellValue(entity.getEstado_pago());
+                Cell cell = row.createCell(3);
+                cell.setCellValue(entity.getEstado_pago());
+                if(entity.getEstado_pago().equals("Pagado")){
+                    cell.setCellStyle(greenStyle);
+                }
+                else{
+                    cell.setCellStyle(redStyle);
+                }
                 row.createCell(4).setCellValue(entity.getValor_pago());
                 row.createCell(5).setCellValue(entity.getFecha_pago().toString());
                 row.createCell(6).setCellValue(entity.getFecha_entrega().toString());
-                row.createCell(7).setCellValue(entity.getEstado_entrega());
+                cell = row.createCell(7);
+                cell.setCellValue(entity.getEstado_entrega());
+                if(entity.getEstado_entrega().equals("Entregado")){
+                    cell.setCellStyle(greenStyle);
+                }
+                else{
+                    cell.setCellStyle(redStyle);
+                }
                 row.createCell(8).setCellValue(entity.getFactura());
                 List<ListaProductosOCProveedorEntity> listaProductosOCProveedorEntities = listaProductosOCProveedorService.findByIdOCProveedor(entity.getId());
                 row.createCell(9).setCellValue(listarProductosOCProveedores(listaProductosOCProveedorEntities));
@@ -200,6 +263,14 @@ public class ArchiveService {
         assert Productos != null;
 
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            CellStyle headerStyle = workbook.createCellStyle();
+            headerStyle.setFillForegroundColor(IndexedColors.BLACK.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            Font headerFont = workbook.createFont();
+            headerFont.setColor(IndexedColors.WHITE.getIndex());
+            headerStyle.setFont(headerFont);
+
             Sheet sheet = workbook.createSheet("Ventas");
 
             // Cabecera
@@ -207,6 +278,7 @@ public class ArchiveService {
             for (int i = 0; i < columns.length; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(columns[i]);
+                cell.setCellStyle(headerStyle);
             }
 
             // Datos

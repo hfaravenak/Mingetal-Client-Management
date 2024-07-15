@@ -134,7 +134,7 @@ function EstadisticaProductosComponents() {
                         <h1>
                            <b>Ventas producto</b>
                         </h1>
-                        <div className="Derecha">
+                        <div className="Izquierda">
                            <img id="excel" src={excel} alt="excel" className="img-card" onClick={descargarExcel} />
                         </div>
                      </div>
@@ -181,7 +181,7 @@ function EstadisticaProductosComponents() {
                         <h1>
                            <b>Ventas producto {yearEntity}</b>
                         </h1>
-                        <div className="Derecha">
+                        <div className="Izquierda">
                            <img id="excel" src={excel} alt="excel" className="img-card" onClick={descargarExcel} />
                         </div>
                      </div>
@@ -279,6 +279,20 @@ const NavStyle = styled.nav`
    }
 
    .TituloSuperior .Derecha .img-card {
+      width: 5%;
+      height: 5%;
+   }
+
+   .TituloSuperior .Izquierda {
+      position: absolute;
+      left: 0;
+   }
+
+   .TituloSuperior .Izquierda .btn-inf .boton {
+      margin-top: 0;
+   }
+
+   .TituloSuperior .Izquierda .img-card {
       width: 5%;
       height: 5%;
    }

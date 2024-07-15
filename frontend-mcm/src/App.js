@@ -37,10 +37,11 @@ import ProductoCrearComponents from "./components/Productos/ProductoCrearCompone
 import MainEstadisticaComponents from "./components/Estadisticas/MainEstadisticaComponents";
 import EstadisticaGeneralesComponents from "./components/Estadisticas/EstadisticaGeneralesComponents";
 import EstadisticaProductosComponents from "./components/Estadisticas/EstadisticaProductosComponents";
-import MainGraficosComponents from "./components/Estadisticas/MainGraficosComponents";
-import BarChartComponents from "./components/Estadisticas/BarChartComponents";
-import GraficoVentasComponents from "./components/Estadisticas/GraficoVentasComponents";
-import GraficoOOCProveedoresComponents from "./components/Estadisticas/GraficoOOCProveedoresComponents";
+
+import MainGraficosComponents from "./components/Graficos/MainGraficosComponents";
+import GraficoVentasComponents from "./components/Graficos/GraficoVentasComponents";
+import GraficoOOCProveedoresComponents from "./components/Graficos/GraficoOOCProveedoresComponents";
+import BarChartComponents from "./components/Graficos/BarChartComponents";
 
 import ListVentasComponents from "./components/Ventas/ListVentasComponents";
 
@@ -84,10 +85,11 @@ function App() {
                   <Route path="/estadistica" element={<MainEstadisticaComponents/>} />  
                   <Route path="/estadistica/generales" element={<EstadisticaGeneralesComponents/>} />  
                   <Route path="/estadistica/productos" element={<EstadisticaProductosComponents/>} />
-                  <Route path="/estadistica/main-graficos" element={<MainGraficosComponents/>} />
-                  <Route path="/estadistica/barchart" element={<BarChartComponents/>} />
-                  <Route path="/estadistica/ventas-chart" element={<GraficoVentasComponents/>} />
-                  <Route path="/estadistica/ooc-proveedores-chart" element={<GraficoOOCProveedoresComponents/>} />
+
+                  <Route path="/grafico" element={<MainGraficosComponents/>} />
+                  <Route path="/grafico/ventas-chart" element={<GraficoVentasComponents/>} />
+                  <Route path="/grafico/ooc-proveedores-chart" element={<GraficoOOCProveedoresComponents/>} />
+                  <Route path="/grafico/barchart" element={<BarChartComponents/>} />
                   
 
 

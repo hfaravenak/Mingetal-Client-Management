@@ -39,6 +39,9 @@ function MainComponents() {
    const handleClickEstadisticas = () => {
       navigate("/estadistica");
    };
+   const handleClickGraficos = () => {
+      navigate("/grafico")
+   }
 
    const [ProductosEntity, setProductosEntity] = useState([]);
    useEffect(() => {
@@ -99,6 +102,10 @@ function MainComponents() {
                <div className="card" onClick={handleClickEstadisticas}>
                   <img id="estadistica" src={estadistica} alt="estadistica" className="img-card" />
                   <h2>Estadísticas</h2>
+               </div>
+               <div className="card" onClick={handleClickGraficos}>
+                  <img id="estadistica" src={estadistica} alt="graficos" className="img-card"/>
+                  <h2>Gráficos</h2>
                </div>
                <div className="card" onClick={handleClickCotizacion}>
                   <img id="cotizacion" src={cotizacion} alt="cotizacion" className="img-card" />

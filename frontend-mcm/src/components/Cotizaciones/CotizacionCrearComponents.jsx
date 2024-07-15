@@ -192,6 +192,7 @@ function CotizacionCrearComponent() {
                                     <Form.Select className="agregar" name="estado" value={input.estado} onChange={handleInputChange}>
                                        <option value="En espera">En espera</option>
                                        <option value="Listo">Listo</option>
+                                       <option value="Rechazado">Rechazado</option>
                                     </Form.Select>
                                  </Form.Group>
                               </td>

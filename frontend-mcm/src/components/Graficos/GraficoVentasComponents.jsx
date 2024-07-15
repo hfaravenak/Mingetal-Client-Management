@@ -93,7 +93,7 @@ function GraficoVentasComponents() {
       },
    };
    const regresar = () => {
-      navigate(`/estadistica/main-graficos`);
+      navigate(`/grafico`);
    };
    return (
       <div>

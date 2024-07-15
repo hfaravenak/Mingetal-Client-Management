@@ -5,7 +5,6 @@ import styled from "styled-components";
 import HeaderComponents from "../Headers/HeaderComponents";
 import ventas_generales from "../../images/ventas_generales.png";
 import ventas_productos from "../../images/ventas_producto.png";
-import estadistica from "../../images/estadistica.png";
 import atras from "../../images/atras.png";
 
 function MainEstadisticaComponents() {
@@ -17,10 +16,6 @@ function MainEstadisticaComponents() {
 
    const handleClickVentasProducto = () => {
       navigate("/estadistica/productos");
-   };
-
-   const handleClickGraficos = () => {
-      navigate("/estadistica/main-graficos");
    };
 
    const regresar = () => {
@@ -40,11 +35,7 @@ function MainEstadisticaComponents() {
                </div>
                <div className="card" onClick={handleClickVentasProducto}>
                   <img id="ventas_productos" src={ventas_productos} alt="ventas_productos" />
-                  <h2>Ventas Productos</h2>
-               </div>
-               <div className="card" onClick={handleClickGraficos}>
-                  <img id="estadistica" src={estadistica} alt="graficos" />
-                  <h2>Gráficos</h2>
+                  <h2>Ventas de Productos</h2>
                </div>
             </div>
          </NavStyle>

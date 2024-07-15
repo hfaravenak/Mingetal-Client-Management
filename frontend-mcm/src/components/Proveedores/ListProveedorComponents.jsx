@@ -214,7 +214,7 @@ function ListProveedorComponents() {
                      <h1>
                         <b> Listado de Proveedores</b>
                      </h1>
-                     <div className="Derecha">
+                     <div className="Izquierda">
                         <img id="excel" src={excel} alt="excel" className="img-card" onClick={descargarExcel} />
                      </div>
                      <div className="Derecha">
@@ -328,6 +328,20 @@ const NavStyle = styled.nav`
    }
 
    .TituloSuperior .Derecha .img-card {
+      width: 5%;
+      height: 5%;
+   }
+
+   .TituloSuperior .Izquierda {
+      position: absolute;
+      left: 0;
+   }
+
+   .TituloSuperior .Izquierda .btn-inf .boton {
+      margin-top: 0;
+   }
+
+   .TituloSuperior .Izquierda .img-card {
       width: 5%;
       height: 5%;
    }

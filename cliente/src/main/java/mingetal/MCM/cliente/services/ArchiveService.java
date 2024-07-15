@@ -43,6 +43,24 @@ public class ArchiveService {
             headerFont.setColor(IndexedColors.WHITE.getIndex());
             headerStyle.setFont(headerFont);
 
+            Font totalFont = workbook.createFont();
+            totalFont.setColor(IndexedColors.WHITE.getIndex());
+
+            CellStyle enEsperaStyle = workbook.createCellStyle();
+            enEsperaStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+            enEsperaStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            enEsperaStyle.setFont(totalFont);
+
+            CellStyle listoStyle = workbook.createCellStyle();
+            listoStyle.setFillForegroundColor(IndexedColors.DARK_GREEN.getIndex());
+            listoStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            listoStyle.setFont(totalFont);
+
+            CellStyle canceladoStyle = workbook.createCellStyle();
+            canceladoStyle.setFillForegroundColor(IndexedColors.DARK_RED.getIndex());
+            canceladoStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            canceladoStyle.setFont(totalFont);
+
             Sheet sheet = workbook.createSheet("Cliente");
 
             // Cabecera
@@ -86,7 +104,21 @@ public class ArchiveService {
                 row.createCell(1).setCellValue(entity.getRutCliente());
                 row.createCell(2).setCellValue(entity.getPedido());
                 row.createCell(3).setCellValue(entity.getFecha().toString());
-                row.createCell(4).setCellValue(entity.getEstado());
+                Cell cell = row.createCell(4);
+                cell.setCellValue(entity.getEstado());
+                System.out.println(entity.getEstado().equals("En espera"));
+                System.out.println(entity.getEstado().equals("Listo"));
+                System.out.println(entity.getEstado().equals("Rechazado"));
+                if(entity.getEstado().equals("En espera")){
+                    cell.setCellStyle(enEsperaStyle);
+                }
+                else if(entity.getEstado().equals("Listo")){
+                    cell.setCellStyle(listoStyle);
+                }
+                else{
+                    cell.setCellStyle(canceladoStyle);
+                }
+
                 List<ListaProductosCotizacionEntity> listaProductosCotizacionEntities = listaProductosCotizacionService.findByIdCotizacion(entity.getIdCotizacion());
                 StringBuilder productos = new StringBuilder();
                 int valor = 0;

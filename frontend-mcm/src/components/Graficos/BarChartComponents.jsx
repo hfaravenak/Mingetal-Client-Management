@@ -88,7 +88,7 @@ const BarChartComponents = () => {
    }, []);
 
    const regresar = () => {
-      navigate(`/estadistica/main-graficos`);
+      navigate(`/grafico`);
    };
 
    return (

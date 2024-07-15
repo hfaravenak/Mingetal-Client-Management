@@ -148,7 +148,7 @@ function ListVentasComponents() {
                      <h1>
                         <b>Historial de Ventas</b>
                      </h1>
-                     <div className="Derecha">
+                     <div className="Izquierda">
                         <img id="excel" src={excel} alt="excel" className="img-card" onClick={descargarExcel} />
                      </div>
                   </div>
@@ -295,6 +295,20 @@ const NavStyle = styled.nav`
    }
 
    .TituloSuperior .Derecha .img-card {
+      width: 5%;
+      height: 5%;
+   }
+
+   .TituloSuperior .Izquierda {
+      position: absolute;
+      left: 0;
+   }
+
+   .TituloSuperior .Izquierda .btn-inf .boton {
+      margin-top: 0;
+   }
+
+   .TituloSuperior .Izquierda .img-card {
       width: 5%;
       height: 5%;
    }

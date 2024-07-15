@@ -29,6 +29,28 @@ public class ArchiveService {
 
         List<ProveedorEntity> entities = proveedorService.findAll();
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            CellStyle headerStyle = workbook.createCellStyle();
+            headerStyle.setFillForegroundColor(IndexedColors.BLACK.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            Font headerFont = workbook.createFont();
+            headerFont.setColor(IndexedColors.WHITE.getIndex());
+            headerStyle.setFont(headerFont);
+
+            CellStyle bodyStyle = workbook.createCellStyle();
+            bodyStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+            bodyStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            CellStyle body2Style = workbook.createCellStyle();
+            body2Style.setFillForegroundColor(IndexedColors.LIGHT_TURQUOISE.getIndex());
+            body2Style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            CellStyle body3Style = workbook.createCellStyle();
+            body3Style.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+            body3Style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+
+
             Sheet sheet = workbook.createSheet("Proveedor");
 
             // Cabecera
@@ -36,6 +58,7 @@ public class ArchiveService {
             for (int i = 0; i < columns.length; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(columns[i]);
+                cell.setCellStyle(headerStyle);
             }
 
             // Datos
@@ -48,21 +71,51 @@ public class ArchiveService {
                 row.createCell(0).setCellValue(entity.getId_proveedor());
                 row.createCell(1).setCellValue(entity.getRubro());
                 row.createCell(2).setCellValue(entity.getEmpresa());
-                row.createCell(3).setCellValue(contacto.getRut());
-                row.createCell(4).setCellValue(contacto.getNombre());
-                row.createCell(5).setCellValue(contacto.getCorreo());
-                row.createCell(6).setCellValue(contacto.getFono_cel());
-                row.createCell(7).setCellValue(contacto.getFono_fijo());
-                row.createCell(8).setCellValue(contacto2.getRut());
-                row.createCell(9).setCellValue(contacto2.getNombre());
-                row.createCell(10).setCellValue(contacto2.getCorreo());
-                row.createCell(11).setCellValue(contacto2.getFono_cel());
-                row.createCell(12).setCellValue(contacto2.getFono_fijo());
-                row.createCell(13).setCellValue(contacto3.getRut());
-                row.createCell(14).setCellValue(contacto3.getNombre());
-                row.createCell(15).setCellValue(contacto3.getCorreo());
-                row.createCell(16).setCellValue(contacto3.getFono_cel());
-                row.createCell(17).setCellValue(contacto3.getFono_fijo());
+                Cell cell = row.createCell(3);
+                cell.setCellValue(contacto.getRut());
+                cell.setCellStyle(bodyStyle);
+                cell = row.createCell(4);
+                cell.setCellValue(contacto.getNombre());
+                cell.setCellStyle(bodyStyle);
+                cell = row.createCell(5);
+                cell.setCellValue(contacto.getCorreo());
+                cell.setCellStyle(bodyStyle);
+                cell = row.createCell(6);
+                cell.setCellValue(contacto.getFono_cel());
+                cell.setCellStyle(bodyStyle);
+                cell = row.createCell(7);
+                cell.setCellValue(contacto.getFono_fijo());
+                cell.setCellStyle(bodyStyle);
+                cell = row.createCell(8);
+                cell.setCellValue(contacto.getRut());
+                cell.setCellStyle(body2Style);
+                cell = row.createCell(9);
+                cell.setCellValue(contacto.getNombre());
+                cell.setCellStyle(body2Style);
+                cell = row.createCell(10);
+                cell.setCellValue(contacto.getCorreo());
+                cell.setCellStyle(body2Style);
+                cell = row.createCell(11);
+                cell.setCellValue(contacto.getFono_cel());
+                cell.setCellStyle(body2Style);
+                cell = row.createCell(12);
+                cell.setCellValue(contacto.getFono_fijo());
+                cell.setCellStyle(body2Style);
+                cell = row.createCell(13);
+                cell.setCellValue(contacto.getRut());
+                cell.setCellStyle(body3Style);
+                cell = row.createCell(14);
+                cell.setCellValue(contacto.getNombre());
+                cell.setCellStyle(body3Style);
+                cell = row.createCell(15);
+                cell.setCellValue(contacto.getCorreo());
+                cell.setCellStyle(body3Style);
+                cell = row.createCell(16);
+                cell.setCellValue(contacto.getFono_cel());
+                cell.setCellStyle(body3Style);
+                cell = row.createCell(17);
+                cell.setCellValue(contacto.getFono_fijo());
+                cell.setCellStyle(body3Style);
                 row.createCell(18).setCellValue(entity.getComentario());
             }
 

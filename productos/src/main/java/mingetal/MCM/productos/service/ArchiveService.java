@@ -25,6 +25,14 @@ public class ArchiveService {
         List<ProductosEntity> entities = productosService.findAll();
 
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            CellStyle headerStyle = workbook.createCellStyle();
+            headerStyle.setFillForegroundColor(IndexedColors.BLACK.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            Font headerFont = workbook.createFont();
+            headerFont.setColor(IndexedColors.WHITE.getIndex());
+            headerStyle.setFont(headerFont);
+
             Sheet sheet = workbook.createSheet("Productos");
 
             // Cabecera
@@ -32,6 +40,7 @@ public class ArchiveService {
             for (int i = 0; i < columns.length; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(columns[i]);
+                cell.setCellStyle(headerStyle);
             }
 
             // Datos

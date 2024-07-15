@@ -10,19 +10,19 @@ function MainEstadisticaComponents() {
    const navigate = useNavigate();
 
    const handleClickBarChart = () => {
-      navigate("/estadistica/barchart");
+      navigate("/grafico/barchart");
    };
 
    const handleClickGraficoVentas = () => {
-      navigate("/estadistica/ventas-chart");
+      navigate("/grafico/ventas-chart");
    };
 
    const handleClickGraficoProveedores = () => {
-      navigate("/estadistica/ooc-proveedores-chart");
+      navigate("/grafico/ooc-proveedores-chart");
    };
 
    const regresar = () => {
-      navigate(`/estadistica`);
+      navigate(`/main`);
    };
 
    return (
@@ -39,7 +39,7 @@ function MainEstadisticaComponents() {
                </div>
                <div className="card" onClick={handleClickGraficoVentas}>
                   <img id="estadistica" src={estadistica} alt="Historico" />
-                  <h2>Histórico Ventas</h2>
+                  <h2>Ventas Históricas</h2>
                </div>
                <div className="card" onClick={handleClickGraficoProveedores}>
                   <img id="estadistica" src={estadistica} alt="Estatisticas-proveedor" />

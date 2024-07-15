@@ -24,6 +24,9 @@ function HeaderComponents() {
                         <a className="dropdown-item" href="/clientes/crear">
                            Crear Cliente
                         </a>
+                        <a className="dropdown-item" href="/clientes/cargaMasivaClientes">
+                           Carga Masiva
+                        </a>
                      </div>
                   </div>
                   <div className="dropdown">
@@ -37,9 +40,17 @@ function HeaderComponents() {
                      </div>
                   </div>
                   <div className="dropdown">
-                     <a className="btn" href="/ventas">
-                        Ventas
+                     <a className="btn" href="/productos">
+                        Inventario
                      </a>
+                     <div className="dropdown-menu">
+                        <a className="dropdown-item" href="/productos/crear">
+                           Crear Producto
+                        </a>
+                        <a className="dropdown-item" href="/productos/cargaMasivaProductos">
+                           Carga Masiva
+                        </a>
+                     </div>
                   </div>
                   <div className="dropdown">
                      <a className="btn" href="/oc">
@@ -53,6 +64,40 @@ function HeaderComponents() {
                            OC Proveedores
                         </a>
                      </div>
+                  </div>
+                  <div className="dropdown">
+                     <a className="btn" href="/estadistica">
+                        Estadisticas
+                     </a>
+                     <div className="dropdown-menu">
+                        <a className="dropdown-item" href="/estadistica/generales">
+                           Ventas Generales
+                        </a>
+                        <a className="dropdown-item" href="/estadistica/productos">
+                           Ventas de Productos
+                        </a>
+                     </div>
+                  </div>
+                  <div className="dropdown">
+                     <a className="btn" href="/grafico">
+                        Graficos
+                     </a>
+                     <div className="dropdown-menu">
+                        <a className="dropdown-item" href="/grafico/barchart">
+                           Comparativo de Montos
+                        </a>
+                        <a className="dropdown-item" href="/grafico/ventas-chart">
+                              Ventas Históricas
+                        </a>
+                        <a className="dropdown-item" href="/grafico/ooc-proveedores-chart">
+                           Estadísticas OC de Proveedores
+                        </a>
+                     </div>
+                  </div>
+                  <div className="dropdown">
+                     <a className="btn" href="/ventas">
+                        Ventas
+                     </a>
                   </div>
                </div>
                <div className="header_der">

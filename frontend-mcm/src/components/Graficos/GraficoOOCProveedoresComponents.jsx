@@ -94,7 +94,7 @@ function GraficoOOCProveedoresComponents() {
       },
    };
    const regresar = () => {
-      navigate(`/estadistica/main-graficos`);
+      navigate(`/grafico`);
    }
    return (
       <div>
@@ -104,7 +104,7 @@ function GraficoOOCProveedoresComponents() {
                   <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{width:"35px"}}/>
                </div>
             <div className="container_main">
-               <h2>Estadísticas OOCC de Proveedores</h2>
+               <h2>Estadísticas de OC de Proveedores</h2>
                <div className="charts">
                   <div className="chart">
                      <Line data={prepareMontosChartData()} options={options} />
