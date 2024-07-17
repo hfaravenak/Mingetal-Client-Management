@@ -56,7 +56,7 @@ public class UsuarioService {
 
     public void sendEmail(String to, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("outlook_40A2E162221393E3@outlook.com");
+        message.setFrom("mingetaldev@outlook.com");
         message.setTo(to);
         message.setSubject("Cambio de Contraseña");
         message.setText(text);
