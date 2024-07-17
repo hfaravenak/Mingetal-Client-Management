@@ -26,30 +26,28 @@ spring:
             allowed-headers: "*"
             allow-credentials: true
       routes:
+        - id: api-gateway
+          uri: lb://api-gateway
+          predicates:
+            - Path=/**
+          filters:
+            - AuthenticationFilter
         - id: productos
           uri: lb://productos
           predicates:
             - Path=/productos/**
-          filters:
-            - AuthenticationFilter
         - id: proveedor
           uri: lb://proveedor
           predicates:
             - Path=/proveedor/**
-          filters:
-            - AuthenticationFilter
         - id: cliente
           uri: lb://cliente
           predicates:
             - Path=/cliente/**
-          filters:
-            - AuthenticationFilter
         - id: ordenes-de-compra
           uri: lb://ordenes-de-compra
           predicates:
             - Path=/ordenes_de_compra/**
-          filters:
-            - AuthenticationFilter
         - id: Login
           uri: lb://Login
           predicates:
