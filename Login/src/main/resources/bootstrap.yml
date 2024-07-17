@@ -15,18 +15,17 @@ spring:
     url: jdbc:postgresql://localhost:5432/login
     username: postgres
     password: 2214
-  spring:
-    mail:
-      host: smtp.office365.com
-      port: 587
-      username: outlook_40A2E162221393E3@outlook.com
-      password: mingetal#2024
-      properties:
-        mail:
-          smtp:
-            auth: true
-            starttls:
-              enable: true
+  mail:
+    host: smtp.office365.com
+    port: 587
+    username: outlook_40A2E162221393E3@outlook.com
+    password: mingetal#2024
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
   cloud:
     config:

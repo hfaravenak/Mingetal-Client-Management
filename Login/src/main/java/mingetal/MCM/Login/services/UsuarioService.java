@@ -58,7 +58,7 @@ public class UsuarioService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("outlook_40A2E162221393E3@outlook.com");
         message.setTo(to);
-        message.setSubject("Cambio de contraseña");
+        message.setSubject("Cambio de Contraseña");
         message.setText(text);
         emailSender.send(message);
     }
