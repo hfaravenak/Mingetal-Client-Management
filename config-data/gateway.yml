@@ -29,26 +29,26 @@ spring:
         - id: api-gateway
           uri: lb://api-gateway
           predicates:
-            - Path=/**
+            - Path=/api/**
           filters:
             - AuthenticationFilter
         - id: productos
           uri: lb://productos
           predicates:
-            - Path=/productos/**
+            - Path=/api/productos/**
         - id: proveedor
           uri: lb://proveedor
           predicates:
-            - Path=/proveedor/**
+            - Path=/api/proveedor/**
         - id: cliente
           uri: lb://cliente
           predicates:
-            - Path=/cliente/**
+            - Path=/api/cliente/**
         - id: ordenes-de-compra
           uri: lb://ordenes-de-compra
           predicates:
-            - Path=/ordenes_de_compra/**
+            - Path=/api/ordenes_de_compra/**
         - id: Login
           uri: lb://Login
           predicates:
-            - Path=/user/**
+            - Path=/api/user/**
