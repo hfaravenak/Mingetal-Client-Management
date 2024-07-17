@@ -28,11 +28,14 @@ public class JwtService {
     }
 
     private String createToken(Map<String, Object> claims, String correo) {
+        // Definir la duración del token en milisegundos
+        long expirationInMillis = 30L * 24 * 60 * 60 * 1000; // 30 días en milisegundos
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(correo)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationInMillis))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 

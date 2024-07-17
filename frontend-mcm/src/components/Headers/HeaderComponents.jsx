@@ -102,7 +102,7 @@ function HeaderComponents() {
                </div>
                <div className="header_der">
                   <a className="btn" href="/">
-                     Usuario
+                     Cerrar Sesión
                   </a>
                </div>
             </header>
