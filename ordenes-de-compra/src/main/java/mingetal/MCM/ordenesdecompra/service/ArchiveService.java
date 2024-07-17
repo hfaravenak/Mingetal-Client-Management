@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -249,10 +251,12 @@ public class ArchiveService {
 
 
     @Generated
-    public ByteArrayInputStream generateExcelVentas(@RequestHeader("Authorization") String authHeader) throws IOException {
+    public ByteArrayInputStream generateExcelVentas() throws IOException {
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, authHeader);
-        HttpEntity<Void> entityHeader = new HttpEntity(headers);
+        HttpEntity<Void> entityHeader = new HttpEntity<>(headers);
         String[] columns = {"ID", "Empresa", "Venta Neta", "Ganancia", "Fecha", "Productos"};
 
         List<OrdenesDeCompraClienteEntity> OCClientes = ordenesDeCompraClienteService.findPagado();
@@ -311,7 +315,6 @@ public class ArchiveService {
             }
 
             workbook.write(out);
-
 
             return new ByteArrayInputStream(out.toByteArray());
         }

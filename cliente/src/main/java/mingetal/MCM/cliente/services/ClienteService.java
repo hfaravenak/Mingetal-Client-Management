@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -101,21 +103,26 @@ public class ClienteService {
 
 
 
-    public List<List<Object>> getRankingCliente(@RequestHeader("Authorization") String authHeader){
-        // Llamar al microservicio de órdenes de compra para obtener el ranking
+    public List<List<Object>> getRankingCliente() {
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, authHeader);
-        HttpEntity<Void> entity = new HttpEntity(headers);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
         ResponseEntity<List<List<Object>>> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/cliente/clientsbyyear",
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<List<Object>>>() {}
         );
+
         List<List<Object>> ranking = response.getBody();
         if (ranking == null) {
             return new ArrayList<>();
         }
+
         for (List<Object> entry : ranking) {
             String rut = (String) entry.get(0);
             ClienteEntity cliente = clienteRepository.findByRut(rut);
@@ -123,8 +130,8 @@ public class ClienteService {
             entry.add(cliente.getEmpresa());
             entry.add(cliente.getEmail());
             entry.add(cliente.getTelefono());
-
         }
+
         return ranking;
     }
 

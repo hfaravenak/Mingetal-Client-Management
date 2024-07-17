@@ -37,10 +37,8 @@ public class ArchiveController {
     }
 
     @GetMapping("/download/excel/ventas")
-    public ResponseEntity<InputStreamResource> downloadExcelVentas(@RequestHeader("Authorization") String authHeader) throws IOException {
-        // Aquí obtén la lista de entidades desde tu base de datos o cualquier otra fuente
-
-        ByteArrayInputStream in = archiveService.generateExcelVentas(authHeader);
+    public ResponseEntity<InputStreamResource> downloadExcelVentas() throws IOException {
+        ByteArrayInputStream in = archiveService.generateExcelVentas();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=Ventas.xlsx");
 

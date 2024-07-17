@@ -93,9 +93,8 @@ public class ClienteController {
     }
 
     @GetMapping("/ranking")
-    public ResponseEntity<List<List<Object>>> getRanking(@RequestHeader("Authorization") String authHeader){
-
-        List<List<Object>> ranking  = clienteService.getRankingCliente(authHeader);
+    public ResponseEntity<List<List<Object>>> getRanking() {
+        List<List<Object>> ranking = clienteService.getRankingCliente();
         System.out.println(ranking);
         return ResponseEntity.ok(ranking);
     }
