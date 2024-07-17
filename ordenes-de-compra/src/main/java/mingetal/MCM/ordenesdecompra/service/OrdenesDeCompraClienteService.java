@@ -6,9 +6,14 @@ import mingetal.MCM.ordenesdecompra.model.ClienteEntity;
 import mingetal.MCM.ordenesdecompra.repository.OrdenesDeCompraClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -54,50 +59,82 @@ public class OrdenesDeCompraClienteService {
 
     }
 
-    @Generated
-    public List<OrdenesDeCompraClienteEntity> findByNameCliente(String nombre){
+    public List<OrdenesDeCompraClienteEntity> findByNameCliente(String nombre) {
+        // Obtener el encabezado Authorization del contexto de la solicitud HTTP
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
 
-        List<ClienteEntity> response = restTemplate.exchange(
-                "http://localhost:8080/cliente/nombre/"+nombre,
+        // Validar si el encabezado es nulo o vacío (depende de tu lógica de manejo de errores)
+        if (authHeader == null || authHeader.isEmpty()) {
+            // Manejo de error o lanzamiento de excepción si el encabezado no está presente
+            throw new RuntimeException("No se encontró el encabezado Authorization");
+        }
+
+        // Crear y configurar los encabezados HTTP con el token de autorización
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Realizar la llamada al microservicio de clientes por nombre
+        ResponseEntity<List<ClienteEntity>> clienteResponse = restTemplate.exchange(
+                "http://localhost:8080/cliente/nombre/" + nombre,
                 HttpMethod.GET,
-                null,
+                entity,
                 new ParameterizedTypeReference<List<ClienteEntity>>() {}
-        ).getBody();
+        );
 
-        if(response == null){
+        // Obtener la respuesta del cliente
+        List<ClienteEntity> clientes = clienteResponse.getBody();
+
+        if (clientes == null) {
             return new ArrayList<>();
         }
 
+        // Buscar órdenes de compra para cada cliente encontrado por nombre
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = new ArrayList<>();
-
-        for (ClienteEntity client:response) {
-            ordenesDeCompraClienteEntities.addAll(findByIdCliente(client.getRut()));
+        for (ClienteEntity cliente : clientes) {
+            ordenesDeCompraClienteEntities.addAll(findByIdCliente(cliente.getRut()));
         }
+
         return ordenesDeCompraClienteEntities;
     }
 
-    @Generated
-    public List<OrdenesDeCompraClienteEntity> findByEmpresaCliente(String empresa){
+    public List<OrdenesDeCompraClienteEntity> findByEmpresaCliente(String empresa) {
+        // Obtener el encabezado Authorization del contexto de la solicitud HTTP
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
 
-        List<ClienteEntity> response = restTemplate.exchange(
-                "http://localhost:8080/cliente/empresa/"+empresa,
+        // Validar si el encabezado es nulo o vacío (depende de tu lógica de manejo de errores)
+        if (authHeader == null || authHeader.isEmpty()) {
+            // Manejo de error o lanzamiento de excepción si el encabezado no está presente
+            throw new RuntimeException("No se encontró el encabezado Authorization");
+        }
+
+        // Crear y configurar los encabezados HTTP con el token de autorización
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Realizar la llamada al microservicio de clientes por empresa
+        ResponseEntity<List<ClienteEntity>> clienteResponse = restTemplate.exchange(
+                "http://localhost:8080/cliente/empresa/" + empresa,
                 HttpMethod.GET,
-                null,
+                entity,
                 new ParameterizedTypeReference<List<ClienteEntity>>() {}
-        ).getBody();
+        );
 
-        if(response == null){
+        // Obtener la respuesta del cliente
+        List<ClienteEntity> clientes = clienteResponse.getBody();
+
+        if (clientes == null) {
             return new ArrayList<>();
         }
 
+        // Buscar órdenes de compra para cada cliente encontrado por empresa
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = new ArrayList<>();
-
-        for (ClienteEntity dato:response){
-            ordenesDeCompraClienteEntities.addAll(findByIdCliente(dato.getRut()));
+        for (ClienteEntity cliente : clientes) {
+            ordenesDeCompraClienteEntities.addAll(findByIdCliente(cliente.getRut()));
         }
-
-        System.out.println(ordenesDeCompraClienteEntities);
-
 
         return ordenesDeCompraClienteEntities;
     }

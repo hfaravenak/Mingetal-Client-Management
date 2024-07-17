@@ -13,9 +13,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -90,21 +95,43 @@ public class ProductosService {
     @Generated
     @Transactional(readOnly = true)
     public List<ProductosEntity> findByOCCliente(int id) {
-        List<ListaProductosOCClienteEntity> response = restTemplate.exchange(
+        // Obtener el encabezado Authorization del contexto de la solicitud HTTP
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+
+        // Validar si el encabezado es nulo o vacío (depende de tu lógica de manejo de errores)
+        if (authHeader == null || authHeader.isEmpty()) {
+            // Manejo de error o lanzamiento de excepción si el encabezado no está presente
+            throw new RuntimeException("No se encontró el encabezado Authorization");
+        }
+
+        // Crear y configurar los encabezados HTTP con el token de autorización
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Realizar la llamada al microservicio de órdenes de compra cliente para obtener los productos
+        ResponseEntity<List<ListaProductosOCClienteEntity>> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/cliente/productos/" + id,
                 HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<ListaProductosOCClienteEntity>>() {
-                }
-        ).getBody();
-        if (response == null) {
+                entity,
+                new ParameterizedTypeReference<List<ListaProductosOCClienteEntity>>() {}
+        );
+
+        // Obtener la lista de productos desde la respuesta
+        List<ListaProductosOCClienteEntity> productosOCClienteEntities = response.getBody();
+
+        if (productosOCClienteEntities == null) {
             return new ArrayList<>();
         }
 
+        // Construir la lista de entidades de productos a partir de los IDs obtenidos
         List<ProductosEntity> productosEntities = new ArrayList<>();
-
-        for (ListaProductosOCClienteEntity listaProductosOCClienteEntity : response) {
-            productosEntities.add(findById(listaProductosOCClienteEntity.getId_producto()));
+        for (ListaProductosOCClienteEntity listaProductosOCClienteEntity : productosOCClienteEntities) {
+            ProductosEntity producto = findById(listaProductosOCClienteEntity.getId_producto());
+            if (producto != null) {
+                productosEntities.add(producto);
+            }
         }
 
         return productosEntities;
@@ -112,21 +139,31 @@ public class ProductosService {
     @Generated
     @Transactional(readOnly = true)
     public List<ProductosEntity> findByOCProveedor(int id) {
-        List<ListaProductosOCProveedorEntity> response = restTemplate.exchange(
+        // Obtener el encabezado Authorization de la solicitud actual
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+
+        // Configurar el encabezado en la solicitud HTTP saliente
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Realizar la solicitud HTTP usando RestTemplate con el encabezado configurado
+        ResponseEntity<List<ListaProductosOCProveedorEntity>> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/proveedor/productos/" + id,
                 HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<ListaProductosOCProveedorEntity>>() {
-                }
-        ).getBody();
+                entity,
+                new ParameterizedTypeReference<List<ListaProductosOCProveedorEntity>>() {}
+        );
 
-        if (response == null) {
+        List<ListaProductosOCProveedorEntity> productosOCProveedorEntities = response.getBody();
+        if (productosOCProveedorEntities == null) {
             return new ArrayList<>();
         }
 
         List<ProductosEntity> productosEntities = new ArrayList<>();
 
-        for (ListaProductosOCProveedorEntity listaProductosOCProveedorEntity : response) {
+        for (ListaProductosOCProveedorEntity listaProductosOCProveedorEntity : productosOCProveedorEntities) {
             productosEntities.add(findById(listaProductosOCProveedorEntity.getId_producto()));
         }
 
@@ -136,22 +173,31 @@ public class ProductosService {
     @Generated
     @Transactional(readOnly = true)
     public List<ProductosEntity> findByCotizacion(int id) {
-        System.out.println("id: " + id);
-        List<ListaProductosCotizacionEntity> response = restTemplate.exchange(
+        // Obtener el encabezado Authorization de la solicitud actual
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+
+        // Configurar el encabezado en la solicitud HTTP saliente
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Realizar la solicitud HTTP usando RestTemplate con el encabezado configurado
+        ResponseEntity<List<ListaProductosCotizacionEntity>> response = restTemplate.exchange(
                 "http://localhost:8080/cliente/cotizacion/productos/" + id,
                 HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<ListaProductosCotizacionEntity>>() {
-                }
-        ).getBody();
+                entity,
+                new ParameterizedTypeReference<List<ListaProductosCotizacionEntity>>() {}
+        );
 
-        if (response == null) {
+        List<ListaProductosCotizacionEntity> productosCotizacionEntities = response.getBody();
+        if (productosCotizacionEntities == null) {
             return new ArrayList<>();
         }
 
         List<ProductosEntity> productosEntities = new ArrayList<>();
 
-        for (ListaProductosCotizacionEntity listaProductosCotizacionEntity : response) {
+        for (ListaProductosCotizacionEntity listaProductosCotizacionEntity : productosCotizacionEntities) {
             productosEntities.add(findById(listaProductosCotizacionEntity.getId_producto()));
         }
 

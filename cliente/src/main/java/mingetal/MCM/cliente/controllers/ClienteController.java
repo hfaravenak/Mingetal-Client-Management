@@ -2,7 +2,9 @@ package mingetal.MCM.cliente.controllers;
 
 import mingetal.MCM.cliente.entities.ClienteEntity;
 import mingetal.MCM.cliente.services.ClienteService;
+import org.apache.catalina.core.AsyncContextImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -91,8 +93,9 @@ public class ClienteController {
     }
 
     @GetMapping("/ranking")
-    public ResponseEntity<List<List<Object>>> getRanking(){
-        List<List<Object>> ranking  = clienteService.getRankingCliente();
+    public ResponseEntity<List<List<Object>>> getRanking(@RequestHeader("Authorization") String authHeader){
+
+        List<List<Object>> ranking  = clienteService.getRankingCliente(authHeader);
         System.out.println(ranking);
         return ResponseEntity.ok(ranking);
     }

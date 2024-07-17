@@ -12,7 +12,20 @@ public class RouteValidator {
     public static final List<String> openApiEndpoints = List.of(
             "/user/register",
             "/user/token",
-            "/eureka",
+            "/eureka"
+
+            /*"cliente/ranking",
+            "/ordenes_de_compra/proveedor/productos",
+            "/ordenes_de_compra/cliente/productos",
+            "/ordenes_de_compra/cliente/nombre",
+            "/ordenes_de_compra/cliente/empresa",
+            "/ordenes_de_compra/proveedor/nombre",
+            "/ordenes_de_compra/proveedor/rubro",
+            "/ordenes_de_compra/proveedor/empresa",
+            "/productos/OCCliente",
+            "/productos/OCProveedor",
+            "/productos/cotizacion",
+            "/proveedor/listOC/",
             "/proveedor/nombre",
             "/proveedor/rubro",
             "/proveedor/empresa",
@@ -20,11 +33,9 @@ public class RouteValidator {
             "/cliente/empresa",
             "/productos",
             "/ordenes_de_compra/proveedor",
-            "/ordenes_de_compra/cliente/productos",
-            "/ordenes_de_compra/proveedor/productos",
             "/cliente/cotizacion/productos",
             "/cliente/cotizacion/productos",
-            "/cliente"
+            "/cliente"*/
 
     );
 

@@ -3,6 +3,19 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const AuthContext = createContext();
 
+axios.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
 const AuthProvider = ({ children }) => {
   // State to hold the authentication token
   const [token, setToken_] = useState(localStorage.getItem("token"));
@@ -10,15 +23,18 @@ const AuthProvider = ({ children }) => {
   // Function to set the authentication token
   const setToken = (newToken) => {
     setToken_(newToken);
+    if (newToken) {
+      localStorage.setItem('token', newToken);
+    } else {
+      localStorage.removeItem('token');
+    }
   };
 
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      localStorage.setItem('token',token);
     } else {
       delete axios.defaults.headers.common["Authorization"];
-      localStorage.removeItem('token')
     }
   }, [token]);
 

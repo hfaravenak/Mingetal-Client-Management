@@ -6,9 +6,14 @@ import mingetal.MCM.proveedor.model.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.proveedor.repositories.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,19 +43,30 @@ public class ProveedorService {
     public List<ProveedorEntity> findAll() {
         return proveedorRepository.findAll();
     }
-    public List<ProveedorEntity> findByListOC(){
-        List<OrdenesDeCompraProveedorEntity> response = restTemplate.exchange(
+    public List<ProveedorEntity> findByListOC() {
+        // Obtener el encabezado Authorization de la solicitud actual
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+
+        // Configurar el encabezado en la solicitud HTTP saliente
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Realizar la solicitud HTTP usando RestTemplate con el encabezado configurado
+        ResponseEntity<List<OrdenesDeCompraProveedorEntity>> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/proveedor/",
                 HttpMethod.GET,
-                null,
+                entity,
                 new ParameterizedTypeReference<List<OrdenesDeCompraProveedorEntity>>() {}
-        ).getBody();
+        );
 
+        List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = response.getBody();
         List<ProveedorEntity> proveedorEntities = new ArrayList<>();
 
-        if(response != null){
-            for (OrdenesDeCompraProveedorEntity OC: response) {
-                proveedorEntities.add(findById(OC.getId_proveedor()));
+        if (ordenesDeCompraProveedorEntities != null) {
+            for (OrdenesDeCompraProveedorEntity ocProveedor : ordenesDeCompraProveedorEntities) {
+                proveedorEntities.add(findById(ocProveedor.getId_proveedor()));
             }
         }
 

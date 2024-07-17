@@ -13,11 +13,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.xmlbeans.xml.stream.Space;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.client.RestTemplate;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -35,6 +40,8 @@ public class ArchiveService {
     ListaProductosOCProveedorService listaProductosOCProveedorService;
     @Autowired
     RestTemplate restTemplate;
+    @Autowired
+    private HttpServletRequest request;
 
     @Generated
     public ClienteEntity buscarCliente(List<ClienteEntity> clientes, String rut){
@@ -242,24 +249,29 @@ public class ArchiveService {
 
 
     @Generated
-    public ByteArrayInputStream generateExcelVentas() throws IOException {
+    public ByteArrayInputStream generateExcelVentas(@RequestHeader("Authorization") String authHeader) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entityHeader = new HttpEntity(headers);
         String[] columns = {"ID", "Empresa", "Venta Neta", "Ganancia", "Fecha", "Productos"};
 
         List<OrdenesDeCompraClienteEntity> OCClientes = ordenesDeCompraClienteService.findPagado();
-        List<ClienteEntity> Clientes = restTemplate.exchange(
+        ResponseEntity<List<ClienteEntity>> responseClientes = restTemplate.exchange(
                 "http://localhost:8080/cliente/",
                 HttpMethod.GET,
-                null,
+                entityHeader,
                 new ParameterizedTypeReference<List<ClienteEntity>>() {}
-        ).getBody();
+        );
+        List<ClienteEntity> Clientes = responseClientes.getBody();
         assert Clientes != null;
-        List<ProductosEntity> Productos = restTemplate.exchange(
+        ResponseEntity<List<ProductosEntity>> responseProductos = restTemplate.exchange(
                 "http://localhost:8080/productos/",
                 HttpMethod.GET,
-                null,
+                entityHeader,
                 new ParameterizedTypeReference<List<ProductosEntity>>() {}
-        ).getBody();
+        );
 
+        List<ProductosEntity> Productos = responseProductos.getBody();
         assert Productos != null;
 
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
@@ -422,36 +434,44 @@ public class ArchiveService {
 
     @Generated
     public ByteArrayInputStream generateExcelProductosEstadisticas() throws IOException {
+        // Obtener el encabezado Authorization
+        String authHeader = request.getHeader("Authorization");
+
+        // Crear y configurar los encabezados HTTP
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Definir columnas para el Excel
         String[] columns = {"Producto", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", "Total"};
 
+        // Obtener productos del microservicio de productos
         List<ProductosEntity> productos = restTemplate.exchange(
                 "http://localhost:8080/productos/",
                 HttpMethod.GET,
-                null,
+                entity,
                 new ParameterizedTypeReference<List<ProductosEntity>>() {}
         ).getBody();
 
         assert productos != null;
 
+        // Obtener ventas de productos por año y mes
         List<Object[]> ventaProductos = ordenesDeCompraClienteService.getProductByYearAndMonth();
 
+        // Crear conjunto de IDs únicos de productos
         Set<Integer> idsUnicos = new HashSet<>();
         for (ProductosEntity producto : productos) {
             idsUnicos.add(producto.getId());
         }
 
-        // Recopilar todos los años y meses únicos presentes en los datos
-        // Mapa para almacenar las ventas organizadas por año, mes e ID de producto
+        // Organizar datos por año, mes e ID de producto
         Map<Integer, Map<Integer, Map<Integer, Integer>>> datosOrganizados = new TreeMap<>(Collections.reverseOrder());
-
-        // Recorrer las ventas y organizarlas por año, mes e ID de producto
         for (Object[] elemento : ventaProductos) {
             int id = ((Number) elemento[0]).intValue();
             int cantidad = ((Number) elemento[1]).intValue();
             int mes = ((Number) elemento[2]).intValue();
             int anio = ((Number) elemento[3]).intValue();
 
-            // Asegurar que el ID esté presente en el conjunto de IDs únicos
             if (idsUnicos.contains(id)) {
                 datosOrganizados.putIfAbsent(anio, new HashMap<>());
                 datosOrganizados.get(anio).putIfAbsent(id, new HashMap<>());
@@ -459,7 +479,6 @@ public class ArchiveService {
             }
         }
 
-        // Asegurar que cada ID tenga entradas para todos los años y meses con valores iniciales de 0
         for (int anio : datosOrganizados.keySet()) {
             for (int id : idsUnicos) {
                 datosOrganizados.get(anio).putIfAbsent(id, new HashMap<>());
@@ -486,13 +505,14 @@ public class ArchiveService {
                 dataStyle.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
                 dataStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
-                CellStyle SpaceStyle = workbook.createCellStyle();
-                SpaceStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
-                SpaceStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                CellStyle spaceStyle = workbook.createCellStyle();
+                spaceStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+                spaceStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
                 Font totalFont = workbook.createFont();
                 totalFont.setColor(IndexedColors.WHITE.getIndex());
-                SpaceStyle.setFont(totalFont);
+                spaceStyle.setFont(totalFont);
+
                 // Cabecera
                 Row headerRow = sheet.createRow(0);
                 for (int i = 0; i < columns.length; i++) {
@@ -500,37 +520,38 @@ public class ArchiveService {
                     cell.setCellValue(columns[i]);
                     cell.setCellStyle(headerStyle);
                 }
+
                 int[] total = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 int rowNum = 1;
                 for (Map.Entry<Integer, Map<Integer, Integer>> idEntry : anioEntry.getValue().entrySet()) {
                     int id = idEntry.getKey();
                     Row row = sheet.createRow(rowNum++);
                     Cell cell = row.createCell(0);
-                    cell.setCellValue(productos.get(id-1).getNombre());
+                    cell.setCellValue(productos.get(id - 1).getNombre());
                     cell.setCellStyle(nameStyle);
                     int totalProducto = 0;
-                    for (Map.Entry<Integer, Integer> mesEntry : idEntry.getValue().entrySet()){
+                    for (Map.Entry<Integer, Integer> mesEntry : idEntry.getValue().entrySet()) {
                         int mes = mesEntry.getKey();
                         int cantidad = mesEntry.getValue();
-                        totalProducto+=cantidad;
-                        total[mes-1] += cantidad;
+                        totalProducto += cantidad;
+                        total[mes - 1] += cantidad;
                         cell = row.createCell(mes);
                         cell.setCellValue(cantidad);
                         cell.setCellStyle(dataStyle);
                     }
                     cell = row.createCell(13);
                     cell.setCellValue(totalProducto);
-                    cell.setCellStyle(SpaceStyle);
+                    cell.setCellStyle(spaceStyle);
                 }
 
                 int num = 0;
                 Row row = sheet.createRow(rowNum);
                 Cell cell = row.createCell(num++);
-                cell.setCellStyle(SpaceStyle);
-                for(int valor: total){
+                cell.setCellStyle(spaceStyle);
+                for (int valor : total) {
                     cell = row.createCell(num++);
                     cell.setCellValue(valor);
-                    cell.setCellStyle(SpaceStyle);
+                    cell.setCellStyle(spaceStyle);
                 }
 
                 for (int i = 0; i < columns.length; i++) {
@@ -539,10 +560,7 @@ public class ArchiveService {
             }
 
             workbook.write(out);
-
-
             return new ByteArrayInputStream(out.toByteArray());
-
         }
     }
 }

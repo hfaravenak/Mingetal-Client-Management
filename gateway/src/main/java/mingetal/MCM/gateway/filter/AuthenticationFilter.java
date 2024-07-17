@@ -7,6 +7,11 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static com.fasterxml.jackson.databind.cfg.CoercionInputShape.Array;
+
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
@@ -25,6 +30,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
+            if (isInternalRequest(exchange.getRequest().getRemoteAddress().getAddress().getHostAddress(), exchange.getRequest().getRemoteAddress().getPort())){
+                return chain.filter(exchange);
+            }
             if (validator.isSecured.test(exchange.getRequest())) {
                 //header contains token or not
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
@@ -36,8 +44,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     authHeader = authHeader.substring(7);
                 }
                 try {
-                    //REST call to AUTH service
-                    //template.getForObject("http://IDENTITY-SERVICE//validate?token" + authHeader, String.class);
                     jwtUtil.validateToken(authHeader);
 
                 } catch (Exception e) {
@@ -47,6 +53,13 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             }
             return chain.filter(exchange);
         });
+    }
+
+    private boolean isInternalRequest(String ipAdress, int port){
+        List<String> internalIps = Arrays.asList("127.0.0.1");
+        System.out.println("IP: " + ipAdress);
+        List<Integer> internalPorts = Arrays.asList(8082, 8083, 8084, 8085);
+        return internalIps.contains(ipAdress) && internalPorts.contains(port);
     }
 
     public static class Config {

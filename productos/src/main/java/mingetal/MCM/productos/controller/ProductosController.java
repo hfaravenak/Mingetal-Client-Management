@@ -99,8 +99,9 @@ public class ProductosController {
         return ResponseEntity.ok(productosService.findByNombreTextual(nombre));
     }
     @GetMapping("/OCCliente/{id}")
-    public ResponseEntity<List<ProductosEntity>>getProductosByOCCliente(@PathVariable("id") int id){
-        return ResponseEntity.ok(productosService.findByOCCliente(id));
+    public ResponseEntity<List<ProductosEntity>> getProductosByOCCliente(@PathVariable("id") int id) {
+        List<ProductosEntity> productosEntities = productosService.findByOCCliente(id);
+        return ResponseEntity.ok(productosEntities);
     }
     @GetMapping("/OCProveedor/{id}")
     public ResponseEntity<List<ProductosEntity>>getProductosByOCProveedor(@PathVariable("id") int id){

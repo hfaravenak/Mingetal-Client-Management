@@ -6,9 +6,14 @@ import mingetal.MCM.ordenesdecompra.model.ProveedorEntity;
 import mingetal.MCM.ordenesdecompra.repository.OrdenesDeCompraProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,66 +47,121 @@ public class OrdenesDeCompraProveedorService {
         return ordenesDeCompraProveedorRepository.findById(id);
     }
 
-    @Generated
-    public List<OrdenesDeCompraProveedorEntity> findByNameProveedor(String nombre){
+    public List<OrdenesDeCompraProveedorEntity> findByNameProveedor(String nombre) {
+        // Obtener el encabezado Authorization del contexto de la solicitud HTTP
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
 
-        List<ProveedorEntity> response = restTemplate.exchange(
-                "http://localhost:8080/proveedor/nombre/"+nombre,
+        // Validar si el encabezado es nulo o vacío (depende de tu lógica de manejo de errores)
+        if (authHeader == null || authHeader.isEmpty()) {
+            // Manejo de error o lanzamiento de excepción si el encabezado no está presente
+            throw new RuntimeException("No se encontró el encabezado Authorization");
+        }
+
+        // Crear y configurar los encabezados HTTP con el token de autorización
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Realizar la llamada al microservicio de proveedores por nombre
+        ResponseEntity<List<ProveedorEntity>> proveedorResponse = restTemplate.exchange(
+                "http://localhost:8080/proveedor/nombre/" + nombre,
                 HttpMethod.GET,
-                null,
+                entity,
                 new ParameterizedTypeReference<List<ProveedorEntity>>() {}
-        ).getBody();
+        );
 
-        if(response==null){
+        // Obtener la respuesta de proveedores
+        List<ProveedorEntity> proveedores = proveedorResponse.getBody();
+
+        if (proveedores == null) {
             return new ArrayList<>();
         }
 
+        // Buscar órdenes de compra para cada proveedor encontrado por nombre
         List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = new ArrayList<>();
-
-        for (ProveedorEntity proveedor:response) {
-            ordenesDeCompraProveedorEntities.addAll(findByIdProveedor(proveedor.getId_proveedor()));
-        }
-        return ordenesDeCompraProveedorEntities;
-    }
-
-    @Generated
-    public List<OrdenesDeCompraProveedorEntity> findByRubro(String rubro){
-
-        List<ProveedorEntity> response = restTemplate.exchange(
-                "http://localhost:8080/proveedor/rubro/"+rubro,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<ProveedorEntity>>() {}
-        ).getBody();
-
-        if(response==null){
-            return new ArrayList<>();
-        }
-
-        List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = new ArrayList<>();
-
-        for(ProveedorEntity proveedor:response){
+        for (ProveedorEntity proveedor : proveedores) {
             ordenesDeCompraProveedorEntities.addAll(findByIdProveedor(proveedor.getId_proveedor()));
         }
 
         return ordenesDeCompraProveedorEntities;
     }
 
-    @Generated
-    public List<OrdenesDeCompraProveedorEntity> findByEmpresa(String empresa){
+    public List<OrdenesDeCompraProveedorEntity> findByRubro(String rubro) {
+        // Obtener el encabezado Authorization del contexto de la solicitud HTTP
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
 
-        ProveedorEntity response = restTemplate.exchange(
-                "http://localhost:8080/proveedor/empresa/"+empresa,
+        // Validar si el encabezado es nulo o vacío (depende de tu lógica de manejo de errores)
+        if (authHeader == null || authHeader.isEmpty()) {
+            // Manejo de error o lanzamiento de excepción si el encabezado no está presente
+            throw new RuntimeException("No se encontró el encabezado Authorization");
+        }
+
+        // Crear y configurar los encabezados HTTP con el token de autorización
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Realizar la llamada al microservicio de proveedores por rubro
+        ResponseEntity<List<ProveedorEntity>> proveedorResponse = restTemplate.exchange(
+                "http://localhost:8080/proveedor/rubro/" + rubro,
                 HttpMethod.GET,
-                null,
+                entity,
+                new ParameterizedTypeReference<List<ProveedorEntity>>() {}
+        );
+
+        // Obtener la respuesta de proveedores
+        List<ProveedorEntity> proveedores = proveedorResponse.getBody();
+
+        if (proveedores == null) {
+            return new ArrayList<>();
+        }
+
+        // Buscar órdenes de compra para cada proveedor encontrado por rubro
+        List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = new ArrayList<>();
+        for (ProveedorEntity proveedor : proveedores) {
+            ordenesDeCompraProveedorEntities.addAll(findByIdProveedor(proveedor.getId_proveedor()));
+        }
+
+        return ordenesDeCompraProveedorEntities;
+    }
+
+    public List<OrdenesDeCompraProveedorEntity> findByEmpresa(String empresa) {
+        // Obtener el encabezado Authorization del contexto de la solicitud HTTP
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+
+        // Validar si el encabezado es nulo o vacío (depende de tu lógica de manejo de errores)
+        if (authHeader == null || authHeader.isEmpty()) {
+            // Manejo de error o lanzamiento de excepción si el encabezado no está presente
+            throw new RuntimeException("No se encontró el encabezado Authorization");
+        }
+
+        // Crear y configurar los encabezados HTTP con el token de autorización
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Realizar la llamada al microservicio de proveedor por empresa
+        ResponseEntity<ProveedorEntity> proveedorResponse = restTemplate.exchange(
+                "http://localhost:8080/proveedor/empresa/" + empresa,
+                HttpMethod.GET,
+                entity,
                 new ParameterizedTypeReference<ProveedorEntity>() {}
-        ).getBody();
+        );
 
-        if(response==null){
+        // Obtener la respuesta del proveedor
+        ProveedorEntity proveedor = proveedorResponse.getBody();
+
+        if (proveedor == null) {
             return new ArrayList<>();
         }
-        return findByIdProveedor(response.getId_proveedor());
+
+        // Buscar las órdenes de compra para el proveedor encontrado por empresa
+        return findByIdProveedor(proveedor.getId_proveedor());
     }
+
     public  List<OrdenesDeCompraProveedorEntity> findByIdProveedor(int id_proveedor){
         return ordenesDeCompraProveedorRepository.findByIdProveedor(id_proveedor);
     }

@@ -38,14 +38,14 @@ public class ListaProductosOCProveedorService {
         return listaProductosOCProveedorRepository.findByIdProveedor(id_OC_proveedor);
     }
 
-    public ProductosEntity findProductoByIdProducto(int id_producto){
+    /*public ProductosEntity findProductoByIdProducto(int id_producto){
         return restTemplate.exchange(
                 "http://localhost:8080/productos/"+id_producto,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<ProductosEntity>() {}
         ).getBody();
-    }
+    }*/
     public ListaProductosOCProveedorEntity delete(int id){
         ListaProductosOCProveedorEntity listaProductosOCProveedorEntity = findById(id);
         if(listaProductosOCProveedorEntity ==null){

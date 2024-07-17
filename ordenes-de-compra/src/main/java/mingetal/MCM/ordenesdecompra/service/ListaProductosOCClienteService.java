@@ -7,9 +7,13 @@ import mingetal.MCM.ordenesdecompra.repository.ListaProductosOCClienteRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +45,32 @@ public class ListaProductosOCClienteService {
         return  listaProductosOCClienteRepository.findByIdCliente(id_OC_cliente);
     }
 
-    public ProductosEntity findProductoByIdProducto(int id_producto){
-        return restTemplate.exchange(
-                "http://localhost:8080/productos/"+id_producto,
+    public ProductosEntity findProductoByIdProducto(int id_producto) {
+        // Obtener el encabezado Authorization del contexto de la solicitud HTTP
+        String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+
+        // Validar si el encabezado es nulo o vacío (depende de tu lógica de manejo de errores)
+        if (authHeader == null || authHeader.isEmpty()) {
+            // Manejo de error o lanzamiento de excepción si el encabezado no está presente
+            throw new RuntimeException("No se encontró el encabezado Authorization");
+        }
+
+        // Crear y configurar los encabezados HTTP con el token de autorización
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        // Realizar la llamada al microservicio de productos
+        ResponseEntity<ProductosEntity> response = restTemplate.exchange(
+                "http://localhost:8080/productos/" + id_producto,
                 HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<ProductosEntity>() {}
-        ).getBody();
+                entity,
+                ProductosEntity.class
+        );
+
+        // Obtener y retornar el cuerpo de la respuesta
+        return response.getBody();
     }
 
     public ListaProductosOCClienteEntity delete(int id){

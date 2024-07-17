@@ -6,7 +6,11 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -97,14 +101,18 @@ public class ClienteService {
 
 
 
-    public List<List<Object>> getRankingCliente() {
+    public List<List<Object>> getRankingCliente(@RequestHeader("Authorization") String authHeader){
         // Llamar al microservicio de órdenes de compra para obtener el ranking
-        List<List<Object>> ranking = restTemplate.exchange(
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity(headers);
+        ResponseEntity<List<List<Object>>> response = restTemplate.exchange(
                 "http://localhost:8080/ordenes_de_compra/cliente/clientsbyyear",
                 HttpMethod.GET,
-                null,
+                entity,
                 new ParameterizedTypeReference<List<List<Object>>>() {}
-        ).getBody();
+        );
+        List<List<Object>> ranking = response.getBody();
         if (ranking == null) {
             return new ArrayList<>();
         }

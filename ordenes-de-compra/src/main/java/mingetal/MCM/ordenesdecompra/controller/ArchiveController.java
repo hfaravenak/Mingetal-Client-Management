@@ -7,9 +7,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
@@ -35,10 +37,10 @@ public class ArchiveController {
     }
 
     @GetMapping("/download/excel/ventas")
-    public ResponseEntity<InputStreamResource> downloadExcelVentas() throws IOException {
+    public ResponseEntity<InputStreamResource> downloadExcelVentas(@RequestHeader("Authorization") String authHeader) throws IOException {
         // Aquí obtén la lista de entidades desde tu base de datos o cualquier otra fuente
 
-        ByteArrayInputStream in = archiveService.generateExcelVentas();
+        ByteArrayInputStream in = archiveService.generateExcelVentas(authHeader);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=Ventas.xlsx");
 
@@ -65,13 +67,15 @@ public class ArchiveController {
     }
 
     @GetMapping("/download/excel/productos/estadistica")
-    public ResponseEntity<InputStreamResource> downloadExcelProductosEstadistica() throws IOException {
-        // Aquí obtén la lista de entidades desde tu base de datos o cualquier otra fuente
-
+    public ResponseEntity<InputStreamResource> downloadExcelProductosEstadistica(HttpServletRequest request) throws IOException {
+        // Obtener el archivo Excel generado
         ByteArrayInputStream in = archiveService.generateExcelProductosEstadisticas();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=Estadistica Productos.xlsx");
 
+        // Configurar los encabezados de la respuesta
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=Estadistica_Productos.xlsx");
+
+        // Retornar la respuesta con el archivo adjunto
         return ResponseEntity
                 .ok()
                 .headers(headers)

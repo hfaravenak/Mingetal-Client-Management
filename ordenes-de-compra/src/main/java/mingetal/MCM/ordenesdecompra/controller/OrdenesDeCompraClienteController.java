@@ -47,10 +47,11 @@ public class OrdenesDeCompraClienteController {
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);
     }
     @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOCClienteByNombreCliente(@PathVariable("nombre") String nombre){
+    public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOCClienteByNombreCliente(@PathVariable("nombre") String nombre) {
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByNameCliente(nombre);
         return ResponseEntity.ok(ordenesDeCompraClienteEntities);
     }
+
     @GetMapping("/empresa/{empresa}")
     public ResponseEntity<List<OrdenesDeCompraClienteEntity>> getOCClienteByEmpresaCliente(@PathVariable("empresa") String empresa){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteService.findByEmpresaCliente(empresa);
