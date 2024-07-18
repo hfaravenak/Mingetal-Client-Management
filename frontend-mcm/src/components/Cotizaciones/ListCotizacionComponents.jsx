@@ -22,6 +22,7 @@ function ListCotizacionComponent() {
       return `${day}-${month}-${year}`;
    };
 
+
    const navigate = useNavigate();
 
    const initialState = {
@@ -35,7 +36,6 @@ function ListCotizacionComponent() {
 
    const [CotizacionEntity, setCotizacionEntity] = useState([]);
    const [ClienteEntity, setClienteEntity] = useState([]);
-   const [filtered, setFiltered] = useState(false); // Nuevo estado para controlar si la tabla está filtrada
 
    useEffect(() => {
       CotizacionService.getCotizaciones().then((res) => {
@@ -54,29 +54,21 @@ function ListCotizacionComponent() {
    const buscarPedido = () => {
       CotizacionService.getCotizacionByPedido(input.pedido).then((res) => {
          setCotizacionEntity(res.data);
-         setFiltered(true);
-         setInput({ ...input, pedido: "" });
       });
    };
    const buscarEstado = () => {
       CotizacionService.getCotizacionByEstado(input.estado).then((res) => {
          setCotizacionEntity(res.data);
-         setFiltered(true);
-         setInput({ ...input, estado: "" });
       });
    };
    const buscarFecha = () => {
       CotizacionService.getCotizacionByFecha(input.fecha).then((res) => {
          setCotizacionEntity(res.data);
-         setFiltered(true);
-         setInput({ ...input, fecha: "" });
       });
    };
    const buscarRutCliente = () => {
       CotizacionService.getCotizacionByRutCliente(input.rutCliente).then((res) => {
          setCotizacionEntity(res.data);
-         setFiltered(true);
-         setInput({ ...input, rutCliente: "" });
       });
    };
 
@@ -85,11 +77,11 @@ function ListCotizacionComponent() {
       if (clienteEncontrado) {
          CotizacionService.getCotizacionByRutCliente(clienteEncontrado.rut).then((res) => {
             setCotizacionEntity(res.data);
-            setFiltered(true);
-            setInput({ ...input, nombre: "" });
          });
       }
    };
+
+
 
    const handleKeyPressPedido = (event) => {
       if (event.key === "Enter") {
@@ -146,7 +138,6 @@ function ListCotizacionComponent() {
    const mostrarTodasCotizaciones = () => {
       CotizacionService.getCotizaciones().then((res) => {
          setCotizacionEntity(res.data);
-         setFiltered(false);
       });
    };
 
@@ -169,6 +160,11 @@ function ListCotizacionComponent() {
 
    const regresar = () => {
       navigate(`/main`);
+   };
+
+   const limpiarCamposFiltros = () => {
+      setInput(initialState);
+      mostrarTodasCotizaciones();
    };
 
    return (
@@ -254,6 +250,9 @@ function ListCotizacionComponent() {
                            Buscar por Rut de Cliente
                         </Button>
                      </Form>
+                     <Button className="boton-atras" onClick={limpiarCamposFiltros}>
+                        Quitar Filtros
+                     </Button>
                   </div>
                </div>
                <div align="center" className="container-2">
@@ -299,11 +298,6 @@ function ListCotizacionComponent() {
                         ))}
                      </tbody>
                   </table>
-                  {filtered && (
-                     <Button className="boton-atras" onClick={mostrarTodasCotizaciones}>
-                        Atrás
-                     </Button>
-                  )}
                </div>
             </div>
          </NavStyle>

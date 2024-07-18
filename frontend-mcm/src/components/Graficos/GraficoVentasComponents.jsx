@@ -17,7 +17,12 @@ function GraficoVentasComponents() {
       ventasService
          .getVentasByMonth()
          .then((response) => {
-            setVentasData(response.data);
+            const sortedData = response.data.sort((a, b) => {
+               const dateA = new Date(a[3], a[2] - 1); // Año y mes de a
+               const dateB = new Date(b[3], b[2] - 1); // Año y mes de b
+               return dateA - dateB;
+            });
+            setVentasData(sortedData);
          })
          .catch((error) => {
             console.error("Error fetching sales data", error);

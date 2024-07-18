@@ -18,7 +18,12 @@ function GraficoOOCProveedoresComponents() {
       ordenesDeCompraProveedorService
          .getPurchasesByYearAndMonth()
          .then((response) => {
-            setComprasData(response.data);
+            const sortedData = response.data.sort((a, b) => {
+               const dateA = new Date(a[3], a[2] - 1); // Año y mes de a
+               const dateB = new Date(b[3], b[2] - 1); // Año y mes de b
+               return dateA - dateB;
+            });
+            setComprasData(sortedData);
          })
          .catch((error) => {
             console.error("Error fetching purchase data", error);
