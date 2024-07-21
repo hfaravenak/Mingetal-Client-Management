@@ -33,7 +33,7 @@ import ListProductosComponents from "../Productos/ListProductosComponents";
 import ProductoComponents from "../Productos/ProductoComponents";
 import ProductoCrearComponents from "../Productos/ProductoCrearComponents";
 
-import MainEstadisticaComponents from "../Graficos/MainGraficosComponents";
+import MainEstadisticaComponents from "../Estadisticas/MainEstadisticaComponents";
 import EstadisticaGeneralesComponents from "../Estadisticas/EstadisticaGeneralesComponents";
 import EstadisticaProductosComponents from "../Estadisticas/EstadisticaProductosComponents";
 
