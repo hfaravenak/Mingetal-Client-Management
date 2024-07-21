@@ -2,6 +2,7 @@ package mingetal.MCM.Login.controllers;
 
 import mingetal.MCM.Login.dto.AuthRequest;
 import mingetal.MCM.Login.entities.UsuarioEntity;
+import mingetal.MCM.Login.repositories.UsuarioRepository;
 import mingetal.MCM.Login.services.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,6 +23,11 @@ public class LoginController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public String addNewUser(@RequestBody UsuarioEntity usuario) {
@@ -46,26 +53,57 @@ public class LoginController {
 
 
     @GetMapping("/recuperar-contrasenia")
-    public String recuperarContrasenia(@RequestParam String correo) {
-        String code = usuarioService.generateNumericCode();
-        String text = "Se ha solicitado un cambio de contraseña para tu cuenta de Mingetal Client Management.\n"
-                + "Tu código es: " + code;
-        usuarioService.sendEmail(correo, text);
-        return "Email sent successfully";
-    }
-
-    @PostMapping("/codigo-reestablecimiento")
-    public ResponseEntity<String> codigoReestablecimiento(@RequestParam String correo, @RequestParam String codigoReestablecimiento) {
+    public ResponseEntity<String> recuperarContrasenia(@RequestParam String correo) {
         try {
-            if (usuarioService.compareCode(correo, codigoReestablecimiento)) {
-                return ResponseEntity.ok("El codigo es correcto");
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El codigo es incorrecto");
-            }
+            String code = usuarioService.generateNumericCode();
+            usuarioService.setCode(correo, code);
+            String text = "Se ha solicitado un cambio de contraseña para tu cuenta de Mingetal Client Management.\n"
+                    + "Tu código es: " + code;
+            usuarioService.sendEmail(correo, text);
+            return ResponseEntity.ok("Email sent successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al ingresar el codigo: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al enviar el correo: " + e.getMessage());
         }
     }
 
+    @GetMapping("/codigo-reestablecimiento")
+    public ResponseEntity<String> codigoReestablecimiento(@RequestParam String correo, @RequestParam String codigoReestablecimiento) {
+        try {
+            UsuarioEntity usuario = usuarioRepository.findByCorreo(correo);
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
+            }
+            if (usuario.getCodigo_cambio_contrasenia().equals(codigoReestablecimiento)) {
+                usuario.setCodigo_cambio_contrasenia(null);
+                usuarioRepository.save(usuario);
+                return ResponseEntity.ok("El código es correcto");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El código es incorrecto");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al verificar el código: " + e.getMessage());
+        }
+    }
 
+    @GetMapping("/cambio-contrasenia")
+    public ResponseEntity<String> cambioContraseña(@RequestParam String correo, @RequestParam String nuevaContrasenia) {
+        try {
+            UsuarioEntity usuario = usuarioRepository.findByCorreo(correo);
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
+            } else if (usuario != null) {
+                nuevaContrasenia = passwordEncoder.encode(nuevaContrasenia);
+                usuario.setPassword(nuevaContrasenia);
+                usuarioRepository.save(usuario);
+                return ResponseEntity.ok("Cambio de contraseña exitoso");
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No se puede realizar el cambio de contraseña, intente nuevamente");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al cambiar la contraseña: " + e.getMessage());
+        }
+    }
 }
