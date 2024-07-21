@@ -112,10 +112,10 @@ function GraficoOOCProveedoresComponents() {
                <h2>Estadísticas de OC de Proveedores</h2>
                <div className="charts">
                   <div className="chart">
-                     <Line data={prepareMontosChartData()} options={options} />
+                     <Line data={prepareMontosChartData()} options={options} width={800} height={400} />
                   </div>
                   <div className="chart">
-                     <Line data={prepareCantidadesChartData()} options={options} />
+                     <Line data={prepareCantidadesChartData()} options={options} width={800} height={400} />
                   </div>
                </div>
             </div>
@@ -160,8 +160,8 @@ const NavStyle = styled.nav`
       width: 100%;
    }
    .chart {
-      width: 90%;
-      max-width: 800px;
+      width: 100%;
+      max-width: 1000px;
       margin: 20px 0;
    }
 `;

@@ -83,23 +83,16 @@ function GraficoVentasComponents() {
 
    const options = {
       scales: {
-         yAxes: [
-            {
-               id: "y-axis-1",
-               type: "linear",
-               position: "left",
-            },
-            {
-               id: "y-axis-2",
-               type: "linear",
-               position: "right",
-            },
-         ],
+         y: {
+            beginAtZero: true,
+         },
       },
    };
+
    const regresar = () => {
       navigate(`/grafico`);
    };
+
    return (
       <div>
          <NavStyle>
@@ -111,10 +104,10 @@ function GraficoVentasComponents() {
                <h2>Ventas Históricas</h2>
                <div className="charts">
                   <div className="chart">
-                     <Line data={prepareMontosChartData()} options={options} />
+                     <Line data={prepareMontosChartData()} options={options} width={800} height={400} />
                   </div>
                   <div className="chart">
-                     <Line data={prepareCantidadesChartData()} options={options} />
+                     <Line data={prepareCantidadesChartData()} options={options} width={800} height={400} />
                   </div>
                </div>
             </div>
@@ -140,6 +133,7 @@ const NavStyle = styled.nav`
    }
    .container_main {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
@@ -159,8 +153,8 @@ const NavStyle = styled.nav`
       width: 100%;
    }
    .chart {
-      width: 90%;
-      max-width: 800px;
+      width: 100%; /* Asegurar que el contenedor del gráfico ocupe el 100% del espacio disponible */
+      max-width: 1000px; /* Tamaño máximo de los gráficos */
       margin: 20px 0;
    }
 `;
