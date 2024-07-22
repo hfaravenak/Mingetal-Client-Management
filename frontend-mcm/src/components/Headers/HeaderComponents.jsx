@@ -8,6 +8,12 @@ function HeaderComponents() {
    const handleClick = () => {
       navigate("/main");
    };
+
+   const handleLogout = () => {
+      localStorage.removeItem("token");
+      navigate("/");
+   };
+
    return (
       <div>
          <NavStyle>
@@ -101,7 +107,7 @@ function HeaderComponents() {
                   </div>
                </div>
                <div className="header_der">
-                  <a className="btn" href="/">
+                  <a className="btn" onClick={handleLogout}>
                      Cerrar Sesión
                   </a>
                </div>
