@@ -105,6 +105,16 @@ function HeaderComponents() {
                         Ventas
                      </a>
                   </div>
+                  <div className="dropdown">
+                     <a className="btn" href="/cotizaciones">
+                        Cotizaciones
+                     </a>
+                     <div className="dropdown-menu">
+                        <a className="dropdown-item" href="/crear-cotizacion">
+                           Crear Cotizacion
+                        </a>
+                     </div>
+                  </div>
                </div>
                <div className="header_der">
                   <button className="btn-button" onClick={handleLogout}>
