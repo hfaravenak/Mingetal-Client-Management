@@ -170,7 +170,7 @@ function ListProductosComponents() {
                               <td>{producto.nombre}</td>
                               <td>{producto.valor}</td>
                               <td>{producto.valor_final}</td>
-                              <td>{producto.cantidad}</td>
+                              <td style={producto.cantidad < 5 ? {background: "#920000", color: "white"}: producto.cantidad < 10 ? {background: "#E28247"}:{}}>{producto.cantidad}</td>
                               <td style={{ textAlign: "center", verticalAlign: "middle", width: "1%" }}>
                                  <img id="editar" src={editar} alt="editar" onClick={() => ChangeViendoProducto(producto)} />
                               </td>
