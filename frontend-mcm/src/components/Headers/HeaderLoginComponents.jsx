@@ -1,15 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../images/logo.jpg";
 import styled from "styled-components";
 
 function HeaderLoginComponents() {
-
+   const navigate = useNavigate();
+   const handleClick = () => {
+      navigate("/");
+   };
    return (
       <div>
          <NavStyle>
             <header className="header">
                <div className="header_izq">
-                  <div className="logo">
+                  <div className="logo" onClick={handleClick}>
                      <img style={{ width: "100px" }} id="Logo" src={Logo} alt="Logo" />
                   </div>                
                </div>

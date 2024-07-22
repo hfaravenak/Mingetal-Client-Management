@@ -22,5 +22,6 @@ public class UsuarioEntity {
     private String correo;
     private boolean bloqueado;
     private String codigo_cambio_contrasenia;
+    private boolean cambiando;
 
 }

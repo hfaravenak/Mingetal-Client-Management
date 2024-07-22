@@ -45,6 +45,11 @@ public class LoginController {
         }
     }
 
+    @GetMapping("/{correo}")
+    public UsuarioEntity getUser(@PathVariable String correo) {
+        return usuarioRepository.findByCorreo(correo);
+    }
+
     @GetMapping("/validate")
     public String validateToken(@RequestParam("token") String token) {
         usuarioService.validateToken(token);
@@ -52,7 +57,7 @@ public class LoginController {
     }
 
 
-    @GetMapping("/recuperar-contrasenia")
+    @PostMapping("/recuperar-contrasenia")
     public ResponseEntity<String> recuperarContrasenia(@RequestParam String correo) {
         try {
             String code = usuarioService.generateNumericCode();
@@ -62,12 +67,12 @@ public class LoginController {
             usuarioService.sendEmail(correo, text);
             return ResponseEntity.ok("Email sent successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error al enviar el correo: " + e.getMessage());
         }
     }
 
-    @GetMapping("/codigo-reestablecimiento")
+    @PostMapping("/codigo-reestablecimiento")
     public ResponseEntity<String> codigoReestablecimiento(@RequestParam String correo, @RequestParam String codigoReestablecimiento) {
         try {
             UsuarioEntity usuario = usuarioRepository.findByCorreo(correo);
@@ -76,6 +81,7 @@ public class LoginController {
             }
             if (usuario.getCodigo_cambio_contrasenia().equals(codigoReestablecimiento)) {
                 usuario.setCodigo_cambio_contrasenia(null);
+                usuario.setCambiando(true);
                 usuarioRepository.save(usuario);
                 return ResponseEntity.ok("El código es correcto");
             } else {
@@ -87,23 +93,39 @@ public class LoginController {
         }
     }
 
-    @GetMapping("/cambio-contrasenia")
+    @PostMapping("/cambio-contrasenia")
     public ResponseEntity<String> cambioContraseña(@RequestParam String correo, @RequestParam String nuevaContrasenia) {
         try {
             UsuarioEntity usuario = usuarioRepository.findByCorreo(correo);
             if (usuario == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
-            } else if (usuario != null) {
+            } else {
                 nuevaContrasenia = passwordEncoder.encode(nuevaContrasenia);
                 usuario.setPassword(nuevaContrasenia);
+                usuario.setCambiando(false);
                 usuarioRepository.save(usuario);
                 return ResponseEntity.ok("Cambio de contraseña exitoso");
-            } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No se puede realizar el cambio de contraseña, intente nuevamente");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al cambiar la contraseña: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/cambio-contrasenia/cancelar")
+    public ResponseEntity<String> cambioContraseñaCancelar(@RequestParam String correo) {
+        try {
+            UsuarioEntity usuario = usuarioRepository.findByCorreo(correo);
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
+            } else {
+                usuario.setCambiando(false);
+                usuarioRepository.save(usuario);
+                return ResponseEntity.ok("Cancelado correctamente");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al cancelar la contraseña: " + e.getMessage());
         }
     }
 }
