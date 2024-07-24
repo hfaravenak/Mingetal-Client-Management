@@ -25,7 +25,7 @@ public class AuthConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
-                .authorizeRequests().antMatchers("/user/register", "/user/token", "/user/validate","/user/recuperar-contrasenia", "user/codigo-reestablecimiento").permitAll()
+                .authorizeRequests().antMatchers("/user/{correo}","/user/register", "/user/token", "/user/validate","/user/recuperar-contrasenia", "/user/codigo-reestablecimiento", "/user/cambio-contrasenia", "/user/cambio-contrasenia/cancelar").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .build();

@@ -16,16 +16,16 @@ spring:
     username: postgres
     password: postgres
   mail:
-    host: smtp.office365.com
-    port: 587
-    username: mingetaldev@outlook.com
-    password: mingetal#2024
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+      host: smtp.office365.com
+      port: 587
+      username: mingetaldev@outlook.com
+      password: mingetal#2024
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
 
   cloud:
     config:

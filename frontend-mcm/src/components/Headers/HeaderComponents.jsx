@@ -8,6 +8,12 @@ function HeaderComponents() {
    const handleClick = () => {
       navigate("/main");
    };
+
+   const handleLogout = () => {
+      localStorage.removeItem("token");
+      navigate("/");
+   };
+
    return (
       <div>
          <NavStyle>
@@ -87,7 +93,7 @@ function HeaderComponents() {
                            Comparativo de Montos
                         </a>
                         <a className="dropdown-item" href="/grafico/ventas-chart">
-                              Ventas Históricas
+                           Ventas Históricas
                         </a>
                         <a className="dropdown-item" href="/grafico/ooc-proveedores-chart">
                            Estadísticas OC de Proveedores
@@ -99,11 +105,21 @@ function HeaderComponents() {
                         Ventas
                      </a>
                   </div>
+                  <div className="dropdown">
+                     <a className="btn" href="/cotizaciones">
+                        Cotizaciones
+                     </a>
+                     <div className="dropdown-menu">
+                        <a className="dropdown-item" href="/crear-cotizacion">
+                           Crear Cotizacion
+                        </a>
+                     </div>
+                  </div>
                </div>
                <div className="header_der">
-                  <a className="btn" href="/">
+                  <button className="btn-button" onClick={handleLogout}>
                      Cerrar Sesión
-                  </a>
+                  </button>
                </div>
             </header>
          </NavStyle>
@@ -127,7 +143,7 @@ const NavStyle = styled.nav`
       align-items: center;
       text-align: center;
    }
-   .header .btn {
+   .header .btn, .header .btn-button{
       display: inline-block;
       padding: 10px 20px;
       color: #ebfcff;
@@ -138,7 +154,12 @@ const NavStyle = styled.nav`
       font-size: 20px;
    }
 
-   .header .btn:hover {
+   .header .btn-button {
+      border: 0px;
+      background-color: #61c9f9;
+   }
+
+   .header .btn:hover, .header .btn-button:hover {
       color: #00375e;
       cursor: pointer;
    }

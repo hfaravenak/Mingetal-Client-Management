@@ -63,8 +63,21 @@ public class UsuarioService {
         emailSender.send(message);
     }
 
+    public void setCode(String correo, String code){
+        UsuarioEntity usuario = usuarioRepository.findByCorreo(correo);
+        usuario.setCodigo_cambio_contrasenia(code);
+        usuarioRepository.save(usuario);
+    }
+
     public boolean compareCode(String correo, String code) {
-        String savedCode = usuarioRepository.findByCorreo(correo).getCodigo_cambio_contrasenia();
-        return savedCode.equals(code);
+        UsuarioEntity usuario = usuarioRepository.findByCorreo(correo);
+        if (usuario != null) {
+            String savedCode = usuario.getCodigo_cambio_contrasenia();
+            System.out.println("Código guardado: " + savedCode + ", Código proporcionado: " + code);
+            return savedCode.equals(code);
+        } else {
+            System.out.println("Usuario no encontrado con correo: " + correo);
+            throw new RuntimeException("Usuario no encontrado con correo: " + correo);
+        }
     }
 }

@@ -3,8 +3,10 @@ import { useAuth } from "../../services/AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 import LoginComponents from "../Authentication/LoginComponents";
+import PasswordChangeComponents from "../Authentication/PasswordChangeComponents";
 
 import MainComponents from "../MainComponents";
+import NotFoundComponent from "../NotFoundComponent";
 
 import ListClienteComponents from "../Clientes/ListClienteComponents";
 import ClienteComponents from "../Clientes/ClienteComponents";
@@ -35,7 +37,7 @@ import ProductoComponents from "../Productos/ProductoComponents";
 import ProductoCrearComponents from "../Productos/ProductoCrearComponents";
 import CargaMasivaProductosComponents from "../Productos/CargaMasivaProductosComponents";
 
-import MainEstadisticaComponents from "../Graficos/MainGraficosComponents";
+import MainEstadisticaComponents from "../Estadisticas/MainEstadisticaComponents";
 import EstadisticaGeneralesComponents from "../Estadisticas/EstadisticaGeneralesComponents";
 import EstadisticaProductosComponents from "../Estadisticas/EstadisticaProductosComponents";
 
@@ -54,6 +56,14 @@ const Routes = () => {
         {
           path: "/",
           element: <LoginComponents />,
+        },
+        {
+          path: "/changePass/:email",
+          element: <PasswordChangeComponents />,
+        },
+        {
+          path: "*", // Ruta para manejar errores
+          element: <NotFoundComponent />, // Un componente para mostrar un mensaje de error 404
         },
     ]
     
@@ -187,6 +197,10 @@ const Routes = () => {
                 element: <ListVentasComponents />
               },
         ],
+      },
+      {
+        path: "*", // Ruta para manejar errores en las rutas protegidas
+        element: <NotFoundComponent />, // Un componente para mostrar un mensaje de error 404
       },
     ];
   
