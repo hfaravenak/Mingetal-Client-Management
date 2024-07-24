@@ -1,5 +1,6 @@
 package mingetal.MCM.cliente.services;
 
+import mingetal.MCM.cliente.entities.CotizacionEntity;
 import mingetal.MCM.cliente.entities.ListaProductosCotizacionEntity;
 import mingetal.MCM.cliente.model.ProductosEntity;
 import mingetal.MCM.cliente.repositories.ListaProductosCotizacionRepository;
@@ -74,4 +75,53 @@ public class ListaProductosCotizacionService {
         return listaProductosOCProveedorEntity;
     }
 
+    public void cargaMasivaDatos(int last_id, int valor, String productos) {
+
+        // Obtener el encabezado Authorization
+        String authHeader = request.getHeader("Authorization");
+
+        // Crear y configurar los encabezados HTTP
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+
+        List<String> listado = List.of(productos.split(";"));
+        for(String str : listado){ //recorrer productos
+            List<String> info= List.of(str.split(" "));
+            System.out.println("info: " + info);
+            ListaProductosCotizacionEntity LP = new ListaProductosCotizacionEntity();
+            //asignar id de cotización
+            LP.setId_cotizacion(last_id);
+            System.out.println("id_cotizacion: " + LP.getId_cotizacion());
+            //asignar cantidad
+            Integer cantidad = Integer.valueOf(info.get(0));
+            LP.setCantidad(cantidad);
+            System.out.println("cantidad: " + cantidad);
+
+            //buscar id producto
+            String name = String.join(" ", info.subList(1, info.size()));
+            System.out.println("name: "+ name);
+
+            // Realizar la llamada al microservicio de productos
+            ResponseEntity<List<ProductosEntity>> response = restTemplate.exchange(
+                    "http://localhost:8080/productos/nombre/" + name,
+                    HttpMethod.GET,
+                    entity,
+                    new ParameterizedTypeReference<List<ProductosEntity>>() {}
+            );
+            //########################################################
+            //asignar ID producto
+            System.out.println(response);
+            //Integer id_producto = response.getBody().getId();
+            //LP.setId_producto(id_producto);
+            //System.out.println("id_producto: " + LP.getId_producto());
+
+            //Integer valor_producto = response.getBody().getValor_final();
+            //Integer valor_pago = cantidad*valor_producto;
+            //LP.setValor_pago(valor_pago);
+            //System.out.println("valor_pago" + valor_pago);
+            listaProductosCotizacionRepository.save(LP);
+        }
+    }
 }

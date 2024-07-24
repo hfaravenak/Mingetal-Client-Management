@@ -167,6 +167,10 @@ function ListCotizacionComponent() {
       mostrarTodasCotizaciones();
    };
 
+   const handleCargaMasiva = () => {
+      navigate("cargaMasivaCotizaciones")
+   };
+
    return (
       <div>
          <NavStyle>
@@ -268,6 +272,9 @@ function ListCotizacionComponent() {
                            <Button className="boton" onClick={crearCotizacion}>
                               Ingresar Cotización
                            </Button>
+                           <Button className="boton" onClick={handleCargaMasiva}>
+                                 Carga Masiva de Datos
+                              </Button>
                         </div>
                      </div>
                   </div>
@@ -370,11 +377,6 @@ const NavStyle = styled.nav`
 
    .TituloSuperior .Derecha .btn-inf .boton {
       margin-top: 0;
-   }
-
-   .TituloSuperior .Derecha .img-card {
-      width: 5%;
-      height: 5%;
    }
 
    .TituloSuperior .Izquierda {

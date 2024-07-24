@@ -171,7 +171,7 @@ function CotizacionCrearComponent() {
                            <tr>
                               <th>Pedido</th>
                               <th>Fecha de la Solicitud</th>
-                              <th>Estadp</th>
+                              <th>Estado</th>
                               <th>Nombre del Cliente</th>
                            </tr>
                         </thead>

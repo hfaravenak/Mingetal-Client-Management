@@ -1,11 +1,14 @@
 package mingetal.MCM.cliente.controllers;
 
+import mingetal.MCM.cliente.entities.ClienteEntity;
 import mingetal.MCM.cliente.entities.CotizacionEntity;
 import mingetal.MCM.cliente.services.CotizacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,6 +24,25 @@ public class CotizacionController {
         System.out.println(cotizacionEntity);
         cotizacionService.save(cotizacionEntity);
         return ResponseEntity.ok(cotizacionEntity);
+    }
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Por favor seleccione un archivo para cargar.");
+        }
+        try {
+            // Lógica para manejar el archivo, por ejemplo, guardarlo en el servidor
+            System.out.println("#####################");
+            cotizacionService.readExcelFile(file);
+            //System.out.println(cotizaciones);
+            System.out.println("**********************");
+            //cotizacionService.saveAll(cotizaciones);
+            System.out.println("----------------------");
+            return ResponseEntity.ok("Archivo cargado exitosamente: " + file.getOriginalFilename());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo cargar el archivo: " + e.getMessage());
+        }
     }
 
     @GetMapping("/")

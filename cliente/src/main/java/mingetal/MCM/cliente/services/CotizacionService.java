@@ -1,17 +1,33 @@
 package mingetal.MCM.cliente.services;
 
+import mingetal.MCM.cliente.entities.ClienteEntity;
 import mingetal.MCM.cliente.entities.CotizacionEntity;
 import mingetal.MCM.cliente.repositories.CotizacionRepository;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Size;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class CotizacionService {
     @Autowired
     CotizacionRepository cotizacionRepository;
+
+    @Autowired
+    ListaProductosCotizacionService listaProductosCotizacionService;
 
     //-------------------- Guardado --------------------
 
@@ -50,6 +66,77 @@ public class CotizacionService {
         cotizacionEntity1.setEstado(cotizacionEntity.getEstado());
         cotizacionEntity1.setRutCliente(cotizacionEntity.getRutCliente());
         return cotizacionRepository.save(cotizacionEntity1);
+    }
+
+    //-------------------- Carga masiva -----------------------
+    public void readExcelFile(MultipartFile file) {
+        List<CotizacionEntity> cotizaciones = new ArrayList<>();
+        try {
+            Workbook workbook = new XSSFWorkbook(file.getInputStream());
+            Sheet sheet = workbook.getSheetAt(0);
+            boolean skipHeader = true;
+            for (Row row : sheet) {
+                if (skipHeader) {
+                    skipHeader = false; // Saltar la cabecera del archivo
+                    continue;
+                }
+
+                if (row.getCell(0) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+                CotizacionEntity cotizacion = new CotizacionEntity();
+                cotizacion.setPedido(row.getCell(0).getStringCellValue());
+                System.out.println(cotizacion.getPedido());
+                if (row.getCell(1) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+                cotizacion.setRutCliente(row.getCell(1).getStringCellValue());
+                System.out.println(cotizacion.getRutCliente());
+
+                if (row.getCell(2) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+                Date excelDate = row.getCell(2).getDateCellValue();
+                LocalDate date = excelDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                cotizacion.setFecha(date);
+                System.out.println(cotizacion.getFecha());
+
+                if (row.getCell(3) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+                cotizacion.setEstado(row.getCell(3).getStringCellValue());
+                System.out.println(cotizacion.getEstado());
+
+                try {
+                    cotizacionRepository.save(cotizacion);
+                } catch (Exception e) {
+                    System.err.println("Error al guardar el producto: " + cotizacion.getPedido() );
+                    e.printStackTrace();
+                    // Puedes decidir continuar con el siguiente cliente o manejar de otra forma
+                }
+
+                //---------------- guardar listado de productos ---------------
+                int last_id = cotizacionRepository.findAll().size();
+                System.out.println(last_id);
+
+                int valor  =  0;
+
+                if (row.getCell(4) != null) {
+                    if (row.getCell(4).getCellType() == CellType.NUMERIC) {
+                        valor = (int) row.getCell(4).getNumericCellValue();
+                    } else if (row.getCell(4).getCellType() == CellType.STRING) {
+                        valor = Integer.parseInt(row.getCell(4).getStringCellValue());
+                    }
+                }
+                System.out.println(valor);
+                String productos = row.getCell(5).getStringCellValue();
+                System.out.println(productos);
+                listaProductosCotizacionService.cargaMasivaDatos(last_id, valor, productos);
+            }
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

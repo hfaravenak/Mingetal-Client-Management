@@ -28,10 +28,12 @@ import OCProveedorCrearComponents from "../Ordenes de Compra/Proveedor/OCProveed
 import ListCotizacionComponents from "../Cotizaciones/ListCotizacionComponents";
 import CotizacionComponents from "../Cotizaciones/CotizacionComponents";
 import CotizacionCrearComponents from "../Cotizaciones/CotizacionCrearComponents";
+import CargaMasivaCotizacionesComponents from "../Cotizaciones/CargaMasivaCotizacionesComponents"
 
 import ListProductosComponents from "../Productos/ListProductosComponents";
 import ProductoComponents from "../Productos/ProductoComponents";
 import ProductoCrearComponents from "../Productos/ProductoCrearComponents";
+import CargaMasivaProductosComponents from "../Productos/CargaMasivaProductosComponents";
 
 import MainEstadisticaComponents from "../Graficos/MainGraficosComponents";
 import EstadisticaGeneralesComponents from "../Estadisticas/EstadisticaGeneralesComponents";
@@ -134,6 +136,10 @@ const Routes = () => {
                 element: <CotizacionCrearComponents />
               },
               {
+                path: "/cotizaciones/cargaMasivaCotizaciones",
+                element: <CargaMasivaCotizacionesComponents />
+              },
+              {
                 path: "/productos",
                 element: <ListProductosComponents />
               },
@@ -144,6 +150,9 @@ const Routes = () => {
               {
                 path: "/productos/crear",
                 element: <ProductoCrearComponents />
+              },
+              { path: "/productos/cargaMasivaProductos",
+                element: <CargaMasivaProductosComponents />
               },
               {
                 path: "/estadistica",
