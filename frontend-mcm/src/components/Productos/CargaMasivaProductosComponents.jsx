@@ -32,7 +32,6 @@ function CargaMasivaProductos() {
     } else {
       Swal.fire("Error", "Por favor seleccione un archivo para cargar", "error");
     }
-    console.log("AAAAAAAAAAAAAAAAAA")
   };
 
   const regresar = () => {

@@ -84,6 +84,7 @@ public class ProveedorService {
                 proveedor = proveedorRepository.findByRut3(rut);
             }
         }
+        System.out.println(proveedor);
         return proveedor;
     }
     public List<ProveedorEntity> findByNombre(String nombre) {

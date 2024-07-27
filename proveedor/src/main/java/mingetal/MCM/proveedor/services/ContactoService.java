@@ -19,9 +19,18 @@ public class ContactoService {
     //-------------------- Guardado --------------------
 
     public ContactoEntity save(ContactoEntity contacto) {
-        if(findByRut(contacto.getRut()) != null){
-            return null;
+        ContactoEntity existingCliente = findByRut(contacto.getRut());
+        if (existingCliente != null) {
+            throw new RuntimeException("Ya existe un contacto registrado con este RUT.");
         }
+
+        // Procesar el nombre
+        String[] palabras = contacto.getNombre().split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (String palabra : palabras) {
+            sb.append(Character.toUpperCase(palabra.charAt(0))).append(palabra.substring(1)).append(" ");
+        }
+        contacto.setNombre(sb.toString().trim());
         return contactoRepository.save(contacto);
     }
 

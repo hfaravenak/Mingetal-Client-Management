@@ -82,10 +82,28 @@ function ProveedorCrearComponent() {
          return false;
       }
    };
-   const handleSubmit = (event) => {
+   const handleSubmit = async (event) => {
       event.preventDefault();
       if (validateFormContacto2() && validateFormContacto3()) {
-         ingresarProveedor();
+         try {
+            await ingresarProveedor();
+         } catch (error) {
+            if (error.response && error.response.status === 400) {
+               Swal.fire({
+                  title: "Error",
+                  text: "Ya existe un contacto registrado con este RUT.",
+                  icon: "error",
+                  confirmButtonText: "OK",
+               });
+            } else {
+               Swal.fire({
+                  title: "Error",
+                  text: "Ocurrió un error al registrar el cliente.",
+                  icon: "error",
+                  confirmButtonText: "OK",
+               });
+            }
+         }
       } else {
          Swal.fire({
             title: "Error",
@@ -96,72 +114,103 @@ function ProveedorCrearComponent() {
       }
    };
 
-   const ingresarProveedor = () => {
-      Swal.fire({
-         title: "¿Desea ingresar un nuevo Proveedor?",
-         icon: "question",
-         showDenyButton: true,
-         confirmButtonText: "Confirmar",
-         confirmButtonColor: "rgb(68, 194, 68)",
-         denyButtonText: "Cancelar",
-         denyButtonColor: "rgb(190, 54, 54)",
-      }).then((result) => {
-         if (result.isConfirmed) {
-            let newContacto1 = {
-               nombre: input.contacto.nombre,
-               rut: input.contacto.rut,
-               correo: input.contacto.correo,
-               fono_cel: input.contacto.fono_cel,
-               fono_fijo: input.contacto.fono_fijo,
-            };
-            ContactoService.createContacto(newContacto1);
-
-            if (input.contacto2.rut !== "" && input.contacto2.rut !== null) {
-               let newContacto2 = {
-                  nombre: input.contacto2.nombre,
-                  rut: input.contacto2.rut,
-                  correo: input.contacto2.correo,
-                  fono_cel: input.contacto2.fono_cel,
-                  fono_fijo: input.contacto2.fono_fijo,
-               };
-               ContactoService.createContacto(newContacto2);
-            }
-
-            if (input.contacto3.rut !== "" && input.contacto3.rut !== null) {
-               let newContacto3 = {
-                  nombre: input.contacto3.nombre,
-                  rut: input.contacto3.rut,
-                  correo: input.contacto3.correo,
-                  fono_cel: input.contacto3.fono_cel,
-                  fono_fijo: input.contacto3.fono_fijo,
-               };
-               ContactoService.createContacto(newContacto3);
-            }
-
-            let newProveedor = {
-               empresa: input.empresa,
-               rubro: input.rubro,
-               id_contacto: input.contacto.rut,
-               id_contacto2: input.contacto2.rut === "" || input.contacto2.rut === null ? null : input.contacto2.rut,
-               id_contacto3: input.contacto3.rut === "" || input.contacto3.rut === null ? null : input.contacto3.rut,
-               comentario: input.comentario,
-            };
-            ProveedorService.createProveedor(newProveedor);
-            Swal.fire({
-               title: "Enviado",
-               timer: 2000,
-               icon: "success",
-               timerProgressBar: true,
-               didOpen: () => {
-                  Swal.showLoading();
-               },
-               willClose: () => {
-                  navigate("/proveedores");
-               },
-            });
-         }
+   const ingresarProveedor = async () => {
+      const result = await Swal.fire({
+        title: "¿Desea ingresar un nuevo Proveedor?",
+        icon: "question",
+        showDenyButton: true,
+        confirmButtonText: "Confirmar",
+        confirmButtonColor: "rgb(68, 194, 68)",
+        denyButtonText: "Cancelar",
+        denyButtonColor: "rgb(190, 54, 54)",
       });
-   };
+    
+      if (result.isConfirmed) {
+        let newContacto1 = {
+          nombre: input.contacto.nombre,
+          rut: input.contacto.rut,
+          correo: input.contacto.correo,
+          fono_cel: input.contacto.fono_cel,
+          fono_fijo: input.contacto.fono_fijo,
+        };
+    
+        let createdContactos = [];
+    
+        try {
+          // Intentar crear el contacto1
+          const contacto1 = await ContactoService.createContacto(newContacto1);
+          createdContactos.push(contacto1.data);
+    
+          // Intentar crear contacto2 solo si se proporcionó rut
+          if (input.contacto2.rut !== "" && input.contacto2.rut !== null) {
+            let newContacto2 = {
+              nombre: input.contacto2.nombre,
+              rut: input.contacto2.rut,
+              correo: input.contacto2.correo,
+              fono_cel: input.contacto2.fono_cel,
+              fono_fijo: input.contacto2.fono_fijo,
+            };
+    
+            const contacto2 = await ContactoService.createContacto(newContacto2);
+            createdContactos.push(contacto2.data);
+          }
+    
+          // Intentar crear contacto3 solo si se proporcionó rut
+          if (input.contacto3.rut !== "" && input.contacto3.rut !== null) {
+            let newContacto3 = {
+              nombre: input.contacto3.nombre,
+              rut: input.contacto3.rut,
+              correo: input.contacto3.correo,
+              fono_cel: input.contacto3.fono_cel,
+              fono_fijo: input.contacto3.fono_fijo,
+            };
+    
+            const contacto3 = await ContactoService.createContacto(newContacto3);
+            createdContactos.push(contacto3.data);
+          }
+    
+          // Crear el proveedor después de asegurarse de que todos los contactos se crearon correctamente
+          let newProveedor = {
+            empresa: input.empresa,
+            rubro: input.rubro,
+            id_contacto: input.contacto.rut,
+            id_contacto2: input.contacto2.rut === "" || input.contacto2.rut === null ? null : input.contacto2.rut,
+            id_contacto3: input.contacto3.rut === "" || input.contacto3.rut === null ? null : input.contacto3.rut,
+            comentario: input.comentario,
+          };
+    
+          await ProveedorService.createProveedor(newProveedor);
+    
+          Swal.fire({
+            title: "Enviado",
+            timer: 2000,
+            icon: "success",
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+            willClose: () => {
+              navigate("/proveedores");
+            },
+          });
+        } catch (error) {
+          console.error("Error en la creación del proveedor o contactos:", error);
+    
+          // Revertir los contactos creados en caso de error
+          for (const contacto of createdContactos) {
+            await ContactoService.deleteContacto(contacto.rut);
+          }
+    
+          // Manejar el error (puedes mostrar un mensaje al usuario)
+          Swal.fire({
+            title: "Error",
+            text: "Ocurrió un error al ingresar el proveedor. Por favor, inténtelo nuevamente.",
+            icon: "error",
+          });
+        }
+      }
+    };
+    
 
    const [isTableVisibleContacto2, setisTableVisibleContacto2] = useState(false);
    const [isTableVisibleContacto3, setisTableVisibleContacto3] = useState(false);

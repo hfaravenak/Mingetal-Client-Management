@@ -65,7 +65,7 @@ function OCProveedorCrearComponents() {
    };
 
    const validateForm = () => {
-      const requiredFields = ["nombre", "valor_pago", "numero_factura"];
+      const requiredFields = ["nombre", "numero_factura"];
       for (let field of requiredFields) {
          if (!input[field]) {
             return false;
@@ -93,73 +93,88 @@ function OCProveedorCrearComponents() {
       }
    };
 
-   const ingresarOCProveedor = () => {
-      Swal.fire({
-         title: "¿Desea registrar esta orden de compra?",
-         text: "Luego podrá modificar los valores, pero no todos. Recomiendo revisar el contenido de este",
-         icon: "question",
-         showDenyButton: true,
-         confirmButtonText: "Confirmar",
-         confirmButtonColor: "rgb(68, 194, 68)",
-         denyButtonText: "Cancelar",
-         denyButtonColor: "rgb(190, 54, 54)",
-      }).then((result) => {
-         if (result.isConfirmed) {
-            ProveedorService.getProveedorByNombreTextual(input.nombre).then((res) => {
-               if (res.data === null || res.data === "") {
-                  Swal.fire({
-                     title: "Proveedor no encontrado",
-                     timer: 2000,
-                     icon: "warning",
-                     timerProgressBar: true,
-                     didOpen: () => {
-                        Swal.showLoading();
-                     },
-                  });
-               } else {
-                  let newOC = {
-                     id_proveedor: res.data.id_proveedor,
-                     fecha_solicitud: input.fecha_solicitud,
-                     fecha_entrega: input.fecha_entrega,
-                     estado_entrega: input.estado_entrega,
-                     valor_pago: input.valor_pago,
-                     fecha_pago: input.fecha_pago,
-                     estado_pago: input.estado_pago,
-                     factura: input.numero_factura,
-                  };
-                  OrdenesDeCompraProveedorService.createOCProveedor(newOC).then((res2) => {
-                     ListProducto.map((productos) => {
-                        productoService.getProductosByNombreTextual(productos.nombre).then((res3) => {
-                           let newListP = {
-                              id_OC_proveedor: res2.data.id,
-                              id_producto: res3.data.id,
-                              cantidad: productos.cantidad,
-                              valor_pago: res3.data.valor_final * parseInt(productos.cantidad),
-                           };
-                           OrdenesDeCompraProveedorService.createOCListProveedor(newListP);
-                        });
-                        return null;
-                     });
-                  });
-
-                  Swal.fire({
-                     title: "Enviado",
-                     timer: 2000,
-                     icon: "success",
-                     timerProgressBar: true,
-                     didOpen: () => {
-                        Swal.showLoading();
-                     },
-                     willClose: () => {
-                        navigate("/oc/proveedor");
-                     },
-                  });
-               }
-            });
-         }
+   const calcularValorPago = async () => {
+      try {
+        const valorPagos = await Promise.all(ListProducto.map(async (producto) => {
+          const res2 = await productoService.getProductosByNombreTextual(producto.nombre);
+          return res2.data.valor_final * parseInt(producto.cantidad);
+        }));
+        const totalValorPago = valorPagos.reduce((acc, valor) => acc + valor, 0);
+        return totalValorPago;
+      } catch (error) {
+        console.error("Error al calcular el valor de pago:", error);
+      }
+    };
+    
+    const ingresarOCProveedor = async () => {
+      const result = await Swal.fire({
+        title: "¿Desea registrar esta orden de compra?",
+        text: "Luego podrá modificar los valores, pero no todos. Recomiendo revisar el contenido de este",
+        icon: "question",
+        showDenyButton: true,
+        confirmButtonText: "Confirmar",
+        confirmButtonColor: "rgb(68, 194, 68)",
+        denyButtonText: "Cancelar",
+        denyButtonColor: "rgb(190, 54, 54)",
       });
-   };
-
+    
+      if (result.isConfirmed) {
+        try {
+          const res = await ProveedorService.getProveedorByNombreTextual(input.nombre);
+          if (res.data === null || res.data === "") {
+            await Swal.fire({
+              title: "Proveedor no encontrado",
+              timer: 2000,
+              icon: "warning",
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            });
+          } else {
+            const totalValorPago = await calcularValorPago();
+            let newOC = {
+              id_proveedor: res.data.id_proveedor,
+              fecha_solicitud: input.fecha_solicitud,
+              fecha_entrega: input.fecha_entrega,
+              estado_entrega: input.estado_entrega,
+              valor_pago: totalValorPago,
+              fecha_pago: input.fecha_pago,
+              estado_pago: input.estado_pago,
+              factura: input.numero_factura,
+            };
+    
+            const res2 = await OrdenesDeCompraProveedorService.createOCProveedor(newOC);
+            await Promise.all(ListProducto.map(async (productos) => {
+              const res3 = await productoService.getProductosByNombreTextual(productos.nombre);
+              let newListP = {
+                id_OC_proveedor: res2.data.id,
+                id_producto: res3.data.id,
+                cantidad: productos.cantidad,
+                valor_pago: res3.data.valor_final * parseInt(productos.cantidad),
+              };
+              await OrdenesDeCompraProveedorService.createOCListProveedor(newListP);
+            }));
+    
+            await Swal.fire({
+              title: "Enviado",
+              timer: 2000,
+              icon: "success",
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+              willClose: () => {
+                navigate("/oc/proveedor");
+              },
+            });
+          }
+        } catch (error) {
+          console.error("Error al registrar la orden de compra:", error);
+        }
+      }
+    };
+    
    const [isTableVisibleOC, setisTableVisibleOC] = useState(false);
    const [isTableVisiblePago, setisTableVisiblePago] = useState(false);
    const [isTableVisibleFactura, setisTableVisibleFactura] = useState(false);
@@ -260,18 +275,12 @@ function OCProveedorCrearComponents() {
                         <table border="1" className="content-table">
                            <thead>
                               <tr>
-                                 <th>* Valor del Pago</th>
                                  <th>Estado del Pago</th>
                                  <th>Fecha del Pago</th>
                               </tr>
                            </thead>
                            <tbody>
                               <tr>
-                                 <td>
-                                    <Form.Group controlId="valor_pago">
-                                       <Form.Control className="agregar" type="number" value={input.valor_pago} onChange={handleInputChange} name="valor_pago" required />
-                                    </Form.Group>
-                                 </td>
                                  <td>
                                     <Form.Group controlId="estado_pago">
                                        <Form.Select style={{ width: "100%" }} value={input.estado_pago} onChange={handleInputChange} className="font-h2 no-border" name="estado_pago">

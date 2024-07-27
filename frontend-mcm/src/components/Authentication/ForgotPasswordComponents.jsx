@@ -32,7 +32,6 @@ function ForgotPasswordComponents({ onClose }) {
       try {
          // Llamada a la API para verificar el código
          await axios.post("http://localhost:8080/user/codigo-reestablecimiento?correo="+ email+"&codigoReestablecimiento="+ verificationCode);
-         console.log("llego")
          setError("")
          navigate(`/changePass/${encodeURIComponent(email)}`);
          // Aquí puedes redirigir al usuario a una página para cambiar la contraseña

@@ -77,7 +77,7 @@ function OCClienteCrearComponents() {
    };
 
    const validateForm = () => {
-      const requiredFields = ["nombre", "empresa_despacho", "valor_pago", "tiempo_de_pago", "numero_factura"];
+      const requiredFields = ["nombre", "empresa_despacho", "tiempo_de_pago", "numero_factura"];
       for (let field of requiredFields) {
          if (!input[field]) {
             return false;
@@ -105,78 +105,88 @@ function OCClienteCrearComponents() {
       }
    };
 
-   const ingresarOCCliente = () => {
-      Swal.fire({
-         title: "¿Desea registrar esta orden de compra?",
-         text: "Luego podrá modificar los valores, pero no todos. Recomiendo revisar el contenido de este",
-         icon: "question",
-         showDenyButton: true,
-         confirmButtonText: "Confirmar",
-         confirmButtonColor: "rgb(68, 194, 68)",
-         denyButtonText: "Cancelar",
-         denyButtonColor: "rgb(190, 54, 54)",
-      }).then((result) => {
-         if (result.isConfirmed) {
-            ClienteService.getClienteByNombreTextual(input.nombre).then((res) => {
-               if (res.data === null || res.data === "") {
-                  Swal.fire({
-                     title: "Cliente no encontrado",
-                     timer: 2000,
-                     icon: "warning",
-                     timerProgressBar: true,
-                     didOpen: () => {
-                        Swal.showLoading();
-                     },
-                  });
-               } else {
-                  let newOC = {
-                     id_cliente: res.data.rut,
-                     fecha_solicitud: input.fecha_solicitud,
-                     fecha_entrega: input.fecha_entrega,
-                     estado_entrega: input.estado_entrega,
-                     empresa_despacho: input.empresa_despacho,
-                     valor_pago: input.valor_pago,
-                     fecha_pago: input.fecha_pago,
-                     modo_pago: input.modo_pago,
-                     fecha_inicio_pago: input.fecha_inicio_pago,
-                     tiempo_de_pago: input.tiempo_de_pago,
-                     numero_cheque: input.numero_cheque,
-                     estado_pago: input.estado_pago,
-                     numero_factura: input.numero_factura,
-                     estado_factura: input.estado_factura,
-                  };
-                  OrdenesDeCompraClienteService.createOCCliente(newOC).then((res2) => {
-                     ListProducto.map((productos) => {
-                        productoService.getProductosByNombreTextual(productos.nombre).then((res3) => {
-                           let newListP = {
-                              id_OC_cliente: res2.data.id,
-                              id_producto: res3.data.id,
-                              cantidad: productos.cantidad,
-                              valor_pago: res3.data.valor_final * parseInt(productos.cantidad),
-                           };
-                           OrdenesDeCompraClienteService.createOCListProveedor(newListP);
-                        });
-                        return null;
-                     });
-                  });
-
-                  Swal.fire({
-                     title: "Enviado",
-                     timer: 2000,
-                     icon: "success",
-                     timerProgressBar: true,
-                     didOpen: () => {
-                        Swal.showLoading();
-                     },
-                     willClose: () => {
-                        navigate("/oc/cliente");
-                     },
-                  });
-               }
-            });
-         }
+   const calcularValorPago = async () => {
+      try {
+        const valorPagos = await Promise.all(ListProducto.map(async (producto) => {
+          const res2 = await productoService.getProductosByNombreTextual(producto.nombre);
+          return res2.data.valor_final * parseInt(producto.cantidad);
+        }));
+        const totalValorPago = valorPagos.reduce((acc, valor) => acc + valor, 0);
+        return totalValorPago;
+      } catch (error) {
+        console.error("Error al calcular el valor de pago:", error);
+      }
+    };
+    
+    const ingresarOCCliente = async () => {
+      const result = await Swal.fire({
+        title: "¿Desea registrar esta orden de compra?",
+        text: "Luego podrá modificar los valores, pero no todos. Recomiendo revisar el contenido de este",
+        icon: "question",
+        showDenyButton: true,
+        confirmButtonText: "Confirmar",
+        confirmButtonColor: "rgb(68, 194, 68)",
+        denyButtonText: "Cancelar",
+        denyButtonColor: "rgb(190, 54, 54)",
       });
-   };
+    
+      if (result.isConfirmed) {
+        const res = await ClienteService.getClienteByNombreTextual(input.nombre);
+        if (res.data === null || res.data === "") {
+          Swal.fire({
+            title: "Cliente no encontrado",
+            timer: 2000,
+            icon: "warning",
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
+        } else {
+          let newOC = {
+            id_cliente: res.data.rut,
+            fecha_solicitud: input.fecha_solicitud,
+            fecha_entrega: input.fecha_entrega,
+            estado_entrega: input.estado_entrega,
+            empresa_despacho: input.empresa_despacho,
+            valor_pago: await calcularValorPago(),
+            fecha_pago: input.fecha_pago,
+            modo_pago: input.modo_pago,
+            fecha_inicio_pago: input.fecha_inicio_pago,
+            tiempo_de_pago: input.tiempo_de_pago,
+            numero_cheque: input.numero_cheque,
+            estado_pago: input.estado_pago,
+            numero_factura: input.numero_factura,
+            estado_factura: input.estado_factura,
+          };
+          const res2 = await OrdenesDeCompraClienteService.createOCCliente(newOC);
+          await Promise.all(ListProducto.map(async (productos) => {
+            const res3 = await productoService.getProductosByNombreTextual(productos.nombre);
+            let newListP = {
+              id_OC_cliente: res2.data.id,
+              id_producto: res3.data.id,
+              cantidad: productos.cantidad,
+              valor_pago: res3.data.valor_final * parseInt(productos.cantidad),
+            };
+            await OrdenesDeCompraClienteService.createOCListProveedor(newListP);
+          }));
+    
+          Swal.fire({
+            title: "Enviado",
+            timer: 2000,
+            icon: "success",
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+            willClose: () => {
+              navigate("/oc/cliente");
+            },
+          });
+        }
+      }
+    };
+    
 
    const [isTableVisibleOC, setisTableVisibleOC] = useState(false);
    const [isTableVisiblePago, setisTableVisiblePago] = useState(false);
@@ -300,7 +310,6 @@ function OCClienteCrearComponents() {
                         <table border="1" className="content-table">
                            <thead>
                               <tr>
-                                 <th>* Valor del Pago</th>
                                  <th>Modo del Pago</th>
                                  <th>Numero del cheque</th>
                                  <th>Estado del Pago</th>
@@ -311,11 +320,6 @@ function OCClienteCrearComponents() {
                            </thead>
                            <tbody>
                               <tr>
-                                 <td>
-                                    <Form.Group controlId="valor_pago">
-                                       <Form.Control className="agregar" type="number" value={input.valor_pago} onChange={handleInputChange} name="valor_pago" required />
-                                    </Form.Group>
-                                 </td>
                                  <td>
                                     <Form.Group controlId="modo_pago">
                                        <Form.Select style={{ width: "100%" }} value={input.modo_pago} onChange={handleInputChange} className="font-h2 no-border" name="modo_pago">

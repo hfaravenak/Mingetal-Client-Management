@@ -18,8 +18,15 @@ public class ContactoController {
 
     @PostMapping()
     public ResponseEntity<ContactoEntity> createContacto(@RequestBody ContactoEntity contacto) {
-        ContactoEntity createdContacto = contactoService.save(contacto);
-        return new ResponseEntity<>(createdContacto, HttpStatus.CREATED);
+        try {
+            contactoService.save(contacto);
+            return ResponseEntity.ok(contacto);
+        } catch (RuntimeException e) {
+            if (e.getMessage().equals("Ya existe un contacto registrado con este RUT.")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @GetMapping("/")
