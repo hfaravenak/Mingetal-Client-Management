@@ -144,6 +144,10 @@ function ListProveedorComponents() {
       navigate(`/main`);
    }
 
+   const handleCargaMasiva = () => {
+      navigate("cargaMasivaProveedores")
+   };
+
    return (
       <div>
          <HeaderComponents />
@@ -222,6 +226,9 @@ function ListProveedorComponents() {
                            <Button className="boton" onClick={crearProveedor}>
                               Ingresar Proveedor
                            </Button>
+                           <Button className="boton" onClick={handleCargaMasiva}>
+                                 Carga Masiva de Datos
+                              </Button>
                         </div>
                      </div>
                   </div>

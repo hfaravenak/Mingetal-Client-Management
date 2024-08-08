@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -81,4 +82,26 @@ public class ProveedorController {
         ProveedorEntity proveedor = proveedorService.update(proveedorEntity);
         return new ResponseEntity<>(proveedor, HttpStatus.OK);
     }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Por favor seleccione un archivo para cargar.");
+        }
+        try {
+            // Lógica para manejar el archivo, por ejemplo, guardarlo en el servidor
+            System.out.println("#####################");
+            proveedorService.readExcelFile(file);
+            //System.out.println(cotizaciones);
+            System.out.println("**********************");
+            //cotizacionService.saveAll(cotizaciones);
+            System.out.println("----------------------");
+            return ResponseEntity.ok("Archivo cargado exitosamente: " + file.getOriginalFilename());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo cargar el archivo: " + e.getMessage());
+        }
+    }
+
+
 }

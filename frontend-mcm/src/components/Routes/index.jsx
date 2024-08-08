@@ -16,6 +16,7 @@ import CargaMasivaClientesComponents from "../Clientes/CargaMasivaClientesCompon
 import ListProveedorComponents from "../Proveedores/ListProveedorComponents";
 import ProveedorComponents from "../Proveedores/ProveedorComponents";
 import ProveedorCrearComponent from "../Proveedores/ProveedorCrearComponent";
+import CargaMasivaProveedoresComponents from "../Proveedores/CargaMasivaProveedoresComponents";
 
 import MainOCComponents from "../Ordenes de Compra/MainOCComponents";
 
@@ -104,6 +105,10 @@ const Routes = () => {
               {
                 path: "/proveedores/crear",
                 element: <ProveedorCrearComponent />
+              },
+              {
+                path: "/proveedores/cargaMasivaProveedores",
+                element: <CargaMasivaProveedoresComponents />
               },
               {
                 path: "/oc",
