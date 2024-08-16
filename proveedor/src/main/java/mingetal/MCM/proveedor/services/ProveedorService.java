@@ -51,7 +51,9 @@ public class ProveedorService {
     //-------------------- Buscar --------------------
     
     public List<ProveedorEntity> findAll() {
-        return proveedorRepository.findAll();
+        List<ProveedorEntity> proveedorEntities = proveedorRepository.findAll();
+        proveedorEntities.sort((p1, p2) -> p1.getEmpresa().compareTo(p2.getEmpresa()));
+        return proveedorEntities;
     }
     public List<ProveedorEntity> findByListOC() {
         // Obtener el encabezado Authorization de la solicitud actual

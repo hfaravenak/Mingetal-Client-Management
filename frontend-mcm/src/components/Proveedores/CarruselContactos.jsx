@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
@@ -11,18 +11,17 @@ import ProveedorService from "../../services/ProveedorService";
 
 const CarruselContactos = ({ datos, onMostrarCard }) => {
    const navigate = useNavigate();
+   const [contactos, setContactos] = useState([datos.id_contacto, datos.id_contacto2, datos.id_contacto3]);
+   const [currentIndex, setCurrentIndex] = useState(0);
+   const [largo, setLargo] = useState(calcularLargo(contactos));
 
-   const contactos = [datos.id_contacto, datos.id_contacto2, datos.id_contacto3];
-   const verLargo = () => {
-      let largoEntrada = 3;
-      contactos.forEach((contacto) => {
-         if (contacto == null) {
-            largoEntrada -= 1;
-         }
-      });
-      return largoEntrada;
-   };
-   const [largo] = useState(verLargo);
+   useEffect(() => {
+      setLargo(calcularLargo(contactos));
+   }, [contactos]);
+
+   function calcularLargo(contactos) {
+      return contactos.filter(contacto => contacto !== null).length;
+   }
 
    const nextSlide = () => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % largo);
@@ -31,13 +30,12 @@ const CarruselContactos = ({ datos, onMostrarCard }) => {
       setCurrentIndex((prevIndex) => (prevIndex - 1 + largo) % largo);
    };
 
-   const [currentIndex, setCurrentIndex] = useState(0);
-
    const changeMostrarCard = () => {
       onMostrarCard(true);
    };
-   const EliminarCliente = () => {
-      Swal.fire({
+
+   const EliminarCliente = async () => {
+      const result = await Swal.fire({
          title: "¿Seguro de que desea eliminar este cliente?",
          text: "Esta acción es irreversible y no podrá recuperar al cliente perdido.",
          icon: "warning",
@@ -57,92 +55,65 @@ const CarruselContactos = ({ datos, onMostrarCard }) => {
                }
             });
          },
-      }).then((result) => {
-         if (result.isConfirmed) {
-            if (currentIndex === 0) {
-               let rut = datos.id_contacto.rut;
-               ContactoService.deleteContacto(rut);
-               datos.id_contacto = datos.id_contacto2;
-               datos.id_contacto2 = datos.id_contacto3;
-               datos.id_contacto3 = null;
-            } else if (currentIndex === 1) {
-               let rut = datos.id_contacto2.rut;
-               ContactoService.deleteContacto(rut);
-               datos.id_contacto2 = datos.id_contacto3;
-               datos.id_contacto3 = null;
-            } else {
-               let rut = datos.id_contacto3.rut;
-               ContactoService.deleteContacto(rut);
-               datos.id_contacto3 = null;
-            }
-
-            if (datos.id_contacto === null) {
-               ProveedorService.deleteProveedor(datos.id_proveedor);
-            } else {
-               let rut_contacto = null;
-               if (datos.id_contacto != null) {
-                  rut_contacto = datos.id_contacto.rut;
-               }
-               let rut_contacto2 = null;
-               if (datos.id_contacto2 != null) {
-                  rut_contacto2 = datos.id_contacto2.rut;
-               }
-               let rut_contacto3 = null;
-               if (datos.id_contacto3 != null) {
-                  rut_contacto3 = datos.id_contacto3.rut;
-               }
-               let updateProveedor = {
-                  id_proveedor: datos.id_proveedor,
-                  empresa: datos.empresa,
-                  rubro: datos.rubro,
-                  id_contacto: rut_contacto,
-                  id_contacto2: rut_contacto2,
-                  id_contacto3: rut_contacto3,
-                  comentario: datos.comentario,
-               };
-               ProveedorService.updateProveedor(updateProveedor);
-            }
-
-            Swal.fire({
-               title: "Eliminando...",
-               text: "Por favor espera",
-               timer: 2000, // 3 segundos
-               didOpen: () => {
-                  Swal.showLoading();
-               },
-               willClose: () => {
-                  if (datos.id_contacto === null) {
-                     ProveedorService.deleteProveedor(datos.id_proveedor);
-                     navigate("/proveedores");
-                  } else {
-                     let rut_contacto = null;
-                     if (datos.id_contacto != null) {
-                        rut_contacto = datos.id_contacto.rut;
-                     }
-                     let rut_contacto2 = null;
-                     if (datos.id_contacto2 != null) {
-                        rut_contacto2 = datos.id_contacto2.rut;
-                     }
-                     let rut_contacto3 = null;
-                     if (datos.id_contacto3 != null) {
-                        rut_contacto3 = datos.id_contacto3.rut;
-                     }
-                     let updateProveedor = {
-                        id_proveedor: datos.id_proveedor,
-                        empresa: datos.empresa,
-                        rubro: datos.rubro,
-                        id_contacto: rut_contacto,
-                        id_contacto2: rut_contacto2,
-                        id_contacto3: rut_contacto3,
-                        comentario: datos.comentario,
-                     };
-                     const datosComoTexto = JSON.stringify(updateProveedor);
-                     navigate(`/proveedores/mas info/${encodeURIComponent(datosComoTexto)}`);
-                  }
-               },
-            });
-         }
       });
+
+      if (result.isConfirmed) {
+         let updatedContactos = [...contactos];
+         let rut;
+
+         if (currentIndex === 0) {
+            rut = datos.id_contacto.rut;
+            await ContactoService.deleteContacto(rut);
+            updatedContactos[0] = updatedContactos[1];
+            updatedContactos[1] = updatedContactos[2];
+            updatedContactos[2] = null;
+         } else if (currentIndex === 1) {
+            rut = datos.id_contacto2.rut;
+            await ContactoService.deleteContacto(rut);
+            updatedContactos[1] = updatedContactos[2];
+            updatedContactos[2] = null;
+         } else {
+            rut = datos.id_contacto3.rut;
+            await ContactoService.deleteContacto(rut);
+            updatedContactos[2] = null;
+         }
+
+         setContactos(updatedContactos);
+
+         if (updatedContactos[0] === null) {
+            await ProveedorService.deleteProveedor(datos.id_proveedor);
+            navigate("/proveedores");
+         } else {
+            const rut_contacto = updatedContactos[0] ? updatedContactos[0].rut : null;
+            const rut_contacto2 = updatedContactos[1] ? updatedContactos[1].rut : null;
+            const rut_contacto3 = updatedContactos[2] ? updatedContactos[2].rut : null;
+
+            const updateProveedor = {
+               id_proveedor: datos.id_proveedor,
+               empresa: datos.empresa,
+               rubro: datos.rubro,
+               id_contacto: rut_contacto,
+               id_contacto2: rut_contacto2,
+               id_contacto3: rut_contacto3,
+               comentario: datos.comentario,
+            };
+
+            await ProveedorService.updateProveedor(updateProveedor);
+
+            const updateProveedorEnviar = {
+               id_proveedor: datos.id_proveedor,
+               empresa: datos.empresa,
+               rubro: datos.rubro,
+               id_contacto: updatedContactos[0],
+               id_contacto2: updatedContactos[1],
+               id_contacto3: updatedContactos[2],
+               comentario: datos.comentario,
+            };
+
+            const datosComoTexto = JSON.stringify(updateProveedorEnviar);
+            navigate(`/proveedores/mas info/${encodeURIComponent(datosComoTexto)}`);
+         }
+      }
    };
 
    return (
@@ -216,8 +187,6 @@ const NavStyle = styled.nav`
       display: flex;
       transition: transform 0.5s ease-in-out;
    }
-
-   /* Por el lado de la información del cliente*/
 
    .card {
       border: 1px solid black;

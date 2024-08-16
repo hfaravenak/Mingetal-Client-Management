@@ -231,6 +231,15 @@ public class ProductosService {
         }
         return productosRepository.save(producto);
     }
+    @Transactional
+    public ProductosEntity updateCount(int id, int count) {
+        ProductosEntity productos = findById(id);
+        if (productos == null) {
+            return null;
+        }
+        productos.setCantidad(productos.getCantidad()+count);
+        return productosRepository.save(productos);
+    }
 
     //-------------------- Carga masiva -----------------------
     public List<ProductosEntity> readExcelFile(MultipartFile file) {

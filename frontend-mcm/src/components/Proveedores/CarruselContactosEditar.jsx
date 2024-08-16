@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
@@ -9,21 +9,22 @@ import clientes from "../../images/cliente.png";
 
 import ContactoService from "../../services/ContactoService";
 import ProveedorService from "../../services/ProveedorService";
+import AgregarContactoComponent from "./AgregarContactoComponent";
 
 const CarruselContactosEditar = ({ datos, onMostrarCard }) => {
    const navigate = useNavigate();
+   const [contactos, setContactos] = useState([datos.id_contacto, datos.id_contacto2, datos.id_contacto3]);
+   const [currentIndex, setCurrentIndex] = useState(0);
+   const [largo, setLargo] = useState(calcularLargo(contactos));
+   const [showAgregarContacto, setShowAgregarContacto] = useState(false);
 
-   const contactos = [datos.id_contacto, datos.id_contacto2, datos.id_contacto3];
-   const verLargo = () => {
-      let largoEntrada = 3;
-      contactos.forEach((contacto) => {
-         if (contacto == null) {
-            largoEntrada -= 1;
-         }
-      });
-      return largoEntrada;
-   };
-   const [largo] = useState(verLargo);
+   useEffect(() => {
+      setLargo(calcularLargo(contactos));
+   }, [contactos]);
+
+   function calcularLargo(contactos) {
+      return contactos.filter((contacto) => contacto !== null).length;
+   }
 
    const nextSlide = () => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % largo);
@@ -35,12 +36,10 @@ const CarruselContactosEditar = ({ datos, onMostrarCard }) => {
    const initialState = {
       empresa: datos.empresa,
       rubro: datos.rubro,
-      contactos: [datos.id_contacto, datos.id_contacto2, datos.id_contacto3],
+      contactos: contactos,
       comentario: datos.comentario,
    };
    const [input, setInput] = useState(initialState);
-
-   const [currentIndex, setCurrentIndex] = useState(0);
 
    const handleInputChange = (event, index = null) => {
       const { name, value } = event.target;
@@ -63,6 +62,87 @@ const CarruselContactosEditar = ({ datos, onMostrarCard }) => {
             [name]: value,
          }));
       }
+   };
+
+   const agregarNuevoContacto = (nuevoContacto) => {
+      
+      let i=0
+      while(i<3){
+         if(contactos[i]===null){
+            contactos[i]=nuevoContacto
+            break
+         }
+         i++
+      }
+
+      //setContactos((prevContactos) => [...prevContactos, nuevoContacto]);
+      setLargo(calcularLargo(contactos)); // Mover al nuevo contacto
+      let updateAll = {
+         id_proveedor: datos.id_proveedor,
+         empresa: input.empresa,
+         rubro: input.rubro,
+         comentario: input.comentario,
+      };
+      let updateProveedor = {
+         id_proveedor: datos.id_proveedor,
+         empresa: input.empresa,
+         rubro: input.rubro,
+         comentario: input.comentario,
+      };
+      if (contactos[0] != null) {
+         let updateContacto1 = {
+            rut: contactos[0].rut,
+            nombre: contactos[0].nombre,
+            correo: contactos[0].correo,
+            fono_cel: contactos[0].fono_cel,
+            fono_fijo: contactos[0].fono_fijo,
+         };
+         updateAll.id_contacto = updateContacto1;
+         updateProveedor.id_contacto = contactos[0].rut;
+         ContactoService.updateContacto(updateContacto1);
+      } else {
+         updateAll.id_contacto = null;
+         updateProveedor.id_contacto = null;
+      }
+      if (contactos[1] != null) {
+         let updateContacto2 = {
+            rut: contactos[1].rut,
+            nombre: contactos[1].nombre,
+            correo: contactos[1].correo,
+            fono_cel: contactos[1].fono_cel,
+            fono_fijo: contactos[1].fono_fijo,
+         };
+         updateAll.id_contacto2 = updateContacto2;
+         updateProveedor.id_contacto2 = contactos[1].rut;
+         ContactoService.updateContacto(updateContacto2);
+      } else {
+         updateAll.id_contacto2 = null;
+         updateProveedor.id_contacto2 = null;
+      }
+      if (contactos[2] != null) {
+         let updateContacto3 = {
+            rut: contactos[2].rut,
+            nombre: contactos[2].nombre,
+            correo: contactos[2].correo,
+            fono_cel: contactos[2].fono_cel,
+            fono_fijo: contactos[2].fono_fijo,
+         };
+         updateAll.id_contacto3 = updateContacto3;
+         updateProveedor.id_contacto3 = contactos[2].rut;
+
+         ContactoService.updateContacto(updateContacto3);
+      } else {
+         updateAll.id_contacto3 = null;
+         updateProveedor.id_contacto3 = null;
+      }
+
+      ProveedorService.updateProveedor(updateProveedor);
+      navigate(`/proveedores/mas info/${encodeURIComponent(JSON.stringify(updateAll))}`);
+      onMostrarCard(false);
+  };
+
+   const nathing = () => {
+      return null;
    };
 
    const CancelarEdit = () => {
@@ -148,110 +228,131 @@ const CarruselContactosEditar = ({ datos, onMostrarCard }) => {
    };
 
    return (
-      <NavStyle>
-         <Form onSubmit={handleSubmit}>
-            <div className="carrusel">
-               <div
-                  className="carrusel-contenido"
-                  style={
-                     largo === 3
-                        ? { transform: `translateX(-${currentIndex * 33.3}%)`, width: "300%" }
-                        : largo === 2
-                        ? { transform: `translateX(-${currentIndex * 50}%)`, width: "200%" }
-                        : { width: "100%" }
-                  }
-               >
-                  {contactos.map((contacto, index) => {
-                     if (contacto != null) {
-                        return (
-                           <div className="card" key={index}>
-                              <div className="contenedor-img">
-                                 <img id="clientes" src={clientes} alt="clientes" />
-                              </div>
-                              <div className="contenedor-informacion">
-                                 <Form.Group controlId="contactos">
-                                    <Form.Control type="text" name="nombre" value={input.contactos[index].nombre} onChange={(event) => handleInputChange(event, index)} className="font-h3 no-border" />
-                                 </Form.Group>
-                                 <Form.Group controlId="empresa" style={{ marginTop: "2.2%" }}>
-                                    <Form.Label className="font-h2">Empresa:</Form.Label>
-                                    <Form.Control type="text" name="empresa" value={input.empresa} onChange={handleInputChange} className="font-h2-control no-border" />
-                                 </Form.Group>
-                                 <Form.Group controlId="empresa">
-                                    <Form.Label className="font-h2">Rubro:</Form.Label>
-                                    <Form.Control type="text" name="rubro" value={input.rubro} onChange={handleInputChange} className="font-h2-control no-border" />
-                                 </Form.Group>
-                                 <h3 style={{ color: "gray", marginTop: "2%", marginBottom: "2%" }}>Rut: {input.contactos[index].rut}</h3>
-                                 <Form.Group controlId="correo">
-                                    <Form.Label className="font-h2 eliminarMargen">Correo:</Form.Label>
-                                    <Form.Control
-                                       type="text"
-                                       name="correo"
-                                       value={input.contactos[index].correo}
-                                       onChange={(event) => handleInputChange(event, index)}
-                                       placeholder="abcedg@correo.com"
-                                       className="font-h2-control no-border"
-                                    />
-                                 </Form.Group>
-                                 <Form.Group controlId="telefono_celular" style={{ marginTop: "2.2%" }}>
-                                    <Form.Label className="font-h2">Telefono Celular:</Form.Label>
-                                    <Form.Control
-                                       type="text"
-                                       name="fono_cel"
-                                       value={input.contactos[index].fono_cel}
-                                       onChange={(event) => handleInputChange(event, index)}
-                                       placeholder="+569 12345678"
-                                       className="font-h2-control no-border"
-                                       style={{ width: "150px" }}
-                                    />
-                                 </Form.Group>
-                                 <Form.Group controlId="telefono_fijo">
-                                    <Form.Label className="font-h2">Telefono Fijo:</Form.Label>
-                                    <Form.Control
-                                       type="text"
-                                       name="fono_fijo"
-                                       value={input.contactos[index].fono_fijo}
-                                       onChange={(event) => handleInputChange(event, index)}
-                                       placeholder="22 12345678"
-                                       className="font-h2-control no-border"
-                                       style={{ width: "150px" }}
-                                    />
-                                 </Form.Group>
-                                 <Form.Group controlId="comentario" style={{ marginBottom: "2.2%" }}>
-                                    <Form.Label className="font-h2">Comentario:</Form.Label>
-                                    <p></p>
-                                    <Form.Control
-                                       rows={3}
-                                       as="textarea"
-                                       name="comentario"
-                                       value={input.comentario}
-                                       onChange={handleInputChange}
-                                       className="font-h2-control no-border"
-                                       style={{ width: "95%", marginLeft: "4%" }}
-                                    />
-                                 </Form.Group>
-                              </div>
-                           </div>
-                        );
-                     } else {
-                        return null;
+      <div>
+         <NavStyle>
+            <Form onSubmit={handleSubmit}>
+               <div className="carrusel">
+                  <div
+                     className="carrusel-contenido"
+                     style={
+                        largo === 3
+                           ? { transform: `translateX(-${currentIndex * 33.3}%)`, width: "300%" }
+                           : largo === 2
+                           ? { transform: `translateX(-${currentIndex * 50}%)`, width: "200%" }
+                           : { width: "100%" }
                      }
-                  })}
+                  >
+                     {contactos.map((contacto, index) => {
+                        if (contacto != null) {
+                           return (
+                              <div className="card" key={index}>
+                                 <div className="contenedor-img">
+                                    <img id="clientes" src={clientes} alt="clientes" />
+                                 </div>
+                                 <div className="contenedor-informacion">
+                                    <Form.Group controlId="contactos">
+                                       <Form.Control
+                                          type="text"
+                                          name="nombre"
+                                          value={input.contactos[index].nombre}
+                                          onChange={(event) => handleInputChange(event, index)}
+                                          className="font-h3 no-border"
+                                       />
+                                    </Form.Group>
+                                    <Form.Group controlId="empresa" style={{ marginTop: "2.2%" }}>
+                                       <Form.Label className="font-h2">Empresa:</Form.Label>
+                                       <Form.Control type="text" name="empresa" value={input.empresa} onChange={handleInputChange} className="font-h2-control no-border" />
+                                    </Form.Group>
+                                    <Form.Group controlId="empresa">
+                                       <Form.Label className="font-h2">Rubro:</Form.Label>
+                                       <Form.Control type="text" name="rubro" value={input.rubro} onChange={handleInputChange} className="font-h2-control no-border" />
+                                    </Form.Group>
+                                    <h3 style={{ color: "gray", marginTop: "2%", marginBottom: "2%" }}>Rut: {input.contactos[index].rut}</h3>
+                                    <Form.Group controlId="correo">
+                                       <Form.Label className="font-h2 eliminarMargen">Correo:</Form.Label>
+                                       <Form.Control
+                                          type="text"
+                                          name="correo"
+                                          value={input.contactos[index].correo}
+                                          onChange={(event) => handleInputChange(event, index)}
+                                          placeholder="abcedg@correo.com"
+                                          className="font-h2-control no-border"
+                                       />
+                                    </Form.Group>
+                                    <Form.Group controlId="telefono_celular" style={{ marginTop: "2.2%" }}>
+                                       <Form.Label className="font-h2">Telefono Celular:</Form.Label>
+                                       <Form.Control
+                                          type="text"
+                                          name="fono_cel"
+                                          value={input.contactos[index].fono_cel}
+                                          onChange={(event) => handleInputChange(event, index)}
+                                          placeholder="+569 12345678"
+                                          className="font-h2-control no-border"
+                                          style={{ width: "150px" }}
+                                       />
+                                    </Form.Group>
+                                    <Form.Group controlId="telefono_fijo">
+                                       <Form.Label className="font-h2">Telefono Fijo:</Form.Label>
+                                       <Form.Control
+                                          type="text"
+                                          name="fono_fijo"
+                                          value={input.contactos[index].fono_fijo}
+                                          onChange={(event) => handleInputChange(event, index)}
+                                          placeholder="22 12345678"
+                                          className="font-h2-control no-border"
+                                          style={{ width: "150px" }}
+                                       />
+                                    </Form.Group>
+                                    <Form.Group controlId="comentario" style={{ marginBottom: "2.2%" }}>
+                                       <Form.Label className="font-h2">Comentario:</Form.Label>
+                                       <p></p>
+                                       <Form.Control
+                                          rows={3}
+                                          as="textarea"
+                                          name="comentario"
+                                          value={input.comentario}
+                                          onChange={handleInputChange}
+                                          className="font-h2-control no-border"
+                                          style={{ width: "95%", marginLeft: "4%" }}
+                                       />
+                                    </Form.Group>
+                                 </div>
+                              </div>
+                           );
+                        } else {
+                           return null;
+                        }
+                     })}
+                  </div>
+                  <Button onClick={prevSlide} className="prev">
+                     Anterior
+                  </Button>
+                  <Button onClick={nextSlide} className="next">
+                     Siguiente
+                  </Button>
                </div>
-               <Button onClick={prevSlide} className="prev">
-                  Anterior
+               <Button className="aceptar" type="submit">
+                  Aceptar
                </Button>
-               <Button onClick={nextSlide} className="next">
-                  Siguiente
+               <Button className="cancelar" onClick={CancelarEdit}>
+                  Cancelar
                </Button>
-            </div>
-            <Button className="aceptar" type="submit">
-               Aceptar
-            </Button>
-            <Button className="cancelar" onClick={CancelarEdit}>
-               Cancelar
-            </Button>
-         </Form>
-      </NavStyle>
+               <Button
+                  className={largo === 3 ? "agregar" : "agregar ag-ho"}
+                  style={largo === 3 ? { backgroundColor: "#9CB0A4", cursor: "default" } : { backgroundColor: "#00A2EC" }}
+                  onClick={largo < 3 ? () => setShowAgregarContacto(true) : nathing}
+               >
+                  Agregar
+               </Button>
+            </Form>
+         </NavStyle>
+         {showAgregarContacto && (
+                <AgregarContactoComponent 
+                    onClose={() => setShowAgregarContacto(false)} 
+                    onAgregarContacto={agregarNuevoContacto} 
+                />
+            )}
+      </div>
    );
 };
 
@@ -325,7 +426,8 @@ const NavStyle = styled.nav`
    .editar,
    .eliminar,
    .cancelar,
-   .aceptar {
+   .aceptar,
+   .agregar {
       margin-left: 5px;
       margin-top: 10px;
       padding: 10px 20px;
@@ -350,11 +452,16 @@ const NavStyle = styled.nav`
       background-color: #00a768;
       color: black;
    }
+   .agregar {
+      margin-left: 100px;
+      color: black;
+   }
 
    .editar:hover,
    .eliminar:hover,
    .aceptar:hover,
-   .cancelar:hover {
+   .cancelar:hover,
+   .ag-ho:hover {
       border: 1px solid black;
    }
 

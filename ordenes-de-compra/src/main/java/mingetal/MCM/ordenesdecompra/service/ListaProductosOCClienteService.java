@@ -28,6 +28,26 @@ public class ListaProductosOCClienteService {
 
     public ListaProductosOCClienteEntity save(ListaProductosOCClienteEntity listaProductosOCClienteEntities){
         if(findById(listaProductosOCClienteEntities.getId())==null){
+            String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                    .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+
+            // Validar si el encabezado es nulo o vacío (depende de tu lógica de manejo de errores)
+            if (authHeader == null || authHeader.isEmpty()) {
+                // Manejo de error o lanzamiento de excepción si el encabezado no está presente
+                throw new RuntimeException("No se encontró el encabezado Authorization");
+            }
+
+            // Crear y configurar los encabezados HTTP con el token de autorización
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+            restTemplate.exchange(
+                    "http://localhost:8080/productos/update/count/?id=" + listaProductosOCClienteEntities.getId_producto()+"&count=-"+listaProductosOCClienteEntities.getCantidad(),
+                    HttpMethod.PUT,
+                    entity,
+                    ProductosEntity.class
+            );
             return listaProductosOCClienteRepository.save(listaProductosOCClienteEntities);
         }
         return null;

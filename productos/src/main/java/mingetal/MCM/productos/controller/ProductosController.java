@@ -126,6 +126,11 @@ public class ProductosController {
         return ResponseEntity.ok(productosService.update(productosEntity));
     }*/
 
+    @PutMapping("/update/count")
+    public ResponseEntity<ProductosEntity> updateCountProducto(@RequestParam int id, @RequestParam int count){
+        return ResponseEntity.ok(productosService.updateCount(id, count));
+    }
+
     @PutMapping("/update")
     public ResponseEntity<ProductosEntity> updateProducto(
             @RequestParam("id") int id,
