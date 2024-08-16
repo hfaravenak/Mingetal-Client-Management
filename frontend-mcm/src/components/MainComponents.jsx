@@ -15,6 +15,8 @@ import HeaderComponents from "./Headers/HeaderComponents";
 import AlertaPagoComponents from "./Alertas/AlertaPagoComponents";
 import productoService from "../services/ProductoService";
 
+import "../css/style_global.css"
+
 function MainComponents() {
    const navigate = useNavigate();
    const handleClickClientes = () => {
