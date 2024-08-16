@@ -143,6 +143,10 @@ function ListOCClienteComponents() {
       navigate(`/oc`);
    };
 
+   const handleCargaMasiva = () => {
+      navigate("CargaMasiva")
+   };
+
    return (
       <div>
          <HeaderComponents />
@@ -203,6 +207,10 @@ function ListOCClienteComponents() {
                            <Button className="boton" onClick={crearOCCliente}>
                               Ingresar nueva OC
                            </Button>
+                           <Button className="boton" onClick={handleCargaMasiva}>
+                                 Carga Masiva de Datos
+                           </Button>
+                           
                         </div>
                      </div>
                   </div>

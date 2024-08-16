@@ -131,7 +131,7 @@ public class CotizacionService {
                 System.out.println(valor);
                 String productos = row.getCell(5).getStringCellValue();
                 System.out.println(productos);
-                listaProductosCotizacionService.cargaMasivaDatos(last_id, valor, productos);
+                listaProductosCotizacionService.cargaMasivaDatos(last_id, productos);
             }
             workbook.close();
         } catch (IOException e) {

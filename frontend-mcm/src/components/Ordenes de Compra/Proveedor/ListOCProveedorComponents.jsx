@@ -161,6 +161,9 @@ function ListOCProveedorComponents() {
       navigate(`/oc`);
    }
 
+   const handleCargaMasiva = () => {
+      navigate("CargaMasiva")
+   };
    return (
       <div>
          <NavStyle>
@@ -225,6 +228,9 @@ function ListOCProveedorComponents() {
                         <div className="btn-inf">
                            <Button className="boton" onClick={crearOCProveedor}>
                               Ingresar nueva OC
+                           </Button>
+                           <Button className="boton" onClick={handleCargaMasiva}>
+                                 Carga Masiva de Datos
                            </Button>
                         </div>
                      </div>

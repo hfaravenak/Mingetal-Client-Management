@@ -23,10 +23,12 @@ import MainOCComponents from "../Ordenes de Compra/MainOCComponents";
 import ListOCClienteComponents from "../Ordenes de Compra/Cliente/ListOCClienteComponents";
 import OCClienteComponents from "../Ordenes de Compra/Cliente/OCClienteComponents";
 import OCClienteCrearComponents from "../Ordenes de Compra/Cliente/OCClienteCrearComponents";
+import CargaMasivaOrdenesDeCompraClienteComponents from "../Ordenes de Compra/Cliente/CargaMasivaOrdenesDeCompraClienteComponents";
 
 import ListOCProveedorComponents from "../Ordenes de Compra/Proveedor/ListOCProveedorComponents";
 import OCProveedorComponents from "../Ordenes de Compra/Proveedor/OCProveedorComponents";
 import OCProveedorCrearComponents from "../Ordenes de Compra/Proveedor/OCProveedorCrearComponents";
+import CargaMasivaOrdenesDeCompraProveedorComponents from "../Ordenes de Compra/Proveedor/CargaMasivaOrdenesDeCompraProveedorComponents";
 
 import ListCotizacionComponents from "../Cotizaciones/ListCotizacionComponents";
 import CotizacionComponents from "../Cotizaciones/CotizacionComponents";
@@ -117,7 +119,7 @@ const Routes = () => {
               {
                 path: "/oc/cliente",
                 element: <ListOCClienteComponents />
-              },
+              },          
               {
                 path: "/oc/cliente/mas info/:oc_cliente",
                 element: <OCClienteComponents />
@@ -125,6 +127,10 @@ const Routes = () => {
               {
                 path: "/oc/cliente/crear",
                 element: <OCClienteCrearComponents />
+              },
+              {
+                path: "/oc/cliente/CargaMasiva",
+                element: <CargaMasivaOrdenesDeCompraClienteComponents/>
               },
               {
                 path: "/oc/proveedor",
@@ -137,6 +143,10 @@ const Routes = () => {
               {
                 path: "/oc/proveedor/crear",
                 element: <OCProveedorCrearComponents />
+              },
+              {
+                path: "/oc/proveedor/CargaMasiva",
+                element: <CargaMasivaOrdenesDeCompraProveedorComponents/>
               },
               {
                 path: "/cotizaciones",

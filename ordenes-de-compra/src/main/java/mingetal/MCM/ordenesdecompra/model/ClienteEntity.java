@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ClienteEntity {
+    private int id_cliente;
     private String rut;
     private String nombre;
     private String email;
