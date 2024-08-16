@@ -75,7 +75,7 @@ public class ListaProductosCotizacionService {
         return listaProductosOCProveedorEntity;
     }
 
-    public void cargaMasivaDatos(int last_id, int valor, String productos) {
+    public void cargaMasivaDatos(int last_id, String productos) {
 
         // Obtener el encabezado Authorization
         String authHeader = request.getHeader("Authorization");
@@ -113,15 +113,20 @@ public class ListaProductosCotizacionService {
             //########################################################
             //asignar ID producto
             System.out.println(response);
-            //Integer id_producto = response.getBody().getId();
-            //LP.setId_producto(id_producto);
-            //System.out.println("id_producto: " + LP.getId_producto());
+            ProductosEntity producto = response.getBody().get(0);
 
-            //Integer valor_producto = response.getBody().getValor_final();
-            //Integer valor_pago = cantidad*valor_producto;
-            //LP.setValor_pago(valor_pago);
-            //System.out.println("valor_pago" + valor_pago);
+            // Obtener el id y nombre del producto
+            Integer id_producto = producto.getId();
+            LP.setId_producto(id_producto);
+            System.out.println("ID del producto: " + id_producto);
+
+            Integer valor_producto = response.getBody().get(0).getValor_final();
+            Integer valor_pago = cantidad*valor_producto;
+            LP.setValor_pago(valor_pago);
+            System.out.println("valor_pago" + valor_pago);
+
             listaProductosCotizacionRepository.save(LP);
         }
     }
 }
+

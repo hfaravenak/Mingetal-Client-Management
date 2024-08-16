@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -20,7 +18,10 @@ import javax.validation.constraints.Size;
 @ApiModel(description = "Es una entidad que representa a un Cliente con datos básicos")
 public class ClienteEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
+    private int id_cliente;
+
     @Size(max=14, message = "El tamaño máximo del campo rut es 14")
     @ApiModelProperty(notes = "RUT del cliente", example = "12.345.678-9", required = true)
     private String rut;

@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,9 @@ public class ListaProductosOCClienteService {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    private HttpServletRequest request;
 
     public ListaProductosOCClienteEntity save(ListaProductosOCClienteEntity listaProductosOCClienteEntities){
         if(findById(listaProductosOCClienteEntities.getId())==null){
@@ -82,4 +86,59 @@ public class ListaProductosOCClienteService {
         return listaProductosOCClienteEntity;
     }
 
+    public void saveList(int last_id, String productos) {
+
+
+        String authHeader = request.getHeader("Authorization");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        System.out.println("############################################");
+        System.out.println(productos);
+        System.out.println("############################################");
+        List<String> listado = List.of(productos.split(";"));
+        for(String str : listado){ //recorrer productos
+
+            List<String> info= List.of(str.split(" "));
+            if(info.isEmpty()){
+                System.out.println("A");
+                break;
+            }
+            System.out.println("info: " + info);
+            ListaProductosOCClienteEntity LP = new ListaProductosOCClienteEntity();
+            //asignar id de cotización
+            LP.setId_OC_cliente(last_id);
+            System.out.println("id_cotizacion: " + LP.getId_OC_cliente());
+            //asignar cantidad
+            Integer cantidad = Integer.valueOf(info.get(0));
+            LP.setCantidad(cantidad);
+            System.out.println("cantidad: " + cantidad);
+
+            //buscar id producto
+            String name = String.join(" ", info.subList(1, info.size()));
+            System.out.println("name: "+ name);
+
+            // Realizar la llamada al microservicio de productos
+            ResponseEntity<List<ProductosEntity>> response = restTemplate.exchange(
+                    "http://localhost:8080/productos/nombre/" + name,
+                    HttpMethod.GET,
+                    entity,
+                    new ParameterizedTypeReference<List<ProductosEntity>>() {}
+            );
+            //########################################################
+            //asignar ID producto
+            System.out.println(response);
+            Integer id_producto = response.getBody().get(0).getId();
+            LP.setId_producto(id_producto);
+            System.out.println("id_producto: " + LP.getId_producto());
+
+            Integer valor_producto = response.getBody().get(0).getValor_final();
+            Integer valor_pago = cantidad*valor_producto;
+            LP.setValor_pago(valor_pago);
+            System.out.println("valor_pago" + valor_pago);
+
+            listaProductosOCClienteRepository.save(LP);
+        }
+    }
 }

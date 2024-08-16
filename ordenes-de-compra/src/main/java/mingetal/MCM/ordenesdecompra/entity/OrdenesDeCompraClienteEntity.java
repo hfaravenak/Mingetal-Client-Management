@@ -23,7 +23,7 @@ public class OrdenesDeCompraClienteEntity {
         private String id_cliente;
         @Size(max=11, message = "El tamaño máximo del campo estado_factura es 11")
         private String estado_factura; //Emitida | No Emitida
-        @Size(max=10, message = "El tamaño máximo del campo estado_pago es 10")
+        @Size(max=12, message = "El tamaño máximo del campo estado_pago es 10")
         private String estado_pago; //Pagado | No Pagado
         private int valor_pago;
         private LocalDate fecha_pago; // yyyy-mm-dd

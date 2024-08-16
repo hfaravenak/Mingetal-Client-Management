@@ -50,6 +50,14 @@ class OrdenesDeCompraProveedorService {
     putOCProveedor(OCProveedor){
         return axios.put(OC_API_URL+"update", OCProveedor);
     }  
+    uploadFile(formData) {
+        const uploadUrl = OC_API_URL + "upload"; // Asegúrate de cambiar "upload" por el endpoint correcto del backend
+        return axios.post(uploadUrl, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data' // Esto es opcional, axios lo establecerá automáticamente
+            }
+        });
+    }
 }
 const ordenesDeCompraProveedorService = new OrdenesDeCompraProveedorService();
 export default ordenesDeCompraProveedorService;

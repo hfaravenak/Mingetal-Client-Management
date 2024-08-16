@@ -1,9 +1,14 @@
 package mingetal.MCM.ordenesdecompra.service;
 
 import lombok.Generated;
+import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraClienteEntity;
 import mingetal.MCM.ordenesdecompra.entity.OrdenesDeCompraProveedorEntity;
 import mingetal.MCM.ordenesdecompra.model.ProveedorEntity;
 import mingetal.MCM.ordenesdecompra.repository.OrdenesDeCompraProveedorRepository;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -14,7 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -26,6 +35,12 @@ public class OrdenesDeCompraProveedorService {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    ListaProductosOCProveedorService listaProductosOCProveedorService;
+
+    @Autowired
+    private HttpServletRequest request;
 
     //-------------------- Guardado --------------------
 
@@ -226,5 +241,143 @@ public class OrdenesDeCompraProveedorService {
     }
 
 
+    public void readExcelFile(MultipartFile file) {
+        // Obtener el encabezado Authorization
+        String authHeader = request.getHeader("Authorization");
 
+        // Crear y configurar los encabezados HTTP
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, authHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedor = new ArrayList<>();
+        try{
+            Workbook workbook = new XSSFWorkbook(file.getInputStream());
+            Sheet sheet = workbook.getSheetAt(0);
+            boolean skipHeader = true;
+            for (Row row : sheet) {
+                if (skipHeader) {
+                    skipHeader = false; // Saltar la cabecera del archivo
+                    continue;
+                }
+
+                //Rut cliente
+                if (row.getCell(0) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+                OrdenesDeCompraProveedorEntity oc = new OrdenesDeCompraProveedorEntity();
+                //RUT	Fecha de la Solicitud	Estado Pago	Valor	Fecha del Pago	Fecha de la Entrega	Estado de la entrega	Numero de Factura	Productos
+                String rut_proveedor = row.getCell(0).getStringCellValue();
+                ResponseEntity<ProveedorEntity> response = restTemplate.exchange(
+                        "http://localhost:8080/proveedor/rut/" + rut_proveedor,
+                        HttpMethod.GET,
+                        entity,
+                        new ParameterizedTypeReference<ProveedorEntity>() {}
+                );
+
+                /*System.out.println(response);
+                Integer id_proveedor = response.getBody().getId_proveedor();
+                oc.setId_proveedor(id_proveedor);
+                System.out.println(oc.getId_proveedor());*/
+
+                // Verificar si la respuesta no es null y contiene un cuerpo
+                if (response != null && response.getBody() != null) {
+                    ProveedorEntity proveedor = response.getBody();
+                    Integer id_proveedor = proveedor.getId_proveedor();
+                    // Usar id_proveedor según lo necesites
+                    System.out.println("ID del proveedor: " + id_proveedor);
+                } else {
+                    // Manejar el caso en que la respuesta es null o no contiene un cuerpo
+                    System.out.println("No se encontró un proveedor con el RUT especificado o el servicio no respondió correctamente.");
+                    // Puedes lanzar una excepción, retornar un valor por defecto, o manejar el error de la forma que más te convenga
+                }
+
+                //Fecha de la Solicitud
+                if (row.getCell(1) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+
+                LocalDate fecha_solicitud = row.getCell(1).getLocalDateTimeCellValue().toLocalDate();
+                oc.setFecha_solicitud(fecha_solicitud);
+                System.out.println(oc.getFecha_solicitud());
+
+                //Estado Pago
+                if (row.getCell(2) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+
+                String estado_pago = row.getCell(2).getStringCellValue();
+                oc.setEstado_pago(estado_pago);
+                System.out.println(oc.getEstado_pago());
+
+                //Valor
+                if (row.getCell(3) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+
+                double valor = row.getCell(3).getNumericCellValue();
+                oc.setValor_pago((int) valor);
+                System.out.println(oc.getValor_pago());
+
+                // Fecha del Pago
+                if (row.getCell(4) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+
+                LocalDate fecha_pago = row.getCell(4).getLocalDateTimeCellValue().toLocalDate();
+                oc.setFecha_pago(fecha_pago);
+                System.out.println(oc.getFecha_pago());
+
+                // Fecha de la Entrega
+                if (row.getCell(5) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+
+                LocalDate fecha_entrega = row.getCell(5).getLocalDateTimeCellValue().toLocalDate();
+                oc.setFecha_entrega(fecha_entrega);
+                System.out.println(oc.getFecha_entrega());
+
+
+                //Estado de la entrega
+                if (row.getCell(6) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+
+                String estado_entrega = row.getCell(6).getStringCellValue();
+                oc.setEstado_pago(estado_entrega);
+                System.out.println(oc.getEstado_entrega());
+
+                //Numero de Factura
+                if (row.getCell(7) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+
+                String num_factura = String.valueOf(row.getCell(7).getNumericCellValue());
+                oc.setFactura(num_factura);
+                System.out.println(oc.getFactura());
+
+                //save OC cliente
+                try {
+                    ordenesDeCompraProveedorRepository.save(oc);
+                } catch (Exception e) {
+                    System.err.println("Error al guardar la OC de : " + rut_proveedor );
+                    e.printStackTrace();
+                    // Puedes decidir continuar con el siguiente cliente o manejar de otra forma
+                }
+
+                if (row.getCell(8) == null) {
+                    break; // Dejar de leer el archivo si la primera celda es nula
+                }
+
+                Integer id_oc_proveedor = ordenesDeCompraProveedorRepository.findAll().size();
+                //leer productos,ingresar lista de productos, asignar id a OC de lista productos
+                String productos = row.getCell(8).getStringCellValue();
+
+                listaProductosOCProveedorService.saveList(id_oc_proveedor,productos);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

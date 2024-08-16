@@ -56,6 +56,14 @@ class OrdenesDeCompraClienteService {
     putOCCliente(OCCliente){
         return axios.put(OC_API_URL+"update", OCCliente);
     } 
+    uploadFile(formData) {
+        const uploadUrl = OC_API_URL + "upload"; // Asegúrate de cambiar "upload" por el endpoint correcto del backend
+        return axios.post(uploadUrl, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data' // Esto es opcional, axios lo establecerá automáticamente
+            }
+        });
+    }
 }
 const ordenesDeCompraClienteService = new OrdenesDeCompraClienteService();
 export default ordenesDeCompraClienteService;
