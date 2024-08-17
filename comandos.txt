@@ -1,0 +1,52 @@
+cd config
+mvn clean install -DskipTests=True
+docker build -t simonsaez/config_mingetal .
+docker push simonsaez/config_mingetal
+cd ../
+
+cd eureka
+mvn clean install -DskipTests=True
+docker build -t simonsaez/eureka_mingetal .
+docker push simonsaez/eureka_mingetal
+cd ../
+
+cd gateway
+mvn clean install -DskipTests=True
+docker build -t simonsaez/gateway_mingetal .
+docker push simonsaez/gateway_mingetal
+cd ../
+
+cd cliente
+mvn clean install -DskipTests=True
+docker build -t simonsaez/cliente_mingetal .
+docker push simonsaez/cliente_mingetal
+cd ../
+
+cd proveedor
+mvn clean install -DskipTests=True
+docker build -t simonsaez/proveedor_mingetal .
+docker push simonsaez/proveedor_mingetal
+cd ../
+
+cd productos
+mvn clean install -DskipTests=True
+docker build -t simonsaez/productos_mingetal .
+docker push simonsaez/productos_mingetal
+cd ../
+
+cd ordenes-de-compra
+mvn clean install -DskipTests=True
+docker build -t simonsaez/ordenes-de-compra_mingetal .
+docker push simonsaez/ordenes-de-compra_mingetal
+cd ../
+
+cd Login
+mvn clean install -DskipTests=True
+docker build -t simonsaez/login_mingetal .
+docker push simonsaez/login_mingetal
+cd ../
+
+cd frontend-mcm
+docker build -t simonsaez/frontend-mcm_mingetal .
+docker push simonsaez/frontend-mcm_mingetal
+cd ../
