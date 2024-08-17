@@ -20,6 +20,7 @@ public class ClienteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
+    private int id_cliente;
     @Size(max=14, message = "El tamaño máximo del campo rut es 14")
     @ApiModelProperty(notes = "RUT del cliente", example = "12.345.678-9", required = true)
     private String rut;

@@ -82,22 +82,17 @@ function ListCotizacionComponent() {
             setCotizacionEntity(res.data);
          });
       } else {
-         // Si el nombre no está vacío, filtrar las cotizaciones según el nombre
-         const coincidencias = ClienteEntity.filter(cliente =>
-            cliente.nombre.toLowerCase().includes(nombreBuscado)
-         );
+         // Si el nombre no está vacío, filtrar las cotizaciones según el nombre del cliente
+         const cotizacionesFiltradas = CotizacionEntity.filter(cotizacion => {
+            const cliente = ClienteEntity.find(cliente => cliente.rut === cotizacion.rutCliente);
+            return cliente && cliente.nombre.toLowerCase().includes(nombreBuscado);
+         });
    
-         // Mostrar las coincidencias en la consola (o realizar otra acción con ellas)
-         console.log(coincidencias);
-   
-         if (coincidencias.length > 0) {
-            // Obtener la cotización del primer cliente encontrado
-            CotizacionService.getCotizacionByRutCliente(coincidencias[0].rut).then((res) => {
-               setCotizacionEntity(res.data);
-            });
+         if (cotizacionesFiltradas.length > 0) {
+            setCotizacionEntity(cotizacionesFiltradas);
          } else {
             // Manejo en caso de que no se encuentren coincidencias
-            console.log("No se encontraron coincidencias.");
+            setCotizacionEntity([]); // O puedes optar por no hacer cambios en la lista actual
          }
       }
    };
