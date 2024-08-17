@@ -73,14 +73,34 @@ function ListCotizacionComponent() {
    };
 
    const buscarNombreCliente = () => {
-      const clienteEncontrado = ClienteEntity.find((cliente) => cliente.nombre.toLowerCase() === input.nombre.toLowerCase());
-      if (clienteEncontrado) {
-         CotizacionService.getCotizacionByRutCliente(clienteEncontrado.rut).then((res) => {
+      // Eliminar espacios en blanco antes y después de la cadena ingresada
+      const nombreBuscado = input.nombre.trim().toLowerCase();
+   
+      if (nombreBuscado === "") {
+         // Si el nombre está vacío, obtener todas las cotizaciones
+         CotizacionService.getCotizaciones().then((res) => {
             setCotizacionEntity(res.data);
          });
+      } else {
+         // Si el nombre no está vacío, filtrar las cotizaciones según el nombre
+         const coincidencias = ClienteEntity.filter(cliente =>
+            cliente.nombre.toLowerCase().includes(nombreBuscado)
+         );
+   
+         // Mostrar las coincidencias en la consola (o realizar otra acción con ellas)
+         console.log(coincidencias);
+   
+         if (coincidencias.length > 0) {
+            // Obtener la cotización del primer cliente encontrado
+            CotizacionService.getCotizacionByRutCliente(coincidencias[0].rut).then((res) => {
+               setCotizacionEntity(res.data);
+            });
+         } else {
+            // Manejo en caso de que no se encuentren coincidencias
+            console.log("No se encontraron coincidencias.");
+         }
       }
    };
-
 
 
    const handleKeyPressPedido = (event) => {

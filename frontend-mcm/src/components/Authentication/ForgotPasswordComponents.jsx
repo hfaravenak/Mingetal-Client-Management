@@ -70,6 +70,7 @@ function ForgotPasswordComponents({ onClose }) {
                         </button>
                      </div>
                   </Form>
+                  <div style={{color:"grey"}}>Recuerde revisar su correo no deseado y/o su carpeta de Spam </div>
                </>
             ) : (
                <>

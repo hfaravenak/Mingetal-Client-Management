@@ -78,8 +78,8 @@ const Container = styled.div`
   .img-back {
     position: absolute;
     top: 20px;
-    left: 10px;
-    width: 10px;
+    left: 8px;
+    width: 35px;
     cursor: pointer;
   }
 

@@ -79,7 +79,7 @@ const Container = styled.div`
     position: absolute;
     top: 20px;
     left: 10px;
-    width: 10px;
+    width: 35px;
     cursor: pointer;
   }
 
