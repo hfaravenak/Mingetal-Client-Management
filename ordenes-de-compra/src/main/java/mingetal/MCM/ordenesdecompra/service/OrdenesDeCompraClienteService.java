@@ -337,17 +337,8 @@ public class OrdenesDeCompraClienteService {
                 HttpEntity<Void> entity = new HttpEntity<>(headers);
 
                 String rut_cliente = row.getCell(0).getStringCellValue();
-                ResponseEntity<ClienteEntity> response = restTemplate.exchange(
-                        "http://localhost:8080/cliente/rut/" + rut_cliente,
-                        HttpMethod.GET,
-                        entity,
-                        new ParameterizedTypeReference<ClienteEntity>() {}
-                );
 
-
-                System.out.println(response.getBody());
-                Integer id_cliente = response.getBody().getId_cliente();
-                oc.setId_cliente(String.valueOf(id_cliente));
+                oc.setId_cliente(rut_cliente);
                 System.out.println(oc.getId_cliente());
 
                 //Fecha solicitud
@@ -477,7 +468,7 @@ public class OrdenesDeCompraClienteService {
                     // Puedes decidir continuar con el siguiente cliente o manejar de otra forma
                 }
 
-                Integer id_oc_cliente = ordenesDeCompraClienteRepository.findAll().size();
+                Integer id_oc_cliente = ordenesDeCompraClienteRepository.findAll().size()-1;
                 //Productos
                 if (row.getCell(14) == null) {
                     break; // Dejar de leer el archivo si la primera celda es nula

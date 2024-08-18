@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import HeaderComponents from "../Headers/HeaderComponents";
 import CotizacionService from "../../services/CotizacionService";
 import atras from "../../images/atras.png";
-import imagen from "../../images/MC_cotizaciones.png";
+import imagen from "../../images/archivo.png";
 
 function CargaMasivaCotizaciones() {
   const navigate = useNavigate();
@@ -46,8 +46,6 @@ function CargaMasivaCotizaciones() {
         <div className="card">
             <div className="img-container">
             <img src={imagen} alt="MC_clientes" className="img-card" />
-            <h1 className="main-title">Formato productos:</h1> 
-            <h3>cantidad_producto_1 nombre_producto_1;cantidad_producto_2 nombre_producto_2;cantidad_producto_3 nombre_producto_3;... </h3>
             <div className="overlay">Formato del Documento de Carga Masiva de Cotizaciones</div>
             </div>
         </div>

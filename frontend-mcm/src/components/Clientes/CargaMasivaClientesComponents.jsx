@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import HeaderComponents from "../Headers/HeaderComponents";
 import ClienteService from "../../services/ClienteService";
 import atras from "../../images/atras.png";
-import imagen from "../../images/MC_clientes.png";
+import imagen from "../../images/archivo.png";
 
 function CargaMasivaClientes() {
   const navigate = useNavigate();

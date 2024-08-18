@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import HeaderComponents from "../Headers/HeaderComponents";
 import ProductoService from "../../services/ProductoService";
 import atras from "../../images/atras.png";
-import imagen from "../../images/MC_productos.png";
+import imagen from "../../images/archivo.png";
 
 function CargaMasivaProductos() {
   const navigate = useNavigate();

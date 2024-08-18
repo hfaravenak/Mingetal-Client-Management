@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import HeaderComponents from "../Headers/HeaderComponents";
 import ProveedorService from "../../services/ProveedorService";
 import atras from "../../images/atras.png";
-import imagen from "../../images/MC_proveedores.png";
+import imagen from "../../images/archivo.png";
 
 function CargaMasivaProveedores() {
   const navigate = useNavigate();

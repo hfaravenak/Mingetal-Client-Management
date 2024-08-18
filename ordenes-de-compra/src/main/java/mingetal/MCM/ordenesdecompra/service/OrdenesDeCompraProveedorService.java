@@ -369,7 +369,7 @@ public class OrdenesDeCompraProveedorService {
                     break; // Dejar de leer el archivo si la primera celda es nula
                 }
 
-                Integer id_oc_proveedor = ordenesDeCompraProveedorRepository.findAll().size();
+                Integer id_oc_proveedor = ordenesDeCompraProveedorRepository.findAll().size()-1;
                 //leer productos,ingresar lista de productos, asignar id a OC de lista productos
                 String productos = row.getCell(8).getStringCellValue();
 
