@@ -8,6 +8,7 @@ import HeaderComponents from "../../Headers/HeaderComponents";
 import OC_ProveedorService from "../../../services/OrdenesDeCompraProveedorService";
 import atras from "../../../images/atras.png";
 import imagen from "../../../images/archivo.png";
+import documento from "../../../formatos/Ordenes de Compra Proveedores - Formato Carga Masiva.xlsx"
 
 function CargaMasivaOrdenesDeComprasProveedor() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ function CargaMasivaOrdenesDeComprasProveedor() {
         <div className="card">
             <div className="img-container">
             <img src={imagen} alt="MC_clientes" className="img-card" />
-            <div className="overlay">Formato del Documento de Carga Masiva de Ordenes de Compras de Proveedores</div>
+            <a href={documento} download="Ordenes de Compra Proveedores - Formato Carga Masiva.xlsx" className="overlay">Formato del Documento de Carga Masiva de Ordenes de Compras de Proveedores</a>
             </div>
         </div>
         <Form onSubmit={handleSubmitFile}>

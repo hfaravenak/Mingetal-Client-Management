@@ -8,6 +8,8 @@ import HeaderComponents from "../Headers/HeaderComponents";
 import ProveedorService from "../../services/ProveedorService";
 import atras from "../../images/atras.png";
 import imagen from "../../images/archivo.png";
+import documento from "../../formatos/Proveedores - Formato Carga Masiva.xlsx"
+
 
 function CargaMasivaProveedores() {
   const navigate = useNavigate();
@@ -46,7 +48,7 @@ function CargaMasivaProveedores() {
         <div className="card">
             <div className="img-container">
             <img src={imagen} alt="MC_proveedores" className="img-card" />
-            <div className="overlay">Formato del Documento de Carga Masiva de Proveedores</div>
+            <a href={documento} download="Proveedores - Formato Carga Masiva.xlsx" className="overlay">Formato del Documento de Carga Masiva de Proveedores</a>
             </div>
         </div>
         <Form onSubmit={handleSubmitFile}>

@@ -8,6 +8,7 @@ import HeaderComponents from "../Headers/HeaderComponents";
 import CotizacionService from "../../services/CotizacionService";
 import atras from "../../images/atras.png";
 import imagen from "../../images/archivo.png";
+import documento from "../../formatos/Cotizaciones - Formato Carga Masiva.xlsx"
 
 function CargaMasivaCotizaciones() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ function CargaMasivaCotizaciones() {
         <div className="card">
             <div className="img-container">
             <img src={imagen} alt="MC_clientes" className="img-card" />
-            <div className="overlay">Formato del Documento de Carga Masiva de Cotizaciones</div>
+            <a href={documento} download="Cotizaciones - Formato Carga Masiva.xlsx" className="overlay">Formato del Documento de Carga Masiva de Cotizaciones</a>
             </div>
         </div>
         <Form onSubmit={handleSubmitFile}>
