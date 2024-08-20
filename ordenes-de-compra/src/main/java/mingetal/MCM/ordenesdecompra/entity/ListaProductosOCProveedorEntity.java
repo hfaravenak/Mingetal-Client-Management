@@ -17,13 +17,13 @@ public class ListaProductosOCProveedorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     private int id;
-    @Column(name = "id_oc_proveedor")
+    @Column(name = "id_OC_proveedor")
     private int id_OC_proveedor;
     private int id_producto;
     private int cantidad;
     private int valor_pago;
     @ManyToOne
-    @JoinColumn(name = "id_oc_proveedor", insertable = false, updatable = false)
+    @JoinColumn(name = "id_OC_proveedor", insertable = false, updatable = false)
     private OrdenesDeCompraProveedorEntity ordenCompraProveedor;
     public ListaProductosOCProveedorEntity(int id_OC_proveedor, int id_producto, int cantidad, int valor_pago) {
         this.id_OC_proveedor = id_OC_proveedor;

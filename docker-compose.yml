@@ -50,7 +50,6 @@ services:
       - postgres-proveedor-db
       - eureka
 
-
   postgres-login-db:
     image: postgres:latest
     restart: always
@@ -68,7 +67,7 @@ services:
     ports:
       - "8086:8086"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-login-db:5434/login
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-login-db:5432/login
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=Simon_789
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
@@ -99,7 +98,7 @@ services:
     ports:
       - "8084:8084"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-productos-db:5435/productos
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-productos-db:5432/productos
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=Simon_789
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
@@ -130,7 +129,7 @@ services:
     ports:
       - "8085:8085"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-cliente-db:5436/cliente
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-cliente-db:5432/cliente
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=Simon_789
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
@@ -161,7 +160,7 @@ services:
     ports:
       - "8083:8083"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-ordenesDeCompra-db:5437/ordenesDeCompra
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-ordenesDeCompra-db:5432/ordenesDeCompra
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=Simon_789
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
@@ -190,9 +189,16 @@ services:
       - config
       - eureka
 
-
   frontend-mcm:
     container_name: frontend-mcm_mingetal
     image: simonsaez/frontend-mcm_mingetal
+    build: ./app
     ports:
       - "3000:3000"
+    depends_on:
+      - login
+      - gateway
+      - ordenes-de-compra
+      - cliente
+      - productos
+      - proveedor
