@@ -5,19 +5,30 @@ services:
     image: simonsaez/config_mingetal
     ports:
       - "8081:8081"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   eureka:
     container_name: eureka_mingetal
     image: simonsaez/eureka_mingetal
     ports:
       - "8761:8761"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     environment:
       - SPRING_CLOUD_CONFIG_URI= http://config:8081
     deploy:
       restart_policy:
         condition: on-failure
     depends_on:
-      - config
+      config:
+        condition: service_healthy
 
   postgres-proveedor-db:
     image: postgres:latest
@@ -46,9 +57,10 @@ services:
       restart_policy:
         condition: on-failure
     depends_on:
-      - config
-      - postgres-proveedor-db
-      - eureka
+      postgres-proveedor-db:
+        condition: service_started
+      eureka:
+        condition: service_healthy
 
   postgres-login-db:
     image: postgres:latest
@@ -77,9 +89,10 @@ services:
       restart_policy:
         condition: on-failure
     depends_on:
-      - config
-      - postgres-login-db
-      - eureka
+      postgres-login-db:
+        condition: service_started
+      eureka:
+        condition: service_healthy
 
   postgres-productos-db:
     image: postgres:latest
@@ -108,9 +121,10 @@ services:
       restart_policy:
         condition: on-failure
     depends_on:
-      - config
-      - postgres-productos-db
-      - eureka
+      postgres-productos-db:
+        condition: service_started
+      eureka:
+        condition: service_healthy
 
   postgres-cliente-db:
     image: postgres:latest
@@ -139,9 +153,10 @@ services:
       restart_policy:
         condition: on-failure
     depends_on:
-      - config
-      - postgres-cliente-db
-      - eureka
+      postgres-cliente-db:
+        condition: service_started
+      eureka:
+        condition: service_healthy
 
   postgres-ordenesDeCompra-db:
     image: postgres:latest
@@ -170,9 +185,10 @@ services:
       restart_policy:
         condition: on-failure
     depends_on:
-      - config
-      - postgres-ordenesDeCompra-db
-      - eureka
+      postgres-ordenesDeCompra-db:
+        condition: service_started
+      eureka:
+        condition: service_healthy
 
   gateway:
     container_name: gateway_mingetal
@@ -186,8 +202,8 @@ services:
       restart_policy:
         condition: on-failure
     depends_on:
-      - config
-      - eureka
+      eureka:
+        condition: service_healthy
 
   frontend-mcm:
     container_name: frontend-mcm_mingetal

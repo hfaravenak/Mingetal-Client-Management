@@ -5,3 +5,12 @@ spring:
     config:
       enabled: true
       uri: http://localhost:8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always

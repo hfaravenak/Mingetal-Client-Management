@@ -10,3 +10,11 @@ spring:
           default-label: main
           uri: https://github.com/hfaravenak/Mingetal-Client-Management
           search-paths: "config-data"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
