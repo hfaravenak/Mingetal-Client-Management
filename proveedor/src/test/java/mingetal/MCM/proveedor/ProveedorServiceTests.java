@@ -115,13 +115,13 @@ public class ProveedorServiceTests {
         HttpEntity<OrdenesDeCompraProveedorEntity> requestEntity = new HttpEntity<>(ordenesDeCompraProveedorEntity);
         HttpEntity<OrdenesDeCompraProveedorEntity> requestEntity2 = new HttpEntity<>(ordenesDeCompraProveedorEntity2);
         restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/proveedor/",
+                "http://gateway:8080/ordenes_de_compra/proveedor/",
                 HttpMethod.POST,
                 requestEntity,
                 new ParameterizedTypeReference<OrdenesDeCompraProveedorEntity>() {}
         ).getBody();
         restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/proveedor/",
+                "http://gateway:8080/ordenes_de_compra/proveedor/",
                 HttpMethod.POST,
                 requestEntity2,
                 new ParameterizedTypeReference<OrdenesDeCompraProveedorEntity>() {}
@@ -132,20 +132,20 @@ public class ProveedorServiceTests {
         assertTrue(proveedorEntities.contains(proveedorEntity));
 
         List<OrdenesDeCompraProveedorEntity> ordenesDeCompraProveedorEntities = restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/proveedor/id/"+proveedorEntity.getId_proveedor(),
+                "http://gateway:8080/ordenes_de_compra/proveedor/id/"+proveedorEntity.getId_proveedor(),
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<OrdenesDeCompraProveedorEntity>>() {}
         ).getBody();
 
         restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/proveedor/delete/"+ordenesDeCompraProveedorEntities.get(0).getId(),
+                "http://gateway:8080/ordenes_de_compra/proveedor/delete/"+ordenesDeCompraProveedorEntities.get(0).getId(),
                 HttpMethod.DELETE,
                 null,
                 new ParameterizedTypeReference<OrdenesDeCompraProveedorEntity>() {}
         ).getBody();
         restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/proveedor/delete/"+ordenesDeCompraProveedorEntities.get(1).getId(),
+                "http://gateway:8080/ordenes_de_compra/proveedor/delete/"+ordenesDeCompraProveedorEntities.get(1).getId(),
                 HttpMethod.DELETE,
                 null,
                 new ParameterizedTypeReference<OrdenesDeCompraProveedorEntity>() {}

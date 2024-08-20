@@ -218,3 +218,6 @@ services:
       - cliente
       - productos
       - proveedor
+    deploy:
+      restart_policy:
+        condition: on-failure

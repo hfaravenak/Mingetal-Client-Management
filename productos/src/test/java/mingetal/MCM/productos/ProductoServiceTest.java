@@ -15,9 +15,6 @@ public class ProductoServiceTest {
     @Autowired
     private ProductosService productosService;
 
-    @Autowired
-    RestTemplate restTemplate;
-
     //-------------------- save --------------------
 
     @Test

@@ -80,7 +80,7 @@ public class OrdenesDeCompraProveedorService {
 
         // Realizar la llamada al microservicio de proveedores por nombre
         ResponseEntity<List<ProveedorEntity>> proveedorResponse = restTemplate.exchange(
-                "http://localhost:8080/proveedor/nombre/" + nombre,
+                "http://gateway:8080/proveedor/nombre/" + nombre,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<ProveedorEntity>>() {}
@@ -120,7 +120,7 @@ public class OrdenesDeCompraProveedorService {
 
         // Realizar la llamada al microservicio de proveedores por rubro
         ResponseEntity<List<ProveedorEntity>> proveedorResponse = restTemplate.exchange(
-                "http://localhost:8080/proveedor/rubro/" + rubro,
+                "http://gateway:8080/proveedor/rubro/" + rubro,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<ProveedorEntity>>() {}
@@ -160,7 +160,7 @@ public class OrdenesDeCompraProveedorService {
 
         // Realizar la llamada al microservicio de proveedor por empresa
         ResponseEntity<ProveedorEntity> proveedorResponse = restTemplate.exchange(
-                "http://localhost:8080/proveedor/empresa/" + empresa,
+                "http://gateway:8080/proveedor/empresa/" + empresa,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<ProveedorEntity>() {}
@@ -269,7 +269,7 @@ public class OrdenesDeCompraProveedorService {
                 //RUT	Fecha de la Solicitud	Estado Pago	Valor	Fecha del Pago	Fecha de la Entrega	Estado de la entrega	Numero de Factura	Productos
                 String rut_proveedor = row.getCell(0).getStringCellValue();
                 ResponseEntity<ProveedorEntity> response = restTemplate.exchange(
-                        "http://localhost:8080/proveedor/rut/" + rut_proveedor,
+                        "http://gateway:8080/proveedor/rut/" + rut_proveedor,
                         HttpMethod.GET,
                         entity,
                         new ParameterizedTypeReference<ProveedorEntity>() {}

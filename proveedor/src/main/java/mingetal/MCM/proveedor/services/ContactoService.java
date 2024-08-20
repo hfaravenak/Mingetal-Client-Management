@@ -13,8 +13,6 @@ import java.util.List;
 public class ContactoService {
     @Autowired
     private ContactoRepository contactoRepository;
-    @Autowired
-    RestTemplate restTemplate;
 
     //-------------------- Guardado --------------------
 
