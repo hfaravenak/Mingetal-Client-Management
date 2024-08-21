@@ -112,7 +112,7 @@ public class ClienteService {
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         ResponseEntity<List<List<Object>>> response = restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/cliente/clientsbyyear",
+                "http://gateway:8080/ordenes_de_compra/cliente/clientsbyyear",
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<List<Object>>>() {}

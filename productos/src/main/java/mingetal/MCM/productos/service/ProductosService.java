@@ -112,7 +112,7 @@ public class ProductosService {
 
         // Realizar la llamada al microservicio de órdenes de compra cliente para obtener los productos
         ResponseEntity<List<ListaProductosOCClienteEntity>> response = restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/cliente/productos/" + id,
+                "http://gateway:8080/ordenes_de_compra/cliente/productos/" + id,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<ListaProductosOCClienteEntity>>() {}
@@ -150,7 +150,7 @@ public class ProductosService {
 
         // Realizar la solicitud HTTP usando RestTemplate con el encabezado configurado
         ResponseEntity<List<ListaProductosOCProveedorEntity>> response = restTemplate.exchange(
-                "http://localhost:8080/ordenes_de_compra/proveedor/productos/" + id,
+                "http://gateway:8080/ordenes_de_compra/proveedor/productos/" + id,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<ListaProductosOCProveedorEntity>>() {}
@@ -184,7 +184,7 @@ public class ProductosService {
 
         // Realizar la solicitud HTTP usando RestTemplate con el encabezado configurado
         ResponseEntity<List<ListaProductosCotizacionEntity>> response = restTemplate.exchange(
-                "http://localhost:8080/cliente/cotizacion/productos/" + id,
+                "http://gateway:8080/cliente/cotizacion/productos/" + id,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<ListaProductosCotizacionEntity>>() {}
