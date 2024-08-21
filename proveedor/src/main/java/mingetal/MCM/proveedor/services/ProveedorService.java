@@ -1,5 +1,6 @@
 package mingetal.MCM.proveedor.services;
 
+import lombok.Generated;
 import mingetal.MCM.proveedor.entities.ContactoEntity;
 import mingetal.MCM.proveedor.entities.ProveedorEntity;
 import mingetal.MCM.proveedor.model.OrdenesDeCompraProveedorEntity;
@@ -96,7 +97,6 @@ public class ProveedorService {
                 proveedor = proveedorRepository.findByRut3(rut);
             }
         }
-        System.out.println(proveedor);
         return proveedor;
     }
     public List<ProveedorEntity> findByNombre(String nombre) {
@@ -177,6 +177,7 @@ public class ProveedorService {
     }
 
     //-------------------- Carga masiva -----------------------
+    @Generated
     public void readExcelFile(MultipartFile file) {
         List<ProveedorEntity> cotizaciones = new ArrayList<>();
         try {
@@ -211,13 +212,11 @@ public class ProveedorService {
                 }
                 ProveedorEntity proveedor = new ProveedorEntity();
                 proveedor.setRubro(row.getCell(0).getStringCellValue());
-                System.out.println(proveedor.getRubro());
 
                 if (row.getCell(1) == null) {
                     break; // Dejar de leer el archivo si la primera celda es nula
                 }
                 proveedor.setEmpresa(row.getCell(1).getStringCellValue());
-                System.out.println(proveedor.getEmpresa());
 
                 //--------------------- Guardar contactos
 

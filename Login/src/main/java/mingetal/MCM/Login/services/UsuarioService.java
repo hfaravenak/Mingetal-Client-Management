@@ -1,5 +1,6 @@
 package mingetal.MCM.Login.services;
 
+import lombok.Generated;
 import mingetal.MCM.Login.entities.UsuarioEntity;
 import mingetal.MCM.Login.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,21 +31,21 @@ public class UsuarioService {
 
     @Autowired
     private JwtService jwtService;
-
+    @Generated
     public String saveUser(UsuarioEntity usuario) {
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioRepository.save(usuario);
         return "user added to the system";
     }
-
+    @Generated
     public String generateToken(String username) {
         return jwtService.generateToken(username);
     }
-
+    @Generated
     public void validateToken(String token) {
         jwtService.validateToken(token);
     }
-
+    @Generated
     public String generateNumericCode() {
         SecureRandom random = new SecureRandom();
         StringBuilder code = new StringBuilder(CODE_LENGTH);
@@ -53,7 +54,7 @@ public class UsuarioService {
         }
         return code.toString();
     }
-
+    @Generated
     public void sendEmail(String to, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("mingetaldev@outlook.com");
@@ -62,21 +63,19 @@ public class UsuarioService {
         message.setText(text);
         emailSender.send(message);
     }
-
+    @Generated
     public void setCode(String correo, String code){
         UsuarioEntity usuario = usuarioRepository.findByCorreo(correo);
         usuario.setCodigo_cambio_contrasenia(code);
         usuarioRepository.save(usuario);
     }
-
+    @Generated
     public boolean compareCode(String correo, String code) {
         UsuarioEntity usuario = usuarioRepository.findByCorreo(correo);
         if (usuario != null) {
             String savedCode = usuario.getCodigo_cambio_contrasenia();
-            System.out.println("Código guardado: " + savedCode + ", Código proporcionado: " + code);
             return savedCode.equals(code);
         } else {
-            System.out.println("Usuario no encontrado con correo: " + correo);
             throw new RuntimeException("Usuario no encontrado con correo: " + correo);
         }
     }

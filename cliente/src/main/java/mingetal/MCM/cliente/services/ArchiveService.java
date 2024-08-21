@@ -1,5 +1,6 @@
 package mingetal.MCM.cliente.services;
 
+import lombok.Generated;
 import mingetal.MCM.cliente.entities.ClienteEntity;
 import mingetal.MCM.cliente.entities.CotizacionEntity;
 import mingetal.MCM.cliente.entities.ListaProductosCotizacionEntity;
@@ -27,6 +28,7 @@ public class ArchiveService {
     @Autowired
     ListaProductosCotizacionService listaProductosCotizacionService;
 
+    @Generated
     public ByteArrayInputStream generateExcelCliente() throws IOException {
         String[] columns = {"RUT", "Nombre", "Email", "Teléfono", "Empresa"};
         String[] columns2 = {"ID", "RUT", "Pedido", "Fecha", "Estado", "Productos", "ValorTotal"};
@@ -106,9 +108,6 @@ public class ArchiveService {
                 row.createCell(3).setCellValue(entity.getFecha().toString());
                 Cell cell = row.createCell(4);
                 cell.setCellValue(entity.getEstado());
-                System.out.println(entity.getEstado().equals("En espera"));
-                System.out.println(entity.getEstado().equals("Listo"));
-                System.out.println(entity.getEstado().equals("Rechazado"));
                 if(entity.getEstado().equals("En espera")){
                     cell.setCellStyle(enEsperaStyle);
                 }

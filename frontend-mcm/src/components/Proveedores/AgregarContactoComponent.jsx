@@ -20,12 +20,10 @@ function AgregarContactoComponent({ onClose, onAgregarContacto }) {
       e.preventDefault();
       if (contacto.nombre !== "" && contacto.rut !== "" && contacto.correo !== "" && contacto.fono_fijo !== "" && contacto.fono_cel !== "") {
           setError("");
-          console.log(contacto)
           try {
               const response = await axios.post("http://localhost:8080/proveedor/contactos", contacto);  
               onAgregarContacto(response.data); // Pasar el nuevo contacto al CarruselContactosEditar
               //onAgregarContacto(contacto)
-              console.log("aqui?")
               onClose(); // Cerrar la ventana emergente
           } catch (error) {
               console.error("Error al agregar contacto:", error);

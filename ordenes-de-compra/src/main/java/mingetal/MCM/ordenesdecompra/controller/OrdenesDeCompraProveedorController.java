@@ -97,12 +97,8 @@ public class OrdenesDeCompraProveedorController {
         }
         try {
             // Lógica para manejar el archivo, por ejemplo, guardarlo en el servidor
-            System.out.println("#####################");
             ordenesDeCompraProveedorService.readExcelFile(file);
-            //System.out.println(cotizaciones);
-            System.out.println("**********************");
             //cotizacionService.saveAll(cotizaciones);
-            System.out.println("----------------------");
             return ResponseEntity.ok("Archivo cargado exitosamente: " + file.getOriginalFilename());
         } catch (Exception e) {
             e.printStackTrace();

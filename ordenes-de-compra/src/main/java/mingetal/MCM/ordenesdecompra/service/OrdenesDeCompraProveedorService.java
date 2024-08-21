@@ -61,7 +61,7 @@ public class OrdenesDeCompraProveedorService {
     public OrdenesDeCompraProveedorEntity findById(int id){
         return ordenesDeCompraProveedorRepository.findById(id);
     }
-
+    @Generated
     public List<OrdenesDeCompraProveedorEntity> findByNameProveedor(String nombre) {
         // Obtener el encabezado Authorization del contexto de la solicitud HTTP
         String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
@@ -101,7 +101,7 @@ public class OrdenesDeCompraProveedorService {
 
         return ordenesDeCompraProveedorEntities;
     }
-
+    @Generated
     public List<OrdenesDeCompraProveedorEntity> findByRubro(String rubro) {
         // Obtener el encabezado Authorization del contexto de la solicitud HTTP
         String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
@@ -141,7 +141,7 @@ public class OrdenesDeCompraProveedorService {
 
         return ordenesDeCompraProveedorEntities;
     }
-
+    @Generated
     public List<OrdenesDeCompraProveedorEntity> findByEmpresa(String empresa) {
         // Obtener el encabezado Authorization del contexto de la solicitud HTTP
         String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
@@ -240,7 +240,7 @@ public class OrdenesDeCompraProveedorService {
         return ordenesDeCompraProveedorRepository.findComprasTotalesPorAnioYMes();
     }
 
-
+    @Generated
     public void readExcelFile(MultipartFile file) {
         // Obtener el encabezado Authorization
         String authHeader = request.getHeader("Authorization");
@@ -275,21 +275,15 @@ public class OrdenesDeCompraProveedorService {
                         new ParameterizedTypeReference<ProveedorEntity>() {}
                 );
 
-                /*System.out.println(response);
+                /*
                 Integer id_proveedor = response.getBody().getId_proveedor();
-                oc.setId_proveedor(id_proveedor);
-                System.out.println(oc.getId_proveedor());*/
+                oc.setId_proveedor(id_proveedor);*/
 
                 // Verificar si la respuesta no es null y contiene un cuerpo
                 if (response != null && response.getBody() != null) {
                     ProveedorEntity proveedor = response.getBody();
                     Integer id_proveedor = proveedor.getId_proveedor();
                     // Usar id_proveedor según lo necesites
-                    System.out.println("ID del proveedor: " + id_proveedor);
-                } else {
-                    // Manejar el caso en que la respuesta es null o no contiene un cuerpo
-                    System.out.println("No se encontró un proveedor con el RUT especificado o el servicio no respondió correctamente.");
-                    // Puedes lanzar una excepción, retornar un valor por defecto, o manejar el error de la forma que más te convenga
                 }
 
                 //Fecha de la Solicitud
@@ -299,7 +293,6 @@ public class OrdenesDeCompraProveedorService {
 
                 LocalDate fecha_solicitud = row.getCell(1).getLocalDateTimeCellValue().toLocalDate();
                 oc.setFecha_solicitud(fecha_solicitud);
-                System.out.println(oc.getFecha_solicitud());
 
                 //Estado Pago
                 if (row.getCell(2) == null) {
@@ -308,7 +301,6 @@ public class OrdenesDeCompraProveedorService {
 
                 String estado_pago = row.getCell(2).getStringCellValue();
                 oc.setEstado_pago(estado_pago);
-                System.out.println(oc.getEstado_pago());
 
                 //Valor
                 if (row.getCell(3) == null) {
@@ -317,7 +309,6 @@ public class OrdenesDeCompraProveedorService {
 
                 double valor = row.getCell(3).getNumericCellValue();
                 oc.setValor_pago((int) valor);
-                System.out.println(oc.getValor_pago());
 
                 // Fecha del Pago
                 if (row.getCell(4) == null) {
@@ -326,7 +317,6 @@ public class OrdenesDeCompraProveedorService {
 
                 LocalDate fecha_pago = row.getCell(4).getLocalDateTimeCellValue().toLocalDate();
                 oc.setFecha_pago(fecha_pago);
-                System.out.println(oc.getFecha_pago());
 
                 // Fecha de la Entrega
                 if (row.getCell(5) == null) {
@@ -335,7 +325,6 @@ public class OrdenesDeCompraProveedorService {
 
                 LocalDate fecha_entrega = row.getCell(5).getLocalDateTimeCellValue().toLocalDate();
                 oc.setFecha_entrega(fecha_entrega);
-                System.out.println(oc.getFecha_entrega());
 
 
                 //Estado de la entrega
@@ -345,7 +334,6 @@ public class OrdenesDeCompraProveedorService {
 
                 String estado_entrega = row.getCell(6).getStringCellValue();
                 oc.setEstado_pago(estado_entrega);
-                System.out.println(oc.getEstado_entrega());
 
                 //Numero de Factura
                 if (row.getCell(7) == null) {
@@ -354,7 +342,6 @@ public class OrdenesDeCompraProveedorService {
 
                 String num_factura = String.valueOf(row.getCell(7).getNumericCellValue());
                 oc.setFactura(num_factura);
-                System.out.println(oc.getFactura());
 
                 //save OC cliente
                 try {

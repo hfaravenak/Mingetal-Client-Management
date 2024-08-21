@@ -56,7 +56,7 @@ public class OrdenesDeCompraClienteService {
         ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.naturalOrder())));
         return ordenesDeCompraClienteEntities;
     }
-
+    @Generated
     public List<OrdenesDeCompraClienteEntity> findPagado(){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findPagado();
         ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_solicitud, Comparator.nullsFirst(Comparator.reverseOrder())));
@@ -71,7 +71,7 @@ public class OrdenesDeCompraClienteService {
         return ordenesDeCompraClienteRepository.findByIdCliente(id_cliente);
 
     }
-
+    @Generated
     public List<OrdenesDeCompraClienteEntity> findByNameCliente(String nombre) {
         // Obtener el encabezado Authorization del contexto de la solicitud HTTP
         String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
@@ -111,7 +111,7 @@ public class OrdenesDeCompraClienteService {
 
         return ordenesDeCompraClienteEntities;
     }
-
+    @Generated
     public List<OrdenesDeCompraClienteEntity> findByEmpresaCliente(String empresa) {
         // Obtener el encabezado Authorization del contexto de la solicitud HTTP
         String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
@@ -151,7 +151,7 @@ public class OrdenesDeCompraClienteService {
 
         return ordenesDeCompraClienteEntities;
     }
-
+    @Generated
     public List<OrdenesDeCompraClienteEntity> findNoPagados(){
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraClienteEntities = ordenesDeCompraClienteRepository.findNoPagado();
         ordenesDeCompraClienteEntities.sort(Comparator.comparing(OrdenesDeCompraClienteEntity::getFecha_pago, Comparator.nullsFirst(Comparator.naturalOrder())));
@@ -183,7 +183,7 @@ public class OrdenesDeCompraClienteService {
     }
 
     //-------------------- Eliminar --------------------
-
+    @Generated
     public OrdenesDeCompraClienteEntity delete(int id){
         OrdenesDeCompraClienteEntity ordenesDeCompraClienteEntity = findById(id);
         if(ordenesDeCompraClienteEntity==null){
@@ -310,6 +310,7 @@ public class OrdenesDeCompraClienteService {
     }
 
     //-------------------- Carga masiva -----------------------
+    @Generated
     public void readExcelFile(MultipartFile file) {
         List<OrdenesDeCompraClienteEntity> ordenesDeCompraCliente = new ArrayList<>();
         try {
@@ -339,7 +340,6 @@ public class OrdenesDeCompraClienteService {
                 String rut_cliente = row.getCell(0).getStringCellValue();
 
                 oc.setId_cliente(rut_cliente);
-                System.out.println(oc.getId_cliente());
 
                 //Fecha solicitud
                 if (row.getCell(1) == null) {
@@ -348,7 +348,6 @@ public class OrdenesDeCompraClienteService {
 
                 LocalDate fecha_solicitud = LocalDate.parse(row.getCell(1).getStringCellValue());
                 oc.setFecha_solicitud(fecha_solicitud);
-                System.out.println(oc.getFecha_solicitud());
 
                 //Estado Pago
                 if (row.getCell(2) == null) {
@@ -357,7 +356,6 @@ public class OrdenesDeCompraClienteService {
 
                 String estado_pago = row.getCell(2).getStringCellValue();
                 oc.setEstado_pago(estado_pago);
-                System.out.println(oc.getEstado_pago());
 
                 //Valor
                 if (row.getCell(3) == null) {
@@ -366,7 +364,6 @@ public class OrdenesDeCompraClienteService {
 
                 double valor = row.getCell(3).getNumericCellValue();
                 oc.setValor_pago((int) valor);
-                System.out.println(oc.getValor_pago());
 
                 // Fecha del Pago
                 if (row.getCell(4) == null) {
@@ -375,7 +372,6 @@ public class OrdenesDeCompraClienteService {
 
                 LocalDate fecha_pago = LocalDate.parse(row.getCell(4).getStringCellValue());
                 oc.setFecha_pago(fecha_pago);
-                System.out.println(oc.getFecha_pago());
 
                 // Modo de Pago
                 if (row.getCell(5) == null) {
@@ -384,7 +380,6 @@ public class OrdenesDeCompraClienteService {
 
                 String modo_pago = row.getCell(5).getStringCellValue();
                 oc.setModo_pago(modo_pago);
-                System.out.println(oc.getModo_pago());
 
                 // Fecha de Inicio de Pago
                 if (row.getCell(6) == null) {
@@ -393,7 +388,6 @@ public class OrdenesDeCompraClienteService {
 
                 LocalDate fecha_inicio_pago = LocalDate.parse(row.getCell(6).getStringCellValue());
                 oc.setFecha_inicio_pago(fecha_inicio_pago);
-                System.out.println(oc.getFecha_inicio_pago());
 
                 // Tiempo para pagar
                 if (row.getCell(7) == null) {
@@ -402,7 +396,6 @@ public class OrdenesDeCompraClienteService {
 
                 double tiempo_pago = row.getCell(7).getNumericCellValue();
                 oc.setTiempo_de_pago((int) tiempo_pago);
-                System.out.println(oc.getTiempo_de_pago());
 
                 // Numero del Cheque
                 if (row.getCell(8) == null) {
@@ -411,7 +404,6 @@ public class OrdenesDeCompraClienteService {
 
                 String num_cheque = row.getCell(8).getStringCellValue();
                 oc.setNumero_cheque(num_cheque);
-                System.out.println(oc.getNumero_cheque());
 
                 // Fecha de la Entrega
                 if (row.getCell(9) == null) {
@@ -420,7 +412,6 @@ public class OrdenesDeCompraClienteService {
 
                 LocalDate fecha_entrega = LocalDate.parse(row.getCell(9).getStringCellValue());
                 oc.setFecha_entrega(fecha_entrega);
-                System.out.println(oc.getFecha_entrega());
 
                 //Estado de la entrega
                 if (row.getCell(10) == null) {
@@ -429,7 +420,6 @@ public class OrdenesDeCompraClienteService {
 
                 String estado_entrega = row.getCell(10).getStringCellValue();
                 oc.setEstado_pago(estado_entrega);
-                System.out.println(oc.getEstado_entrega());
 
                 //Numero de Factura
                 if (row.getCell(11) == null) {
@@ -438,7 +428,6 @@ public class OrdenesDeCompraClienteService {
 
                 String num_factura = row.getCell(11).getStringCellValue();
                 oc.setNumero_factura(num_factura);
-                System.out.println(oc.getNumero_factura());
 
                 //Estado Factura
                 if (row.getCell(12) == null) {
@@ -447,7 +436,6 @@ public class OrdenesDeCompraClienteService {
 
                 String estado_factura = row.getCell(12).getStringCellValue();
                 oc.setEstado_factura(estado_factura);
-                System.out.println(oc.getEstado_factura());
 
                 //Empresa de Despacho	Productos
                 if (row.getCell(13) == null) {
@@ -456,7 +444,6 @@ public class OrdenesDeCompraClienteService {
 
                 String empresa = row.getCell(13).getStringCellValue();
                 oc.setEmpresa_despacho(empresa);
-                System.out.println(oc.getEmpresa_despacho());
 
 
                 //save OC cliente

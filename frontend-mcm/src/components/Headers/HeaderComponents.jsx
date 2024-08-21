@@ -43,6 +43,9 @@ function HeaderComponents() {
                         <a className="dropdown-item" href="/proveedores/crear">
                            Crear Proveedor
                         </a>
+                        <a className="dropdown-item" href="/proveedores/cargaMasivaProveedores">
+                           Carga Masiva
+                        </a>
                      </div>
                   </div>
                   <div className="dropdown">
@@ -73,7 +76,7 @@ function HeaderComponents() {
                   </div>
                   <div className="dropdown">
                      <a className="btn" href="/estadistica">
-                        Estadisticas
+                        Estadísticas
                      </a>
                      <div className="dropdown-menu">
                         <a className="dropdown-item" href="/estadistica/generales">
@@ -86,7 +89,7 @@ function HeaderComponents() {
                   </div>
                   <div className="dropdown">
                      <a className="btn" href="/grafico">
-                        Graficos
+                        Gráficos
                      </a>
                      <div className="dropdown-menu">
                         <a className="dropdown-item" href="/grafico/barchart">
@@ -112,6 +115,9 @@ function HeaderComponents() {
                      <div className="dropdown-menu">
                         <a className="dropdown-item" href="/crear-cotizacion">
                            Crear Cotizacion
+                        </a>
+                        <a className="dropdown-item" href="/cotizaciones/cargaMasivaCotizaciones">
+                           Carga Masiva
                         </a>
                      </div>
                   </div>

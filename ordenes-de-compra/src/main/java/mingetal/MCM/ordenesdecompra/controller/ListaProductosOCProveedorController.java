@@ -18,7 +18,6 @@ public class ListaProductosOCProveedorController {
 
     @PostMapping(("/"))
     public ResponseEntity<ListaProductosOCProveedorEntity> saveListProductos(@RequestBody ListaProductosOCProveedorEntity listaProductosOCProveedorEntity) {
-        System.out.println(listaProductosOCProveedorEntity);
         return ResponseEntity.ok(listaProductosOCProveedorService.save(listaProductosOCProveedorEntity));
     }
 

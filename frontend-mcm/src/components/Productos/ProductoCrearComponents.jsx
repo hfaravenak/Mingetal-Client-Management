@@ -12,6 +12,7 @@ import ProductoService from "../../services/ProductoService";
 
 function ProductoCrearComponents() {
    const navigate = useNavigate();
+   const maxFileSize = 1048576;
 
    const initialState = {
       tipo: "",
@@ -34,6 +35,10 @@ function ProductoCrearComponents() {
       const file = event.target.files[0];
       setInput({ ...input, imagen: file });
       if (file) {
+         if (file.size > maxFileSize) {
+            alert('El archivo es demasiado grande. El tamaño máximo permitido es de 500 KB.');
+            return;
+         }
          const reader = new FileReader();
          reader.onloadend = () => {
             setPreviewImage(reader.result);

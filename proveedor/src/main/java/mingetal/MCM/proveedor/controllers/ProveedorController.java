@@ -66,7 +66,6 @@ public class ProveedorController {
     @GetMapping("/fullNombre/{nombre}")
     public ResponseEntity<ProveedorEntity> getProveedorByNombreTextual(@PathVariable("nombre") String nombre){
         ProveedorEntity proveedorEntity = proveedorService.findByNombreTextual(nombre);
-        System.out.println(proveedorEntity);
         return ResponseEntity.ok(proveedorEntity);
 
     }
@@ -90,12 +89,8 @@ public class ProveedorController {
         }
         try {
             // Lógica para manejar el archivo, por ejemplo, guardarlo en el servidor
-            System.out.println("#####################");
             proveedorService.readExcelFile(file);
-            //System.out.println(cotizaciones);
-            System.out.println("**********************");
             //cotizacionService.saveAll(cotizaciones);
-            System.out.println("----------------------");
             return ResponseEntity.ok("Archivo cargado exitosamente: " + file.getOriginalFilename());
         } catch (Exception e) {
             e.printStackTrace();

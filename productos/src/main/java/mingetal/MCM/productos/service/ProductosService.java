@@ -205,6 +205,7 @@ public class ProductosService {
     }
 
     @Transactional(readOnly = true)
+    @Generated
     public List<ProductosEntity> findPocosProductos() {
         return productosRepository.findPocoProductos();
     }
@@ -225,13 +226,13 @@ public class ProductosService {
 
     @Transactional
     public ProductosEntity update(ProductosEntity producto) {
-        System.out.println("update service: " + producto);
         if (findById(producto.getId()) == null) {
             return null;
         }
         return productosRepository.save(producto);
     }
     @Transactional
+    @Generated
     public ProductosEntity updateCount(int id, int count) {
         ProductosEntity productos = findById(id);
         if (productos == null) {
@@ -242,6 +243,7 @@ public class ProductosService {
     }
 
     //-------------------- Carga masiva -----------------------
+    @Generated
     public List<ProductosEntity> readExcelFile(MultipartFile file) {
         List<ProductosEntity> productos = new ArrayList<>();
         try {
@@ -253,14 +255,6 @@ public class ProductosService {
                     skipHeader = false; // Saltar la cabecera del archivo
                     continue;
                 }
-
-                System.out.println("........................");
-                System.out.println(row.getCell(0));
-                System.out.println(row.getCell(1));
-                System.out.println(row.getCell(2));
-                System.out.println(row.getCell(3));
-                System.out.println(row.getCell(4));
-                System.out.println("........................");
                 ProductosEntity producto = new ProductosEntity();
                 if (row.getCell(0) != null) {
                     producto.setTipo(row.getCell(0).getStringCellValue());
@@ -304,6 +298,7 @@ public class ProductosService {
         return productos;
     }
 
+    @Generated
     public void saveAll(List<ProductosEntity> productos) {
         for (ProductosEntity producto : productos) {
             try {

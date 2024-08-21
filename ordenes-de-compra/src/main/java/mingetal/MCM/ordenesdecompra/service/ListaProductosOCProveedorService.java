@@ -1,5 +1,6 @@
 package mingetal.MCM.ordenesdecompra.service;
 
+import lombok.Generated;
 import mingetal.MCM.ordenesdecompra.entity.ListaProductosOCClienteEntity;
 import mingetal.MCM.ordenesdecompra.entity.ListaProductosOCProveedorEntity;
 import mingetal.MCM.ordenesdecompra.model.ProductosEntity;
@@ -55,7 +56,7 @@ public class ListaProductosOCProveedorService {
         }
         return null;
     }
-
+    @Generated
     public List<ListaProductosOCProveedorEntity> findAll(){
         return listaProductosOCProveedorRepository.findAll();
     }
@@ -83,7 +84,7 @@ public class ListaProductosOCProveedorService {
         listaProductosOCProveedorRepository.delete(listaProductosOCProveedorEntity);
         return listaProductosOCProveedorEntity;
     }
-
+    @Generated
     public void saveList(Integer last_id, String productos) {
 
         String authHeader = request.getHeader("Authorization");
@@ -92,31 +93,22 @@ public class ListaProductosOCProveedorService {
         headers.set(HttpHeaders.AUTHORIZATION, authHeader);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
-        System.out.println("############################################");
-        System.out.println(productos);
-        System.out.println("############################################");
-
         List<String> listado = List.of(productos.split(";"));
         for(String str : listado){ //recorrer productos
 
             List<String> info= List.of(str.split(" "));
             if(info.isEmpty()){
-                System.out.println("A");
                 break;
             }
-            System.out.println("info: " + info);
             ListaProductosOCProveedorEntity LP = new ListaProductosOCProveedorEntity();
             //asignar id de cotización
             LP.setId_OC_proveedor(last_id);
-            System.out.println("id_cotizacion: " + LP.getId_OC_proveedor());
             //asignar cantidad
             Integer cantidad = Integer.valueOf(info.get(0));
             LP.setCantidad(cantidad);
-            System.out.println("cantidad: " + cantidad);
 
             //buscar id producto
             String name = String.join(" ", info.subList(1, info.size()));
-            System.out.println("name: "+ name);
 
             // Realizar la llamada al microservicio de productos
             ResponseEntity<List<ProductosEntity>> response = restTemplate.exchange(
@@ -127,15 +119,12 @@ public class ListaProductosOCProveedorService {
             );
             //########################################################
             //asignar ID producto
-            System.out.println(response);
             Integer id_producto = response.getBody().get(0).getId();
             LP.setId_producto(id_producto);
-            System.out.println("id_producto: " + LP.getId_producto());
 
             Integer valor_producto = response.getBody().get(0).getValor_final();
             Integer valor_pago = cantidad*valor_producto;
             LP.setValor_pago(valor_pago);
-            System.out.println("valor_pago" + valor_pago);
 
             listaProductosOCProveedorRepository.save(LP);
         }

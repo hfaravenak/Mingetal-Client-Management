@@ -210,11 +210,6 @@ function ListOCProveedorComponents() {
                         </Button>
                      </Form>
                   </div>
-                  <div className="btn-inf">
-                     <Button className="boton" onClick={crearOCProveedor}>
-                        Ingresar nueva OC
-                     </Button>
-                  </div>
                </div>
                <div align="center" className="container-2">
                   <div className="TituloSuperior">

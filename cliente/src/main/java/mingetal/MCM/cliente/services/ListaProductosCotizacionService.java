@@ -1,5 +1,6 @@
 package mingetal.MCM.cliente.services;
 
+import lombok.Generated;
 import mingetal.MCM.cliente.entities.CotizacionEntity;
 import mingetal.MCM.cliente.entities.ListaProductosCotizacionEntity;
 import mingetal.MCM.cliente.model.ProductosEntity;
@@ -44,6 +45,7 @@ public class ListaProductosCotizacionService {
         return listaProductosCotizacionRepository.findByIdCotizacion(id_OC_proveedor);
     }
 
+    @Generated
     public ProductosEntity findProductoByIdProducto(int id_producto) {
         // Obtener el encabezado Authorization
         String authHeader = request.getHeader("Authorization");
@@ -75,6 +77,7 @@ public class ListaProductosCotizacionService {
         return listaProductosOCProveedorEntity;
     }
 
+    @Generated
     public void cargaMasivaDatos(int last_id, String productos) {
 
         // Obtener el encabezado Authorization
@@ -89,19 +92,15 @@ public class ListaProductosCotizacionService {
         List<String> listado = List.of(productos.split(";"));
         for(String str : listado){ //recorrer productos
             List<String> info= List.of(str.split(" "));
-            System.out.println("info: " + info);
             ListaProductosCotizacionEntity LP = new ListaProductosCotizacionEntity();
             //asignar id de cotización
             LP.setId_cotizacion(last_id);
-            System.out.println("id_cotizacion: " + LP.getId_cotizacion());
             //asignar cantidad
             Integer cantidad = Integer.valueOf(info.get(0));
             LP.setCantidad(cantidad);
-            System.out.println("cantidad: " + cantidad);
 
             //buscar id producto
             String name = String.join(" ", info.subList(1, info.size()));
-            System.out.println("name: "+ name);
 
             // Realizar la llamada al microservicio de productos
             ResponseEntity<List<ProductosEntity>> response = restTemplate.exchange(
@@ -112,18 +111,15 @@ public class ListaProductosCotizacionService {
             );
             //########################################################
             //asignar ID producto
-            System.out.println(response);
             ProductosEntity producto = response.getBody().get(0);
 
             // Obtener el id y nombre del producto
             Integer id_producto = producto.getId();
             LP.setId_producto(id_producto);
-            System.out.println("ID del producto: " + id_producto);
 
             Integer valor_producto = response.getBody().get(0).getValor_final();
             Integer valor_pago = cantidad*valor_producto;
             LP.setValor_pago(valor_pago);
-            System.out.println("valor_pago" + valor_pago);
 
             listaProductosCotizacionRepository.save(LP);
         }

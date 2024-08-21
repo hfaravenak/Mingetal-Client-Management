@@ -65,7 +65,7 @@ public class ListaProductosCotizacionServiceTest {
         assertNull(listaProductosCotizacionService.findById(-1));
     }
 
-    //-------------------- findByIdOCProveedor --------------------
+    //-------------------- findByIdCotizacion --------------------
 
     @Test
     void findByIdProveedorTestTrue(){

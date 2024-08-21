@@ -1,5 +1,6 @@
 package mingetal.MCM.cliente.services;
 
+import lombok.Generated;
 import mingetal.MCM.cliente.entities.ClienteEntity;
 import mingetal.MCM.cliente.repositories.ClienteRepository;
 import org.apache.poi.ss.usermodel.*;
@@ -103,6 +104,7 @@ public class ClienteService {
 
 
 
+    @Generated
     public List<List<Object>> getRankingCliente() {
         String authHeader = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .getRequest().getHeader(HttpHeaders.AUTHORIZATION);
@@ -136,6 +138,7 @@ public class ClienteService {
     }
 
     //-------------------- Carga masiva -----------------------
+    @Generated
     public List<ClienteEntity> readExcelFile(MultipartFile file) {
         List<ClienteEntity> clientes = new ArrayList<>();
         try {
@@ -162,6 +165,7 @@ public class ClienteService {
         return clientes;
     }
 
+    @Generated
     public void saveAll(List<ClienteEntity> clientes) {
         for (ClienteEntity cliente : clientes) {
             try {
