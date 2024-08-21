@@ -55,7 +55,7 @@ public class ListaProductosCotizacionService {
 
         // Realizar la llamada al microservicio de productos
         ResponseEntity<ProductosEntity> response = restTemplate.exchange(
-                "http://gateway:8080/productos/" + id_producto,
+                "http://localhost:8080/productos/" + id_producto,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<ProductosEntity>() {}
@@ -105,7 +105,7 @@ public class ListaProductosCotizacionService {
 
             // Realizar la llamada al microservicio de productos
             ResponseEntity<List<ProductosEntity>> response = restTemplate.exchange(
-                    "http://gateway:8080/productos/nombre/" + name,
+                    "http://localhost:8080/productos/nombre/" + name,
                     HttpMethod.GET,
                     entity,
                     new ParameterizedTypeReference<List<ProductosEntity>>() {}

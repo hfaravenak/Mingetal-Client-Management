@@ -261,7 +261,7 @@ public class ArchiveService {
 
         List<OrdenesDeCompraClienteEntity> OCClientes = ordenesDeCompraClienteService.findPagado();
         ResponseEntity<List<ClienteEntity>> responseClientes = restTemplate.exchange(
-                "http://gateway:8080/cliente/",
+                "http://localhost:8080/cliente/",
                 HttpMethod.GET,
                 entityHeader,
                 new ParameterizedTypeReference<List<ClienteEntity>>() {}
@@ -269,7 +269,7 @@ public class ArchiveService {
         List<ClienteEntity> Clientes = responseClientes.getBody();
         assert Clientes != null;
         ResponseEntity<List<ProductosEntity>> responseProductos = restTemplate.exchange(
-                "http://gateway:8080/productos/",
+                "http://localhost:8080/productos/",
                 HttpMethod.GET,
                 entityHeader,
                 new ParameterizedTypeReference<List<ProductosEntity>>() {}
@@ -450,7 +450,7 @@ public class ArchiveService {
 
         // Obtener productos del microservicio de productos
         List<ProductosEntity> productos = restTemplate.exchange(
-                "http://gateway:8080/productos/",
+                "http://localhost:8080/productos/",
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<ProductosEntity>>() {}

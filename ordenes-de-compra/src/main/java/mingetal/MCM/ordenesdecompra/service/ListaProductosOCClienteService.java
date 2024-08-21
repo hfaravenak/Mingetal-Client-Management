@@ -47,7 +47,7 @@ public class ListaProductosOCClienteService {
             HttpEntity<Void> entity = new HttpEntity<>(headers);
 
             restTemplate.exchange(
-                    "http://gateway:8080/productos/update/count/?id=" + listaProductosOCClienteEntities.getId_producto()+"&count=-"+listaProductosOCClienteEntities.getCantidad(),
+                    "http://localhost:8080/productos/update/count/?id=" + listaProductosOCClienteEntities.getId_producto()+"&count=-"+listaProductosOCClienteEntities.getCantidad(),
                     HttpMethod.PUT,
                     entity,
                     ProductosEntity.class
@@ -87,7 +87,7 @@ public class ListaProductosOCClienteService {
 
         // Realizar la llamada al microservicio de productos
         ResponseEntity<ProductosEntity> response = restTemplate.exchange(
-                "http://gateway:8080/productos/" + id_producto,
+                "http://localhost:8080/productos/" + id_producto,
                 HttpMethod.GET,
                 entity,
                 ProductosEntity.class
@@ -141,7 +141,7 @@ public class ListaProductosOCClienteService {
 
             // Realizar la llamada al microservicio de productos
             ResponseEntity<List<ProductosEntity>> response = restTemplate.exchange(
-                    "http://gateway:8080/productos/nombre/" + name,
+                    "http://localhost:8080/productos/nombre/" + name,
                     HttpMethod.GET,
                     entity,
                     new ParameterizedTypeReference<List<ProductosEntity>>() {}

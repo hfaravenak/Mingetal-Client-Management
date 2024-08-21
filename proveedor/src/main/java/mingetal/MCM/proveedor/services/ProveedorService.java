@@ -67,7 +67,7 @@ public class ProveedorService {
 
         // Realizar la solicitud HTTP usando RestTemplate con el encabezado configurado
         ResponseEntity<List<OrdenesDeCompraProveedorEntity>> response = restTemplate.exchange(
-                "http://gateway:8080/ordenes_de_compra/proveedor/",
+                "http://localhost:8080/ordenes_de_compra/proveedor/",
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<OrdenesDeCompraProveedorEntity>>() {}

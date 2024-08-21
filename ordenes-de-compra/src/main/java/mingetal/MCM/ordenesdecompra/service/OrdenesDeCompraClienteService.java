@@ -90,7 +90,7 @@ public class OrdenesDeCompraClienteService {
 
         // Realizar la llamada al microservicio de clientes por nombre
         ResponseEntity<List<ClienteEntity>> clienteResponse = restTemplate.exchange(
-                "http://gateway:8080/cliente/nombre/" + nombre,
+                "http://localhost:8080/cliente/nombre/" + nombre,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<ClienteEntity>>() {}
@@ -130,7 +130,7 @@ public class OrdenesDeCompraClienteService {
 
         // Realizar la llamada al microservicio de clientes por empresa
         ResponseEntity<List<ClienteEntity>> clienteResponse = restTemplate.exchange(
-                "http://gateway:8080/cliente/empresa/" + empresa,
+                "http://localhost:8080/cliente/empresa/" + empresa,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<ClienteEntity>>() {}
