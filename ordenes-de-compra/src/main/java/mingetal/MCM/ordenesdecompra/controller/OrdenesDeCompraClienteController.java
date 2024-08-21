@@ -105,7 +105,6 @@ public class OrdenesDeCompraClienteController {
     @GetMapping("/clientsbyyear")
     public ResponseEntity<List<Object[]>> getClientsByYear(){
         List<Object[]> peryear = ordenesDeCompraClienteService.getClientsByYear();
-        System.out.println();
         return ResponseEntity.ok(peryear);
     }
 
@@ -116,12 +115,8 @@ public class OrdenesDeCompraClienteController {
         }
         try {
             // Lógica para manejar el archivo, por ejemplo, guardarlo en el servidor
-            System.out.println("#####################");
             ordenesDeCompraClienteService.readExcelFile(file);
-            //System.out.println(cotizaciones);
-            System.out.println("**********************");
             //cotizacionService.saveAll(cotizaciones);
-            System.out.println("----------------------");
             return ResponseEntity.ok("Archivo cargado exitosamente: " + file.getOriginalFilename());
         } catch (Exception e) {
             e.printStackTrace();

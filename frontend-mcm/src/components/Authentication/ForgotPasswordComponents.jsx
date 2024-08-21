@@ -31,8 +31,8 @@ function ForgotPasswordComponents({ onClose }) {
       e.preventDefault();
       try {
          // Llamada a la API para verificar el código
-         await axios.post("http://localhost:8080/user/codigo-reestablecimiento?correo="+ email+"&codigoReestablecimiento="+ verificationCode);
-         setError("")
+         await axios.post("http://localhost:8080/user/codigo-reestablecimiento?correo=" + email + "&codigoReestablecimiento=" + verificationCode);
+         setError("");
          navigate(`/changePass/${encodeURIComponent(email)}`);
          // Aquí puedes redirigir al usuario a una página para cambiar la contraseña
       } catch (error) {
@@ -42,6 +42,12 @@ function ForgotPasswordComponents({ onClose }) {
       }
    };
 
+   const handleBack = () => {
+      setCodeSent(false);  // Volver a la vista de "Enviar correo"
+      setVerificationCode(""); // Limpia el código de verificación
+      setError(""); // Limpia los errores anteriores
+   };
+
    return (
       <ModalBackground>
          <ModalContainer>
@@ -49,6 +55,7 @@ function ForgotPasswordComponents({ onClose }) {
                X
             </button>
             {!codeSent ? (
+               // Esta es la vista de "Enviar correo"
                <>
                   <h2>Restablecer Contraseña</h2>
                   {error && (
@@ -59,7 +66,13 @@ function ForgotPasswordComponents({ onClose }) {
                   <Form onSubmit={handleSendEmail}>
                      <div className="form-group">
                         <Form.Label>Correo Electrónico:</Form.Label>
-                        <Form.Control type="email" placeholder="ejemplo@mingetal.cl" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <Form.Control
+                           type="email"
+                           placeholder="ejemplo@mingetal.cl"
+                           className="form-control"
+                           value={email}
+                           onChange={(e) => setEmail(e.target.value)}
+                        />
                      </div>
                      <div className="btn-group">
                         <button type="submit" className="btn btn-primary">
@@ -70,9 +83,10 @@ function ForgotPasswordComponents({ onClose }) {
                         </button>
                      </div>
                   </Form>
-                  <div style={{color:"grey"}}>Recuerde revisar su correo no deseado y/o su carpeta de Spam </div>
+                  <div style={{ color: "grey" }}>Recuerde revisar su correo no deseado y/o su carpeta de Spam</div>
                </>
             ) : (
+               // Esta es la vista de "Verificar código"
                <>
                   <h2>Verificar Código</h2>
                   {error && (
@@ -83,23 +97,29 @@ function ForgotPasswordComponents({ onClose }) {
                   <Form onSubmit={handleVerifyCode}>
                      <div className="form-group">
                         <Form.Label>Código de Verificación:</Form.Label>
-                        <Form.Control type="text" placeholder="Ingrese el código" className="form-control" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
+                        <Form.Control
+                           type="text"
+                           placeholder="Ingrese el código"
+                           className="form-control"
+                           value={verificationCode}
+                           onChange={(e) => setVerificationCode(e.target.value)}
+                        />
                      </div>
                      <div className="btn-group">
-                        <button className="btn btn-secondary" onClick={() => setCodeSent(false)}>
-                           Volver
-                        </button>
-                        <button className="btn btn-link" onClick={handleSendEmail}>
+                        <button type="submit" className="btn btn-primary">Enviar</button>
+                        <button type="button" className="btn btn-link" onClick={handleSendEmail}>
                            Reenviar Código
                         </button>
-                        <button className="btn btn-primary">Enviar</button>
+                        <button type="button" className="btn btn-secondary" onClick={handleBack}>
+                           Volver
+                        </button>
                      </div>
                   </Form>
                </>
             )}
          </ModalContainer>
       </ModalBackground>
-   );
+   );   
 }
 
 export default ForgotPasswordComponents;

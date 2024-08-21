@@ -1,5 +1,6 @@
 package mingetal.MCM.cliente.services;
 
+import lombok.Generated;
 import mingetal.MCM.cliente.entities.ClienteEntity;
 import mingetal.MCM.cliente.entities.CotizacionEntity;
 import mingetal.MCM.cliente.repositories.CotizacionRepository;
@@ -69,6 +70,7 @@ public class CotizacionService {
     }
 
     //-------------------- Carga masiva -----------------------
+    @Generated
     public void readExcelFile(MultipartFile file) {
         List<CotizacionEntity> cotizaciones = new ArrayList<>();
         try {
@@ -86,12 +88,10 @@ public class CotizacionService {
                 }
                 CotizacionEntity cotizacion = new CotizacionEntity();
                 cotizacion.setPedido(row.getCell(0).getStringCellValue());
-                System.out.println(cotizacion.getPedido());
                 if (row.getCell(1) == null) {
                     break; // Dejar de leer el archivo si la primera celda es nula
                 }
                 cotizacion.setRutCliente(row.getCell(1).getStringCellValue());
-                System.out.println(cotizacion.getRutCliente());
 
                 if (row.getCell(2) == null) {
                     break; // Dejar de leer el archivo si la primera celda es nula
@@ -99,13 +99,11 @@ public class CotizacionService {
                 Date excelDate = row.getCell(2).getDateCellValue();
                 LocalDate date = excelDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 cotizacion.setFecha(date);
-                System.out.println(cotizacion.getFecha());
 
                 if (row.getCell(3) == null) {
                     break; // Dejar de leer el archivo si la primera celda es nula
                 }
                 cotizacion.setEstado(row.getCell(3).getStringCellValue());
-                System.out.println(cotizacion.getEstado());
 
                 try {
                     cotizacionRepository.save(cotizacion);
@@ -117,7 +115,6 @@ public class CotizacionService {
 
                 //---------------- guardar listado de productos ---------------
                 int last_id = cotizacionRepository.findAll().size();
-                System.out.println(last_id);
 
                 int valor  =  0;
 
@@ -128,9 +125,7 @@ public class CotizacionService {
                         valor = Integer.parseInt(row.getCell(4).getStringCellValue());
                     }
                 }
-                System.out.println(valor);
                 String productos = row.getCell(5).getStringCellValue();
-                System.out.println(productos);
                 listaProductosCotizacionService.cargaMasivaDatos(last_id, productos);
             }
             workbook.close();

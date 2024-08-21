@@ -47,7 +47,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     jwtUtil.validateToken(authHeader);
 
                 } catch (Exception e) {
-                    System.out.println("invalid access...!");
                     throw new RuntimeException("un authorized access to application");
                 }
             }
@@ -57,7 +56,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
     private boolean isInternalRequest(String ipAdress, int port){
         List<String> internalIps = Arrays.asList("127.0.0.1");
-        System.out.println("IP: " + ipAdress);
         List<Integer> internalPorts = Arrays.asList(8082, 8083, 8084, 8085);
         return internalIps.contains(ipAdress) && internalPorts.contains(port);
     }

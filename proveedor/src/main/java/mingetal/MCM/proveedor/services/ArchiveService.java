@@ -1,6 +1,7 @@
 package mingetal.MCM.proveedor.services;
 
 
+import lombok.Generated;
 import mingetal.MCM.proveedor.entities.ContactoEntity;
 import mingetal.MCM.proveedor.entities.ProveedorEntity;
 import org.apache.poi.ss.usermodel.*;
@@ -19,7 +20,7 @@ public class ArchiveService {
     ProveedorService proveedorService;
     @Autowired
     ContactoService contactoService;
-
+    @Generated
     public ByteArrayInputStream generateExcelProveedor() throws IOException {
         String[] columns = {"ID", "Rubro", "Empresa",
                 "RUT", "Nombre", "Correo", "Telefono Celular", "Telefono Fijo",

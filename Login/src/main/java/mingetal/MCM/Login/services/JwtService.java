@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.Generated;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -16,17 +17,17 @@ public class JwtService {
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
-
+    @Generated
     public void validateToken(final String token) {
         Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
     }
 
-
+    @Generated
     public String generateToken(String correo) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, correo);
     }
-
+    @Generated
     private String createToken(Map<String, Object> claims, String correo) {
         // Definir la duración del token en milisegundos
         long expirationInMillis = 30L * 24 * 60 * 60 * 1000; // 30 días en milisegundos
@@ -38,7 +39,7 @@ public class JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + expirationInMillis))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
-
+    @Generated
     private Key getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);

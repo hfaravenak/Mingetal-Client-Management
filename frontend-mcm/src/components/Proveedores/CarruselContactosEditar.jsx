@@ -75,8 +75,8 @@ const CarruselContactosEditar = ({ datos, onMostrarCard }) => {
          i++
       }
 
-      //setContactos((prevContactos) => [...prevContactos, nuevoContacto]);
-      setLargo(calcularLargo(contactos)); // Mover al nuevo contacto
+      setContactos([...contactos])
+      //setLargo(calcularLargo(contactos)); // Mover al nuevo contacto
       let updateAll = {
          id_proveedor: datos.id_proveedor,
          empresa: input.empresa,

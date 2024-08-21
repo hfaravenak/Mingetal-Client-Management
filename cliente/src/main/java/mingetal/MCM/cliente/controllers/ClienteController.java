@@ -39,12 +39,8 @@ public class ClienteController {
         try {
             // Lógica para manejar el archivo, por ejemplo, guardarlo en el servidor
             // clienteService.saveFile(file);
-            System.out.println("#####################");
             List<ClienteEntity> clientes = clienteService.readExcelFile(file);
-            System.out.println(clientes);
-            System.out.println("**********************");
             clienteService.saveAll(clientes);
-            System.out.println("----------------------");
             return ResponseEntity.ok("Archivo cargado exitosamente: " + file.getOriginalFilename());
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,7 +91,6 @@ public class ClienteController {
     @GetMapping("/ranking")
     public ResponseEntity<List<List<Object>>> getRanking() {
         List<List<Object>> ranking = clienteService.getRankingCliente();
-        System.out.println(ranking);
         return ResponseEntity.ok(ranking);
     }
 

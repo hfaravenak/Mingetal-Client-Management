@@ -14,6 +14,7 @@ function ProductoComponents() {
    const { producto } = useParams();
    const datos = JSON.parse(decodeURIComponent(producto));
    const navigate = useNavigate();
+   const maxFileSize = 1048576;
 
    const initialState = {
       id: 0,
@@ -37,6 +38,10 @@ function ProductoComponents() {
       const file = event.target.files[0];
       setInput({ ...input, imagen: file });
       if (file) {
+         if (file.size > maxFileSize) {
+            alert("El archivo es demasiado grande. El tamaño máximo permitido es de 500 KB.");
+            return;
+         }
          const reader = new FileReader();
          reader.onloadend = () => {
             setPreviewImage(reader.result);
@@ -154,7 +159,7 @@ function ProductoComponents() {
 
    const regresar = () => {
       navigate(`/productos`);
-   }
+   };
 
    if (mostrarCard) {
       return (
@@ -162,7 +167,7 @@ function ProductoComponents() {
             <HeaderComponents />
             <NavStyle>
                <div className="container-create">
-                  <img id="atras" src={atras} alt="atras" className="img-card" onClick={regresar} style={{width:"35px"}}/>
+                  <img id="atras" src={atras} alt="atras" className="img-card" onClick={regresar} style={{ width: "35px" }} />
                </div>
                <div className="container">
                   <div className="container-1">
@@ -180,8 +185,8 @@ function ProductoComponents() {
                                  <Form.Label className="font-h2">Tipo:</Form.Label>
                                  <Form.Control value={input.tipo} onChange={handleInputChange} className="font-h2-control no-border" type="text" name="tipo" placeholder="Tipo del Producto" />
                               </Form.Group>
-                              <Form.Group controlId="valor_final">
-                                 <Form.Label className="font-h2">Valor Final:</Form.Label>
+                              <Form.Group controlId="valor">
+                                 <Form.Label className="font-h2">Valor:</Form.Label>
                                  <Form.Control value={input.valor} onChange={handleInputChange} className="font-h2-control no-border" type="number" name="valor" placeholder="Valor del Producto" />
                               </Form.Group>
                               <Form.Group controlId="valor_final">
@@ -206,14 +211,14 @@ function ProductoComponents() {
                                     placeholder="Cantidad del Producto"
                                  />
                               </Form.Group>
-                              <Form.Group controlId="imagen">
+                              <Form.Group className="file-custom" controlId="imagen">
                                  <Form.Label className="agregar">Imagen:</Form.Label>
-                                 <Form.Control className="font-h2-control no-border" type="file" accept="image/jpeg, image/png" onChange={handleImageChange} />
+                                 <Form.Control className="agregar" type="file" accept="image/jpeg, image/png" onChange={handleImageChange} />
                               </Form.Group>
 
                               {previewImage && (
                                  <div className="image-preview">
-                                    <img src={previewImage} alt="Vista previa" />
+                                    <img style={{ width: "80%" }} src={previewImage} alt="Vista previa" />
                                  </div>
                               )}
                            </Form>
@@ -236,7 +241,7 @@ function ProductoComponents() {
             <HeaderComponents />
             <NavStyle>
                <div className="container-create">
-                  <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{width:"35px"}}/>
+                  <img id="atras" src={atras} alt="atras" className="img-back" onClick={regresar} style={{ width: "35px" }} />
                </div>
                <div className="container">
                   <div className="container-1">
@@ -422,6 +427,17 @@ const NavStyle = styled.nav`
       color: black;
    }
 
+   /* Para WebKit (Chrome, Safari, Edge) */
+   input[type="number"]::-webkit-outer-spin-button,
+   input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+   }
+   /* Para Firefox */
+   input[type="number"] {
+      -moz-appearance: textfield;
+   }
+
    .editar:hover,
    .eliminar:hover,
    .aceptar:hover,
@@ -442,7 +458,28 @@ const NavStyle = styled.nav`
    .font-h2-control {
       font-family: "Pacifico", serif;
    }
-   .img-back:hover{
+   .img-back:hover {
+      cursor: pointer;
+   }
+   .text-danger {
+      color: red;
+      margin-left: 15px;
+   }
+
+   .file-custom input {
+      display: none;
+   }
+
+   .file-custom label {
+      margin-top: 3%;
+      display: block;
+      padding: 8px 21px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #eee;
+      cursor: pointer;
+   }
+   .img-back:hover {
       cursor: pointer;
    }
 `;

@@ -21,7 +21,6 @@ public class CotizacionController {
 
     @PostMapping("/guardar-cotizacion")
     public ResponseEntity<CotizacionEntity> saveCotizacion(@RequestBody CotizacionEntity cotizacionEntity) {
-        System.out.println(cotizacionEntity);
         cotizacionService.save(cotizacionEntity);
         return ResponseEntity.ok(cotizacionEntity);
     }
@@ -32,12 +31,8 @@ public class CotizacionController {
         }
         try {
             // Lógica para manejar el archivo, por ejemplo, guardarlo en el servidor
-            System.out.println("#####################");
             cotizacionService.readExcelFile(file);
-            //System.out.println(cotizaciones);
-            System.out.println("**********************");
             //cotizacionService.saveAll(cotizaciones);
-            System.out.println("----------------------");
             return ResponseEntity.ok("Archivo cargado exitosamente: " + file.getOriginalFilename());
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +43,6 @@ public class CotizacionController {
     @GetMapping("/")
     public ResponseEntity<List<CotizacionEntity>> getAll(){
         List<CotizacionEntity> cotizacionEntities=cotizacionService.findAll();
-        System.out.println(cotizacionEntities);
         if(cotizacionEntities != null){
             return ResponseEntity.ok(cotizacionEntities);
         }
@@ -57,7 +51,6 @@ public class CotizacionController {
     @GetMapping("/{id}")
     public ResponseEntity<CotizacionEntity> getCotizacionById(@PathVariable("id") int id){
         CotizacionEntity cotizacionEntity = cotizacionService.findById(id);
-        System.out.println(cotizacionEntity);
         if(cotizacionEntity != null){
             return ResponseEntity.ok(cotizacionEntity);
         }
@@ -66,7 +59,6 @@ public class CotizacionController {
     @GetMapping("/pedido/{pedido}")
     public ResponseEntity<List<CotizacionEntity>> getCotizacionByPedido(@PathVariable("pedido") String pedido){
         List<CotizacionEntity> cotizacionEntities = cotizacionService.findByPedido(pedido);
-        System.out.println(cotizacionEntities);
         if(cotizacionEntities != null){
             return ResponseEntity.ok(cotizacionEntities);
         }
@@ -75,7 +67,6 @@ public class CotizacionController {
     @GetMapping("/fecha/{fecha}")
     public ResponseEntity<List<CotizacionEntity>> getCotizacionByFecha(@PathVariable("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha){
         List<CotizacionEntity> cotizacionEntities = cotizacionService.findByFecha(fecha);
-        System.out.println(cotizacionEntities);
         if(cotizacionEntities != null){
             return ResponseEntity.ok(cotizacionEntities);
         }
@@ -84,7 +75,6 @@ public class CotizacionController {
     @GetMapping("/estado/{estado}")
     public ResponseEntity<List<CotizacionEntity>> getCotizacionByEstado(@PathVariable("estado") String estado){
         List<CotizacionEntity> cotizacionEntities = cotizacionService.findByEstado(estado);
-        System.out.println(cotizacionEntities);
         if(cotizacionEntities != null){
             return ResponseEntity.ok(cotizacionEntities);
         }
@@ -93,7 +83,6 @@ public class CotizacionController {
     @GetMapping("/rut/{rut}")
     public ResponseEntity<List<CotizacionEntity>> getCotizacionByRutCliente(@PathVariable("rut") String rutCliente){
         List<CotizacionEntity> cotizacionEntities = cotizacionService.findByRutCliente(rutCliente);
-        System.out.println(cotizacionEntities);
         if(cotizacionEntities != null){
             return ResponseEntity.ok(cotizacionEntities);
         }
@@ -103,7 +92,6 @@ public class CotizacionController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<CotizacionEntity> deleteCotizacion(@PathVariable("id") int id){
         CotizacionEntity cotizacionEntity = cotizacionService.delete(id);
-        System.out.println(cotizacionEntity);
         if(cotizacionEntity != null){
             return ResponseEntity.ok(cotizacionEntity);
         }
@@ -113,7 +101,6 @@ public class CotizacionController {
     @PutMapping("/update")
     public ResponseEntity<CotizacionEntity> updateCotizacion(@RequestBody CotizacionEntity cotizacionEntity){
         CotizacionEntity cotizacionEntity1 = cotizacionService.update(cotizacionEntity);
-        System.out.println(cotizacionEntity1);
         if(cotizacionEntity1 != null){
             return ResponseEntity.ok(cotizacionEntity1);
         }
