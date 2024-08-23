@@ -77,7 +77,7 @@ function ListProductosComponents() {
 
    const descargarExcel = async () => {
       try {
-         const response = await axios.get("http://localhost:8080/productos/archive/download/excel", {
+         const response = await axios.get("http://147.182.163.81:8080/productos/archive/download/excel", {
             responseType: "blob", // importante para manejar el blob de la respuesta
          });
 

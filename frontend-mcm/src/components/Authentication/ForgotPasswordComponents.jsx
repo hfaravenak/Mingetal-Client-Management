@@ -19,7 +19,7 @@ function ForgotPasswordComponents({ onClose }) {
          // Llamada a la API para enviar el correo
          setCodeSent(true);
          setError("");
-         await axios.post("http://localhost:8080/user/recuperar-contrasenia?correo=" + email);
+         await axios.post("http://147.182.163.81:8080/user/recuperar-contrasenia?correo=" + email);
       } else {
          setError("Debe escribir algún correo");
          setIsIconExpanded(true);
@@ -31,7 +31,7 @@ function ForgotPasswordComponents({ onClose }) {
       e.preventDefault();
       try {
          // Llamada a la API para verificar el código
-         await axios.post("http://localhost:8080/user/codigo-reestablecimiento?correo=" + email + "&codigoReestablecimiento=" + verificationCode);
+         await axios.post("http://147.182.163.81:8080/user/codigo-reestablecimiento?correo=" + email + "&codigoReestablecimiento=" + verificationCode);
          setError("");
          navigate(`/changePass/${encodeURIComponent(email)}`);
          // Aquí puedes redirigir al usuario a una página para cambiar la contraseña

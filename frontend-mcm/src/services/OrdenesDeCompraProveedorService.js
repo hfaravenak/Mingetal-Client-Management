@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const OC_API_URL = "http://localhost:8080/ordenes_de_compra/proveedor/";
+const OC_API_URL = "http://147.182.163.81:8080/ordenes_de_compra/proveedor/";
 
 class OrdenesDeCompraProveedorService {
 

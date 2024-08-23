@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const COTIZACION_API_URL = "http://localhost:8080/cliente/cotizacion/";
+const COTIZACION_API_URL = "http://147.182.163.81:8080/cliente/cotizacion/";
 
 class CotizacionService {
 

@@ -60,7 +60,7 @@ function EstadisticaGeneralesComponents() {
 
    const descargarExcel = async () => {
       try {
-         const response = await axios.get("http://localhost:8080/ordenes_de_compra/archive/download/excel/estadistica", {
+         const response = await axios.get("http://147.182.163.81:8080/ordenes_de_compra/archive/download/excel/estadistica", {
             responseType: "blob", // importante para manejar el blob de la respuesta
          });
 

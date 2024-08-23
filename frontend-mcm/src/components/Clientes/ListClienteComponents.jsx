@@ -119,7 +119,7 @@ function ListClienteComponents() {
 
    const descargarExcel = async () => {
       try {
-         const response = await axios.get("http://localhost:8080/cliente/archive/download/excel", {
+         const response = await axios.get("http://147.182.163.81:8080/cliente/archive/download/excel", {
             responseType: "blob", // importante para manejar el blob de la respuesta
          });
 

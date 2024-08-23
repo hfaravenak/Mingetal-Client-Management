@@ -21,7 +21,7 @@ function LoginComponents() {
    useEffect(() => {
       const fetchUserData = async () => {
          if (email) {
-            const response = await axios.get(`http://localhost:8080/user/${email}`);
+            const response = await axios.get(`http://147.182.163.81:8080/user/${email}`);
             setUserData(response.data);
          }
       };
@@ -33,10 +33,10 @@ function LoginComponents() {
       e.preventDefault();
       try {
          if (password === confirmPassword) {
-            await axios.post("http://localhost:8080/user/cambio-contrasenia?correo=" + email + "&nuevaContrasenia=" + password);
+            await axios.post("http://147.182.163.81:8080/user/cambio-contrasenia?correo=" + email + "&nuevaContrasenia=" + password);
          }
 
-         const response = await axios.post("http://localhost:8080/user/token", {
+         const response = await axios.post("http://147.182.163.81:8080/user/token", {
             correo: email,
             password: password,
          });
@@ -56,7 +56,7 @@ function LoginComponents() {
       e.preventDefault();
       try {
          if (password === confirmPassword) {
-            await axios.post("http://localhost:8080/user/cambio-contrasenia/cancelar?correo=" + email);
+            await axios.post("http://147.182.163.81:8080/user/cambio-contrasenia/cancelar?correo=" + email);
          }
          navigate("/");
       } catch (error) {
