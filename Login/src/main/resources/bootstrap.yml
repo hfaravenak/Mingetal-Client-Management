@@ -20,7 +20,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/login
     username: postgres
-    password: Simon_789
+    password: admin
   mail:
       host: smtp.office365.com
       port: 587

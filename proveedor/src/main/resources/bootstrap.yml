@@ -21,7 +21,7 @@ spring:
     dbname: proveedor
     url: jdbc:postgresql://localhost:5432/proveedor
     username: postgres
-    password: Simon_789
+    password: admin
   cloud:
     config:
       enabled: true

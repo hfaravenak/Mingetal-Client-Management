@@ -2,7 +2,7 @@ version: "3.8"
 services:
   config:
     container_name: config_mingetal
-    image: simonsaez/config_mingetal
+    image: derflinger/config_mingetal
     ports:
       - "8081:8081"
     healthcheck:
@@ -13,7 +13,7 @@ services:
 
   eureka:
     container_name: eureka_mingetal
-    image: simonsaez/eureka_mingetal
+    image: derflinger/eureka_mingetal
     ports:
       - "8761:8761"
     healthcheck:
@@ -37,19 +37,19 @@ services:
       - ./data/db:/var/lib/postgresql
     environment:
       POSTGRES_DB: proveedor
-      POSTGRES_PASSWORD: Simon_789
+      POSTGRES_PASSWORD: admin
       POSTGRES_USER: postgres
     ports:
       - "5432:5432"
   proveedor:
     container_name: proveedor_mingetal
-    image: simonsaez/proveedor_mingetal
+    image: derflinger/proveedor_mingetal
     ports:
       - "8082:8082"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-proveedor-db:5432/proveedor
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=Simon_789
+      - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
       - SPRING_CLOUD_CONFIG_URI= http://config:8081
@@ -69,19 +69,19 @@ services:
       - ./data/db:/var/lib/postgresql
     environment:
       POSTGRES_DB: login
-      POSTGRES_PASSWORD: Simon_789
+      POSTGRES_PASSWORD: admin
       POSTGRES_USER: postgres
     ports:
       - "5434:5432"
   login:
     container_name: Login_mingetal
-    image: simonsaez/login_mingetal
+    image: derflinger/login_mingetal
     ports:
       - "8086:8086"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-login-db:5432/login
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=Simon_789
+      - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
       - SPRING_CLOUD_CONFIG_URI= http://config:8081
@@ -101,19 +101,19 @@ services:
       - ./data/db:/var/lib/postgresql
     environment:
       POSTGRES_DB: productos
-      POSTGRES_PASSWORD: Simon_789
+      POSTGRES_PASSWORD: admin
       POSTGRES_USER: postgres
     ports:
       - "5435:5432"
   productos:
     container_name: productos_mingetal
-    image: simonsaez/productos_mingetal
+    image: derflinger/productos_mingetal
     ports:
       - "8084:8084"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-productos-db:5432/productos
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=Simon_789
+      - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
       - SPRING_CLOUD_CONFIG_URI= http://config:8081
@@ -133,19 +133,19 @@ services:
       - ./data/db:/var/lib/postgresql
     environment:
       POSTGRES_DB: cliente
-      POSTGRES_PASSWORD: Simon_789
+      POSTGRES_PASSWORD: admin
       POSTGRES_USER: postgres
     ports:
       - "5436:5432"
   cliente:
     container_name: cliente_mingetal
-    image: simonsaez/cliente_mingetal
+    image: derflinger/cliente_mingetal
     ports:
       - "8085:8085"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-cliente-db:5432/cliente
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=Simon_789
+      - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
       - SPRING_CLOUD_CONFIG_URI= http://config:8081
@@ -165,19 +165,19 @@ services:
       - ./data/db:/var/lib/postgresql
     environment:
       POSTGRES_DB: ordenesDeCompra
-      POSTGRES_PASSWORD: Simon_789
+      POSTGRES_PASSWORD: admin
       POSTGRES_USER: postgres
     ports:
       - "5437:5432"
   ordenes-de-compra:
     container_name: ordenes-de-compra_mingetal
-    image: simonsaez/ordenes-de-compra_mingetal
+    image: derflinger/ordenes-de-compra_mingetal
     ports:
       - "8083:8083"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-ordenesDeCompra-db:5432/ordenesDeCompra
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=Simon_789
+      - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
       - SPRING_CLOUD_CONFIG_URI= http://config:8081
@@ -192,7 +192,7 @@ services:
 
   gateway:
     container_name: gateway_mingetal
-    image: simonsaez/gateway_mingetal
+    image: derflinger/gateway_mingetal
     ports:
       - "8080:8080"
     environment:
@@ -207,8 +207,7 @@ services:
 
   frontend-mcm:
     container_name: frontend-mcm_mingetal
-    image: simonsaez/frontend-mcm_mingetal
-    build: ./app
+    image: derflinger/frontend-mcm_mingetal
     ports:
       - "3000:3000"
     depends_on:

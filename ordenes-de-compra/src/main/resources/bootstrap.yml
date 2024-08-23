@@ -21,7 +21,7 @@ spring:
     dbname: ordenesDeCompra
     url: jdbc:postgresql://localhost:5432/ordenesDeCompra
     username: postgres
-    password: Simon_789
+    password: admin
   cloud:
     config:
       enabled: true
