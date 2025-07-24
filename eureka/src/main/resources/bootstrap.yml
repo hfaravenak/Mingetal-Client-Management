@@ -4,7 +4,7 @@ spring:
   cloud:
     config:
       enabled: true
-      uri: http://localhost:8081
+      uri: http://config:8081
 
 management:
   endpoints:
@@ -14,3 +14,9 @@ management:
   endpoint:
     health:
       show-details: always
+  # INICIO DE LOS CAMBIOS CRUCIALES AQUÍ
+  metrics:
+    system:
+      enabled: false # <--- MODIFICACIÓN: Deshabilita las métricas del sistema
+    enable:
+      all: false     # <--- MODIFICACIÓN: Deshabilita todas las métricas si la anterior no es suficiente

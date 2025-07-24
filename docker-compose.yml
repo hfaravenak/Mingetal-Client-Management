@@ -21,8 +21,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    environment:
-      - SPRING_CLOUD_CONFIG_URI= http://config:8081
     deploy:
       restart_policy:
         condition: on-failure
@@ -34,7 +32,7 @@ services:
     image: postgres:latest
     restart: always
     volumes:
-      - ./data/db:/var/lib/postgresql
+      - postgres_proveedor_data:/var/lib/postgresql
     environment:
       POSTGRES_DB: proveedor
       POSTGRES_PASSWORD: admin
@@ -51,8 +49,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
-      - SPRING_CLOUD_CONFIG_URI= http://config:8081
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://config:8081
     deploy:
       restart_policy:
         condition: on-failure
@@ -66,7 +64,7 @@ services:
     image: postgres:latest
     restart: always
     volumes:
-      - ./data/db:/var/lib/postgresql
+      - postgres_login_data:/var/lib/postgresql
     environment:
       POSTGRES_DB: login
       POSTGRES_PASSWORD: admin
@@ -83,8 +81,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
-      - SPRING_CLOUD_CONFIG_URI= http://config:8081
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://config:8081
     deploy:
       restart_policy:
         condition: on-failure
@@ -98,7 +96,7 @@ services:
     image: postgres:latest
     restart: always
     volumes:
-      - ./data/db:/var/lib/postgresql
+      - postgres_productos_data:/var/lib/postgresql
     environment:
       POSTGRES_DB: productos
       POSTGRES_PASSWORD: admin
@@ -115,8 +113,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
-      - SPRING_CLOUD_CONFIG_URI= http://config:8081
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://config:8081
     deploy:
       restart_policy:
         condition: on-failure
@@ -130,7 +128,7 @@ services:
     image: postgres:latest
     restart: always
     volumes:
-      - ./data/db:/var/lib/postgresql
+      - postgres_cliente_data:/var/lib/postgresql
     environment:
       POSTGRES_DB: cliente
       POSTGRES_PASSWORD: admin
@@ -147,8 +145,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
-      - SPRING_CLOUD_CONFIG_URI= http://config:8081
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://config:8081
     deploy:
       restart_policy:
         condition: on-failure
@@ -162,7 +160,7 @@ services:
     image: postgres:latest
     restart: always
     volumes:
-      - ./data/db:/var/lib/postgresql
+      - postgres_ordenes_de_compra_data:/var/lib/postgresql
     environment:
       POSTGRES_DB: ordenesDeCompra
       POSTGRES_PASSWORD: admin
@@ -179,8 +177,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
-      - SPRING_CLOUD_CONFIG_URI= http://config:8081
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://config:8081
     deploy:
       restart_policy:
         condition: on-failure
@@ -196,8 +194,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka:8761/eureka
-      - SPRING_CLOUD_CONFIG_URI= http://config:8081
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://config:8081
     deploy:
       restart_policy:
         condition: on-failure
@@ -220,3 +218,11 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
+
+# DEFINICIÓN DE VOLÚMENES NOMBRADOS AL FINAL DEL ARCHIVO
+volumes:
+  postgres_proveedor_data:
+  postgres_login_data:
+  postgres_productos_data:
+  postgres_cliente_data:
+  postgres_ordenes_de_compra_data:

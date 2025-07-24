@@ -4,10 +4,22 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: http://eureka:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    system:
+      enabled: false
+    enable:
+      all: false
+
 spring:
   application:
     name: gateway
   cloud:
     config:
       enabled: true
-      uri: http://localhost:8081
+      uri: http://config:8081
